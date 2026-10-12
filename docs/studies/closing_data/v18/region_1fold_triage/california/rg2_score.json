@@ -1,0 +1,23 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/california/mtlnet_lr1.0e-04_bs8192_ep50_20260805_214756_3491799",
+  "seed": 0,
+  "tag": "rg2_california_s0_f0",
+  "method": "reg full=top10_acc_indist*(1-ood_frac) at indist-best epoch; cat=macro-f1 at f1-best epoch; per-task diagnostic-best, fold-mean",
+  "cat_macro_f1_mean": 8.9545,
+  "cat_macro_f1_std": 0.0,
+  "cat_per_fold": [
+    8.9545
+  ],
+  "cat_best_epochs": [
+    1
+  ],
+  "reg_full_top10_mean": 65.3276,
+  "reg_full_top10_std": 0.0,
+  "reg_per_fold": [
+    65.3276
+  ],
+  "reg_best_epochs": [
+    46
+  ],
+  "n_folds": 1
+}

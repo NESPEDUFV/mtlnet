@@ -1,0 +1,7 @@
+start 2026-10-04 09:46:43 commit 17571c16 tier=CRITICAL swap_used_MB_at_start=2830 swap_total_MB_at_start=4096 disk_int_GB_at_start=19 disk_ssd_GB_at_start=12 pressure_at_start=1
+cmd: .venv/bin/python scripts/integrity_v2/build_study_repr.py --state florida --cell TO_F2 --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --exclude-users-file results/g1/splits/florida_split_seed0_fold2.json --study-root results/integ18_repr
+rc=0 wall=1019s peakRSS_bytes=10008526848
+trace peaks: max_pressure=1 min_free=82% max_swap_total=4096MB max_wired=3.2GB max_child_rss=9.3GB
+repo-write-guard OK
+end 2026-10-04 10:03:43
+DONE

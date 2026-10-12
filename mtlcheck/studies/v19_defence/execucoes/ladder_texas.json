@@ -1,0 +1,34 @@
+{
+  "estado": "texas",
+  "execucoes": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      7
+    ]
+  ],
+  "margem": 0.4,
+  "veredito": {
+    "cat": {
+      "desfecho": "para",
+      "execucoes": 3,
+      "meia_largura": 0.2898807930846441,
+      "sd": 0.055119894695262295,
+      "sd_ucl": 0.11668330508040074
+    },
+    "reg": {
+      "desfecho": "para",
+      "execucoes": 3,
+      "meia_largura": 0.3582609891459588,
+      "sd": 0.06812216768490632,
+      "sd_ucl": 0.14420781677217817
+    }
+  }
+}

@@ -1,0 +1,92 @@
+# Escalada para S=4 — Flórida e Califórnia. Lançada em 2026-08-24.
+#
+# NÃO refaz nada. As réplicas {0, 7} destes estados já rodaram e ficam onde estão; o que falta são
+# as réplicas {1, 100}, que nunca foram treinadas fora dos estados-ponte. Mesmo `study`, mesma
+# partição, mesmas receitas congeladas, mesmos overrides — as células novas caem ao lado das antigas
+# em `runs/v19_defence/` e o `wave status` do `campaign.toml` passa a ver oito por estado.
+#
+# ## Por que ela existe
+#
+# O §2 licencia S=2 nos estados grandes apenas se a banda de réplica medida na PONTE satisfizer
+# `sd/√2 ≤ δ/3`. A ponte foi lida em 24-08 e o gate REPROVOU em região: `0,2688 > 0,1333`, com a
+# banda vindo do Arizona (sd 0,3802 pelo subconjunto de fluxos disjuntos). O §2 então manda "S=4
+# from the start", e a §12.4c registra que {1,100} são treinadas ANTES da leitura destes estados.
+#
+# A réplica que reprova o gate foi investigada e **não tem defeito atribuível**: `warnings` vazio,
+# `ood_fraction` idêntico às demais, 50/50 épocas, telemetria de gradiente indistinguível. O déficit
+# concentra-se em ~20 usuários muito ativos (0,94 % dos usuários carregam 0,43 dos 0,57 pp). É cauda
+# real do processo, e por isso a banda a inclui.
+#
+# ## Os três braços, e não só reg+joint
+#
+# O gate reprova só em região, mas o pareamento é POR RÉPLICA e o braço `joint` serve às duas
+# famílias: se `joint` vai a quatro réplicas, `cat` precisa ir junto ou o par `joint(s) − cat(s)`
+# deixa de existir para s ∈ {1, 100}. Não é conservadorismo, é o que faz o delta pareado ser pareado.
+#
+# ## A ordem importa
+#
+# Flórida inteira antes de qualquer célula da Califórnia — o servidor reinicia na manhã de 25-08
+# (BRT) e um estado completo vale mais que dois pela metade. Custo medido dos `wall_seconds` das
+# células que já rodaram: FL ≈ 4,4 h, CA ≈ 9,8 h.
+
+[wave]
+study = "v19_defence"
+confirmatory = true
+
+[substrate.identity.florida]
+checkin = "5e29bdf925027e34"
+
+[substrate.identity.california]
+checkin = "85ad0a5bc82dd23a"
+
+# ── Flórida primeiro, inteira ───────────────────────────────────────────────────────────────────
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["florida"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["florida"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["florida"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+# ── Califórnia depois, até onde o relógio deixar ────────────────────────────────────────────────
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["california"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["california"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["california"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

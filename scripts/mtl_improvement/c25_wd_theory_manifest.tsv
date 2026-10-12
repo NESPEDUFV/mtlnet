@@ -1,0 +1,12 @@
+florida|s1|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260605_075418_1602847
+florida|s0|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260605_075418_1602845
+florida|s7|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260605_082649_1610717
+florida|s100|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260605_082649_1610719
+alabama|s1|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260605_085927_1618655
+alabama|s0|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260605_085927_1618653
+alabama|s100|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260605_090237_1619624
+alabama|s7|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260605_090237_1619622
+georgia|s0|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/georgia/mtlnet_lr1.0e-04_bs2048_ep50_20260605_090548_1620435
+georgia|s1|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/georgia/mtlnet_lr1.0e-04_bs2048_ep50_20260605_090548_1620437
+georgia|s7|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/georgia/mtlnet_lr1.0e-04_bs2048_ep50_20260605_091514_1622575
+georgia|s100|wd0.01	wd0.01	results/check2hgi_design_k_resln_mae_l0_1/georgia/mtlnet_lr1.0e-04_bs2048_ep50_20260605_091514_1622577

@@ -1,0 +1,186 @@
+% ============================================================================
+% DGI (Deep Graph Infomax) -- diagrama de slide (impresso 15).
+% Especificacao: o autor, em `considerations.md` §6.1, em 10 passos, mais a
+% revisao de composicao feita por ele na rodada 5 (ver NOTAS DE COMPOSICAO).
+%
+% DUAS RESTRICOES DO AUTOR, ambas materializadas:
+%  (1) o diagrama NAO explica a matematica;
+%  (2) o discriminador NAO e' classificador de "grafo positivo x grafo
+%      negativo": ele julga PARES no'-contexto.  Por isso ele recebe TRES fios
+%      -- os dois vetores de no' e o contexto -- e a comparacao fica explicita.
+%
+% PRECISOES verificadas no codigo e no capitulo:
+%  - discriminador LINEAR (`3_cbic/method.tex:50`, `DGIModule.py:34-45`);
+%  - encoder e' ATENCAO de grafo (GATConv), nao GCN espectral -- por isso a
+%    caixa diz so' "GNN": "GCN" seria falso;
+%  - o resumo sai SO' do grafo real (`DGIModule.py:27-31`).  VER RESSALVA.
+%
+% ⚠ RESSALVA REGISTRADA (rodada 5).  O autor pediu que o Summary receba DUAS
+%   setas, uma de cada vetor.  Nao foi feito, e a razao e' factual: no DGI o
+%   resumo e' o readout do GRAFO REAL apenas.  E' isso que faz o par negativo
+%   ser "no' embaralhado contra o contexto VERDADEIRO"; um contexto tambem
+%   corrompido seria outro metodo, e contradiria a restricao (2) acima, que e'
+%   do proprio autor.  Desenhada UMA seta, do vetor original.  Se ele reafirmar,
+%   trocar -- a decisao e' dele, mas fica registrado o que o codigo faz.
+%
+% NOTAS DE COMPOSICAO (rodada 5, pedidos do autor):
+%  - a caixa da GNN perdeu "same weights" e ficou so' "GNN".  Ela e' ALTA e
+%    atravessa as duas raias: uma caixa unica que recebe os dois grafos ja' diz
+%    "a mesma rede", sem precisar da legenda -- e, de quebra, permite que as
+%    setas dos grafos entrem HORIZONTAIS.  Era daqui que vinham as "setas
+%    quebradas": antes elas faziam um Z (stub curto, vertical, stub curto), que
+%    em tamanho de tela le como tres tracos soltos, nao como uma seta;
+%  - o ramo corrompido e' VERMELHO -- moldura do grafo, legenda e vetor de
+%    saida.  Uma cor, um significado: vermelho = amostra negativa.  Por isso o
+%    gradiente deixou de ser magenta e virou cinza tracejado: magenta passou a
+%    significar "negativo" e nao pode significar tambem "sinal de treino";
+%  - as cores das features perderam o tom magenta pelo mesmo motivo;
+%  - o Summary saiu DE ENTRE os dois vetores e foi para o LADO deles;
+%  - a legenda "Original graph" tinha 0,6mm de folga ate' a moldura de baixo;
+%    agora tem 3,9mm.
+%
+% RODADA 24 -- "Delaunay" no vao (pedido do autor).  "Original graph" subiu para
+% CIMA da moldura e o vao entre os dois grafos passou a carregar o nome do
+% metodo.  Nao e' ajuste local: e' o mesmo lugar onde a chapa do HGI poe
+% "Delaunay / Geographic adjacency" e a do Check2HGI poe "directed visit
+% sequence".  AS TRES CHAPAS PASSAM A NOMEAR A CONSTRUCAO DO GRAFO NO MESMO
+% VAO -- vira gramatica, nao tres coincidencias.  (Delaunay confere com o
+% codigo: `dgi/preprocess.py:139-166`.)  Versao anterior (sem Delaunay) removida a
+% 2026-10-01; historico do PoiMtlNet, tag `dissertacao-pre-organizacao`.
+%
+% ⚠ E CUSTOU ALTURA: 50,4 -> 55,8 mm, e o slide transbordava 12,83pt.  A `ppt`
+%   gastou a ultima alavanca dela (itemize -> marcadores manuais, 5pt) e ainda
+%   faltavam 2,8mm.  Recuperados 3,0 assim:
+%     `inner sep` da moldura 1,5 -> 1,0 mm  (2 molduras x 2 lados) ....... 2,0
+%     folga das duas legendas   1,2 -> 0,7 mm ........................... 1,0
+%   O GRAFO NAO ENCOLHEU.  Encolher os nos daria mais 1mm e foi descartado de
+%   proposito: o tamanho do pictograma e' o que faz as tres chapas parecerem
+%   parentes -- pagar o milimetro com o parentesco faria o slide caber e a
+%   razao de caber desaparecer.
+%
+% ⚠ ARMADILHA, para quem for apertar de novo: encurtar o `inner sep` ABRE o vao
+%   entre as molduras, porque as bordas recuam em direcoes opostas.  Mexer so'
+%   nele recupera METADE e deixa o "Delaunay" boiando -- o numero fecha e o
+%   desenho piora.  Por isso o deslocamento foi de -2,46 para -2,36 junto: o vao
+%   ficou com a folga IDENTICA a de antes.  Final 138,6 x 52,8 mm, `Overfull`
+%   zero no slide (verificado por build pela `ppt`, nao por aritmetica).
+%
+% Gabarito: area util 140 x 63,7 mm (medida pela `ppt`); entrega em tamanho
+% FINAL, nunca reduzida por \includegraphics -- escalar afina os tracos junto.
+% ============================================================================
+\begin{tikzpicture}[
+    font=\normalsize,
+    >={Latex[length=2.6mm]},
+    gnode/.style={circle, draw=secondary!60, line width=0.9pt,
+                  minimum size=5.0mm, inner sep=0pt, font=\small},
+    gedge/.style={draw=secondary!40, line width=1pt},
+    panel/.style={draw=secondary!30, line width=1pt, rounded corners=4pt,
+                  inner sep=1.0mm},
+    % o ramo negativo tem moldura propria, na cor do negativo
+    npanel/.style={panel, draw=alert!85, line width=1.2pt},
+    lbl/.style={align=center, font=\small, text=secondary},
+    box/.style={draw=secondaryshade, rounded corners=3pt, fill=white,
+                align=center, inner sep=6pt, line width=1.1pt, text=secondary},
+    vcell/.style={draw=secondary!70, line width=0.9pt, minimum width=4.2mm,
+                  minimum height=2.2mm, inner sep=0pt, fill=white},
+    ncell/.style={vcell, draw=alert!85, fill=alert!10},
+    flow/.style={->, line width=1.3pt, draw=secondary},
+    nflow/.style={->, line width=1.3pt, draw=alert!85},
+    swire/.style={->, line width=1.3pt, draw=primaryshade},
+    % cinza, nao magenta: magenta agora significa "negativo"
+    grad/.style={->, line width=1.1pt, draw=black!48, dashed},
+    jd/.style={circle, inner sep=0pt, minimum size=1.6mm},
+    % cinco features distinguiveis, nenhuma delas vermelha
+    fa/.style={fill=primary!55}, fb/.style={fill=secondary!28},
+    fc/.style={fill=primary!95}, fd/.style={fill=secondary!62},
+    fe/.style={fill=offwhite}
+]
+
+% ------------------------------------------------------- grafo REAL (positivo)
+\begin{scope}[local bounding box=gpos]
+    \node[gnode, fa] (p1) at (0.078, 0.406) {a};
+    \node[gnode, fb] (p2) at (0.718, 0.577) {b};
+    \node[gnode, fc] (p3) at (1.186, 0.039) {c};
+    \node[gnode, fd] (p4) at (0.718,-0.445) {d};
+    \node[gnode, fe] (p5) at (0.000,-0.257) {e};
+    \draw[gedge] (p1)--(p2) (p2)--(p3) (p3)--(p4) (p4)--(p5) (p5)--(p1) (p1)--(p3);
+\end{scope}
+\node[panel, fit=(gpos)] (gposbox) {};
+\node[lbl, above=0.7mm of gposbox, text width=2.4cm] (cappos) {Original graph};
+
+% ---------------------------------------------------- grafo CORROMPIDO
+% Mesmas coordenadas, mesmas arestas: a corrupcao e' na correspondencia
+% no'<->feature, nao na topologia.
+\begin{scope}[local bounding box=gneg, shift={(0,-2.36)}]
+    \node[gnode, fd] (q1) at (0.078, 0.406) {d};
+    \node[gnode, fa] (q2) at (0.718, 0.577) {a};
+    \node[gnode, fe] (q3) at (1.186, 0.039) {e};
+    \node[gnode, fc] (q4) at (0.718,-0.445) {c};
+    \node[gnode, fb] (q5) at (0.000,-0.257) {b};
+    \draw[gedge] (q1)--(q2) (q2)--(q3) (q3)--(q4) (q4)--(q5) (q5)--(q1) (q1)--(q3);
+\end{scope}
+\node[npanel, fit=(gneg)] (gnegbox) {};
+\path (gposbox.south) -- (gnegbox.north) node[midway, lbl] {\textbf{Delaunay}};
+\node[lbl, text=alert, below=0.7mm of gnegbox, text width=2.75cm] (capneg)
+      {Shuffled features};
+
+% ------------------------------------------------------------- a MESMA GNN
+% Caixa ALTA, atravessando as duas raias.  Uma caixa unica ja' diz "a mesma
+% rede"; e as setas dos grafos entram HORIZONTAIS, sem o Z que lia como seta
+% quebrada.
+\node[box, minimum height=3.2cm, text width=0.85cm] (gnn) at (2.893,-1.425)
+      {\textbf{GNN}};
+\draw[flow]  (gposbox.east) -- (gnn.west |- gposbox.east);
+\draw[nflow] (gnegbox.east) -- (gnn.west |- gnegbox.east);
+
+% ----------------------------------------- os dois vetores de no', distintos
+\begin{scope}[local bounding box=vreal]
+    \foreach \k in {0,1,2,3} \node[vcell] at (4.158,-0.6625-\k*0.225) {};
+\end{scope}
+\begin{scope}[local bounding box=vshuf]
+    \foreach \k in {0,1,2,3} \node[ncell] at (4.158,-1.9625-\k*0.225) {};
+\end{scope}
+\draw[flow]  (gnn.east |- vreal.west) -- (vreal.west);
+\draw[nflow] (gnn.east |- vshuf.west) -- (vshuf.west);
+
+% UMA seta por vetor, do vetor direto ao discriminador.  Antes o trajeto era
+% desenhado em dois tracos -- vetor->derivacao e derivacao->discriminador -- e
+% cada um trazia sua propria ponta: duas pontas em sequencia no mesmo caminho,
+% que le como dois passos onde ha' um so'.  Agora a linha e' continua e o ponto
+% de derivacao apenas REPOUSA sobre ela, que e' o que um no' de derivacao e'.
+\coordinate (fr) at (4.668,-1.00);
+
+% ------------------------------------------------- o resumo, AO LADO dos vetores
+% ⚠ UMA seta, do vetor original -- ver a ressalva no cabecalho.
+\node[box, fill=primarytint, draw=primaryshade, text width=1.6cm,
+      minimum height=0.8cm, inner sep=5pt] (sum) at (5.893,-1.65)
+      {\small\textbf{summary}};
+\draw[swire] (fr) -- ([yshift=2.5mm]sum.west);
+
+% ------------------------------------------------------------ discriminador
+% Tres entradas: os dois vetores de no' e o contexto.  E' esta convergencia que
+% torna visivel que o discriminador COMPARA -- e que o que muda entre as duas
+% comparacoes e' o no', nunca o contexto.
+\node[box, fill=secondarytint, text width=2.4cm, minimum height=1.7cm]
+      (disc) at (8.628,-1.65) {\textbf{Discriminator}\\[0.4mm]{\small linear}};
+\draw[flow]  (vreal.east) -- ([yshift=6.5mm]disc.west);
+\draw[nflow] (vshuf.east) -- ([yshift=-6.5mm]disc.west);
+\draw[swire] (sum.east) -- (disc.west);
+\fill[secondary] (fr) circle (1.6pt);
+
+% ------------------------------------------------------------------ saidas
+\node[box, text width=2.0cm] (loss) at (11.78,-1.65)
+      {\small\textbf{Contrastive loss}};
+\draw[flow] ([yshift=4.5mm]disc.east)  --
+      node[midway, above, text=secondary] {$\approx 1$} ([yshift=4.5mm]loss.west);
+\draw[flow] ([yshift=-4.5mm]disc.east) --
+      node[midway, below, text=secondary] {$\approx 0$} ([yshift=-4.5mm]loss.west);
+
+% ---------------------------------------------- gradiente (passo 9), por baixo
+% Vai por baixo para nao competir com o topo, que ja' e' o ponto mais alto da
+% figura.  Volta pelo discriminador E pela GNN, como a especificacao pede.
+\draw[grad] (loss.south) |- (8.628,-3.62) -- (disc.south);
+\draw[grad] (8.628,-3.62) -- (2.893,-3.62) -- (gnn.south);
+\node[lbl, text=black!55, anchor=south] at (6.3,-3.56) {gradient};
+
+\end{tikzpicture}

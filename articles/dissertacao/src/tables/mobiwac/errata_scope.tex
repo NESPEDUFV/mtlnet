@@ -1,0 +1,560 @@
+% !TeX root = ../../main.tex
+% [round9g, 2026-08-02, PENDENCIAS_RESOLVIDOS 2.24 (arquivado 2026-08-02), AUTHOR RULING] Terminal punctuation moved OUTSIDE the
+% closing quotation mark, per ABNT NBR 10520:2023 (WRITING_LAW §1). Both quoted spans here are
+% FRAGMENTS, not sentences -- they open lowercase and continue the host sentence -- so the period
+% is the HOST's and moving it changes nothing about the quoted wording. The third site found by
+% the same sweep, in tables/cbic/errata.tex, was LEFT ALONE: that quotation is a complete
+% sentence beginning "Also, it is important...", so its period belongs to the quoted author and
+% the author's exemption covers it.
+% mobiwac/errata_scope.tex -- one table. Extraction provenance and verification: tables/README.md
+% [2026-07-27, author policy] The MobiWac paper is UNDER REVIEW, so a minor factual or
+% scope correction does not need an erratum: it is applied to the paper source as well, and the
+% dissertation and the paper stay identical. This table therefore keeps only the corrections too
+% elaborate to fold into a paper under review:
+%   - the integrity paragraph, whose fourth ground cites Appendix D, which the paper has no room for;
+%   - the freeze-control restatement, which cites this chapter's own results table.
+% TWO ROWS WERE REMOVED because the correction now lives in BOTH texts:
+%   - the balancer sentence -> [mobiwac]/src/sections/02_related.tex (19-balancer screen, both exceptions)
+%   - the third limitation  -> [mobiwac]/src/sections/07_discussion.tex (with sec:mobiwac: label prefix
+%     remapped to the paper's own sec:setup-windows, and "this chapter's" -> "the paper's")
+% Logged in [mobiwac]/ERRATA.md. Paper rebuilt: 9 pp, 0 undefined refs, 0 undefined cites.
+\begin{table}[htb]
+\caption{Claim-scope corrections in the reproduced MobiWac 2026 prose (claim-scope
+narrowing and comparison-basis disclosure; no experimental result altered).}
+\label{tab:apx:mobiwac-scope}
+\centering
+\small
+\begin{tabular}{@{}p{0.30\textwidth}p{0.62\textwidth}@{}}
+\toprule
+\textbf{Submitted claim} & \textbf{Correction in the chapter} \\
+\midrule
+The representation ``passes no usable information about the test visits, on three
+grounds''. &
+% [2026-10-02] REESCRITA. A coluna descrevia uma estrutura de "grounds" e um quarto fundamento (sonda
+% linear) que sairam do capitulo a 2026-08-05/06 (467753c7, 1102ef1d); a decisao de 2026-08-13
+% (RESPOSTAS_ORAIS Q15) era retirar essa parte. A negacao universal continua retirada, e e isso
+% que esta linha declara. Os numeros da verificacao mudam com a re-execucao G1 (ver a linha "The
+% integrity check states its scope"), nao aqui.
+The universal negative is removed. The paragraph instead states the check performed, whether
+training the representation on all users changes the results, and reports it; the
+one-directional links between consecutive visits are stated in the method section and as the
+fourth limit. \\
+\addlinespace
+The gradient-cosine paragraph reports the development measurement, four seeds on four
+Gowalla states, and points only to the mechanism test in the results section. &
+% ⚠ [2026-09-08] ESTA LINHA DESCREVIA UMA FRASE QUE JA NAO ESTA NO CAPITULO. Dizia "One sentence
+% is added in the chapter, pointing to the appendix that measures the same quantity on the final
+% model". Esse ponteiro FOI ACRESCENTADO E DEPOIS RETIRADO, no 2bb82234 (2026-08-04, round14
+% "STANDALONE"), quando se decidiu que os capitulos de artigo nao apontam para apendices da
+% dissertacao. Medido hoje: os oito ficheiros do Cap. 5 tem ZERO ocorrencias de \ref{apx:...}.
+% A linha ficou a registar uma adicao que foi REVERTIDA -- e a prosa que anuncia a tabela
+% repetia-o. Apanhado por uma auditoria Fable ao lote das nove, que notou que reescrever a prosa
+% em volta de uma linha obsoleta A RE-AUTORIZA. Corrigida para o que a errata deixou de pe.
+% [2026-09-30] REESCRITA: o autor decidiu que o texto descreve o metodo entregue e nao a jornada
+% (WRITING_LAW §3). A frase de desenvolvimento (+0,001 / +0,0032) saiu; a alegacao assenta agora na
+% medicao do modelo reportado, que o paragrafo ja trazia. Deixou de ser anterior a aceitacao: a
+% prosa do apendice passa-a para a classe nova.
+The development measurement is removed. The claim rests on the
+measurement taken on the reported joint model at four
+datasets, which the paragraph already gave, and its conclusion
+is unchanged. \\
+\addlinespace
+% [2026-09-02, Wilcoxon] Author ruling: remove the promise, do not compute the test. The registered
+% test was executed once, on the v17 ladder; the ladder was recomputed under the joint-best
+% convention on 2026-08-11 and the sentence that REPORTED the Wilcoxon was deleted from the results
+% section in that same wave (ce5a7006), while the sentence that PROMISED it survived here. Removing
+% it is the honest half: what stays is the registration, the reason for the departure (the exact
+% one-sided p cannot fall below 0.0625 at n=4), and the disclosure that the code release carries
+% both tests -- which is true, scripts/closing_data/superiority_wilcoxon.py exists. The test WAS
+% computed for this ladder in the course of deciding this
+% (research/reproducibility/mobiwac_v18/wilcoxon_v18.py) and agrees with the reported t at every
+% cell, so nothing is being hidden; the author chose not to add a second test to the reader's load.
+The setup section states that the registered Wilcoxon signed-rank test on the twenty
+matched fold differences is also reported, as a sensitivity analysis alongside the paired
+$t$ test. No Wilcoxon result appears anywhere in the delivered text. &
+The promise is withdrawn and the disclosure kept: the paragraph still states that the plan
+registered the test, still gives the reason it is not used at the seed-level footing, and still
+records that the released code carries both tests. One further word changes, from ``primary
+analysis'' to ``reported analysis'', because with no second analysis named the first adjective
+implied one. A clause naming the Wilcoxon as the comparison over twenty differences is removed
+from the seed definition. No number, verdict, or interval changes. \\
+\addlinespace
+% [2026-09-02, parameter counts] The published sums close exactly against the WITHDRAWN dedicated
+% category count of 644,359, which the 2026-07-23 audit produced by building the head at the module
+% default depth of two layers while its own output file claims it used the ceiling config. The cells
+% ran four layers: train.py:339 routes task "next" to default_next, experiment.py:530 pins
+% num_layers=4, and train.py:1454-1460 merges --model-param over it rather than replacing it. The
+% region half was measured, not inferred: the head instantiated exactly as cell_reg builds it gives
+% 417,117 at Alabama and 1,370,685 at California, and the joint's region partition minus that head
+% is exactly 465,297 at all five datasets with a delivered log, which validates both sides at once.
+% Reproduce: research/reproducibility/mobiwac_v18/param_counts.py (exits non-zero if the identity
+% breaks). Appendix G of the supplementary volume carried the same defect and is corrected with it.
+The method section compares parameter counts, giving the joint model about 4.2 million
+parameters at Alabama against 1.1 million for the two dedicated models combined, and 5.2
+against 2.0 at California. The two sums are low: they were computed from a dedicated
+category model of 644,359 parameters, a count the model that ran does not have. &
+The sums are corrected to 1.9 and 2.8 million, from the measured 1,433,863 for the dedicated
+category model and 417,117 and 1,370,685 for the dedicated region model at the two datasets.
+The joint-model figures are unchanged and confirmed against the delivered execution logs. The
+ratio the sentence rests on falls from about four to 2.27 at Alabama and from 2.6 to 1.84 at
+California; the claim it supports does not depend on the magnitude, since the paragraph argues
+that the single model's advantage is operational rather than arithmetic. \\
+\addlinespace
+% [2026-09-02, emphasis] SIXTH ROW. The accepted article carries ZERO underlines and uses bold for the
+% verdict only (mobiwac/src_fix/tables/tbl3_results.tex), so this is a departure from it and not a
+% re-typesetting choice. It is the author's ruling of the same date, carried down from the correction
+% he made for the defense deck (presentation/slides/main.tex:1620-1625, :1633-1638), and it is what
+% actually answers banca item B-27: bold was doing two jobs at once, so a row where the dedicated model
+% holds the larger number showed no bold at all and read as "nothing is best here". The dissertation
+% table now matches the projected one cell for cell. Applied by script over the printed values with the
+% proof that stripping all emphasis returns the file byte-identical.
+The results table uses bold for one thing only: an improvement over the dedicated model
+that survives the Holm correction. The largest value in a row therefore carries no mark
+unless it also happens to be that improvement, so in the rows where the dedicated model
+holds the larger number nothing is emphasized. &
+The two meanings are separated. Bold and underline report magnitude, the largest and second
+largest value in each row, with both in bold and no second marked when they tie at the
+printed precision; the statistical verdict keeps its own marks, $\uparrow$ and $\approx$,
+beside the joint-model value. The caption states the split and reads out the case that
+prompted it. No value, verdict or interval changes. \\
+\addlinespace
+% [2026-09-02, concatenation control] SEVENTH ROW. Two defects in one paragraph, and the first is
+% arithmetic against a table printed on the same page. The delivered sentence called the control's
+% gains "under a tenth of the place-to-check-in gap"; Table 9 (\input immediately below it) gives
+% those gaps as 1.62 / 2.58 / 0.23, so the cited +2.0 / +1.7 / +0.8 are 123% / 66% / 348% of them.
+% "Under a tenth" would need gaps above 20, 17 and 8 points. Same class as the CBIC B-13 row.
+% THE DRAFTED ERRATA WAS NOT USED AS WRITTEN. wrapup/erratas/errata_Q13_concatenation_scope.tex
+% proposes "the gain comes mostly from the features, and not from the hierarchical structure that
+% reads them" -- which inverts the sentence with the same force the original erred with, and the
+% data do not carry the inversion. Advisor review 2026-09-02 flagged it; the correction states only
+% what the control measures.
+% RE-RUN NUMBERS DELIBERATELY EXCLUDED. That errata quotes a re-execution (+1.73 / +1.70 / +1.02
+% against gaps of 1.56 / 2.50 / 0.21) that does not reproduce Table 9 fold by fold, cause
+% unidentified. The delivered pair is internally consistent and is what the printed text uses.
+% ⚠ [2026-10-01] THE EXCLUSION ABOVE IS SUPERSEDED, by the author's decision after the model
+% provenance audit. The "delivered pair" (+2.0/+1.7/+0.8) came from the A2 pre-freeze screen (p1
+% harness, stride-9, max_lr 0.003, 30 ep, no logit adjustment; AL/AZ mean of 4 seeds), which is not
+% the protocol of Table 9. The Q13 re-run uses Table 9's recipe: its AL place arm reproduces the
+% table fold by fold, AZ is within 0.19 per fold, FL 37.15 vs 37.13. "Does not reproduce fold by
+% fold" was true only in the hundredths, at two datasets. The chapter now prints the Q13 gains;
+% source docs/results/closing_data/v18/concat_control_q13/. The gaps beside them stay the table's.
+% NO DATASET IS NAMED. The direction is derivable from the delivered pair (Arizona is the one state
+% where the check-in representation still leads, by 0.88), but no paired test exists on the
+% delivered generation, no artifact carries that arm, and the cited gains are printed at one
+% decimal, so the derived differences carry +-0.05 of slack. WRITING_LAW §3 binds comparison verbs
+% to a test; subtraction of rounded numbers is not one.
+% ⚠ NOTHING IS SAID ABOUT THE HIERARCHY, IN EITHER DIRECTION, AND THAT IS DELIBERATE. On this
+% substrate the levels above the place are severed from the category axis by construction:
+% Check2HGIModule.py:653 detaches before the region path in the delaunay_gcn mode that v14/v18 use,
+% so p2r and r2c gradients never reach the check-in encoder. A null there would be a property of
+% the implementation, not a result about hierarchy. Scope is the category axis, which the chapter
+% already declares a few lines above ("the benefit is category-only").
+The results section reports the feature-concatenation control as raising the place
+embedding by $+2.0$, $+1.7$ and $+0.8$ macro-F1 at three datasets, describes that as
+under a tenth of the place-to-check-in gap, and concludes that the gain comes from the
+hierarchical per-visit representation rather than from feature injection. The
+representation table on the same page gives those gaps as $+1.62$, $+2.58$ and $+0.23$,
+which the quoted gains meet or exceed at two of the three. &
+The comparison is stated against the table: the three gains are printed beside the three
+gaps and no ratio is asserted, since the control exceeds the gap at two datasets and falls
+short at the third. The conclusion is narrowed to what the control measures, that most of
+the category difference is already available in the raw per-visit features and that what
+the representation adds beyond them on this axis is small and unseparated by this control,
+and it is scoped to the category axis. No claim is made about the hierarchy in either
+direction. The three gains are now the paired re-run under the table's own training configuration, $+1.73$,
+$+1.70$ and $+1.02$, in place of $+2.0$, $+1.7$ and $+0.8$ from an earlier screen with a
+different protocol; the control still exceeds the gap at two datasets and falls short at the
+third. \\
+\addlinespace
+% [2026-09-02, B-23] "com relacao ao primeiro ne?" -- the reader could not tell what the two
+% enhancements were enhancements OF. The antecedent is in the previous paragraph (the earlier work
+% cited there), one sentence away, which is enough inside a dissertation and not enough in an article
+% read on its own. Four words. Author ruling: "concordo podemos fazer".
+The introduction announces two enhancements without naming what they improve upon. The
+antecedent, the authors' earlier model, appears in the previous sentence but is not
+carried into the claim. &
+The claim names its referent: two enhancements to that earlier model. Nothing else in the
+sentence changes. \\
+\addlinespace
+% [2026-09-04] ROW ADDED. The submitted text uses logit adjustment by name and by formula and
+% cites nothing for it (sections/04_method.tex:42 of [mobiwac]/src_fix, and again at
+% sections/06_results.tex:21, where it is one of the controlled constants of the substrate
+% comparison). It is a named method with a version of record, so the chapter now cites it. The
+% .bib entry was verified at the arXiv record, NOT written from memory, and it deliberately
+% carries no DOI: Crossref has none registered for this work. This correction can be folded into
+% the camera-ready, and it is declared here anyway rather than left to the article's ERRATA.md,
+% because the article is ACCEPTED as of 2026-08-26 and the "under review" mechanism the section
+% prose relies on no longer holds. Declaring a correction that turns out to be carried in both
+% texts costs nothing; not declaring one that is carried in only one text is a defect.
+The method section applies logit adjustment to the category
+loss, naming the method and giving its formula and its
+$\tau=0.5$, and cites no source for it. The same adjustment is
+named again in the results section as one of the constants held
+fixed across the substrate comparison. &
+The chapter cites the work that introduced the method. Nothing
+else in either sentence changes: the formula, the value of $\tau$,
+the train-only scope and the unadjusted-inference statement are
+the submitted text. No number, verdict or interval changes. \\
+\addlinespace
+% [2026-09-06] ROW ADDED. Found during the MobiWac camera-ready migration audit (the `mobiwac`
+% session), verified here, and author-approved the same day. NOT a false statement: within the four
+% datasets the sentence is discussing, Alabama's -0.88 IS the largest. It is a bare superlative with
+% no stated scope, and what supplies the wrong scope is the CROSS-REFERENCE beside it: the target
+% section opens "outperforms the dedicated model at Texas and California" and says "simultaneously
+% across all six", so a reader who follows the pointer lands on the two datasets whose differences
+% are LARGER (Texas +1.21 against Alabama's -0.88) and on an explicit count of six. The signpost
+% supplies the frame that makes the superlative read wrong. Removing the reference would also fix it
+% and is the worse repair -- the reference is load-bearing, it is where the reader goes for the
+% region result -- so the scope is narrowed instead. No number, verdict or interval changes.
+The setup section reports which datasets have intervals narrow
+enough for a one-point margin and adds that Alabama's is not,
+``and it is the dataset with the largest region difference'',
+citing the results section. The superlative states no scope. The
+sentence's own set is the four datasets under discussion, and
+within those four Alabama's difference is the largest; but the
+cross-reference sends the reader to a section covering all six,
+where the Texas difference is larger. &
+The superlative is scoped to the set the sentence is about. The
+cross-reference stays, since it is where the reader goes for the
+region result. No number, verdict or interval changes. \\
+\addlinespace
+% [2026-09-08] NOVE LINHAS, do camera-ready. Vieram da revisao por que o artigo passou e a
+% dissertacao nao: tres revisores EDAS mais um painel interno. Como o Cap. 5 E o artigo, o que
+% eles encontraram esta no mesmo texto. Cada uma verificada DUAS VEZES contra a fonte -- por esta
+% sessao e por uma auditoria Fable independente que as refez do zero.
+% [2026-10-05, D2] The row that stood here (2026-09-08: the discussion attributed the integrity
+% check's qualification to the region half; corrected to category) was FOLDED into the integrity row
+% below: its right cell asserted a setup qualification the chapter no longer has, since the check was
+% re-run and scores every validation window. The submitted defect stays on record in that row's left
+% cell (registry's ruling). Row count 33 -> 32.
+% [2026-09-08] ⚠ NENHUM DOS DOIS DIGITOS ESTAVA ERRADO, e a linha diz isso: o valor e 0,3338,
+% logo -0,33 e o arredondamento e 0,34 o tecto. A pagina e que era incoerente. O artigo resolveu
+% doutra maneira, acrescentando um limite simultaneo de Bonferroni (0,49); ESSE NUMERO NAO ENTRA
+% -- e novo na dissertacao e o autor nao o decidiu.
+The results section prints the Alabama interval as
+$-0.33$ to $-0.04$ and, in the same sentence run, says the widest
+interval reaches $0.34$ points from zero. &
+The second figure is brought to the printed precision of the
+first, $0.33$. Both came from the same value, $0.3338$, one
+rounded and one taken as a ceiling; neither was false, but the
+page disagreed with itself. No verdict or interval changes. \\
+\addlinespace
+% [2026-09-29] O Bonferroni que a linha acima deixou de fora ENTRA, por decisao do autor, com a
+% condicao de nao mudar conclusao nenhuma: 0,489 < 0,5 (WRITING_LAW §3; mesmo valor no artigo).
+The same sentence says the widest interval, $0.33$, bounds all
+six differences within half a point of zero at once. &
+Six separate intervals do not bound six differences at once.
+The sentence now gives the simultaneous bound, a Bonferroni
+adjustment across the six comparisons, under which the widest
+reaches $0.49$. All six stay within half a point, so no verdict
+changes, and the claim of a joint bound is now supported. \\
+\addlinespace
+% [2026-09-08] O intervalo estava ordenado por numero de regioes e reutilizava essa ordem para os
+% check-ins, sem o dizer. Texas: 4.089.892 contra 3.171.380 da California (tables/mobiwac/datasets).
+The setup section gives the corpus range as ending at about
+3.2 million check-ins and 8,501 regions in California. &
+The check-in end of the range is corrected to Texas, which has
+about 4.1 million; the region end keeps California. The
+sentence had ordered by region count and reused that order for
+check-ins. No other value changes. \\
+\addlinespace
+% [2026-09-08] ⚠ O DECISIVO NAO E A §2 CONTRADIZER: e o registo do proprio projecto. O comentario
+% de proveniencia do Cap. 1 documenta OITO sondas OpenAlex que REFUTARAM "pioneering" e diz, a
+% letra, que "'the first' are banned here". A alegacao sobreviveu a proibicao. A forma adoptada e
+% a que ja estava escrita na §2, nao uma nova.
+The introduction claims the work is, to the authors'
+knowledge, the first to treat fine-grained region as an end
+target of equal standing, and cites the related-work section. &
+The claim adopts the hedged form that section already uses:
+the target is described as underexplored. That section names
+nearest exceptions rather than supporting a priority claim, and
+the project's own record bans the stronger form. \\
+\addlinespace
+% [2026-09-08] As constantes impressas vem de linhas com granularity=poi e motor v14 (silhouette
+% 0,5668 e knn10 0,9827 para o check-in; 0,0003 e 0,7750 para o HGI -- arredondam aos 0,57 / 0,98
+% / 0,00 / 0,78 impressos). ⚠ CORRIGIDO no mesmo dia: este comentario dizia "toda a linha da fonte
+% tem v14", o que e FALSO DO FICHEIRO -- ele carrega tambem linhas do check2hgi canonico
+% (0,4769 / 0,9794). Sao as constantes que vem do v14, nao o ficheiro inteiro. O sujeito
+% "per-visit vectors" contradizia a agregacao por lugar. Os numeros ficam; o escopo entra.
+The results section attributes the silhouette and purity
+constants to the per-visit vectors of the reported
+representation, in the prose and again in the caption of the
+figure that plots them. &
+% [2026-09-30] REESCRITA: as constantes foram re-medidas no build entregue (v18), com o mesmo
+% harness e a reproducao do v14/hgi verificada primeiro (docs/results/closing_data/v18/geometry/,
+% commit 198eb2e8). Silhueta 0,5668 -> 0,5140; pureza 0,9827 -> 0,9804; HGI inalterado. O
+% "earlier build" sai porque a medicao passa a ser do modelo entregue, nao por decisao de estilo.
+Both now report the constants re-measured on the delivered
+representation, with the vectors aggregated per place: the
+silhouette is $0.51$ where it was $0.57$, the purity stays at
+$0.98$, and the place embedding is unchanged at $0.00$ and
+$0.78$. The sentence limiting them to the representation
+family is unchanged. \\
+% [2026-09-08] SEGUNDO SITIO acrescentado a esta linha em vez de abrir uma decima-nona. A legenda da
+% figura descrevia A MESMA MEDICAO sem o mesmo escopo, o que deixava uma so medicao descrita a dois
+% escopos na mesma pagina -- apanhado pela auditoria Fable. E o mesmo padrao da linha dos vectores de
+% regiao, que ja cobre dois ficheiros numa linha: UMA correccao pode viver em varios sitios, e
+% parti-la em linhas separadas faria a tabela contar sitios em vez de contar correccoes.
+\addlinespace
+% [2026-09-08] run_phase0_build.sh faz SYMLINK do region_embeddings.parquet a partir do engine
+% v14, com seis PASS registados no AUDIT.md. Os vectores de check-in sao v18; os de regiao nao.
+The method and results sections describe the region vectors as
+coming from the same graph as the check-in vectors. &
+% [2026-09-30] REESCRITA pela mesma decisao do autor. A tabela de regiao continua a vir do v14 (o
+% symlink acima). A frase ja nao diz de que build vem, mas tambem nao afirma que vem do grafo que a
+% seccao descreve: diz o que e, uma tabela fixa partilhada pelos modelos conjunto e dedicado.
+Both now describe them as pre-trained region vectors taken
+from a region table held fixed and shared by the joint and
+dedicated models, which no longer implies that they come from
+the graph the section describes. No number changes. \\
+\addlinespace
+% [2026-09-08] Era a ESCADA SUPERADA sobrevivendo na §2. A §6 do proprio capitulo reporta quatro
+% defices de regiao "and none of them is a tie" e duas celulas de categoria negativas. As probes
+% LADDER-* guardam esta classe em todo o lado EXCEPTO no Cap. 5, por desenho.
+The related-work section describes the representation as one
+on which sharing helps instead of hurting. &
+The characterization is replaced by the delivered verdicts, in
+the wording the rest of the document uses: outperformance at
+two datasets on region with the registered margin holding at
+the other four, and at one dataset on category with the other
+five equivalent to zero within half a point. \\
+\addlinespace
+% [2026-09-08] O \ref resolve, o referente nao existe: o controlo de congelamento de regiao foi
+% apagado a 2026-08-06. Nenhum portao apanha um referente que e prosa.
+The related-work section supports a claim by pointing at a
+mechanism test in the results section. &
+The pointer is removed. The control it named was deleted from
+the chapter, so the cross-reference resolved to a section that
+contains no such test. The claim itself is unchanged and stands
+on the measurement stated beside it. \\
+\addlinespace
+% [2026-09-08] Os valores vem do A4 dos pre-freeze gates, substrato PRE-v18. A frase de escopo do
+% capitulo ("three datasets at one seed") ja era melhor que a do artigo; faltava-lhe a geracao.
+% [2026-10-04, D2] Row rewritten to the final state (writer's draft for the registry): the stale-by-design
+% block of 2026-09-30 is discharged, the re-run on the delivered protocol having landed at AL, AZ, FL
+% (g1_integrity_*). The comment that stood here said to do exactly this on that day.
+The integrity check reports per-fold rebuild differences of
+$-0.33$ to $+0.01$ Acc@10 and $0.00$ to $+0.29$ macro-F1 over
+three datasets at one seed, with a category comparison limited
+to one vector per place and to the 67 to 87 percent of
+validation windows whose places occur in training; the
+discussion attributes that qualification to the region half. &
+The check was re-run under the reported protocol: the
+representation and the region vectors are rebuilt for each fold
+from its training users, the dedicated models are retrained on
+them, and every validation window is scored. Training on all
+users moves the five-fold mean by $-0.01$ to $+0.17$ macro-F1
+points for category and by $-0.13$ to $+0.08$ Acc@10 points for
+region, at one seed. The coverage qualification no longer applies and is
+removed, in the setup section and in the first limit of the
+discussion. The conclusion is unchanged. \\
+\addlinespace
+% [2026-09-08] LINHA DEZANOVE. UMA linha para DOIS sitios -- a seccao de resultados e a conclusao --
+% pelo mesmo padrao da linha 14 e da dos vectores de regiao: as duas frases fazem UMA alegacao (a
+% partilha como mecanismo) e caem pelo mesmo fundamento. Parti-las faria a tabela contar sitios em
+% vez de contar correccoes.
+%
+% TRES FUNDAMENTOS, e o primeiro e interno ao capitulo:
+%  1. A §7 diz, a letra, "The evidence here does not separate their contributions" -- sobre a
+%     representacao partilhada e a via espacial privada. As duas frases corrigidas propunham a
+%     partilha como mecanismo; a discussao diz que a evidencia nao o atribui. CONTRADICAO INTERNA,
+%     nao preferencia de redaccao.
+%  2. "Hardest" era leitura errada do numero de regioes: o Arizona tem o Acc@10 dedicado MAIS BAIXO
+%     dos conjuntos pequenos (59,48) e o conjunto fica ABAIXO dele (59,04) -- o mais dificil por
+%     pontuacao e o que nao tem ganho.
+%  3. A clausula da conclusao e contradita pelo controlo da California.
+%
+% ⚠ PROVENIENCIA, com a fonte certa porque eu a dei errada primeiro: a redaccao "has the most
+% classes to rank" e DECISAO DO AUTOR de 2026-09-07, registada em
+% articles/[mobiwac]/src/sections/06_results.tex com a marca [2026-09-07, author-approved] e com o
+% fundamento 2 escrito nela. Eu atribui esse registo a sessao writer, que nunca o teve -- e do
+% mobiwac-writer, e esta num ficheiro rastreado com data. A redaccao sustenta-se sozinha como facto
+% sobre o espaco de etiquetas, mas a atribuicao errada e que nao se sustentava.
+%
+% A frase dos dois confundidores fica ATTACHED nos dois sitios: e a metade que mantem a alegacao
+% honesta, e o registo do artigo chama ao par "P1, protected, never separated".
+The results section and the conclusion both attribute the two
+region improvements to the datasets where an auxiliary signal
+has the most to add, proposing task sharing as the mechanism.
+The results section also calls those datasets the ones where
+the region task is hardest. &
+Both clauses are replaced by what the design measures. The
+results section now names the quantity that actually differs,
+the number of classes to rank; the conclusion drops the
+mechanism clause. The discussion's statement that the evidence
+does not separate the two contributions stands unchanged, and
+so does the two-confounder sentence attached to each. The
+version of record carries both corrections; the chapter
+reproduced the text from before them. No number or verdict
+changes. \\
+\addlinespace
+% [2026-09-30] Verificado antes de editar, a pedido do autor: markov_floor_stride1/<state>.json regista
+% fold_protocol seed 42 (compute_markov_floor_stride1.py, SEED = 42); as celulas entregues usam as
+% seeds {0,1,7,100}. As janelas coincidem (stride 1, MIN_SEQ 10, emit_tail False). Sem nova execucao:
+% decisao do autor, pela baixa variancia do piso.
+% [2026-10-01] Terceira frase (06_results, "computed under our windows and folds") apanhada pela
+% auditoria de 01/10; a linha passa a cobri-la.
+The setup section and two sentences of the results section say
+that the first-order Markov region floor uses the same fold
+splits as our models. &
+The floor uses the same sliding windows and the same
+user-grouped fold construction, but a different partition of
+users, so all three sentences now claim only the windows and the
+grouping. The floor values are unchanged. \\
+\addlinespace
+% [2026-10-01] Achado pelo autor; confirmado por workflow (4 buscas + 2 verificadores adversariais) e
+% recalculado aqui. Celulas FL/CA/TX vinham de results/baselines/rgnn/*_2025100* (TF antigo, folds
+% dentro do utilizador, janelas de 3, 1500 utilizadores). A reimplementacao (research/baselines/
+% poi_rgnn, user-disjoint, seed 42) corre nos seis: docs/results/baselines/faithful_poi_rgnn_*.json.
+% O rotulo "pre-bugfix" que as afastava era um palpite (a32bfdc4); nunca houve bug.
+The results table prints POI-RGNN at Florida, California and
+Texas from an earlier implementation whose folds split each
+user's windows between training and test, while the other three
+datasets use the reimplementation the setup section describes. &
+The three cells now come from the same reimplementation as the
+other three, with user-disjoint folds: $33.35$, $30.71$ and
+$32.08$ in place of $34.49$, $31.78$ and $33.03$. The joint
+model's smallest margin over POI-RGNN moves from $3.06$ to
+$4.11$ points, at Texas. No verdict changes. \\
+\addlinespace
+% [2026-10-01] Lote A5, aprovado pelo autor depois da auditoria de proveniencia dos modelos (workflow
+% de 9 agentes). Cada valor re-verificado pelo writer e por mim antes de editar.
+The results section puts CTLE at Florida about two points below
+the place embedding. &
+The difference is $3.7$ points, between the $37.13$ of the
+representation table and CTLE's $33.45$, both printed in the
+chapter. No verdict changes. \\
+\addlinespace
+% Pureza: l0_metrics chama knn_loo (geometry.py), leave-one-out com o proprio vector excluido. A
+% legenda ja o dizia; a glosa da prosa descrevia uma fraccao de vizinhos, nao uma classificacao.
+The results section glosses the nearest-neighbor purity as the
+share of neighbors with the vector's own category. &
+The measure is a leave-one-out classification: the share of
+vectors whose ten nearest neighbors, excluding the vector
+itself, vote for its own category. The gloss now says so, as the
+figure caption already did. No number changes. \\
+\addlinespace
+% Os externos usam embeddings e divisoes proprias (POI-RGNN e Markov-K: ETL proprio, seed 42; STAN:
+% linhas proprias; ReHDM: divisao cronologica; HMT-GRN: particao de Junho diferente da entregue).
+% A ordem do Markov-K e escolhida nos folds de avaliacao (compute_markov_kstep_cat.py).
+The setup and results sections describe the external
+comparisons without saying that they run on their own splits,
+and select the Markov order per dataset without saying on which
+data. &
+The externals other than HMT-GRN are now said to run on their
+own embeddings and splits, ReHDM's split is named as
+chronological, and the Markov order is said to be chosen on the
+evaluation folds, which can only favor that floor. No number
+changes. \\
+\addlinespace
+% FL seed 0, check-in menos lugar por fold: +0,276 +0,434 +0,029 +0,001 +0,425; t pareado
+% bicaudal p = 0,067. O teste nao estava nomeado em 05_setup (que so nomeia o t sobre n=4 sementes).
+The representation table and the results section report a
+paired test over five matched folds without naming it, and say
+that all five folds favor the check-in-level representation at
+every dataset. &
+The test is named, a two-sided paired $t$-test over the five
+folds of one seed, and the Florida fold that favors the
+check-in-level representation by only $0.001$ points is stated.
+No number or verdict changes. \\
+\addlinespace
+% [2026-10-01] A4, aprovado pelo autor: so subtraccao. HMT-GRN correu com uma semente e a particao
+% de Junho (AL n_val 19269/... contra 19265/... entregue); STAN constroi linhas e particao proprias
+% (seed 0; 72-79% dos utilizadores de validacao entregues caem no treino dele). A contagem
+% sistema-a-sistema contra o piso saiu por decisao do autor; a explicacao de porque o piso e forte fica.
+The setup, results and conclusion sections and the results
+table say that HMT-GRN runs on our data, folds and random
+initializations and that STAN runs on our folds, and the
+results section counts the datasets at which each external
+system falls below the Markov floor. &
+STAN and ReHDM are said to run on their own embeddings and
+splits; HMT-GRN, re-run on our windows and folds, is said to
+use them. The per-system count is removed; the explanation of
+why the floor is strong stays. No number changes. \\
+\addlinespace
+% [2026-10-03, G5, row text by the registry, typed by the writer] HMT-GRN re-read at its best validation
+% epoch; the floor paragraph follows (docs/results/closing_data/v18/g5_hmt_best_epoch/).
+The results table prints HMT-GRN's next-region cells at the
+final training epoch, while the dedicated cells it is compared
+with are read at each task's best validation epoch, and the
+results section, on those cells, places the Markov floor above
+the external region systems. &
+HMT-GRN was re-run on our windows and folds at one seed and is
+read at its best validation epoch, the convention of the
+dedicated cells: $63.19$, $52.11$, $68.06$, $72.76$, $59.59$ and
+$61.39$ in place of $57.05$, $43.70$, $60.4$, $63.74$, $49.61$
+and $53.85$. It then lies above the floor at every dataset, so
+the results section now says that the external systems fall on
+both sides of it. The joint model's smallest margin over the
+strongest region reference stays $3.55$ points, at Florida. No
+verdict about our models changes. \\
+\addlinespace
+% [2026-10-04, D3, row drafted by the writer at the registry's request; author-approved edit of 2026-10-03]
+The setup section describes the CTLE control only as trained
+end to end at Florida and kept frozen at Alabama, Arizona, and
+Istanbul, and says nothing about how its pre-training differs
+from that of the representations it is compared with. &
+The setup section now states the training regimes: HGI and
+our representation are pre-trained once on all users' check-ins,
+without the prediction targets, whereas CTLE is pre-trained for
+each fold on that fold's training users only, then fine-tuned
+with the task model at Florida and kept frozen elsewhere. The
+frozen comparison at Alabama, Arizona, and Istanbul rests on
+runs whose pre-training excludes each evaluation fold's users.
+No printed number changes: the chapter prints no CTLE value at
+those three datasets, and the Florida values are unchanged. The
+spelling pre-trained is made uniform across the chapter. \\
+\addlinespace
+% [2026-10-10, row text by the registry, typed by the writer; author authorized the pending GPU runs] STAN CA/TX
+% completed to five folds (docs/results/baselines/stan_rerun_2026-10-10/README.md).
+The results table prints STAN at California and Texas from
+partial folds (two of five, four of five) and flags them. &
+The missing folds were run with the same configuration; $58.61$
+and $61.75$ replace $58.52$ and $61.67$, the flag is removed, and
+the footnote states that STAN runs at one seed. No verdict changes. \\
+\addlinespace
+% [2026-10-01] G3. O braco por lugar de Istambul (29,07) corria sobre um conjunto de janelas anterior
+% (343 795 linhas, contra 271 666 do v18) e nao era pareado. Refeito neste Mac (MPS, sem compile): o
+% braco por check-in reproduz a celula CUDA impressa (diferenca maxima por fold 0,03), e o par da
+% 32,54 e +2,81, com os 5 folds a favor. 1,05% dos alvos de IST alinhados aos rotulos do v18. Prova:
+% docs/results/closing_data/v18/istanbul_pair/. Ratio: 2,808 / 0,1947 (FL, ladder_recompute) = 14,4.
+The representation table gives Istanbul's place-level cell as
+$29.07$ and the check-in-level advantage there as $+6.29$, and
+the introduction, results and conclusion carry a range up to
+$+6.29$ and a ratio of thirty-two. &
+That place-level cell was not paired with the check-in cell; it
+ran on an earlier set of windows. Re-run paired, it is $32.54$,
+the advantage is $+2.81$ with all five folds favoring the
+check-in-level representation, the range ends at $+2.81$, and
+the ratio is about fourteen. The direction is unchanged. \\
+\addlinespace
+% [2026-10-02] ERR-6/7, aplicado a 2026-09-01 (e1f9b8c0), depois da aceitacao, e sem linha ate hoje
+% (achado pela revisao Fable do Cap. 5). LACUNAS.md regista-o como APLICADO 01/09.
+The setup section grades the dedicated category model's
+batch-size search as fewer-fold at Florida and Texas, and
+attributes Florida's and California's learning rate to the
+smaller searches. &
+Only Texas is single-fold in that search; Florida's single-fold
+screen belongs to the joint model's search. Florida and
+California carry the large-dataset value, which only the
+single-fold Texas screen tested. No number changes. \\
+\addlinespace
+% [2026-10-02] Legenda da Tabela 8, alterada a 2026-09-01 (e1f9b8c0), sem linha ate hoje; a legenda
+% da Tabela 10 tem a sua (linha 5).
+The dataset table does not say whether its check-in, user and
+POI counts are taken before or after the ten-visit user
+filter. &
+The caption states that they are counts over the full corpus,
+before the filter, and that the Windows column is computed
+after it. No number changes. \\
+\addlinespace
+% [2026-10-02] Palavras banidas (WRITING_LAW §2, GLOSSARY do artigo §3): "arm" e "recipe"; o
+% camera-ready ja as tinha retirado.
+The setup, results and discussion sections call the compared
+models ``arms'' and a training configuration a ``recipe''. &
+The words are replaced by the column or model they name, and a
+sentence that only restated the previous clause is removed. No
+number changes. \\
+\bottomrule
+\end{tabular}
+\end{table}

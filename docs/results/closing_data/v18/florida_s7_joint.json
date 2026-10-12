@@ -1,0 +1,35 @@
+{
+ "state": "florida",
+ "seed": 7,
+ "family": "joint",
+ "wall_seconds": 4450,
+ "rundir": "results/check2hgi_v18/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260810_070923_60",
+ "cat": 37.5399,
+ "reg": 77.0609,
+ "commit_sha": "unknown",
+ "v18_config": {
+  "engine": "check2hgi_v18",
+  "forward_only": true,
+  "in_channels": 15,
+  "node_layout": [
+   "canonical_11",
+   "continuous_time_4"
+  ],
+  "repr_seed": 42
+ },
+ "protocol": {
+  "precision": "fp32 (MTL_DISABLE_AMP=1, pinned per-command)",
+  "compile": true,
+  "tf32": true,
+  "folds": 5,
+  "epochs": 50,
+  "cat_metric": "macro-F1 at f1-best epoch (diag-best)",
+  "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch"
+ },
+ "recipe": "bs8192 cat-lr 0.002 cw0.50 logit_adjust_tau=0.5 (cat head only)",
+ "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+ "lane_host": "modal:A100-class 80GB [VERIFY: tier pedido A100-40GB, mas nvidia-smi memory.total=81920 MiB = 80 GiB; nome do dispositivo nao capturado]",
+ "train_pid": "60",
+ "scoring_path": "post-2026-08-10 (in-container scorer: a40_matched_score.json + joint_best_score.json)",
+ "commit_sha_note": "unrecoverable: o /repo foi enviado ao volume as 2026-08-10T03:28Z como tar do WORKTREE (nao git-archive), sem .git; os dois commits mais proximos (a0df1fe3 03:44Z, d8a4cf04 04:47Z) sao POSTERIORES ao envio, logo o HEAD era anterior e nao foi registrado. Mesmo um SHA nao provaria o codigo, porque o payload era o worktree. Nao preenchido por escolha (GAPS.md SS1)."
+}

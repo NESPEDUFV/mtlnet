@@ -1,0 +1,4 @@
+state=arizona seed=0 fold=3 vocab=20668
+pretrain_epochs=10 smoke=False
+split_engine=check2hgi_dk_ovl n_val_users=429 val_users_sha256=28146ded6b6e73444165fde31860343887775cd20a250a65afa3649e850fac61
+LEAK-SAFE: encoder pretrained on fold-3 TRAIN users only.

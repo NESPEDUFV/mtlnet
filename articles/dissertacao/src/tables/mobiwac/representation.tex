@@ -1,0 +1,48 @@
+% !TeX root = ../../main.tex
+% mobiwac/representation.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+\caption{Next-category macro-F1: the check-in-level representation against a standard place
+embedding (HGI), ordered by check-in count (Table~\ref{tab:mobiwac:datasets}). The same single-task
+model, training configuration, folds, sliding windows, epoch
+budget, and logit adjustment apply to both columns; only the input representation differs, a vector
+per visit against a vector per place (mean and fold sd over five matched folds, seed 0).}
+\label{tab:mobiwac:representation}
+\centering
+% [2026-10-01, AUTHOR-RULED (the paired Istanbul run is valid, so the text follows it), Table B.5 row]
+% Istanbul place cell 29.07 -> 32.54, delta +6.29 -> +2.81. The printed 29.07 ran on a 2026-06-26
+% hgi_dk_ovl build with 343,795 rows; the check-in cell runs on the 271,666 rows of the 2026-07-06
+% dk_ovl rebuild, so +6.29 compared different rows. Paired re-run on the M2 Pro (MPS, fp32, no
+% compile, torch 2.11.0; table recipe: next_gru, bs 8192, max_lr 0.0005, tau 0.5, seed 0, five folds,
+% 50 epochs), same 271,666 rows, labels aligned to v18 (2,852 targets, 1.05%, differed between the
+% builder and v18), folds identical 5/5. Validity: the MPS check-in arm reproduces the printed CUDA
+% cell (35.3453 vs 35.3539; max per-fold 0.029 against fold sd 0.88). Writer's re-score from
+% docs/results/closing_data/v18/istanbul_pair/runs/full/*/metrics/fold{k}_next_val.csv, f1-best
+% epoch: check-in 36.4853 / 34.9125 / 34.1560 / 35.7527 / 35.4202 (35.35 +- 0.88); place paired
+% 34.1602 / 32.5775 / 31.3084 / 32.2075 / 32.4319 (32.54 +- 1.03); delta +2.33 / +2.34 / +2.85 / +3.55 /
+% +2.99, all positive, mean 2.808, paired t p = 0.00025. Istanbul still separates; footnote unchanged.
+% Label alignment: 1.05% of the Istanbul targets (2,852) were aligned from the builder's labels to the
+% v18 labels so that the pair is paired. The delta computed as printed CUDA check-in minus MPS place is
+% 2.82 (mean 2.8168, per fold +2.35 / +2.34 / +2.83 / +3.55 / +3.02); the printed +2.81 is the within-MPS
+% paired delta (2.8082). [2026-10-02: "also 2.81" misrounded 2.8168; corrected.]
+\begin{tabular}{l r r r}
+\toprule
+\textbf{Dataset} & \textbf{Check-in level} & \textbf{Place level} & \textbf{$\Delta$} \\
+\midrule
+AL & \textbf{30.77}\sd{1.16} & 29.15\sd{0.84} & $+1.62$ \\
+AZ & \textbf{34.51}\sd{1.15} & 31.93\sd{1.08} & $+2.58$ \\
+Istanbul & \textbf{35.35}\sd{0.89} & 32.54\sd{1.03} & $+2.81$ \\
+FL & \textbf{37.36}\sd{0.42} & 37.13\sd{0.41} & $+0.23$ \\
+CA & \textbf{35.62}\sd{0.47} & 34.74\sd{0.41} & $+0.88$ \\
+TX & \textbf{36.32}\sd{0.51} & 35.33\sd{0.48} & $+0.99$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+% [2026-10-01, AUTHOR-APPROVED A5 batch, Table B.5 row by the registry] Same two touches as the
+% chapter prose (06_results.tex): the test named as what it is, and the Florida fold at 0.001
+% (folds verified from v18_results.json / v18_place_level, see the 06_results.tex comment).
+{\footnotesize All five folds favor the check-in-level representation at every dataset, one fold at
+Florida by only $0.001$. A two-sided paired $t$-test over the five matched folds of one seed separates
+the two columns at every dataset except Florida ($p=0.07$), where the direction is unanimous but the
+difference does not reach significance.}
+\end{table}

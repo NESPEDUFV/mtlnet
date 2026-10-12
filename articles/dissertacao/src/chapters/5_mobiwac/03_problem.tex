@@ -1,0 +1,26 @@
+% !TeX root = ../../main.tex
+% chapters/5_mobiwac/03_problem.tex -- one section of Chapter 5 (MobiWac 2026, accepted 2026-08-26; status comment updated 2026-09-01, AUT-35).
+% Split out of chapters/5_mobiwac.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/[mobiwac]/src/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Problem and Tasks}
+\label{sec:mobiwac:problem}
+
+Given a user's time-ordered check-in history, we predict two properties of the next visit. The first is its \emph{category}, one of seven fixed labels: Community, Entertainment, Food,
+Nightlife, Outdoors, Shopping, and Travel. Istanbul's source collection maps its places onto the same seven labels. The second is its \emph{region}, the place's census tract (for Istanbul, the \emph{mahalle}, a municipal neighborhood). We do not predict the exact next place; both properties are easier to learn and, for most uses, enough. Region, unlike category, is a large label set: we frame next-region as classification over candidate regions, from 520 classes (Istanbul) to 8,501 (California; Table~\ref{tab:mobiwac:datasets}).
+
+The motivation is practical: the category says what type of place comes next, hence what a user will want; the region says where, hence where to prepare. The mobility literature supports such preparation: city services have long been built on location-based social network traces~\cite{silva2019urbancomputing}. A recent analysis of tourist check-in
+mobility finds that visits concentrate on a few hub places, argues that crowds and demand therefore concentrate, and ties this structure to
+infrastructure planning and adaptive strategies~\cite{moura2025mobilityaware}.
+That analysis reads past visits; we predict two properties of
+the next one, and aggregated over users, those predictions point to where
+demand is heading before it arrives. A census
+tract is a neighborhood, not a radio cell. We therefore scope our claims to
+neighborhood-level preparation: demand and load anticipation, caching content
+ahead of time, and capacity planning. Cell association and handover are
+radio-level decisions and remain out of scope. We build and evaluate no such
+service here; Section~\ref{sec:mobiwac:discussion} quantifies what these predictions
+would give such a service.

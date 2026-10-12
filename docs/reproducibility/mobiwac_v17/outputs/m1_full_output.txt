@@ -1,0 +1,125 @@
+========================================================================================
+M1-PARTIAL — v17 vs n=20 best-vs-best ceilings (AL/AZ/FL/Istanbul); CA/TX await A1
+========================================================================================
+
+--- 0 · artifact -> board reproduction gate ---
+  [OK] AL STL cat ceiling (n=20): recomputed 56.8151 vs board 56.82
+  [OK] AZ STL cat ceiling (n=20): recomputed 56.4349 vs board 56.43
+  [OK] FL STL cat ceiling (n=20): recomputed 74.5087 vs board 74.51
+  [OK] AL STL reg ceiling (n=20): recomputed 70.1109 vs board 70.11
+  [OK] AZ STL reg ceiling (n=20): recomputed 59.4595 vs board 59.46
+  [OK] FL STL reg ceiling (n=20): recomputed 76.6973 vs board 76.7
+  [OK] Istanbul STL reg ceiling (n=20): recomputed 75.1584 vs board 75.16
+  [OK] AL MTL v17 cat (n=20, tsv): recomputed 64.5405 vs board 64.54
+  [OK] AL MTL v17 reg (n=20, tsv): recomputed 69.8005 vs board 69.801
+  [OK] AZ MTL v17 cat (n=20, tsv): recomputed 65.8354 vs board 65.835
+  [OK] AZ MTL v17 reg (n=20, tsv): recomputed 59.5630 vs board 59.563
+  [OK] FL MTL v17 cat (n=20, tsv): recomputed 79.8481 vs board 79.848
+  [OK] FL MTL v17 reg (n=20, tsv): recomputed 77.4209 vs board 77.421
+  [OK] Istanbul MTL cat (n=20): recomputed 63.3287 vs board 63.33
+  [OK] Istanbul MTL reg (n=20): recomputed 75.4398 vs board 75.44
+  [OK] Istanbul STL cat ceiling (n=20): recomputed 54.7375 vs board 54.74
+
+--- 1 · per-dataset tests — SEED-LEVEL paired, n=4 (per-seed 5-fold means) ---
+
+  AL
+    CAT superiority (MTL > ceiling): Δ=+7.725 ± 0.115 pp, pairs+=4/4, per-seed Δ=[7.7258, 7.8796, 7.6039, 7.6923]
+      exact one-sided Wilcoxon p = 0.0625 (n=4 floor = 0.0625); paired t(3) one-sided p = 4.54e-07 (Δ ≈ 67σ_d)
+    REG TOST (δ_reg = 2 pp): Δ=-0.310 ± 0.146 pp, per-seed Δ=[-0.1298, -0.4609, -0.3893, -0.2616]
+      TOST p = 8.82e-05; 90% CI = (-0.482, -0.139) pp -> NON-INFERIOR (CI within ±2)
+
+  AZ
+    CAT superiority (MTL > ceiling): Δ=+9.400 ± 0.108 pp, pairs+=4/4, per-seed Δ=[9.4017, 9.4108, 9.2627, 9.5265]
+      exact one-sided Wilcoxon p = 0.0625 (n=4 floor = 0.0625); paired t(3) one-sided p = 2.09e-07 (Δ ≈ 87σ_d)
+    REG TOST (δ_reg = 2 pp): Δ=+0.103 ± 0.087 pp, per-seed Δ=[0.225, 0.0294, 0.0543, 0.1051]
+      TOST p = 1.33e-05; 90% CI = (+0.001, +0.206) pp -> NON-INFERIOR (CI within ±2)
+      (CI entirely > 0 -> descriptively beats; supplementary Wilcoxon p = 0.0625 [n=4 floor], paired t p = 4.88e-02)
+
+  FL
+    CAT superiority (MTL > ceiling): Δ=+5.339 ± 0.017 pp, pairs+=4/4, per-seed Δ=[5.3218, 5.3432, 5.3316, 5.3606]
+      exact one-sided Wilcoxon p = 0.0625 (n=4 floor = 0.0625); paired t(3) one-sided p = 4.20e-09 (Δ ≈ 320σ_d)
+    REG TOST (δ_reg = 2 pp): Δ=+0.724 ± 0.044 pp, per-seed Δ=[0.6787, 0.7124, 0.7183, 0.7849]
+      TOST p = 5.83e-06; 90% CI = (+0.671, +0.776) pp -> NON-INFERIOR (CI within ±2)
+      (CI entirely > 0 -> descriptively beats; supplementary Wilcoxon p = 0.0625 [n=4 floor], paired t p = 3.19e-05)
+
+  Istanbul
+    CAT superiority (MTL > ceiling): Δ=+8.591 ± 0.094 pp, pairs+=4/4, per-seed Δ=[8.6116, 8.4691, 8.5882, 8.6958]
+      exact one-sided Wilcoxon p = 0.0625 (n=4 floor = 0.0625); paired t(3) one-sided p = 1.78e-07 (Δ ≈ 92σ_d)
+    REG TOST (δ_reg = 2 pp): Δ=+0.281 ± 0.035 pp, per-seed Δ=[0.2503, 0.3081, 0.2514, 0.3159]
+      TOST p = 1.21e-06; 90% CI = (+0.240, +0.323) pp -> NON-INFERIOR (CI within ±2)
+      (CI entirely > 0 -> descriptively beats; supplementary Wilcoxon p = 0.0625 [n=4 floor], paired t p = 2.71e-04)
+
+--- 2 · Holm across the 4-dataset cat-superiority family (M1-PARTIAL, m=4) ---
+  Pre-registered test (Wilcoxon): every cell sits AT the n=4 exact floor 0.0625 with 4/4
+  positive -> Holm-adjusted 0.25 at best; the family CANNOT clear α=0.05 on Wilcoxon at
+  seed-level n=4 (a power ceiling, not evidence against — §2's n=5-ceiling analogue).
+  Powered seed-level analysis (paired t(3), deviation-logged per §8):
+    AL        Δcat= +7.73  t-p=4.54e-07  Holm_adj=5.34e-07  reject@.05=True
+    AZ        Δcat= +9.40  t-p=2.09e-07  Holm_adj=5.34e-07  reject@.05=True
+    FL        Δcat= +5.34  t-p=4.20e-09  Holm_adj=1.68e-08  reject@.05=True
+    Istanbul  Δcat= +8.59  t-p=1.78e-07  Holm_adj=5.34e-07  reject@.05=True
+  Reg TOST cells are equivalence tests with their own δ_reg verdict — NOT pooled into
+  the cat Holm family (protocol §5.2).
+
+  ⚠ M1-PARTIAL: the paper's headline family is 6 datasets (protocol §5.2). The full
+    6-dataset Holm re-runs after A1 lands CA/TX v17 MTL n=20 on the A40; the per-fold
+    (n=20) upgrade of ALL cells additionally needs the matched-score sidecars pulled
+    (see RESULTS.md LIMITS).
+
+--- 3 · CA/TX — PROVISIONAL, per-fold PAIRED at seed 0 (n=5; Wilcoxon floor 0.0312) ---
+  MTL = catx_v17_seed0_5f (matched-scorer per-fold, parsed from its RESULTS.md — the
+  only committed carrier; cat cross-checked vs profile.json, means vs summary.tsv).
+  STL = the SEED-0 fold vectors of the same runs whose n=20 means are the cited
+  ceilings (CEILINGS_N20_FINAL: CA cat 70.60 / reg 63.49; TX cat 69.79 / reg 64.95) —
+  the CITED ceiling stays n=20; only the paired test is at the seed-0 footing.
+  NOT in the m=4 Holm family; the 6-dataset family Holm waits for A1.
+
+  CA (PROVISIONAL, seed-0)
+    CAT superiority: Δ=+6.315 ± 0.167 pp, folds+=5/5, per-fold Δ=[6.4834, 6.4647, 6.2354, 6.3086, 6.0812]
+      exact one-sided Wilcoxon p = 0.0312 (n=5 floor = 0.0312 — at-ceiling if 5/5); paired t(4) p = 5.89e-08
+    REG (δ_reg = 2 pp): Δ=+2.207 ± 0.073 pp, per-fold Δ=[2.1466, 2.1113, 2.2736, 2.2418, 2.2627]
+      TOST non-inferiority side p = 1.11e-08; 90% CI = (+2.137, +2.277) pp
+      -> CI entirely ABOVE +δ: exceeds the margin in the FAVORABLE direction (two-sided equivalence n/a — better than the margin); non-inferiority trivially holds.
+      superiority (POST-HOC — reg superiority is NOT in the protocol, which pins reg to non-inferiority only; log.md D-4. Same cells as superiority_wilcoxon.py): Wilcoxon p = 0.0312, folds+=5/5, paired t(4) p = 1.47e-07
+
+  TX (PROVISIONAL, seed-0)
+    CAT superiority: Δ=+7.312 ± 0.395 pp, folds+=5/5, per-fold Δ=[7.3109, 7.4994, 6.6299, 7.5948, 7.5238]
+      exact one-sided Wilcoxon p = 0.0312 (n=5 floor = 0.0312 — at-ceiling if 5/5); paired t(4) p = 1.02e-06
+    REG (δ_reg = 2 pp): Δ=+2.110 ± 0.069 pp, per-fold Δ=[2.1441, 2.1844, 2.1261, 2.0004, 2.0966]
+      TOST non-inferiority side p = 9.64e-09; 90% CI = (+2.044, +2.176) pp
+      -> CI entirely ABOVE +δ: exceeds the margin in the FAVORABLE direction (two-sided equivalence n/a — better than the margin); non-inferiority trivially holds.
+      superiority (POST-HOC — reg superiority is NOT in the protocol, which pins reg to non-inferiority only; log.md D-4. Same cells as superiority_wilcoxon.py): Wilcoxon p = 0.0312, folds+=5/5, paired t(4) p = 1.39e-07
+
+  [provisional] These n=5 seed-0 verdicts are superseded by A1's n=20 the moment it lands.
+
+========================================================================================
+M1-FULL — CA/TX v17 MTL n=20 (A1 2026-07-11); the pre-registered 6-dataset family Holm
+========================================================================================
+  [OK] CA MTL v17 cat (n=20): recomputed 77.0520 vs board 77.052
+  [OK] CA MTL v17 reg (n=20): recomputed 65.6932 vs board 65.693
+  [OK] CA STL cat ceiling (n=20): recomputed 70.6041 vs board 70.6
+  [OK] TX MTL v17 cat (n=20): recomputed 77.2390 vs board 77.239
+  [OK] TX MTL v17 reg (n=20): recomputed 67.0619 vs board 67.062
+  [OK] TX STL cat ceiling (n=20): recomputed 69.7921 vs board 69.79
+
+--- CA/TX seed-level tests (n=4, paired by seed) ---
+
+  CA   CAT Δ=+6.448±0.090 pp, pairs+=4/4, per-seed Δ=[6.3149, 6.5129, 6.4877, 6.4761]
+        Wilcoxon p=0.0625 (n=4 floor 0.0625); paired t(3) p=3.75e-07
+      REG Δ=+2.204±0.009 pp, 90% CI=(+2.193,+2.215); superiority Wilcoxon p=0.0625 t(3) p=1.04e-08
+
+  TX   CAT Δ=+7.447±0.091 pp, pairs+=4/4, per-seed Δ=[7.313, 7.4992, 7.4665, 7.5089]
+        Wilcoxon p=0.0625 (n=4 floor 0.0625); paired t(3) p=2.52e-07
+      REG Δ=+2.115±0.012 pp, 90% CI=(+2.101,+2.130); superiority Wilcoxon p=0.0625 t(3) p=2.64e-08
+
+--- 6-dataset cat-superiority family Holm (M1-FULL, m=6; powered paired t) ---
+    AL        Δcat= +7.73  t-p=4.54e-07  Holm_adj=8.91e-07  reject@.05=True
+    AZ        Δcat= +9.40  t-p=2.09e-07  Holm_adj=8.91e-07  reject@.05=True
+    FL        Δcat= +5.34  t-p=4.20e-09  Holm_adj=2.52e-08  reject@.05=True
+    Istanbul  Δcat= +8.59  t-p=1.78e-07  Holm_adj=8.91e-07  reject@.05=True
+    CA        Δcat= +6.45  t-p=3.75e-07  Holm_adj=8.91e-07  reject@.05=True
+    TX        Δcat= +7.45  t-p=2.52e-07  Holm_adj=8.91e-07  reject@.05=True
+
+  M1-FULL VERDICT: 6-dataset cat family ALL REJECT @ α=0.05 — MTL beats the category ceiling at every dataset
+  Reg (per-axis δ=2 pp): matches at AL/AZ, beats at FL/CA/TX/Istanbul (TOST + superiority above).
+  n=20 CONFIRMS the seed-0 provisional verdicts (§3) — no verdict changed.

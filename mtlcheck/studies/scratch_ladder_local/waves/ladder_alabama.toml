@@ -1,0 +1,45 @@
+# A escada do §2a no Alabama — VALIDAÇÃO DESCARTÁVEL no MacBook.
+#
+# Exercita o laço da escada de ponta a ponta antes de o A40 gastar hora nele: rodar o piso,
+# ler a dispersão da validação interna, decidir o degrau, disparar o resto sozinho.
+#
+# ⚠ Os NÚMEROS daqui não valem. O substrato foi construído nesta máquina, em MPS, e não é o
+# `696ac00419d287d3` do A40 — por isso a identidade de substrato NÃO é declarada aqui: declarar
+# um digest que a máquina não tem é a mentira que a declaração existe para impedir.
+#
+# ⚠ `study = "scratch_ladder_local"`: o `science_fingerprint` não inclui o device. Em
+# `runs/v19_ladder/` estas células seriam vistas como prontas pelo resume do A40, e a vitrine
+# sairia com folds treinados num MacBook sem nada no registro dizendo isso.
+
+[wave]
+# ⚠ `v19_ladder`, e NÃO `v19_defence`: as células da campanha arquivada vivem em
+# `runs/v19_defence/` com fingerprint idêntico (a receita de TREINO não mudou), e o resume as
+# pularia em silêncio — o reaproveitamento que a decisão de 25-08 recusa. Diretório de execução
+# separado é o que torna "do zero" verdadeiro em vez de intencional.
+study = "scratch_ladder_local"
+confirmatory = false
+
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

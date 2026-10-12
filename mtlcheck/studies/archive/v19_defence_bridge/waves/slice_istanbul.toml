@@ -1,0 +1,38 @@
+# Fatia INCREMENTAL da campanha — só istambul — estado-ponte, 4 réplicas.
+#
+# Mesmo `study` que o `campaign.toml`, de propósito: as células caem no mesmo `runs/v19_defence/` e
+# o `wave status` do manifesto completo as reconhece como feitas. Isto não é um estudo paralelo, é
+# um lançamento parcial do mesmo — o registro do experimento continua sendo o `campaign.toml`.
+#
+# Existe porque os substratos fecham um a um e esperar os seis custaria ~2 h de GPU ociosa.
+
+[wave]
+study = "v19_defence"
+confirmatory = true
+
+[substrate.identity.istanbul]
+checkin = "1a32d3dfa16e67d1"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

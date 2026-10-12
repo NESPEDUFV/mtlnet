@@ -1,0 +1,41 @@
+% !TeX root = ../../main.tex
+% courb/next.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+\centering
+% [2026-09-02, AUTHOR RULING, transversal emphasis convention; errata row for Ch.4] Same as
+% courb/category.tex: bold was the published best-per-row mark, the underline is new, and the caption
+% now declares both. Digits unchanged.
+\caption{Average F1-Score (\%) per model and state for the Next-POI Prediction task. In each row the largest value is in bold and the second largest is underlined.}
+\label{tab:courb:next}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{clccc}
+\toprule
+ & & \textbf{MTLnet} & \textbf{ST-MTLNet$_{SIREN}$} & \textbf{ST-MTLNet$_{Sphere2Vec-M}$} \\
+\midrule
+\multirow{7}{*}{\textbf{Florida}} & Community & 34.33 $\pm$ 1.33 & \textbf{38.31} $\pm$ 0.90 & \underline{37.98} $\pm$ 1.22 \\
+ & Entertainment & 25.34 $\pm$ 1.07 & \textbf{31.38} $\pm$ 1.72 & \underline{31.24} $\pm$ 2.41 \\
+ & Food & 27.12 $\pm$ 2.79 & \textbf{41.91} $\pm$ 1.93 & \underline{41.65} $\pm$ 3.15 \\
+ & Nightlife & 21.33 $\pm$ 1.61 & \underline{23.32} $\pm$ 2.74 & \textbf{23.98} $\pm$ 1.94 \\
+ & Outdoors & \textbf{21.61} $\pm$ 0.99 & 21.29 $\pm$ 1.59 & \underline{21.59} $\pm$ 1.91 \\
+ & Shopping & 39.62 $\pm$ 3.40 & \underline{44.00} $\pm$ 2.04 & \textbf{44.66} $\pm$ 2.38 \\
+ & Travel & \textbf{64.47} $\pm$ 1.02 & \underline{45.00} $\pm$ 1.10 & 44.93 $\pm$ 1.11 \\
+\midrule
+\multirow{7}{*}{\textbf{California}} & Community & 32.14 $\pm$ 0.89 & \textbf{37.86} $\pm$ 0.20 & \underline{37.80} $\pm$ 1.11 \\
+ & Entertainment & \textbf{19.38} $\pm$ 0.94 & \underline{17.28} $\pm$ 1.73 & 17.01 $\pm$ 1.39 \\
+ & Food & 29.26 $\pm$ 1.67 & \underline{50.42} $\pm$ 1.15 & \textbf{51.28} $\pm$ 0.57 \\
+ & Nightlife & \textbf{18.24} $\pm$ 0.53 & \underline{16.34} $\pm$ 1.95 & 15.10 $\pm$ 2.70 \\
+ & Outdoors & \textbf{25.01} $\pm$ 0.81 & \underline{24.84} $\pm$ 1.70 & 24.07 $\pm$ 2.46 \\
+ & Shopping & \underline{38.41} $\pm$ 2.64 & \textbf{39.04} $\pm$ 1.72 & 37.82 $\pm$ 1.31 \\
+ & Travel & \textbf{46.05} $\pm$ 0.84 & 36.94 $\pm$ 1.70 & \underline{37.82} $\pm$ 1.04 \\
+\midrule
+\multirow{7}{*}{\textbf{Texas}} & Community & 34.22 $\pm$ 0.43 & \underline{35.99} $\pm$ 0.93 & \textbf{36.97} $\pm$ 0.81 \\
+ & Entertainment & 25.56 $\pm$ 1.56 & \textbf{28.30} $\pm$ 1.37 & \underline{27.59} $\pm$ 1.64 \\
+ & Food & 29.56 $\pm$ 4.10 & \underline{47.48} $\pm$ 2.42 & \textbf{48.67} $\pm$ 0.66 \\
+ & Nightlife & 25.46 $\pm$ 1.13 & \underline{26.06} $\pm$ 1.36 & \textbf{26.14} $\pm$ 2.66 \\
+ & Outdoors & 23.02 $\pm$ 1.03 & \textbf{24.62} $\pm$ 0.46 & \underline{23.04} $\pm$ 1.44 \\
+ & Shopping & 38.79 $\pm$ 4.12 & \textbf{45.40} $\pm$ 1.30 & \underline{43.18} $\pm$ 2.19 \\
+ & Travel & 29.71 $\pm$ 1.32 & \textbf{34.26} $\pm$ 0.90 & \underline{33.05} $\pm$ 1.51 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

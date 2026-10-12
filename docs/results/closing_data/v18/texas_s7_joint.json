@@ -1,0 +1,33 @@
+{
+  "state": "texas",
+  "seed": 7,
+  "family": "joint",
+  "wall_seconds": 6558,
+  "rundir": "results/check2hgi_v18/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260810_070235_71",
+  "cat": 36.3501,
+  "reg": 66.8218,
+  "commit_sha": "unknown",
+  "v18_config": {
+    "engine": "check2hgi_v18",
+    "forward_only": true,
+    "in_channels": 15,
+    "node_layout": [
+      "canonical_11",
+      "continuous_time_4"
+    ],
+    "repr_seed": 42
+  },
+  "protocol": {
+    "precision": "fp32 (MTL_DISABLE_AMP=1, pinned per-command)",
+    "compile": true,
+    "tf32": true,
+    "folds": 5,
+    "epochs": 50,
+    "cat_metric": "macro-F1 at f1-best epoch (diag-best)",
+    "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch"
+  },
+  "recipe": "bs8192 cat-lr 0.002 cw0.50 logit_adjust_tau=0.5 (cat head only)",
+  "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+  "lane_host": "modal:NVIDIA H100 80GB HBM3",
+  "train_pid": "71"
+}

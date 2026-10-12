@@ -1,0 +1,36 @@
+% !TeX root = ../../main.tex
+% cbic/next.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+\caption{Next POI category prediction results for Florida (per-category F1-score, precision, and recall, mean $\pm$ standard deviation over the 5 folds; best value per row in bold, second-best underlined).}
+\label{tab:cbic:next}
+\centering
+\begin{tabular}{llrrr}
+\toprule
+ & & \multicolumn{1}{c}{\textbf{MTL}} & \multicolumn{1}{c}{\textbf{Single}} & \multicolumn{1}{c}{\textbf{MHA+PE}} \\
+\midrule
+\multirow{7}{*}{F1}        & Community     & 34.79 $\pm$ 1.05             & \underline{34.90} $\pm$ 0.61 & \textbf{35.83} $\pm$ 1.70 \\
+                           & Entertainment & 24.21 $\pm$ 1.75             & \textbf{26.06} $\pm$ 1.01    & \underline{25.48} $\pm$ 0.86 \\
+                           & Food          & \underline{28.06} $\pm$ 3.55 & 26.35 $\pm$ 2.97             & \textbf{43.47} $\pm$ 0.50 \\
+                           & Nightlife     & \textbf{22.07} $\pm$ 0.52    & \underline{21.79} $\pm$ 0.30 & 1.55 $\pm$ 1.50 \\
+                           & Outdoors      & \underline{21.61} $\pm$ 0.50 & \textbf{22.45} $\pm$ 0.81    & 12.56 $\pm$ 1.94 \\
+                           & Shopping      & \underline{42.58} $\pm$ 2.06 & 42.18 $\pm$ 1.13             & \textbf{43.53} $\pm$ 1.66 \\
+                           & Travel        & \textbf{64.61} $\pm$ 1.11    & \underline{64.32} $\pm$ 0.88 & 26.91 $\pm$ 0.97 \\
+\midrule
+\multirow{7}{*}{Precision} & Community     & \underline{30.22} $\pm$ 1.36 & 30.04 $\pm$ 1.08             & \textbf{42.59} $\pm$ 1.48 \\
+                           & Entertainment & \underline{32.64} $\pm$ 2.55 & 28.63 $\pm$ 2.85             & \textbf{38.72} $\pm$ 1.56 \\
+                           & Food          & \underline{39.05} $\pm$ 0.70             & \textbf{39.87} $\pm$ 1.48    & 35.91 $\pm$ 0.81 \\
+                           & Nightlife     & \underline{17.71} $\pm$ 2.40 & 15.27 $\pm$ 0.67             & \textbf{39.67} $\pm$ 23.94 \\
+                           & Outdoors      & \underline{19.63} $\pm$ 2.93 & 19.50 $\pm$ 2.08             & \textbf{46.83} $\pm$ 1.82 \\
+                           & Shopping      & \underline{42.57} $\pm$ 0.78 & \textbf{43.47} $\pm$ 1.08    & 39.04 $\pm$ 1.06 \\
+                           & Travel        & \underline{60.64} $\pm$ 1.87 & \textbf{63.21} $\pm$ 0.67    & 36.64 $\pm$ 1.74 \\
+\midrule
+\multirow{7}{*}{Recall}    & Community     & \underline{41.54} $\pm$ 5.27             & \textbf{41.92} $\pm$ 3.49    & 31.16 $\pm$ 3.20 \\
+                           & Entertainment & \underline{19.52} $\pm$ 3.18             & \textbf{24.16} $\pm$ 2.16    & 19.05 $\pm$ 1.25 \\
+                           & Food          & \underline{22.19} $\pm$ 4.32 & 19.94 $\pm$ 3.75             & \textbf{55.12} $\pm$ 1.46 \\
+                           & Nightlife     & \underline{32.13} $\pm$ 9.47             & \textbf{38.35} $\pm$ 3.11    & 0.80 $\pm$ 0.79 \\
+                           & Outdoors      & \underline{25.06} $\pm$ 4.26             & \textbf{27.07} $\pm$ 3.40    & 7.30 $\pm$ 1.32 \\
+                           & Shopping      & \underline{42.87} $\pm$ 4.56             & 41.05 $\pm$ 2.33             & \textbf{49.37} $\pm$ 3.74 \\
+                           & Travel        & \textbf{69.36} $\pm$ 4.15    & \underline{65.52} $\pm$ 2.25 & 21.30 $\pm$ 1.03 \\
+\bottomrule
+\end{tabular}
+\end{table}

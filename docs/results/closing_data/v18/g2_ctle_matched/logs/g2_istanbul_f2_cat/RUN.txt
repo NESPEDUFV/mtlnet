@@ -1,0 +1,3 @@
+start 2026-10-03 23:36:33 commit f0fca061
+cmd: env RESULTS_ROOT=/Users/vitor/g2_scratch/results/istanbul_f2/run OMP_NUM_THREADS=4 /Users/vitor/Desktop/mestrado/ingred/.venv/bin/python scripts/train.py --task next --engine check2hgi_ctle --state istanbul --seed 0 --only-fold 2 --cat-head next_gru --epochs 50 --batch-size 2048
+rc=0 peakRSS_bytes=6562856960

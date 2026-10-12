@@ -1,0 +1,25 @@
+GATE 2026-10-04 02:57:18 disk_int_GB=15 pressure=1 swap_used_MB=3397 swap_total_MB=5120 other_jobs=[]
+GATE PASS -> FL fold 0 starts
+SKIP (done) florida_f0_infer
+SKIP (done) florida_f0_mat
+moved aside aborted attempt: florida_f0_cat_full_aborted_20261004_025736
+moved aside partial results: /Volumes/Vitor's SSD/ingred_g1fl/results/g1_cat_f0/full_cpu/check2hgi_v18/florida_aborted_20261004_025736
+moved aside aborted attempt: florida_f0_cat_to_aborted_20261004_034701
+FOLD DONE florida f0 2026-10-04 06:01:57
+FL fold 0 driver ended rc=0 2026-10-04 06:01:57
+GATE 2026-10-04 06:02:38 disk_int_GB=16 pressure=1 swap_used_MB=2775 swap_total_MB=4096 other_jobs=[]
+GATE PASS -> FL fold 1 starts
+FOLD DONE florida f1 2026-10-04 09:46:27
+FL fold 1 driver ended rc=0 2026-10-04 09:46:27
+GATE 2026-10-04 09:46:33 disk_int_GB=19 pressure=1 swap_used_MB=2830 swap_total_MB=4096 other_jobs=[]
+GATE PASS -> FL fold 2 starts
+FOLD DONE florida f2 2026-10-04 13:30:23
+FL fold 2 driver ended rc=0 2026-10-04 13:30:23
+GATE 2026-10-04 13:30:25 disk_int_GB=19 pressure=1 swap_used_MB=2814 swap_total_MB=4096 other_jobs=[]
+GATE PASS -> FL fold 3 starts
+FOLD DONE florida f3 2026-10-04 17:13:41
+FL fold 3 driver ended rc=0 2026-10-04 17:13:41
+GATE 2026-10-04 17:13:42 disk_int_GB=18 pressure=1 swap_used_MB=4243 swap_total_MB=5120 other_jobs=[]
+GATE PASS -> FL fold 4 starts
+FOLD DONE florida f4 2026-10-04 20:56:03
+FL fold 4 driver ended rc=0 2026-10-04 20:56:03

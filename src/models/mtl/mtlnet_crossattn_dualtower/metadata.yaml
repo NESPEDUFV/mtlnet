@@ -1,0 +1,12 @@
+name: mtlnet_crossattn_dualtower
+domain: mtl
+status: implemented
+evidence_status: experimental
+registry_key: mtlnet_crossattn_dualtower
+runtime_class: models.mtl.mtlnet_crossattn_dualtower.model.MTLnetCrossAttnDualTower
+runtime_file: src/models/mtl/mtlnet_crossattn_dualtower/model.py
+source_doc: docs/studies/mtl_improvement/T2.1_DUALTOWER_DESIGN.md
+notes: >
+  T2.1 reg-private dual-tower. Subclass of mtlnet_crossattn that feeds the reg
+  head (next_stan_flow_dualtower) the raw [B,9,64] region sequence for a private
+  STAN backbone, fused (gated/private_only/aux) with the shared cross-attn path.

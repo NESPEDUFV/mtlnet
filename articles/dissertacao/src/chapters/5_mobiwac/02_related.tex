@@ -1,0 +1,310 @@
+% !TeX root = ../../main.tex
+% chapters/5_mobiwac/02_related.tex -- one section of Chapter 5 (MobiWac 2026, accepted 2026-08-26; status comment updated 2026-09-01, AUT-35).
+% Split out of chapters/5_mobiwac.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/[mobiwac]/src/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Background and Related Work}
+\label{sec:mobiwac:related}
+
+% [AUTHOR NOTE] I HAVE COMMENTED
+%\subsection{The MTLnet framework and the representation diagnosis}
+%\label{sec:mobiwac:related-recap}
+% The recap subsection below is a new-to-chapter bridging device mandated by NORTH_STAR §3 (Ch.5
+% recaps BOTH the Ch.3 artifact and the Ch.4 finding). Content from the approved spine and the
+% GLOSSARY model-lineage table; no numbers quoted, so no errata cost.
+% [round9f, 2026-08-02, PENDENCIAS_RESOLVIDOS 2.9 (arquivado 2026-08-02), AUTHOR DECISION] The
+% pointer to the gradient-cosine appendix lives HERE, in the section's own opening paragraph,
+% and not in the gradient-cosine sentence further down. Reason: that sentence is kept BYTE-FOR-BYTE
+% identical with the [mobiwac] article, which has no appendix and whose reader may not hold this
+% dissertation, so it was rewritten to stand alone. This paragraph is dissertation-only prose --
+% it already refers to Chapters 3 and 4 by \ref -- so an internal \ref is at home in it.
+% [round14] STANDALONE. This paragraph opened by naming "two chapters of this dissertation" and
+% pointing at Appendix~\ref{apx:cosine}; both are dissertation structure, which an article body may
+% not carry. The two predecessors are real published papers (CBIC 2025, CoUrb 2026) and were already
+% cited here, so they are now introduced as prior work by citation. The gradient-cosine sentence is
+% dropped rather than reworded: it described a diagnostic that exists only in the dissertation's
+% appendix, so there is no standalone form of the claim. The appendix still reaches this material
+% from its own side, and the dissertation's frame chapters point readers at it
+% (1_introduction.tex, 2_fundamentals.tex, 6_conclusion.tex all cite apx:cosine).
+%Two earlier studies precede this one, and this study answers the
+%question that they leave open. The first introduced MTLnet, the first
+%joint model for this task pair: task-specific encoders feed shared layers
+%conditioned on task identity, and a gradient-balancing method weights the two tasks
+%during training~\cite{silva2025mtlnet}. On a place-level embedding with hard
+%parameter sharing, that joint model did not outperform the dedicated single-task
+%models, the conclusion of the time for that configuration.
+%The second kept the MTLnet architecture unchanged and replaced its
+%single 64-dimensional place-level input with decomposed spatial, temporal, and
+%categorical encoders (ST-MTLNet); the category score rose at each of the three
+%states studied, so the input representation, not the sharing architecture, was
+%identified as the bottleneck~\cite{paiva2026stmtlnet}. This chapter carries that diagnosis one step
+%further: the representation moves from the place level to the check-in level, the
+%sharing topology is redesigned around it, and the earlier negative conclusion is
+%revisited under this new configuration.
+
+\subsection{From place embeddings to per-visit embeddings}
+\label{sec:mobiwac:related-embeddings}
+A place embedding transforms a POI into a vector so that similar or nearby
+places sit close together in the vector space.
+Deep Graph Infomax (DGI)~\cite{velickovic2019deep}, a general self-supervised
+method for graphs, learns such vectors on a place network linked by
+similarity, time, and distance, training them to tell the real network from a
+copy with shuffled node features.
+Hierarchical Graph Infomax (HGI) \cite{huang2023hgi} adds geographic structure,
+organizing the network as place, then region, then city. Both produce one vector per place, so two visits to the same coffee shop look
+identical to the model.
+Contextual check-in representations instead give each visit its own vector: CTLE
+\cite{lin2021ctle}, the closest example, learns a vector per visit by masking and
+reconstructing parts of a user's check-in sequence. Our
+representation, Check2HGI, also works at the check-in level but through a
+different construction. CTLE is a sequence model, a Transformer that reads the
+check-in sequence itself; Check2HGI remains a network model, keeping the
+hierarchical place-to-region-to-city network and the same infomax objective,
+now extended one level deeper, from individual places down to individual
+check-ins (Figure~\ref{fig:mobiwac:dataflow}). The order of a user's visits still enters
+the network, as links between consecutive check-ins
+(Section~\ref{sec:mobiwac:method-rep}).
+
+The novelty is this specific combination: per-visit context inside a
+hierarchical graph-infomax representation. We compare against CTLE and a feature-concatenation control to separate the
+combination from contextualization alone and from feature injection.
+
+\subsection{Predicting the next category and the next region}
+\label{sec:mobiwac:related-tasks}
+A large body of work predicts the next place that a user will visit, the exact POI,
+with recurrent and attention models such as DeepMove \cite{feng2018deepmove}, STAN
+\cite{luo2021stan}, and GETNext \cite{yang2022getnext}. In contrast, we target two properties of the next visit, its category and its
+region, rather than the exact place. We choose them because they are
+what a mobility-aware service can act on, not to make the task easier; the region
+alone spans hundreds to several thousand classes. Predicting
+over a partition of the map is also the standard formulation in the human-mobility
+literature, with a grid cell as the target~\cite{luca2021mobilitysurvey}; our
+next-region task substitutes official neighborhood-scale units for grid cells. Our earlier
+work~\cite{silva2025mtlnet} paired static category classification with next-category prediction
+and found no consistent multitask gain; this chapter introduces the next-region task and adds the check-in-level
+representation, on which the joint model outperforms the dedicated model on next region at two
+datasets and stays within the registered two-point margin at the other four, while on next
+category it outperforms the dedicated model at one dataset and the other five differences are
+equivalent to zero within half a point (Section~\ref{sec:mobiwac:results-part2}).
+% [2026-09-08, AUTHOR-AUTHORIZED errata batch, Table B.5 item] "on which sharing helps instead of
+% hurting" was the superseded ladder: the chapter's own §6 reports four region deficits ("none of
+% them is a tie") and two negative category cells. Replaced by the delivered verdict surfaces
+% (WRITING_LAW §3): outperforms only where Holm licenses it (region TX/CA, category FL), the
+% two-point margin on region, the half-point bound on category. No cross-reference outside the
+% chapter (STL-04).
+
+The field
+increasingly models several granularities at once; in those systems, category and
+region are auxiliary signals that help a primary next-place task
+(MCMG \cite{sun2024mcmg}, HMT-GRN \cite{Lim2022}).
+We study the pair as the object itself. To our knowledge, fine-grained region as an
+end target of equal standing, rather than an auxiliary coarse grid cell, is
+underexplored.
+The nearest exceptions do not study our exact pairing:
+DRRGNN~\cite{zhu2022drrgnn} forecasts a person's next activity region jointly
+with a mobility-intention label, but over regions discovered per person rather
+than a fixed citywide partition; a generative recommender~\cite{sun2025kgtb}
+predicts category and region together, but only as auxiliary steps toward its
+next-place ranking.
+
+\subsection{Multitask learning for mobility}
+\label{sec:mobiwac:related-mtl}
+MCARNN \cite{Liao2018} jointly predicts activity and
+location, and a recent hierarchy-aware model continues the
+pattern \cite{wang2025hamtl}; in both, the location target is
+the exact place. The closest alternative to our setting is
+the cascade: predict the category first, then the place given the
+category \cite{ye2013nextmove}. CSLSL
+\cite{huang2024cslsl} is its current form, predicting in a chain (when, then what,
+then where), with location as the primary output and category as an
+intermediate step; CatDM \cite{yu2020catdm} likewise uses the predicted
+category only to filter candidate places. We instead predict
+category and region in parallel, as end targets of equal standing in one model
+with a single forward pass, and we drop the next-place target entirely, so
+neither task is an intermediate step toward a third. On optimization, we are conservative by design: joint
+training with a fixed loss weighting is standard practice
+\cite{caruana1997multitask}, not itself our contribution.
+Reports find that gradient-balancing methods, which re-weight
+the tasks' updates during training (PCGrad \cite{yu2020pcgrad}, Nash-MTL \cite{nash}), rarely improve on a
+well-tuned fixed weighting with two tasks \cite{xin2022domtl}.
+% [2026-08-04, author-approved this session] REWORDED, numbers and scope unchanged. Two defects
+% fixed. FIRST, "and neither holds that position elsewhere" was false for scale normalization: the
+% round5 ledger two screens below (AL/FL full picture) already recorded that scale_norm is above
+% equal_weight on next-category at BOTH datasets (AL +0.19, FL +0.33), so it does not lose that
+% position at Florida -- what it loses is next-region (FL -37.59). The old sentence's own next
+% clause ("scale normalization gains on next-category there") already said this and contradicted
+% the topic clause it followed; the fix states each balancer's Florida outcome directly instead of
+% a blanket claim one of the two contradicts. SECOND, the opening clause held its subject ("none")
+% behind ~30 words of modification (WRITING_LAW section 1 hard-phrasing sweep); reworded so "We
+% confirm..." carries the subject from the first word. No number, dataset, or method name changed.
+% PARITY: same edit applied in articles/[mobiwac]/src/sections/02_related.tex (paper still under
+% review), logged in articles/[mobiwac]/ERRATA.md rather than in Appendix B -- errata regime,
+% not appendix
+We confirm this at scale, screening nineteen loss and gradient balancers, including
+the two methods named above, at their default configurations and a single seed on two
+datasets, Alabama and Florida: none improved on a tuned fixed task weighting across both
+tasks and both datasets. Two exceed equal weighting on next-category at Alabama,
+Nash-MTL by $0.68$ points and scale normalization by $0.19$. At Florida, Nash-MTL falls
+back below equal weighting on both tasks, while scale normalization still exceeds equal
+weighting on next-category but collapses on next-region.
+% [REV-011, author ruling 2026-07-24: "use the 'at their default configurations'"]
+% Applied as written. Evidence check against docs/results/mtl_improvement/T4_audit_and_verdict.md:
+%  - Nash-MTL (named): correctly wired and adapting, a VALID test (T4:37-39). Sound.
+%  - PCGrad (named): one of three gradient-surgery methods that "never validly tested individually"
+%    under the dual tower -- the private region tower sits outside shared_parameters(), so the
+%    surgical gradient never reaches >80% of the region pathway and the method collapses to
+%    approximately equal weighting (T4:26-31).
+% RECOMMENDATION (agent, NOT applied -- the author's instruction governs): the new qualifier does
+% not in fact cover PCGrad. Its exclusion is a WIRING result, invariant to configuration, so
+% "at their default configurations" answers the DWA/FairGrad/GradNorm objection but not this one.
+% The minimal repair that keeps the author's phrase is to drop the two words "PCGrad
+% \cite{yu2020pcgrad}, " from the citing sentence above and let Nash-MTL carry the named evidence
+% (the \cite{xin2022domtl} sentence already reports the literature claim in general terms).
+% [round6, COD-005 residue] SCOPE ADDED, and this comment supersedes the "Also unstated" note that
+% stood here. The sentence stated neither the repetition count nor which two datasets. Source of
+% record, docs/results/mtl_improvement/T4_audit_and_verdict.md, opened this session: the
+% evidence-strength banner at :8-10 reads "What actually ran: the full screen at registry DEFAULTS,
+% seed 0, AL+FL", and the "Caveats / scope" section at :111-112 states it a second time,
+% "Single-seed (seed0) screen + corrected re-run, FL+AL". The AL+FL expansion is not inferred from the
+% abbreviation: T4_full_screen.json has exactly two top-level keys, alabama and florida, and each
+% holds exactly the nineteen arms this sentence counts (aligned_mtl, bayesagg_mtl, cagrad, db_mtl, dwa,
+% equal_weight, excess_mtl, fairgrad, famo, go4align, gradnorm, nash_mtl, pcgrad, scale_norm,
+% scheduled_static, static_weight, stch, uncertainty_weighting, uw_so). Counted from the JSON, not
+% from prose.
+% "including the two named above" was ALSO ambiguous and is now "the two methods named above": the
+% nearest antecedent is the pair of balancers PCGrad and Nash-MTL in the preceding sentence, not a pair
+% of datasets. Measured 2026-07-28: neither state was named anywhere before this sentence in this file
+% (the first "Alabama" was the next sentence, the first "Florida" was twenty-four lines below), so a
+% reader could not have resolved "the two" to the datasets even if that had been intended. An earlier
+% anchor table recorded this site as already naming the two datasets; that reading was wrong and is
+% corrected here.
+% The literal string "seed 0" stays out of the prose: it is a fact about the run configuration rather
+% than a reported parameter, the same treatment the fold seed gets in Chapter 4, and
+% articles/[mobiwac]/GLOSSARY.md:113 gives "a single seed" as the phrasing while banning the compound
+% "single-seed states". No number, count or verb changed.
+% PARITY: the same edit is applied in articles/[mobiwac]/src/sections/02_related.tex, since Chapter 5
+% is under review and the two texts stay identical; logged in articles/[mobiwac]/ERRATA.md rather than
+% in Appendix B.
+% [round14] STANDALONE. "which this dissertation does not otherwise use" named the containing
+% document from inside an article body. Rewritten to say the same thing about THIS study, which is
+% the honest scope note either way: Georgia carried the diagnostic but is not one of the datasets
+% reported here; the dataset-count phrase also moved to the abbreviated registry form. Probes:
+% STL-04 (this file names no sibling chapter, no appendix, and not the dissertation).
+% [2026-09-30, AUTHOR RULING, Table B.5 row] The development measurement is REMOVED ("Measured
+% during development on the same joint architecture (on an earlier preparation of the data), the
+% cosine similarity ... averages $+0.001$ across training (four seeds each on four Gowalla states:
+% Alabama, Arizona and Florida, ... and Georgia ...; the largest per-dataset mean in absolute value is
+% $+0.0032$)."). His reason: the results come from the delivered model, so the measurement on that
+% model carries the claim, and it gives more confidence. The delivered-model sentence now carries the
+% claim alone; its old lead "The same quantity" and tail "so the absence of conflict is not an
+% artifact of this smaller set of runs" referred to the removed sentence and go with it. The
+% A9-diss-pinned span ("measured on the reported joint model at four datasets, is equivalent to zero
+% at every one of them") is kept verbatim. Probe A9-oldnum (pins "+0.0032" PRESENT, ruling 2.9)
+% goes red by this ruling and is retired by the registry.
+The reason is visible in the gradients. The cosine similarity between the
+next-category and next-region updates on the shared trunk, measured on the reported
+joint model at four datasets, is equivalent to zero at
+every one of them, with per-dataset means within two thousandths of zero. A balancer
+therefore has no conflict to resolve; this is a finding for this pair of tasks, not a
+general rule.
+% [2026-09-08, AUTHOR-AUTHORIZED errata batch, Table B.5 item] Removed ", consistent with the
+% mechanism test in Section~\ref{sec:mobiwac:results-part2}": the reference resolved, but that
+% section contains no mechanism test (the freeze-region control was deleted 2026-08-06), so the
+% clause pointed at prose that is not there. The article carries no such clause either. The cosine
+% finding and its scope are unchanged.
+% [2026-09-30] The delivered-model sentence that stood here ("The same quantity, measured on the
+% reported joint model at four datasets, ... so the absence of conflict is not an artifact of this
+% smaller set of runs.") moved up into the paragraph's first sentence, where it now carries the
+% claim; its "same quantity" and "this smaller set of runs" had no referent once the development
+% sentence left.
+% [round9f, 2026-08-02, PENDENCIAS_RESOLVIDOS 2.9 (arquivado 2026-08-02), AUTHOR DECISION]
+% ADDED HERE AND IN THE [mobiwac] ARTICLE, in the same words, so the two texts stay
+% identical as the round-6 note below requires. The author's instruction was to write the
+% sentence so it SURVIVES STANDALONE -- no reference to a document the reader may not hold --
+% because this article has no appendix and a cross-document pointer cannot be resolved from
+% here. The dissertation carries the pointer to its own Appendix D in the paragraph that
+% introduces the section, not in this sentence.
+% NUMBERS QUOTED, NOT COMPUTED: "positive at every one of them" is the seven-dataset result
+% recorded in the dissertation's gradient-cosine appendix; the +0.001 / +0.0032 figures above
+% are the EARLIER four-seed development measure and are left exactly as they were.
+
+% [round9c, PENDENCIAS_RESOLVIDOS 2.9 (arquivado 2026-08-02) + 2.23 (readability report R-6), 2026-07-30] ONE POINTER ADDED, and this is
+% the DISSERTATION-ONLY sentence the two trees deliberately do not share. Errata row in Appendix B,
+% Table B.5.
+% WHY IT IS HERE. R-6 measured that the cosine finding reaches the reader at three separate places and
+% that only one of them signposted the appendix: a reader who met the +0.001 figure in this chapter,
+% saw it rests on four seeds and four states, and wanted the fuller measurement had no route to it,
+% while a reader who arrived at the appendix having read two versions of the finding could take it for
+% a third restatement. The report closed its own recommendation as unavailable ("Ch.5 is under review
+% and its body is deliberately untouched, so the natural fix is closed") and asked the author instead.
+% WHY IT IS AVAILABLE NOW. Item 2.9: he opened both Chapter 5 trees this round ("como estamos um fase
+% de revisao no mobiwac, conseguimos mandar uma revisao ainda"). That permission is what makes the
+% sentence possible, and item 2.9 asks whether the appendix's seven-dataset result warrants a mention
+% here. It does, for the reason R-6 gives.
+% WHY IT IS NOT MIRRORED INTO THE PAPER, which is the one exception to keeping the two texts
+% identical. The sentence cites a dissertation appendix, so it cannot be folded into a paper under
+% review at all: the referent does not exist there. That is the same class as the two corrections
+% already in Table B.5, whose banner reads "each depends on material the article has no room for".
+% Appendix B records it for exactly that reason, so the divergence is declared rather than silent.
+% NO NEW CLAIM AND NO NUMBER. The appendix's conclusion is the same as this paragraph's, which is the
+% point of pointing at it; the +0.001 figure and its four-state scope are untouched.
+% [v2 review F-03, 2026-07-26] SCOPE CORRECTION (persona 10). The sentence said "three of our six
+% datasets". The measurement pools FOUR Gowalla states -- alabama, arizona, georgia, florida --
+% per docs/results/mtl_improvement/R0_matched_metric_bar.json (its "states" object has exactly those
+% four keys, each with the four seeds 0/1/7/100) and scripts/.../plot_grad_cosine.py:19-24, whose
+% STATE_STYLE map names the same four. Georgia is NOT one of the six datasets this dissertation
+% reports, so "three of our six" both undercounted the pool and implied every state in it is one we
+% report. Read from the JSON, not recomputed. The correction is in the author's favour: the finding
+% replicates on a state the dissertation never reports.
+% [round6, 2026-07-28] PARITY CLOSED. That F-03 correction had been applied on the dissertation side
+% only, so until now the submitted paper still read "three of our six datasets" two lines from the
+% sentence above, while this chapter named the four states. Under the Chapter 5 regime the two texts
+% must be identical, so the dissertation's wording was carried into
+% articles/[mobiwac]/src/sections/02_related.tex this round, with "this dissertation" rendered as
+% "this study" there. WHICH TEXT WAS RIGHT: this one. I re-read the source myself rather than trusting
+% the earlier correction. R0_matched_metric_bar.json has exactly four keys under "states" -- alabama,
+% arizona, georgia, florida -- and "seeds": [0, 1, 7, 100]; scripts/mtl_improvement/plot_grad_cosine.py
+% reads its per-state run directories out of that same JSON and its STATE_STYLE map names the same
+% four. So four Gowalla states at four seeds each, of which three are among the five United States
+% datasets this document reports. "Three of our six datasets" and "four Gowalla states" are different
+% claims about the same measurement, and only the second one matches the artifact. Logged in
+% articles/[mobiwac]/ERRATA.md.
+% [round5, author decision 2.4] The text read as a two-optimizer test when the sweep was much
+% wider. Source of record: docs/results/mtl_improvement/T4_full_screen.json, 19 methods x 2 states:
+%   uncertainty_weighting, equal_weight, static_weight, scale_norm, scheduled_static, uw_so, dwa,
+%   famo, gradnorm, db_mtl, cagrad, nash_mtl, aligned_mtl, pcgrad, fairgrad, stch, go4align,
+%   bayesagg_mtl, excess_mtl.
+% AL next-category macro-F1 vs equal_weight 53.57: TWO methods are above it, nash_mtl 54.25 (+0.68)
+% and scale_norm 53.76 (+0.19). [correction] An earlier version of this line and of the sentence said
+% nash_mtl was the ONLY one, while this very comment listed scale_norm as also above -- a claim that
+% contradicted its own ledger. Caught in review. Full picture, all four cells:
+%   nash_mtl:   AL cat 54.25 (+0.68) reg 62.77 (+0.24) | FL cat 71.61 (-0.19) reg 73.04 (-0.02)
+%   scale_norm: AL cat 53.76 (+0.19) reg 61.96 (-0.57) | FL cat 72.12 (+0.33) reg 35.47 (-37.59)
+% nash_mtl is the only one above on BOTH tasks at AL; scale_norm is the only one above on category
+% at BOTH datasets, and its region score collapses. So no method wins everywhere, which is why
+% the sentence says "across both tasks and both datasets" and then names both exceptions with
+% what each one gives up. PCGrad 53.11 (-0.46) is kept by name at the
+% author's request so an MTL reviewer sees it was tried.
+
+\begin{figure}[htbp]
+\centering
+% [round6, 2026-07-28] COD-017 in-figure text size. WRITING_LAW 5 requires in-figure text near
+% body size. Measured with FPDFText_GetFontSize (not glyph bounding boxes): body is 11.96 pt and
+% this diagram's labels were 6.97 pt, that is 58 percent of body, at 350 glyphs below 9 pt on
+% rendered page 62. The figure is a vector PDF whose natural size is 391.170 by 177.718 pt, so it
+% was being placed at natural size inside a 455.0 pt text block and left 63.8 pt of the block
+% unused. Scaling the placement to the full text block scales the type with it. Regenerating the
+% TikZ source at a larger base font was tried first and rejected: at 11pt the labels reach 7.97 pt
+% natural but the node text then overruns its own box borders (measured on the sibling figure, the
+% shared-trunk title protrudes 0.50 pt past the fill), which changes the figure rather than its
+% size. Nothing inside the figure is altered here; only its printed scale.
+\includegraphics[width=\textwidth]{figures/mobiwac/fig1_dataflow.pdf}
+\caption{From a check-in sequence to two predictions: each visit is embedded in a four-level graph
+(check-in, place, region, city) trained without task labels. The graph yields two sets of
+vectors, one per visit and one per region; sliding nine-visit windows of each feed a single
+model that outputs the next category and the next region.}
+\label{fig:mobiwac:dataflow}
+\end{figure}

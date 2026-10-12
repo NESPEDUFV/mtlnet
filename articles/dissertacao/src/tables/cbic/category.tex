@@ -1,0 +1,44 @@
+% !TeX root = ../../main.tex
+% cbic/category.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+% [2026-09-02, AUTHOR RULING, transversal emphasis convention; errata row for Ch.3] The caption said
+% "the better of the MTL and Single values per row in bold, as in the published table". The emphasis
+% now follows the ruling (largest value per row in bold, second largest underlined, over all three
+% models, HMRM included), so "as in the published table" is no longer true and is dropped: the
+% published table bolded only the better of MTL/Single and never HMRM (ledger entry B7). Under the new
+% rule the Recall / Nightlife row shows HMRM's 42.13 in bold, which is what the corrected sentence in
+% results.tex (B-13) states. Digits unchanged (verified by the emphasis pass and re-verified by the
+% writer's row-max check).
+\caption{POI category classification results for Florida (per-category F1-score, precision, and recall, mean $\pm$ standard deviation over the 5 folds; in each row the largest value is in bold and the second largest is underlined, over the three models).}
+\label{tab:cbic:category}
+\centering
+\begin{tabular}{llrrr}
+\toprule
+ & & \multicolumn{1}{c}{\textbf{MTL}} & \multicolumn{1}{c}{\textbf{Single}} & \multicolumn{1}{c}{\textbf{HMRM}} \\
+\midrule
+\multirow{7}{*}{F1}        & Community     & \underline{52.13} $\pm$ 0.90          & \textbf{53.11} $\pm$ 0.58 & 20.25 $\pm$ 0.52 \\
+                           & Entertainment & \underline{41.44} $\pm$ 1.29          & \textbf{41.73} $\pm$ 1.65 & 13.07 $\pm$ 1.14 \\
+                           & Food          & \textbf{57.43} $\pm$ 1.46 & \underline{56.70} $\pm$ 0.84          & 28.44 $\pm$ 0.42 \\
+                           & Nightlife     & \underline{29.94} $\pm$ 2.27          & \textbf{34.22} $\pm$ 2.08 & 25.54 $\pm$ 1.73 \\
+                           & Outdoors      & \underline{47.19} $\pm$ 1.01          & \textbf{47.75} $\pm$ 0.89 & 16.11 $\pm$ 0.68 \\
+                           & Shopping      & \textbf{62.51} $\pm$ 0.94 & \underline{61.88} $\pm$ 1.01          & 46.69 $\pm$ 0.81 \\
+                           & Travel        & \underline{43.16} $\pm$ 1.43          & \textbf{43.20} $\pm$ 1.94 & 15.25 $\pm$ 1.19 \\
+\midrule
+\multirow{7}{*}{Precision} & Community     & \textbf{51.39} $\pm$ 1.77 & \underline{49.54} $\pm$ 1.70          & 21.13 $\pm$ 0.75 \\
+                           & Entertainment & \underline{44.08} $\pm$ 1.46          & \textbf{44.47} $\pm$ 3.66 & 14.52 $\pm$ 1.34 \\
+                           & Food          & \underline{58.05} $\pm$ 1.23          & \textbf{59.04} $\pm$ 1.12 & 48.94 $\pm$ 0.88 \\
+                           & Nightlife     & \textbf{36.07} $\pm$ 2.05 & \underline{32.52} $\pm$ 1.83          & 18.34 $\pm$ 1.34 \\
+                           & Outdoors      & \underline{46.39} $\pm$ 1.12          & \textbf{47.74} $\pm$ 1.09 & 13.00 $\pm$ 0.48 \\
+                           & Shopping      & \underline{60.24} $\pm$ 1.21          & \textbf{61.59} $\pm$ 1.44 & 39.63 $\pm$ 0.82 \\
+                           & Travel        & \textbf{46.48} $\pm$ 1.12 & \underline{44.69} $\pm$ 4.89          & 24.58 $\pm$ 1.91 \\
+\midrule
+\multirow{7}{*}{Recall}    & Community     & \underline{52.93} $\pm$ 1.35          & \textbf{57.37} $\pm$ 2.46 & 19.48 $\pm$ 0.99 \\
+                           & Entertainment & \underline{39.14} $\pm$ 1.69          & \textbf{39.88} $\pm$ 4.93 & 11.90 $\pm$ 1.08 \\
+                           & Food          & \textbf{56.99} $\pm$ 3.71 & \underline{54.60} $\pm$ 2.01          & 20.05 $\pm$ 0.32 \\
+                           & Nightlife     & 25.80 $\pm$ 3.54          & \underline{36.77} $\pm$ 5.86 & \textbf{42.13} $\pm$ 3.28 \\
+                           & Outdoors      & \textbf{48.09} $\pm$ 2.11 & \underline{47.79} $\pm$ 1.51          & 21.27 $\pm$ 1.78 \\
+                           & Shopping      & \textbf{65.04} $\pm$ 2.69 & \underline{62.28} $\pm$ 2.83          & 56.82 $\pm$ 0.98 \\
+                           & Travel        & \underline{40.39} $\pm$ 2.73          & \textbf{43.08} $\pm$ 7.15 & 11.07 $\pm$ 0.95 \\
+\bottomrule
+\end{tabular}
+\end{table}

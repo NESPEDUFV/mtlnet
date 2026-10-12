@@ -1,0 +1,35 @@
+% !TeX root = ../../main.tex
+% chapters/3_cbic/intro.tex -- one section of Chapter 3 (CBIC 2025, published).
+% Split out of chapters/3_cbic.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CBIC___MTL/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Introduction}
+\label{sec:cbic:intro}
+
+Multitask Learning (MTL) is a machine learning paradigm where multiple related tasks are learned jointly, sharing representations and inductive biases to improve generalization performance \cite{caruana1997multitask}. By using shared information, MTL can potentially mitigate overfitting and yield more robust feature extractors compared to single-task approaches. Its success in domains like computer vision \cite{kokkinos2016ubernet}, natural language processing \cite{wei2022finetuned} and recommendation systems \cite{Zhang2020} motivates its application to Location-Based Social Networks (LBSNs), where understanding user interactions with Points-of-Interest (POIs), specific physical locations that someone might find useful or interesting, such as restaurants, shops, or landmarks, is fundamental.
+
+In this chapter, we investigate the application of MTL to two critical POI-related tasks:
+\begin{enumerate}
+    \item \textbf{POI Category Classification}: Classify the semantic category (e.g., shopping, travel) of a POI based on its features and context within a user's trajectory.
+    \item \textbf{Next-POI Prediction}: Predicting the category of the next POI a user will visit, given the sequence of their prior visits.
+\end{enumerate}
+
+These tasks are ostensibly related, as both draw upon the same underlying user mobility data. Accurate POI category representations could inform next-location predictions, and conversely, sequential patterns could provide context for category classification. However, the tasks possess fundamentally different natures. POI Category Classification is primarily a \textbf{static classification task} that relies on the intrinsic, context-rich features of individual locations. In contrast, Next-POI Prediction is a \textbf{dynamic, sequential task} that depends on capturing temporal patterns and transitions.
+
+This dichotomy raises a critical question: can a single, shared representation effectively serve two tasks with such distinct underlying characteristics? The assumption that MTL will be beneficial is not guaranteed. It is possible that forcing a shared encoder to learn features for both a static and a sequential task could result in \textbf{negative transfer}, where the joint training process actually hinders performance by learning a ``compromise'' representation that is not specialized enough for either task.
+
+Therefore, the central hypothesis of this study is that a standard hard parameter-sharing MTL architecture will face significant limitations when applied to this specific task pairing, failing to achieve substantial and consistent improvements over well-tuned, specialized single-task models. Our work is thus framed as an empirical investigation into the boundary conditions of MTL's effectiveness, exploring whether the presumed task relatedness is sufficient to overcome their inherent structural differences.
+
+To test this hypothesis, we conducted experiments on the Gowalla LBSN dataset \cite{cho2011gowalla,jure2014snap}, comparing our MTL model against strong single-task baselines (HMRM \cite{chen2020modeling} and MHA+PE \cite{zeng2019next}). Our results lend weight to our hypothesis. While the proposed models perform well, particularly in POI category classification, the MTL framework does not deliver the consistent gains often expected. The performance differences between the MTL and single-task models were frequently marginal and fell within standard deviations, suggesting their statistical performance was largely comparable. This outcome indicates that, for this problem, the architectural constraints and task dissimilarities may have offset the potential benefits of joint learning.
+
+The main contributions of this chapter are as follows:
+\begin{itemize}
+    \item We introduce an MTL framework to simultaneously address POI category classification and next-POI prediction.\footnote{The complete source code is publicly available at \url{https://github.com/VitorHugoOli/PoiMtlNet} for full reproducibility.}
+    \item We design task-specific heads to capture category co-occurrence and sequential transition dynamics, respectively.
+    \item We provide a critical analysis of the limitations of a hard parameter-sharing MTL approach for this task pairing. Our findings highlight that significant task dissimilarity can challenge the effectiveness of MTL, serving as a case study on the importance of task compatibility in model design.
+\end{itemize}
+
+The rest of this chapter is organized as follows. In Section~\ref{sec:cbic:related}, we review the theoretical foundations of MTL and prior work on POI modeling. Section~\ref{sec:cbic:methodology} describes our joint architecture, data preprocessing, and training protocol. Section~\ref{sec:cbic:experiments} presents experimental results. Finally, Section~\ref{sec:cbic:conclusion} summarizes our findings and discusses future research directions.

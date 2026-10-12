@@ -1,0 +1,107 @@
+% !TeX root = ../../main.tex
+% fig1_dataflow.tex
+% Figure 1: input-graph data flow for the check-in-level representation.
+%
+% Standalone-compilable on its own (pdflatex fig1_dataflow.tex) AND \input-able
+% into the IEEE paper. The standalone wrapper runs only when the macro
+% \FIGINPUT is NOT already defined; the paper defines \FIGINPUT before \input.
+%
+% To include in the paper preamble (once):
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+%   \def\FIGINPUT{1}
+% Then in the body:
+%   \begin{figure}[t]\centering\input{figs/fig1_dataflow.tex}
+%   \caption{...}\label{fig:dataflow}\end{figure}
+%
+% Clean left-to-right flow:
+%   raw check-in trail -> four-level graph (check-in/POI/region/city, infomax)
+%   -> two vector sets (per-visit, per-region) -> sliding windows of 9 visits
+%   -> two outputs (next-category, next-region).
+
+\ifdefined\FIGINPUT\else
+  \documentclass[border=4pt]{standalone}
+% [2026-08-12] The wrapper loaded no font package, so this figure compiled in Computer Modern while
+% the document sets in Times (newtxtext/newtxmath). Every other figure matches the body face; this
+% one did not after it was regenerated. Loading the same pair here fixes the mismatch at the source.
+\usepackage{newtxtext,newtxmath}
+  \usepackage{tikz}
+  \usepackage{amsmath}
+  \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+  \begin{document}
+\fi
+
+\begin{tikzpicture}[
+    >={Stealth[length=2.2mm]},
+    font=\scriptsize,
+    stage/.style={draw, rounded corners=2pt, align=center, inner sep=3pt,
+                  minimum height=7.5mm, line width=0.5pt, fill=gray!4},
+    glabel/.style={align=center, font=\scriptsize\itshape, text=black!65},
+    flow/.style={->, line width=0.7pt, draw=black!70},
+    dot/.style={circle, draw=black!70, fill=white, inner sep=0pt, minimum size=2.0mm},
+    lvl/.style={draw, rounded corners=1.5pt, align=center, inner sep=2pt,
+                font=\scriptsize, minimum height=4.0mm, minimum width=15mm},
+  ]
+
+  % ---------- Stage 1: raw check-in trail ----------
+  \node[stage, minimum width=18mm] (trail) {raw check-in\\sequence};
+  \node[dot] (c1) at ($(trail.south)+(-6mm,-4mm)$) {};
+  \node[dot, right=2.6mm of c1] (c2) {};
+  \node[dot, right=2.6mm of c2] (c3) {};
+  \node[dot, right=2.6mm of c3] (c4) {};
+  \draw[->, line width=0.5pt, draw=black!55] (c1)--(c2);
+  \draw[->, line width=0.5pt, draw=black!55] (c2)--(c3);
+  \draw[->, line width=0.5pt, draw=black!55] (c3)--(c4);
+  \node[glabel, below=1.0mm of c2] {visits ordered in time};
+
+  % ---------- Stage 2: four-level graph ----------
+  \node[stage, right=12mm of trail, minimum width=30mm, minimum height=23mm,
+        fill=gray!3, label={[font=\scriptsize\itshape, text=black!65]north:four-level graph}]
+        (graph) {};
+  \node[lvl, fill=blue!6]   (Lcity)   at ($(graph.north)+(0,-5.5mm)$) {city};
+  \node[lvl, fill=teal!8,   below=1.2mm of Lcity]   (Lregion) {region};
+  \node[lvl, fill=green!8,  below=1.2mm of Lregion] (Lpoi)    {place};
+  \node[lvl, fill=orange!10,below=1.2mm of Lpoi]    (Lcheck)  {check-in};
+  \draw[-, line width=0.5pt, draw=black!50] (Lcheck)--(Lpoi);
+  \draw[-, line width=0.5pt, draw=black!50] (Lpoi)--(Lregion);
+  \draw[-, line width=0.5pt, draw=black!50] (Lregion)--(Lcity);
+  \node[glabel, below=1.0mm of graph.south]
+       {edges: consecutive visits by a user (forward in time)\\ features: category, hour, weekday, elapsed time\\ trained with no task labels (infomax)};
+
+  % ---------- Stage 3: two vector sets from the trained graph ----------
+  \node[stage, minimum width=23mm, fill=orange!8] (vec)
+       at ($(graph.east)+(20mm,6.5mm)$) {per-visit vectors\\(one per check-in)};
+  \node[stage, minimum width=23mm, fill=teal!7] (rvec)
+       at ($(graph.east)+(20mm,-6.5mm)$) {region vectors\\(one per region)};
+
+  % ---------- Stage 4: sliding windows ----------
+  \node[stage, below=9mm of rvec, minimum width=24mm] (win)
+       {sliding windows\\of 9 visits};
+  \foreach \i in {1,...,9}{%
+     \node[draw, line width=0.4pt, fill=orange!8, minimum width=2.0mm,
+           minimum height=3.2mm, inner sep=0pt]
+           (w\i) at ($(win.south)+({(\i-5)*2.4mm},-4.2mm)$) {};}
+  \node[draw, line width=0.5pt, fill=blue!10, minimum width=2.6mm,
+        minimum height=3.2mm, inner sep=0pt, right=1.4mm of w9] (wt) {};
+  \node[glabel, below=0.6mm of w5, text width=40mm]
+       {9 past visits, each with its own vector and its region's vector \;$\rightarrow$\; next visit (target)};
+
+  % ---------- Stage 5: two task outputs (to the RIGHT of the windows, so the flow
+  % stays left-to-right and the eye never jumps backward) ----------
+  \node[stage, right=14mm of win, minimum width=24mm, fill=green!5] (outc) {next-category};
+  \node[stage, below=4mm of outc, minimum width=24mm, fill=teal!7] (outr) {next-region};
+
+  % ---------- flow arrows ----------
+  \draw[flow] (trail) -- (graph);
+  \draw[flow] (graph.east |- vec.west) -- node[glabel, above, yshift=0.3mm]{extract} (vec.west);
+  \draw[flow] (graph.east |- rvec.west) -- (rvec.west);
+  \draw[flow] (vec)  -- (win);
+  \draw[flow] (rvec) -- (win);
+  \draw[flow] (win.east) -- ($(win.east)+(7mm,0)$) |- (outc.west);
+  \draw[flow] (win.east) -- ($(win.east)+(7mm,0)$) |- (outr.west);
+
+\end{tikzpicture}
+
+\ifdefined\FIGINPUT\else
+  \end{document}
+\fi

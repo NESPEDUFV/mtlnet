@@ -1,0 +1,19 @@
+PRELUDE DONE arizona 2026-10-02 01:34:14
+SKIP (done) arizona_f0_build
+SKIP (done) arizona_f0_infer
+SKIP (done) arizona_f0_cat_to
+SKIP (done) arizona_f0_cat_full
+FOLD DONE arizona f0 2026-10-02 03:14:38
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 25: 66597 Terminated: 15          /usr/bin/time -l "$@" > "$L/out.log" 2>&1
+STEP FAIL arizona_f1_build
+STOPPED at AZ fold 1
+moved aside aborted attempt: arizona_f1_build_aborted_20261002_031610
+FOLD DONE arizona f1 2026-10-02 03:52:44
+FOLD DONE arizona f2 2026-10-02 04:29:20
+SKIP (done) arizona_f4_build
+SKIP (done) arizona_f4_infer
+SKIP (done) arizona_f4_mat
+moved aside aborted attempt: arizona_f4_cat_to_aborted_20261002_051630
+moved aside partial results: /Volumes/Vitor's SSD/ingred_g1/results/g1_cat_f4/to/check2hgi_v18_to_f4/arizona_aborted_20261002_051630
+FOLD DONE arizona f4 2026-10-02 05:46:26
+AZ ALL FOLDS DONE 2026-10-02 05:46:26

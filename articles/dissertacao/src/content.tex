@@ -1,0 +1,488 @@
+% !TeX root = main.tex
+% ============================================================================
+% content.tex -- the document body: front matter, the six chapters, the appendices, the
+% bibliography. Everything from \begin{document} onward.
+%
+% Split out of the former single-file body on 2026-07-29 (author decision); the preamble half is
+% preamble.tex, which carries the reasoning. The two are read in order by main.tex, so this file
+% MUST open with \begin{document} -- it is the first line of real content below.
+%
+% The two build switches (\ifdefensebuild, \ifapprovalsheet) are DEFINED in main.tex, selected by
+% \ACADEMICOBUILD / \APPROVALSHEET in main_academico.tex / main_ppgc.tex, and CONSUMED here. If a
+% block should appear in only some builds, gate it here rather than duplicating an entry file.
+% ============================================================================
+
+\begin{document}
+    \frenchspacing
+    \OnehalfSpacing %
+
+% PRE-TEXTUAL
+    \pretextual
+
+    \ifdefensebuild
+    % ---------- DEFENSE BUILD: full front matter ----------
+    {
+        \singlespacing
+        \imprimirfolhaderosto
+        \clearpage
+    }
+    % Approval sheet. Present ONLY in the main_ppgc.tex build (author decision 2026-07-28:
+    % "o main deve gerar o build da defesa e o main_ppgc so gerar o pdf da defesa com a folha
+    % de aceite"). The two builds are otherwise the same document, so this is the one
+    % conditional that separates them; everything else stays shared.
+    \ifapprovalsheet
+    \begin{center}
+        \vspace*{2cm}
+        {\large\bfseries [Approval sheet placeholder --- PPG signature-page model is\\
+        inserted here for the defense; signed version replaces it afterward]}
+        \vspace*{\fill}
+    \end{center}
+    \clearpage
+    \fi
+
+    \ifdefensebuild
+    \begin{agradecimentos}
+        \singlespacing
+        This journey would not have been possible without the guidance, encouragement, and support of many people. I am
+        especially grateful to my advisor, Professor Fabrício Silva, for giving me the freedom to explore my ideas and
+        the confidence to pursue them. His patience and support were particularly important during a difficult period at
+        the beginning of my master’s degree. Even when the work was not progressing as expected, he continued to believe
+        in me and encouraged me to move forward.
+
+        I offer my deepest gratitude to my colleague and friend Germano Santos, who worked alongside me on every article
+        developed during this master’s degree. His ideas, particularly those related to points of interest, and our many
+        discussions about possible changes and new directions were fundamental to this research. His insight,
+        generosity, and constant support made him a cornerstone of this work.
+
+        To my family and friends, Caleb Martins, Caique Ferraz, Valéria Ferraz, Igor Barros, Alberto Júnior, Lucas
+        Parreira, Arthur Reute, Charles Fonseca, Maria Clara, Maria Scherr, Nicolle Souza, and Marcos Vinicius Ribeiro, who
+        are part of my everyday life, thank you for always being by my side and for the care, friendship, encouragement,
+        and support you have given me throughout this journey. I am also grateful to my longtime friends from college, Athena
+        Fernandes, José Neto, Thiago Oliveira, and Vinicius Rangel, and from high school, Gustavo Fernandes, Gabriel
+        Nunes, Aghata Soares, Igor Augusto, Raissa Santos, and Sara Luiza for remaining such an important part of my
+        life and of the path that brought me here.
+
+        I am deeply thankful to Henrique Santana, Gustavo Viegas, and Tarik Paiva, whose friendship became stronger
+        throughout the master’s degree. Their companionship, conversations, and shared experiences made this journey
+        lighter and more meaningful.
+
+        I would also like to thank my colleagues at Alt.bank for their understanding and support while I balanced my
+        professional responsibilities with the demands of the master’s degree. Their patience, encouragement, and
+        willingness to support me during the most demanding periods were greatly appreciated.
+
+        I extend my gratitude to the Federal University of Viçosa and to the professors who were part of this journey.
+        Their teaching, discussions, and contributions provided important foundations for this work and for my academic
+        development.
+
+        Finally, my most heartfelt thanks go to my family, Marcia Vargas, Vinicius Oliveira, and Ana Luiza Vargas. Thank
+        you for your constant encouragement, emotional support, patience, and care. I am deeply grateful for everything
+        you did for me and for providing a home where I could always find understanding, affection, and support. This
+        achievement is also yours.
+    \end{agradecimentos}
+
+    \begin{epigrafe}
+        \vspace*{\fill}
+        \begin{flushright}
+            \singlespacing\itshape
+            ``Há um ditado que ensina: 'o gênio é uma grande paciência'; sem pretender ser gênio, teimei em ser um
+            grande paciente. As invenções são, sobretudo, o resultado de um trabalho teimoso, em que não deve haver
+            lugar para o esmorecimento.''
+            \par\vspace{0.3cm}\upshape
+            (Alberto Santos-Dumont, \textit{O que eu vi, o que nós veremos} (1918, p. 43))
+        \end{flushright}
+        \vspace{1.5cm}
+        \begin{flushright}
+            \singlespacing\itshape
+            ``Science works on the frontier between knowledge and ignorance. We're not afraid to
+            admit what we don't know. There's no shame in that. The only shame is to pretend that
+            we have all the answers.''
+            \par\vspace{0.3cm}\upshape
+            (Neil deGrasse Tyson, \textit{Cosmos: A Spacetime Odyssey}, episode 2, 2014)
+        \end{flushright}
+    \end{epigrafe}
+    \fi
+
+    % Resumo (PT) -- claim-parity pair with the Abstract (WRITING_LAW §6)
+    \begin{resumo}[Resumo]
+        \singlespacing
+        SILVA, Vitor Hugo De Oliveira, M.Sc., Universidade Federal de Viçosa, agosto de 2026.
+        \textbf{Multitask Learning for Point-of-Interest Classification and Prediction Tasks: The Role of the Check-in-Level Representation}. Orientador: Fabrício Aguiar Silva.
+        \vspace{\onelineskip}
+        % [NEEDS SIGN-OFF 01 | CLOSED] Resumo/Abstract cut (round 6) approved; the ORPHANED block
+        % discarded on the author's ruling. Full record: src_utils/_history/_round6/15_resumo_abstract.md.
+        % "Modelos ajustados" stays OUT of GLOSSARY §6 by his ruling -- the term is not used.
+        %
+        % KEPT DELIBERATELY, because the author asked for this note in round 10 (PENDENCIAS §6
+        % FAB-08) and because a future reader would otherwise file the omission as a defect:
+        % this Resumo does not say that the TASK PAIR CHANGES across the studies. Chapters 3 and 4
+        % pair POI category classification (static) with next-POI prediction; Chapter 5 pairs next
+        % category with next region. The cut was deliberate, not an oversight. The reader does get
+        % it: 1_introduction.tex keeps the three tasks distinct and 2_fundamentals.tex §2.1 defines
+        % each formally. The Abstract carries the same omission by design -- the two blocks are one
+        % claim in two languages, so if this is ever restored it goes into BOTH in the same edit.
+
+        % [2026-09-02, AUTHOR-DIRECTED REWRITE, claim-parity pair with the Abstract, same commit]
+        % Three instructions: (1) readability -- "tem o conteudo mas ta mal escrito e dificil de
+        % entender"; sentences shortened, referents named, the results period split by task, no
+        % claim, number or hedge changed; (2) the next-region contribution enters, in the NARROW
+        % scope the document supports and never as "pouca literatura publicada" (02_related.tex:82-84
+        % says map-partition prediction is the standard formulation): end target of equal standing
+        % with next category rather than an auxiliary signal (02_related.tex:94-96), the nearest
+        % published models do not study this pairing (02_related.tex:97), and the external baselines
+        % were adapted so that a region comparison exists at all (1_introduction.tex:493-494);
+        % "unidade oficial em escala de bairro" is 02_related.tex:85's "official neighborhood-scale
+        % units"; (3) the external-baseline sentence stays VERBATIM and unquantified by his ruling.
+        % The 2026-08-21 errata ("em um conjunto") is preserved. FAB-08 unchanged: the tasks of each
+        % study are named, the CHANGE of pair is still not narrated.
+        \noindent Redes sociais baseadas em localização produzem registros de
+        \emph{check-in}, que associam um usuário, um ponto de interesse (POI) e um
+        instante. A partir desses registros, um modelo pode classificar a categoria de
+        um POI e pode prever propriedades da próxima visita de um usuário, como sua
+        categoria e sua região. Esta dissertação investiga se o aprendizado
+        multitarefa (MTL) pode combinar essas tarefas em um único modelo e de quais
+        escolhas de projeto depende o sucesso do treinamento conjunto. As tarefas
+        compartilham dados e contexto, mas compartilhar parâmetros entre elas também
+        pode provocar transferência negativa. A investigação compreende três estudos
+        sucessivos: um resultado negativo, seu diagnóstico e sua resolução. O primeiro
+        estudo propôs o MTLnet, um modelo conjunto com representação em nível de POI e
+        compartilhamento rígido de parâmetros, treinado para classificação de categoria
+        e previsão da próxima categoria. Apesar do compartilhamento, o modelo conjunto
+        não superou de forma consistente os modelos dedicados a cada tarefa. O segundo
+        estudo manteve a arquitetura do MTLnet e mudou apenas sua entrada, substituindo
+        o vetor único de POI por codificadores espaciais, temporais e categóricos
+        decompostos. O desempenho de categoria melhorou de forma acentuada nos
+        conjuntos avaliados, o que indicou que, naquela configuração, a representação
+        de entrada era o principal fator limitante. Com base nesse diagnóstico, o
+        terceiro estudo passou da representação em nível de POI para uma representação
+        em nível de \emph{check-in}, com um vetor por visita e não por POI, trocou o
+        compartilhamento rígido por uma topologia de atenção cruzada e reuniu duas
+        tarefas sequenciais: a previsão da próxima categoria e a previsão da próxima
+        região. A próxima região, a unidade oficial em escala de bairro onde ocorre a
+        próxima visita, é tratada como alvo final de mesmo peso que a próxima
+        categoria, e não como sinal auxiliar; os modelos publicados mais próximos não
+        estudam esse par, e os métodos externos de referência foram adaptados para que
+        existisse uma comparação de região. O modelo final foi avaliado em seis
+        conjuntos de dados de diferentes contextos geográficos, incluindo um conjunto
+        não estadunidense, com validação cruzada com usuários disjuntos entre
+        treinamento e teste e com testes estatísticos pareados.
+        % [ERRATA 2026-08-21, aplicada ao fonte por decisao do autor | wrapup/erratas/errata_resumo_escopo_categoria.tex]
+        % A frase anterior dizia que o modelo conjunto superou os dedicados na proxima categoria
+        % "em todos os conjuntos". O resultado entregue e superioridade em UM conjunto (Florida,
+        % Holm p = 0,011); as outras cinco diferencas nao sao resolvidas. O Abstract em ingles ja
+        % estava correto -- este periodo passa a espelha-lo. O dissertacao.pdf entregue NAO foi
+        % reconstruido: ele e o registro do que a banca recebeu, e diverge do fonte aqui.
+        Em relação aos modelos dedicados a cada tarefa, o modelo conjunto os superou na
+        previsão da próxima região nos dois conjuntos com os maiores vocabulários de
+        região e permaneceu dentro da margem de dois pontos de Acc@10, registrada antes
+        de qualquer resultado ser lido, nos outros quatro (não-inferioridade
+        estatística, por dois testes unilaterais). Na previsão da próxima categoria,
+        ele os superou em um conjunto, enquanto as cinco diferenças restantes são
+        equivalentes a zero dentro de meio ponto. Em ambas as tarefas, os resultados do modelo conjunto também
+        ficaram acima dos reportados pelos métodos externos usados como referência.
+        Os resultados mostram que o MTL não constitui um benefício automático: sua efetividade depende da representação de entrada e da topologia de compartilhamento construída para as tarefas consideradas.
+        % DO NOT write "proximo lugar visitado" here: it collides with the RESERVED term "next
+        % place" (GLOSSARY §1), the exact-POI task this dissertation does not study. The exclusion
+        % is carried by 1_introduction.tex (:90-91, "outside the scope"), not by this block.
+        % [NEEDS SIGN-OFF 02 | CLOSED] Author approved all three: keep "Acc@10"; omit the
+        % joint-best convention and the macro-F1 range from this high-level summary (unexplained
+        % here, so they stay out); keep "depende de" rather than a causal verb.
+
+        % [round5, author decision 3.3 option ii] Purely mechanical: keep the keyword block with the
+        % Resumo it belongs to. It was breaking onto p.4 alone (14 words on an otherwise blank page).
+        % A minipage makes the label and the five keywords ONE box, so TeX can fit the whole block into
+        % the space left at the foot of the Resumo page instead of carrying it to the next one.
+        % DO NOT SUBSTITUTE \needspace HERE. Measured on the 529-word Resumo of the time, with the
+        % macro correctly escaped: \needspace{7\onelineskip} -> 104 pp with the block landing whole on
+        % p.4; minipage -> 103 pp with the block on p.3 alongside the Resumo. needspace does hold the
+        % label and keywords together, but it reserves space for the LINES that follow, so when the
+        % block does not fit it moves the block rather than fitting it. A minipage is a box, so it fits.
+        \vspace{\onelineskip}
+        \noindent
+        % Keywords one per line (UFV_COMPLIANCE §2 system rules: one per line, lowercase
+        % except proper nouns, no punctuation); PT mirrors EN.
+        % [FAB-11, round 9] Comma-separated, not one per line, at the advisor's request. The
+        % "one per line" rule of UFV_COMPLIANCE.md:39 governs the AcademicoPG WEB FORM fields, not
+        % the printed page, and this block renders in the defense and ppgc PDFs only -- measured:
+        % the keyword block appears on pp. 2-3 of build/main.pdf and pp. 3-4 of build/main_ppgc.pdf
+        % and on NO page of build/main_academico.pdf, which is the deposit body. So the form rule is
+        % not in play here and the request does not collide with it. When the author fills the web
+        % form he still pastes them one per line, from this same list.
+        \begin{minipage}{\linewidth}
+            \textbf{Palavras-chave}:
+            aprendizado multitarefa, ponto de interesse, previsão da próxima categoria,
+            previsão da próxima região, representação em nível de check-in
+        \end{minipage}
+    \end{resumo}
+
+    % Abstract (EN)
+    \begin{resumo}[Abstract]
+        \begin{otherlanguage*}{english}
+            \singlespacing
+            SILVA, Vitor Hugo De Oliveira, M.Sc., Universidade Federal de Viçosa, August 2026.
+            \textbf{Multitask Learning for Point-of-Interest Classification and Prediction Tasks: The Role of the Check-in-Level Representation}. Advisor: Fabrício Aguiar Silva.
+            \vspace{\onelineskip}
+            % [NEEDS SIGN-OFF 03 | CLOSED] ORPHANED block removed on the author's ruling: the
+            % sentence it annotated is gone and the numbers it sourced (the 5.3-9.4 range, the
+            % four/two split) are no longer quoted in this block. They are still sourced where they
+            % ARE quoted, in 6_conclusion.tex. Record: src_utils/_history/_round6/15_resumo_abstract.md.
+            %
+            % LOAD-BEARING RULE, kept: this Abstract and the Resumo above are ONE claim in two
+            % languages (WRITING_LAW §6). Any edit to a claim, number, or hedge in one must land in
+            % the other in the same commit, or the pair silently drifts.
+
+            % [2026-09-02, AUTHOR-DIRECTED REWRITE, mirror of the Resumo, same commit] See the
+            % Resumo's comment for the three instructions and the sources of the next-region
+            % clause. Every claim, number and hedge is the Resumo's; the external-baseline
+            % sentence stays verbatim and unquantified by his ruling.
+            \noindent Location-based social networks produce \emph{check-in} records
+            that associate a user, a point of interest (POI), and a time. From these
+            records, a model can classify the category of a POI and can predict
+            properties of a user's next visit, such as its category and its region.
+            This dissertation investigates whether multitask learning (MTL) can
+            combine these tasks in a single model, and on which design choices the
+            success of joint training depends. The tasks share data and context, but
+            sharing parameters between them can also cause negative transfer. The
+            investigation comprises three successive studies: a negative result, its
+            diagnosis, and its resolution. The first study proposed MTLnet, a joint
+            model with a POI-level representation and hard parameter sharing, trained
+            for category classification and next-category prediction. Despite the
+            sharing, the joint model did not consistently outperform the models
+            dedicated to each task. The second study kept the MTLnet architecture and
+            changed only its input, replacing the single POI embedding with decomposed
+            spatial, temporal, and categorical encoders. Category performance improved
+            markedly across the evaluated datasets, which indicated that, in that
+            configuration, the input representation was the main limiting factor.
+            Based on this diagnosis, the third study moved from a POI-level to a
+            check-in-level representation, with one vector per visit rather than per
+            POI, replaced hard sharing with a cross-attention topology, and paired two
+            sequential tasks: next-category and next-region prediction. Next region,
+            the official neighborhood-scale unit where the next visit occurs, is
+            treated as an end target of equal standing with next category rather than
+            as an auxiliary signal; the nearest published models do not study this
+            pairing, and the external baselines were adapted so that a region
+            comparison exists at all. The final model was evaluated on six datasets
+            from different geographic contexts, including one non-U.S. dataset, with
+            user-disjoint cross-validation and paired statistical tests.
+            % [2026-08-12] THE UMBRELLA CLAUSE IS GONE. It read "performed at least as well as the dedicated
+% single-task models on both tasks", which is a claim of equality-or-better across all twelve cells,
+% and EIGHT of the twelve sit BELOW the dedicated model: Istanbul reg -0.08, Alabama cat -0.19 and
+% reg -0.87, Arizona cat -0.00 and reg -0.44, Florida reg -0.16, Texas cat -0.13, California cat
+% -0.00. Eight cells over six distinct states. [COUNT CORRECTED: this comment first said "six",
+% which was the number of STATES touched, not cells. The counting cell summed numpy booleans per
+% state, (dc<0)+(dr<0), which ORs rather than adds and saturates at one per state; the enumeration
+% beside it always listed eight. Recounted from the same two artifacts with float comparisons.]
+% The clause was my own replacement for a banned equality verb and traded one defect for a worse
+% one. The two partitions below carry the claim, each bound to its own test; the delivered wording
+% below is left as it stands, and this note is a remark on the source, not text for the reader.
+            Against the dedicated single-task models, the joint model outperformed
+            them in next-region prediction at the two datasets with the largest region
+            vocabularies and stayed within the two-point Acc@10 margin registered
+            before any result was read at the other four (statistical
+            non-inferiority, by two one-sided tests). In next-category prediction it
+            outperformed them at one dataset, while the five remaining differences were
+            equivalent to zero within half a point. On both tasks, the joint
+            model's results were also above those reported by the external baselines.
+            The results show that MTL does not provide an automatic benefit: its
+            effectiveness depends on the input representation and the sharing topology
+            designed for the tasks under consideration.
+            % [NEEDS SIGN-OFF 04 | CLOSED] Author approved the omissions and the verb: the
+            % joint-best convention and macro-F1 range stay out of this high-level summary, and
+            % "depends on" stays instead of "determines whether" (the Sec. 6.2 confound makes a
+            % causal verb an overclaim). Mirrors item 02 on the Resumo side.
+
+            % [round5, decision 3.3 option ii] Same guard as the Resumo block, for parity.
+            \vspace{\onelineskip}
+            \noindent
+            % Keywords one per line (UFV_COMPLIANCE §2 system rules); EN mirrors PT.
+            % [FAB-11, round 9] Comma-separated, mirroring the PT block above; see the note there
+            % for why the AcademicoPG one-per-line form rule does not govern this page.
+            \begin{minipage}{\linewidth}
+                \textbf{Keywords}:
+                multitask learning, point of interest, next-category prediction,
+                next-region prediction, check-in-level representation
+            \end{minipage}
+        \end{otherlanguage*}
+    \end{resumo}
+    \else
+    % ---------- FINAL AcademicoPG BUILD: starts at the lists ----------
+    % Pre-body pages: counted but NOT numbered (empty pagestyle); the system's
+    % RASCUNHO PDF is the authoritative numbering reference.
+    \pagestyle{empty}
+    \fi
+
+% Lists (both builds; optional-but-present per UFV_COMPLIANCE §1)
+    \pdfbookmark[0]{\listfigurename}{lof}
+    \listoffigures*
+    \cleardoublepage
+
+    \pdfbookmark[0]{\listtablename}{lot}
+    \listoftables*
+    \cleardoublepage
+
+% List of abbreviations -- completed 2026-07-23 from GLOSSARY §5, filtered by the
+% expand-at-first-use / minimal-count rule: each entry below was grep-verified to
+% appear in the assembled chapters' prose (comments excluded).
+% Alphabetical order.
+%
+% [AUT-30, round13, 2026-08-04] THE EXCLUSION LIST BELOW WAS RE-MEASURED AND THREE OF ITS EIGHT
+% ENTRIES WERE FALSE. The list previously read "Dropped from the §5 seed list because they never
+% appear in prose: STL, CV, GRU, OOD, CI, SGKF, UFV, PPGCC" and asserted a property of the prose
+% that had stopped holding. The author found the consequence by reading: OOD was used as a bare
+% acronym in §2.4.2.2 with its expansion arriving later in the same sentence, so the reader met an
+% unexplained acronym that the abbreviations list also did not carry. Re-measured, comments stripped,
+% from articles/dissertacao/src:
+%   for a in STL CV GRU OOD CI SGKF UFV PPGCC; do n=0; for f in $(find . -name '*.tex' \
+%     -not -path './build/*'); do n=$((n+$(grep -vE '^[[:space:]]*%' "$f" | grep -ow "$a" | wc -l)));
+%     done; echo "$a $n"; done
+%   STL 0   CV 0   GRU 0   SGKF 0   PPGCC 0      <- the five that ARE absent, as claimed
+%   OOD 2   (chapters/2_fundamentals.tex)
+%   CI 1    (tables/frame/cosine.tex)
+%   UFV 3   (apx_c_ai_disclosure.tex, main_extra.tex, preamble.tex)
+% OOD is now expanded at its first use in §2.4.2.2, which satisfies the rule that governs the list
+% (expand at first use) without adding an entry for an acronym used twice in one subsection. CI and
+% UFV are likewise expanded or self-evident where they occur (a table note, the AI-use disclosure,
+% and a preamble field), so no entry is owed for those either. The defect corrected here is the
+% COMMENT, which claimed a measurement that no longer held; the five genuinely absent acronyms keep
+% their exclusion. BRACIS appears in Appendix A only (GLOSSARY §5: "appendix only").
+% Probe: R13-aut30b.
+    \begin{siglas}
+% [round5] BRACIS entry removed: the only prose that named that venue was Appendix A.2, which the
+% author ruled out this round, leaving the acronym defined but never used.
+        \item[CBIC] Congresso Brasileiro de Intelig\^encia Computacional
+        \item[Check2HGI] Check-in-level representation extending Hierarchical Graph Infomax
+        \item[CoUrb] Workshop de Computa\c{c}\~ao Urbana
+        \item[DGI] Deep Graph Infomax
+        \item[FiLM] Feature-wise Linear Modulation
+        \item[HGI] Hierarchical Graph Infomax
+        \item[LBSN] Location-Based Social Network
+        \item[MobiWac] ACM International Symposium on Mobility Management and Wireless Access
+        \item[MTL] Multitask Learning
+        \item[POI] Point of Interest
+        \item[SBRC] Simp\'osio Brasileiro de Redes de Computadores e Sistemas Distribu\'idos
+        \item[TOST] Two One-Sided Tests
+    \end{siglas}
+    \cleardoublepage
+
+    \pdfbookmark[0]{\contentsname}{toc}
+    \tableofcontents*
+    \cleardoublepage
+
+% TEXTUAL
+    \textual
+    \ifdefensebuild\else
+    % Final build: body pages resume arabic numbering at the tuned offset
+    \pagestyle{abntheadings}
+    \setcounter{page}{\finalbuildfirstpage}
+    \fi
+
+% \include, NOT \input, for each chapter: it gives every chapter its own .aux, which is what
+% preserves per-chapter page and counter state across runs. That per-chapter aux is also the
+% thing that makes two SIMULTANEOUS builds of this tree dangerous, and the failure does not
+% look like a build-system problem, so it is described here where the \include list is.
+%
+% THE HAZARD. Every target compiles this same file, so every target writes the same set of
+% per-chapter aux names. Until 2026-07-29 all three wrote them into ONE directory, and a
+% second build starting while a first was mid-pass read a half-written aux. MEASURED on
+% 2026-07-29, `make final` launched while another session was building the tree:
+%     ! Extra }, or forgotten \endgroup.
+%     l.175 }
+% reported while reading build/chapters/4_courb.aux. Nothing is wrong with chapter 4 -- the
+% aux was simply truncated at the moment it was read. The same collision has also been seen
+% as "Runaway argument? ... ! File ended while scanning use of \@writefile". Read either
+% message as EVIDENCE OF A CONCURRENT BUILD before you look for a LaTeX defect: rerun the
+% target alone, and if it then passes, that was the whole story.
+%
+% THE FIX, and what it means for you: the Makefile now gives each target its own aux tree
+% under build/<stem>-aux/, so the three cannot collide and can run concurrently (`make all3`).
+% The .pdf, .log and .blg of each are copied back into build/ afterwards, because that is
+% where every tool and document expects them. The aux files are deliberately NOT copied back:
+% an aux at a path BibTeX also searches is how four undefined citations once shipped in both
+% PDFs (science/AGENT_HANDOFF.md §2.4). If you add a chapter here, nothing needs updating --
+% the trees are created per target, not per chapter.
+    \include{chapters/1_introduction}
+    \include{chapters/2_fundamentals}
+    \include{chapters/3_cbic}
+    \include{chapters/4_courb}
+    \include{chapters/5_mobiwac}
+    \include{chapters/6_conclusion}
+
+% POST-TEXTUAL
+    \postextual
+
+% Bibliography at body size (12 pt). The inherited {\footnotesize ...} wrapper measured
+% 9.96 pt against 11.96 pt body; removed 2026-07-27 on the author's ruling (src_utils/
+% PENDENCIAS.md:84) per Manual 04_2026 §8 (UFV_COMPLIANCE.md:32). Adds about two pages.
+    \bibliography{references}
+
+% APPENDICES. This document letters its six appendices A, B, C, D, E, F in sequence.
+%
+% [round9c, 2026-07-30, AUTHOR DECISION, PENDENCIAS_RESOLVIDOS 2.22 (arquivado 2026-07-30) point 0] "You must rename all the
+% appendix, so the letters respect the correct order in the current version of the text. In this
+% case this appendix would be the letter D." The two \setcounter{chapter} lines that used to hold
+% the gapped lettering (A, C, E, F) were removed, so \Alph{chapter} letters the appendices
+% in file order. The reader-oriented methods walkthrough added on 2026-08-04 is fifth and
+% therefore prints as E. FILE NAMES ARE
+% UNCHANGED (apx_c_*, apx_e_*, apx_f_*): the letter a reader sees comes from the counter, not the
+% file name, and renaming the files would touch every cross-reference for no rendered difference.
+%
+% HISTORY, superseded (round7, 2026-07-29): Appendix B (errata) and Appendix D (label-history
+% benchmark) moved to the supplementary volume, src/main_extra.tex, on the advisor's ruling of
+% 2026-07-28 ("Nao precisa, nao e obrigatorio que seja copia identica do artigo. E do jeito que
+% voce colocou no inicio de cada capitulo acho que explica bem."). The three appendices that
+% remained kept A, C, E, and the cosine appendix entered as F, so the two volumes shared one
+% lettering and "Appendix B" named one thing. The author's point-0 ruling supersedes that
+% arrangement for THIS document; the supplementary volume still letters its two appendices B and
+% D (its own \setcounter lines, untouched). CONSEQUENCE THE AUTHOR SHOULD KNOW, recorded in the
+% round report: this document now also has an Appendix B (AI disclosure) and an Appendix D
+% (gradient cosine), so a bare "Appendix B" is ambiguous across the two volumes. Every prose
+% pointer at the moved material already says "Appendix~B/D of \extravolume" (measured: 10 sites,
+% all carrying "of \extravolume"), so no reader-facing sentence is ambiguous today; keep naming
+% the volume in any new pointer.
+%
+% THE POINTERS INTO THE MOVED MATERIAL were rewritten, not deleted: eight \ref sites in six
+% files, listed in src_utils/_history/_round7/24_extra_and_cosine.md with the before and after of each.
+% Each now names the supplementary volume, so the reader still learns where the correction
+% lives. If you move an appendix again, run `make check` -- check_extra_xrefs.py fails on a
+% frozen cross-volume number that no longer matches this document's own build.
+    \begin{apendicesenv}
+        \partapendices
+        \include{chapters/apx_a_contributions}
+        \include{chapters/apx_c_ai_disclosure}
+        \include{chapters/apx_e_ethics}
+% [round7, 2026-07-29] The gradient-cosine appendix, placed AFTER the existing appendices at the
+% author's explicit request that this material live in the main text. Lettered D since round9c
+% (the sequential-lettering decision above). Chapter 5's body is not edited and does not point
+% at it; the cosine material already in that chapter stays where it is.
+        \include{chapters/apx_f_cosine}
+% [2026-08-04, AUTHOR REQUEST] Reader-oriented, implementation-grounded walkthrough of
+% Check2HGI and the joint multitask model. It is fifth in file order and therefore prints as
+% Appendix E in this volume.
+        \include{chapters/apx_h_check2hgi_joint_model}
+% [2026-08-12, AUTHOR RULING] THE PARAMETER-COUNT CONTROL MOVED TO THE SUPPLEMENTARY VOLUME, where
+% main_extra.tex now includes it. Two reasons, both measured rather than editorial:
+%   (1) Its whole span is 0.53 macro-F1 points across three arms (narrow 30.77, wider 30.24, joint
+%       30.59 at Alabama), and Chapter 5 reports that category differences within HALF A POINT are
+%       equivalent to zero. Arguing from a 0.53-point effect in an appendix while calling half a
+%       point negligible in the chapter is a contradiction a reader can see, and the document had
+%       no answer for it.
+%   (2) It was built to explain a LARGE joint category advantage. On the final board that advantage
+%       does not exist (joint minus narrow is -0.19, inside the same band), so the competing
+%       explanation it refutes is one nothing in the document asserts.
+% The measurement itself is sound and stays available in the supplement. Its three live references
+% are gone: the discussion's capacity limit is withdrawn in the same commit, and the conclusion's
+% two mentions with it. Removing the LAST appendix of this volume shifts no letter.
+% [round12, 2026-08-03] APPENDIX E, "Adaptation of the HGI Baseline", REMOVED from this volume on
+% the author's instruction: "APENDICES -- remover A.1, C.3 e E, mandando esse conteudo para o
+% material extra." The file chapters/apx_g_hgi_tuning.tex is unchanged and is now included by
+% main_extra.tex, where it prints as Appendix G. At the time of removal it was the LAST appendix
+% of this volume, so that removal caused no letter shifts. The methods walkthrough added afterward
+% now occupies Appendix E in this volume.
+% Verified in the build's own aux table after the edit, not predicted from the source.
+% The label apx:hgi-tuning had no \ref site anywhere in this volume before the removal, measured
+% from src/ with comments stripped (the one file that discusses the sweep in prose,
+% chapters/2_fundamentals.tex, names no label):
+%   for f in $(grep -rl apx:hgi-tuning chapters *.tex); do grep -v '^[[:space:]]*%' "$f" \
+%     | grep -n apx:hgi-tuning; done   ->  only the \label declaration itself
+    \end{apendicesenv}
+
+\end{document}

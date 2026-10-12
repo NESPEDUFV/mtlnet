@@ -1,0 +1,108 @@
+{
+  "study": "G3 paired Istanbul place arm (A1b)",
+  "date": "2026-10-01",
+  "machine": "Apple M2 Pro 32 GB, MPS, torch 2.11.0, no compile, num_workers 0, fp32",
+  "recipe": "train.py --task next --state istanbul --model next_gru --embedding-dim 64 --folds 5 --epochs 50 --seed 0 --batch-size 8192 --max-lr 0.0005 --logit-adjust-tau 0.5 --no-checkpoints; env MTL_NO_TRAIN_DIAGNOSTICS=1 MTL_DISABLE_AMP=1 MTL_RAM_HEADROOM_GB=4; OUTPUT_DIR/DATA_ROOT/RESULTS_ROOT=scratch",
+  "metric": "macro-F1 at f1-best epoch per fold (score_stl_cat_ceiling rule)",
+  "checkin_v18_mps": {
+    "folds": [
+      36.4853,
+      34.9125,
+      34.156,
+      35.7527,
+      35.4202
+    ],
+    "mean": 35.3453,
+    "sd": 0.8765,
+    "rundir": "results/check2hgi_v18/istanbul/next_lr1.0e-04_bs8192_ep50_20261001_195628_10010"
+  },
+  "checkin_v18_printed_cuda": {
+    "folds": [
+      36.5132,
+      34.9152,
+      34.1353,
+      35.7571,
+      35.4487
+    ],
+    "mean": 35.3539,
+    "source": "docs/studies/closing_data/v18/data/v18_results.json per_run istanbul s0 stl_cat_folds"
+  },
+  "validity": {
+    "mps_minus_cuda_per_fold": [
+      -0.0279,
+      -0.0027,
+      0.0207,
+      -0.0044,
+      -0.0285
+    ],
+    "mean_diff": -0.0086,
+    "max_abs_diff": 0.0285,
+    "verdict": "reproduces within fold noise (fold sd 0.88)"
+  },
+  "place_paired_mps": {
+    "folds": [
+      34.1602,
+      32.5775,
+      31.3084,
+      32.2075,
+      32.4319
+    ],
+    "mean": 32.5371,
+    "sd": 1.0327,
+    "rundir": "results/hgi_dk_ovl/istanbul/next_lr1.0e-04_bs8192_ep50_20261001_204750_20910"
+  },
+  "place_printed_unpaired": {
+    "folds": [
+      29.9846,
+      28.4006,
+      29.003,
+      29.3552,
+      28.5989
+    ],
+    "mean": 29.0684,
+    "rows": 343795
+  },
+  "paired_delta": {
+    "per_fold": [
+      2.3251,
+      2.335,
+      2.8476,
+      3.5452,
+      2.9883
+    ],
+    "mean": 2.8082,
+    "sd": 0.5085,
+    "all_positive": true,
+    "paired_t_p": 0.000247,
+    "wilcoxon_p": 0.0625
+  },
+  "printed_delta": 6.29,
+  "pairing": {
+    "rows": 271666,
+    "userid_equal": true,
+    "labels_equal": true,
+    "folds_identical": "5/5 via load_next_data + SGKF(int64)"
+  },
+  "label_alignment": {
+    "rows_changed": 2852,
+    "pct": 1.05,
+    "why": "builder derives labels from data/checkins/Istanbul.parquet (box md5 90cec3fc...) which disagrees with the dk_ovl/v18 labels the printed cell used; place arm aligned to v18 labels so both arms share targets; builder output kept as next.builder_labels.parquet"
+  },
+  "resources": {
+    "wall_s": {
+      "checkin": 3082,
+      "place": 3046
+    },
+    "peak_rss_GB": {
+      "checkin": 6.89,
+      "place": 6.36
+    },
+    "swap_growth_MB": 0,
+    "min_mem_free_pct": 37,
+    "smoke_fold0_wall_s": {
+      "checkin": 691,
+      "place": 623
+    }
+  },
+  "inputs_md5_verified_vs_box": 9
+}

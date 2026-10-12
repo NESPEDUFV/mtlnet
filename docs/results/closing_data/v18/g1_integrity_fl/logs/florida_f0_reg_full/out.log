@@ -1,0 +1,42 @@
+2026-10-04 04:35:46,498 - INFO - Loading data for florida (input_type=region, region_emb=check2hgi_design_k_resln_mae_l0_1_fullcpu_s0, target=region, engine_override=EmbeddingEngine.CHECK2HGI_DK_OVL, visit_feats=False)...
+2026-10-04 04:35:46,498 - INFO - Loading next-POI data: florida/check2hgi_dk_ovl
+2026-10-04 04:35:50,605 - INFO - Next-POI data: (1274418, 576) (dim=64, window=9), distribution: {np.int64(0): np.int64(131583), np.int64(1): np.int64(110222), np.int64(2): np.int64(318253), np.int64(3): np.int64(55458), np.int64(4): np.int64(90743), np.int64(5): np.int64(283638), np.int64(6): np.int64(284521)}
+2026-10-04 04:35:57,139 - INFO - x=torch.Size([1274418, 9, 64]), emb_dim=64, n_regions=4703, n_seqs=1274418, last_region_idx=present
+2026-10-04 04:35:58,931 - INFO - No checkpoint — starting fresh. Will save to docs/results/P1/region_head_florida_region_5f_50ep_g1_reg_fullcpu_s0_florida_f0_onlyfold0.checkpoint.json after each fold.
+2026-10-04 04:35:58,932 - INFO - ============================================================
+2026-10-04 04:35:58,932 - INFO - HEAD: next_stan_flow (5 folds x 50 epochs, max_lr=3e-03, ls=0.00, input_ln=False)
+2026-10-04 04:35:58,932 - INFO - ============================================================
+2026-10-04 04:36:34,496 - INFO - [p1 S2] STREAMED val metric on cpu (per-row accumulators, no [N=254884 x C=4703] buffer; would have been 4.8 GB) — same per-row ops as the full path
+2026-10-04 04:36:38,983 - INFO - [p1 S2] boundary ties on REAL val logits — top5 (target ambiguous at the 5/6 boundary): 0/254884 (0.0000%); top10 (target ambiguous at the 10/11 boundary): 0/254884 (0.0000%). Both must read 0 before P1_STREAM_GPU=1 is safe for a state with banked CPU cells.
+2026-10-04 05:08:24,131 - INFO -   fold 0: Acc@1=0.4944 Acc@5=0.6993 Acc@10=0.7713 MRR=0.5897 F1=0.0849 (1945.2s, best_ep=50)
+2026-10-04 05:08:24,133 - INFO -   AGGREGATE: Acc@1=0.4944+/-0.0000  Acc@10=0.7713+/-0.0000  MRR=0.5897+/-0.0000  F1=0.0849+/-0.0000
+
+================================================================================
+P1 REGION-HEAD ABLATION - florida - 5f x 50ep - input=region
+================================================================================
+Head                         Acc@1    Acc@5   Acc@10      MRR       F1
+--------------------------------------------------------------------------------
+next_stan_flow              49.44%   69.93%   77.13%   58.97%    8.49%
+--------------------------------------------------------------------------------
+Markov 1-step (floor)         ~12%        —   ~45.9%        —        —
+================================================================================
+2026-10-04 05:08:24,134 - INFO - Saved: docs/results/P1/region_head_florida_region_5f_50ep_g1_reg_fullcpu_s0_florida_f0.json
+2026-10-04 05:08:24,134 - INFO - Removed checkpoint docs/results/P1/region_head_florida_region_5f_50ep_g1_reg_fullcpu_s0_florida_f0_onlyfold0.checkpoint.json (run complete).
+     1962.60 real       925.54 user        47.23 sys
+         14308933632  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             3084103  page reclaims
+                5264  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                8020  voluntary context switches
+             1001125  involuntary context switches
+       8404944193594  instructions retired
+       2677474104708  cycles elapsed
+         16157815960  peak memory footprint

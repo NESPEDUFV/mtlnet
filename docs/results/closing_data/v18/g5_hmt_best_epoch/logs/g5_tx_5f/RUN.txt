@@ -1,0 +1,4 @@
+start 2026-10-03 15:59:01 commit f0fca061 swap_used_MB=0 state=texas folds=5 epoch_select=per_task
+b3 rc=0 wall=13205s peakRSS_bytes=3833675776
+end 2026-10-03 19:39:06
+DONE

@@ -1,0 +1,40 @@
+# Bulk: raw corpora, substrate artifacts, per-run outputs, scratch.
+#
+# Anchored with a leading slash, and that is the whole point of this comment. Unanchored, `data/`
+# matches at ANY depth — including `src/mtlcheck/data/`, which silently left the entire layer-2
+# package unversioned for the life of the project. Three commits claimed changes to files inside it
+# and contained none of them. Never unanchor these.
+/data/
+/artifacts/
+/runs/
+/scratch/
+
+# Re-include the source package that the bulk patterns were swallowing. `src/mtlcheck/data/` is the
+# layer-2 code, not a data directory, and it went unversioned for the life of the project because an
+# unanchored `data` pattern — here AND in the shared .git/info/exclude, which this file outranks —
+# matched it at depth. Three commits claimed changes to files inside it and carried none.
+!/src/mtlcheck/data/
+!/src/mtlcheck/data/**
+
+# ...with one deliberate exception. A substrate is 44 GB and cannot live in git, but the CLAIM that
+# a given substrate exists — its build config, content hashes, edge counts, row-space provenance —
+# is the scientific record, and the E10 equivalence test validates against exactly these numbers.
+!artifacts/
+artifacts/*
+!artifacts/substrate/
+artifacts/substrate/*
+!artifacts/substrate/*/
+artifacts/substrate/*/*
+!artifacts/substrate/*/*/
+artifacts/substrate/*/*/*
+!artifacts/substrate/*/*/manifest.json
+
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.DS_Store
+.pending/

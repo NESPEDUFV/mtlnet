@@ -1,0 +1,4 @@
+state=alabama seed=0 fold=0 vocab=11850
+pretrain_epochs=10 smoke=False
+split_engine=check2hgi_dk_ovl n_val_users=222 val_users_sha256=01b7b2e12818a81b588c90fd28a6da8b440397d9ffbc5447f87f296ca0854216
+LEAK-SAFE: encoder pretrained on fold-0 TRAIN users only.

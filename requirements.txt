@@ -1,0 +1,52 @@
+# Core ML
+torch==2.11.0
+torchvision==0.26.0
+torch-geometric==2.7.0
+torch_cluster==1.6.3
+torch_scatter==2.1.2
+torch_sparse==0.6.18
+# pytorch_warmup powers the LinearWarmup scheduler used in HGI training
+# (research/embeddings/hgi/hgi.py:train_hgi). Matches RightBank/HGI's
+# canonical train.py — without it the canonical lr=0.006 + warmup_period=40
+# combination cannot be reproduced.
+pytorch-warmup==0.2.0
+numpy==2.0.2
+scipy==1.16.3
+scikit-learn==1.8.0  # 1.8 fixes StratifiedGroupKFold stratification with shuffle=True (PR #32540)
+
+# Data
+pandas==2.2.3
+pyarrow           # parquet backend for pandas (read_parquet / to_parquet)
+h5py==3.13.0
+geopandas==1.0.1
+shapely==2.1.2
+networkx==3.2.1
+numba==0.60.0
+
+# Optimization (NashMTL)
+# ecos is the solver Nash-MTL calls explicitly (cp.ECOS); without it cvxpy
+# silently fails inside NashMTL.solve_optimization and the optimizer collapses
+# to fixed [1,1] task weights — make sure it stays installed.
+cvxpy==1.6.4
+ecos==2.0.14
+
+# Visualization
+matplotlib==3.9.4
+
+# Metrics
+torchmetrics      # multiclass_f1_score, multiclass_accuracy, multiclass_confusion_matrix
+
+# Utilities
+tqdm==4.67.1
+psutil==7.0.0
+
+# Testing
+pytest
+torchmetrics
+
+# Optional: experiment tracking (deferred import, set TRACKING_BACKEND=wandb)
+wandb
+
+# Optional: Hydra entrypoint (scripts/train_hydra.py)
+hydra-core
+omegaconf

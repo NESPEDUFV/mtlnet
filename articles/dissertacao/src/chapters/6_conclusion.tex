@@ -1,0 +1,496 @@
+% !TeX root = ../main.tex
+% Chapter 6 -- Conclusion (Conclusao Geral)
+% Draft 1 (2026-07-23). Written from NORTH_STAR section 6 Ch.6 beats (synced with all
+% signed-off additions, AVAL rounds 1-3) + the D1 capacity-baseline record
+% (science/storyline/audit/capacity_baseline_experiment.md section 5).
+% Obeys WRITING_LAW.md + GLOSSARY.md. Claim/number ledger: 6_citations.md (same folder).
+% [AUTHOR DECISION pending in section 6.2: prominence of the capacity-matched baseline
+%  paragraph -- it is included per the D1 licensing contract (suppression is not an
+%  option once run), but its length and placement are the author's call.]
+
+
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+This dissertation asked whether multitask learning helps predict the next category and
+the next region of a visit, and which design choices determine the answer. Three studies
+addressed this question in sequence. The first developed a joint model that did not
+consistently outperform its dedicated counterparts (Chapter~\ref{ch:cbic}). The second
+kept the model architecture fixed, changed the input representation, and identified that
+representation as the main bottleneck in the tested configuration
+(Chapter~\ref{ch:courb}). Those two studies paired next-category prediction with a static
+category classification task, and the pair changed in the final study.
+% AUT-32 (PENDENCIAS §4, ruling "Opção B"). The author noticed that this opening does not mention the
+% static category classification task, and the omission is real. Option B was chosen over widening the
+% research question, and the distinction matters: the question stated here is the SAME question the
+% NORTH_STAR §1 and §1.2 state, about the next category and the next region. Adding the static task to
+% the QUESTION would make this chapter declare a research question that neither of those two approved
+% places declares, so the change would propagate rather than stay a wording fix. The clause above
+% instead records the static task as HISTORY of the first two studies, which is what it is.
+% Consistent with the same treatment elsewhere: the static task is present in the Ch.3/Ch.4 recaps and
+% in limitation 6, and absent from the research question and from the future work. See AUT-35 (c) and
+% AUT-36, which turn on the same task-pair change.
+% Probe: R13-aut32.
+The third study combined a check-in-level representation with a redesigned sharing
+topology (Chapter~\ref{ch:mobiwac}). Under this design, one joint model replaces two
+dedicated single-task models on both tasks. On the region task it outperforms
+them at Texas and California, the two datasets with the largest region vocabularies, and at
+the other four it stays within a two-point margin registered before any result was read
+(statistical non-inferiority, assessed with two one-sided tests). On the category task it
+outperforms them at Florida, and the five remaining differences are equivalent to zero within
+half a point.
+% [NEEDS SIGN-OFF 30 | CLOSED] Author confirmed the scope as written: category at all six, region
+% at four (Istanbul, Florida, California, Texas), TOST non-inferiority within two points at
+% Alabama and Arizona, Arizona not upgraded.
+
+
+\section{Contributions by chapter}
+\label{sec:conc:contributions}
+% [2026-09-04, AUTHOR-APPROVED (advisor's list, last open item)] The introduction states four
+% objectives (1_introduction.tex, sec:intro:objectives) and this chapter never revisited them by
+% name: live count of "objective" in this file was 0. Three sentences below weave them into the
+% per-chapter paragraphs, one clause per objective, in the order the introduction gives them:
+% objective 1 at the end of the Chapter 3 paragraph, objective 2 at the end of the Chapter 4
+% diagnosis paragraph, objectives 3 and 4 after the Chapter 5 protocol sentence. No claim, number
+% or verdict is added; each sentence names which objective the paragraph's existing content meets.
+% Pinned spans untouched: R13-foldseed9 ("four seeds, each drawing its own five-fold user
+% partition") and the chapter opening (R13-aut32). Wording of the objectives follows the
+% introduction as rewritten on 2026-09-03 (objective 4 = protocol differences + verdict reading).
+
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] (1) "shared its lower layers" -> "shared a trunk of
+% hidden layers": the lowest layers are task-specific encoders (3_cbic/method.tex); verified.
+Chapter~\ref{ch:cbic} presents MTLnet, the first joint model developed in this research.
+It combined static category classification with next-category prediction and shared a
+trunk of hidden layers across the two tasks. Both tasks read a place-level graph embedding. In
+this configuration, the joint model cost more to train and did not consistently
+outperform the dedicated single-task models on either task. The chapter contributes
+this negative finding and an analysis of three possible causes: task dissimilarity and
+the resulting risk of negative transfer, an input representation that may be
+insufficient for both tasks, and an overly rigid sharing topology. The finding is
+limited to a place-level input under hard sharing. This is the first objective of
+Section~\ref{sec:intro:objectives}, met with a negative answer. The next two studies
+examine what happens when these conditions change.
+
+Chapter~\ref{ch:courb} kept the MTLnet architecture fixed but replaced its single
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] (3) the 20.2 to 22.0 figure takes the better of the two spatial
+% encoders per category-state combination, as 4_courb/results.tex and conclusion.tex state; verified.
+64-dimensional place embedding with separate spatial, temporal, and categorical
+encoders. On the static task, category macro-F1 rose by 20.2 to 22.0 percentage points
+across the three states tested, taking the better of the two spatial encoders in each combination. This increase exceeded those obtained from the
+architectural variations evaluated in the first study.
+% [round6, D-02] The 20.2-22.0 point gain is the STATIC task's (4_courb/results.tex:92), whose
+% input determines its target by construction (Appendix B), so it does not by itself diagnose the
+% arc; the sequential task, clean in both published chapters, is what Ch.5 goes on to test. The
+% number stays as the published chapter's own audited figure, now carrying its task and
+% qualification instead of standing unlabelled as the whole arc's diagnosis.
+% [NEEDS SIGN-OFF 31 | CLOSED] Author approved the two added frame-prose sentences; no number
+% changed.
+% [NEEDS SIGN-OFF 32 | CLOSED] Author: no longer applicable given the current state of the text.
+
+This gain requires two qualifications: First, the static task classifies a place from
+that place's own representation, so the input already determines the target. The gain
+therefore provides no evidence about the sequential task. Second, the comparison is not
+width-matched: the decomposed input has 192 dimensions, whereas the place embedding has
+64. Chapter~\ref{ch:courb} therefore calls for an equal-dimension control to separate the
+semantic contribution of the encoders from the effect of the additional width.
+
+The sequential task provides the relevant diagnosis because its input does not
+determine its target. The decomposed encoders are more effective in most of the tested
+cases. Because the sharing topology remained fixed, this result identifies the input
+representation as the main bottleneck in that configuration. This meets the second
+objective, which asked how the input representation affects the result while the
+architecture is held fixed.
+
+Chapter~\ref{ch:mobiwac} responds to this diagnosis with Check2HGI, a check-in-level
+representation that assigns a distinct vector to each visit rather than reusing one
+vector for every visit to the same place. The joint model exchanges information between
+two task-specific streams through cross-attention, while a private spatial path serves
+the region task. The evaluation used user-disjoint cross-validation, with twenty fitted
+models per configuration: four seeds, each drawing its own five-fold user partition.
+Paired tests used the four per-seed means. The representation and the joint model are
+the third objective of Section~\ref{sec:intro:objectives}; the protocol that reads them,
+together with its differences from the protocols of the first two studies
+(Section~\ref{sec:fund:split}), is the fourth.
+% CORRECTED 2026-08-04, the same finding the author caught in Appendix A. This said "four seeds over one
+% fixed set of five folds", which is false: src/data/folds.py passes the run's seed into
+% StratifiedGroupKFold(random_state=...), so the partition moves with the seed. Evidence and the full code
+% path: science/fold_partition_and_seeds.md. This was the LAST live occurrence in the .tex sources; the
+% sweep that found it is recorded in §9 of that document.
+% "Paired tests used the four per-seed means" is UNCHANGED and is what keeps this sentence coherent: the
+% tests never required fold k of one seed to be fold k of another. Probe: R13-foldseed9.
+
+Under this protocol, the joint model outperforms the dedicated single-task models on the
+region task at Texas ($+1.21$ Acc@10) and California ($+1.06$), and at Istanbul, Alabama,
+Arizona, and Florida it stays within the registered two-point margin. All four are small
+deficits, the largest being Alabama at $-0.87$; a test in the reverse direction, corrected across
+the six region comparisons, resolves three of them. They are reported as differences inside the
+margin rather than as ties. On
+the category task it outperforms the dedicated model at Florida ($+0.19$ macro-F1); the
+other five are equivalent to zero within half a point. The equivalence margin was registered for
+the region axis only, so the category bound is read off the intervals rather than chosen in advance.
+Non-inferiority was the registered analysis for the region task; the
+two superiority findings are secondary results outside that analysis plan. Further analyses
+clarify what these results do and do not establish. They isolate the contribution of the
+% [2026-08-12] The parameter-count clause is withdrawn from this list with the appendix it named
+% (relocated to the supplementary volume; reasoning at its former include site in content.tex). It
+% read: "test parameter count as an alternative explanation for the next-category gains". The list
+% now claims only what this volume reports.
+input representation and identify a possible relation between problem scale and the next-region
+gains.
+
+Beginning with input representation, Section~\ref{sec:mobiwac:results-part1} provides the first
+explanation through a controlled comparison between Check2HGI and HGI. With the dedicated
+model, training configuration, windowing, and folds held fixed, Check2HGI produces higher
+next-category macro-F1 than the place embedding HGI across the six evaluated datasets.
+This result establishes the input representation as one condition that affects
+performance in this setting. It also supports testing Check2HGI in other mobility
+prediction architectures, although its benefit in those architectures has not yet been
+evaluated.
+
+% [2026-08-12, AUTHOR RULING] THE CAPACITY PARAGRAPH IS WITHDRAWN with the appendix it reported
+% (the parameter-count control, now in the supplementary volume; reasoning at its former include
+% site in content.tex). It read: model capacity offers a competing explanation for the next-category
+% results; the control widens the dedicated model to the joint model's budget and finds the wider
+% model 0.53 macro-F1 points BELOW the narrower one at Alabama, unanimous across twenty folds, with
+% a single-seed reading at California consistent with it. The measurement stands and is preserved in
+% the supplement. It leaves this chapter because a 0.53-point argument cannot carry weight in a
+% document that reports category differences within half a point as equivalent to zero, and because
+% the large joint category advantage it was built to explain is not on the final board.
+For next-region prediction, the results point to problem scale as another possible
+condition. The two datasets where the joint model outperforms the dedicated model are
+Texas and California, the two states with the largest number of regions, while the four
+datasets with smaller region vocabularies sit inside the margin. This grouping suggests
+that joint learning becomes more useful when the model must choose among more regions.
+Two observations keep it a suggestion. The ordering does not hold inside the pair, since
+California has more regions than Texas and a slightly smaller gain, and states with more
+regions also tend to have more check-ins. A controlled
+experiment is therefore required to separate the effect of region count from the amount
+of data and other differences between the states. Problem scale remains a possible
+condition, not an established cause.
+
+% [2026-08-06, AUTHOR REWRITE] The findings on representation, capacity, and problem scale remain
+% separate in the preceding section. The consolidated answer follows three movements: (1) the
+% question and final result; (2) the sequence from the Chapter 3 null result, through the Chapter 4
+% diagnosis, to the Chapter 5 design; and (3) the incomplete initial premise and conditional lesson.
+% The first result remains valid for its configuration. The correction applies to a broad reading of
+% that result, not to the result itself. The MTL expectation is attributed internally to
+% Section~\ref{sec:fund:mtl}, where it is already sourced. The Check2HGI implication is limited to a
+% candidate for testing with other architectures; transfer to them is explicitly unmeasured. The
+% distinction between diagnosis and resolution is carried by the paragraph sequence.
+
+
+\section{The consolidated answer}
+\label{sec:conc:answer}
+
+The research question asks whether multitask learning helps next-category and
+next-region prediction, and what the answer depends on. For the first part, the evidence
+shows that it helps under the final configuration. The sequence that led to this
+configuration also identifies the conditions behind that answer. Identifying these
+conditions is the main finding of this dissertation.
+
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] (5) "registered primary analysis" -> "registered
+% analysis" (:127). (6) "naive hard sharing" -> "hard sharing", twice (here and the paragraph below).
+The explanation begins with Chapter~\ref{ch:cbic}, which used a place-level embedding and
+hard sharing. Its joint model did not consistently outperform the two dedicated
+models, leaving three possible explanations: the tasks might be too different, the input
+might be insufficient, or the sharing topology might be too restrictive.
+Chapter~\ref{ch:courb} separated one of these explanations by
+keeping the architecture fixed and changing the input. Performance then improved,
+including on the sequential task in most states. Because the architecture did not
+change, this comparison identifies the input representation as the main bottleneck in
+that configuration. This diagnosis set the direction for the final study.
+
+Chapter~\ref{ch:mobiwac} responded to this diagnosis in two steps. First, it introduced
+Check2HGI, which replaced one vector per place with one vector per visit. Second, the
+joint architecture replaced hard sharing with task-specific streams that exchange
+information through cross-attention, while the region output retained a private spatial
+path.
+
+Together, these changes define the final configuration evaluated in this dissertation.
+They also explain why the answer is conditional. The initial premise, explained in
+Section~\ref{sec:fund:mtl}, was that training related tasks together would improve
+generalization through a shared representation. Across the three studies, task
+relatedness and joint training were not sufficient by themselves.
+The controlled comparisons identify the input representation as one condition,
+while the results suggest that the architecture and dataset scale may matter, although their
+individual effects were not fully isolated. The answer therefore depends on the design and
+evaluation conditions, not on joint training alone.
+
+These findings support a conditional rather than universal conclusion.
+The consolidated answer is therefore not that multitask learning always helps.
+It is that multitask learning helps next-category and next-region prediction under
+the final design and evaluation protocol developed in this dissertation.
+
+\section{Limitations}
+\label{sec:conc:limitations}
+
+Six limitations bound the scope of these conclusions.
+
+\begin{enumerate}
+    % [round8, 2026-07-30, PENDENCIAS_RESOLVIDOS 5.6 (arquivado 2026-07-30)] BOTH DATES, because they are different
+    % facts
+    %     and one of them
+    % was about to be printed alone. The author's decision was "busque pelo que o artigo original cita e
+    % vamos usar isso em ambos", and a track did exactly that: opened cho2011gowalla first-hand (authors'
+    % posted PDF, cs.stanford.edu, Section 2 p.2) and put Feb 2009 - Oct 2010 here. Correct as a statement
+    % ABOUT THAT PAPER, and wrong as a statement about this work's data, which is what a limitation headed
+    % "Data vintage" is read as.
+    % MEASURED on the five parquet files this work consumes (columns: local_time; command below):
+    %   Alabama    2009-03-18 .. 2011-07-27   n=113,846
+    %   Arizona    2009-03-26 .. 2011-07-04   n=236,450
+    %   Florida    2009-03-13 .. 2011-08-11   n=1,407,034
+    %   Texas      2009-01-21 .. 2011-08-16   n=4,089,892
+    %   California 2009-01-24 .. 2011-08-14   n=3,171,380
+    %   union 2009-01-21 .. 2011-08-16 -- TEN MONTHS past the window the paper states.
+    %   python3 -c "import pandas as pd,glob,os
+    %   for f in ['Alabama','Arizona','Florida','Texas','California']:
+    %       t=pd.to_datetime(pd.read_parquet(f'/Users/vitor/Desktop/mestrado/data/checkins_by_state/{f}.parquet')
+    %       ['local_time'],errors='coerce')
+    %       print(f, t.min(), t.max(), len(t))"
+    % The author's premise in 5.6 ("ambos usaram o mesmo recorte, nao houve diferenca") is therefore not
+    % what the files show. Not a defect in his decision -- he was ruling on which SOURCE to cite -- but the
+    % sentence carried both dates for two days; it now carries only the measured one.
+    % [round9c, PENDENCIAS_RESOLVIDOS 5.6b (arquivado 2026-08-02), 2026-07-30] SIGN-OFF MARKER REMOVED, question
+    % answered. It asked which
+    % window to print and offered the cut: "If he prefers only the paper's window, the clause after the
+    % comma is the one to cut." He chose the OTHER direction, only the measured window, so the clause that
+    % came out is the paper's. Nothing is left for him to decide here, and his instruction is explicit:
+    % "O need sing-off assim como os demais ja resolvidos que estao no latex pode ser removidos nao
+    % precisam fica lá." The reasoning is preserved in _history/_round9/45_author_rulings.md, per the second half of
+    % the same instruction ("Se quider documentar isso tem que ser em algum lugar do src_util").
+    \item \textbf{Data vintage.} The five state datasets come from
+    Gowalla~\cite{cho2011gowalla}, and the extraction used here spans January 2009
+    to August 2011 across the five states. The Istanbul
+    dataset~\cite{wongso2025massivesteps} is not appreciably more recent for most of its
+    volume: its check-ins fall in two separate periods, 2012 to 2013 and 2017 to 2018,
+    with none in between, and roughly seven in ten belong to the earlier period.
+    Mobility patterns, place inventories,
+    and check-in behavior have changed since.
+    % AUT-35 (a) (PENDENCIAS §4, ruling "Vamos aplica o A,B e commentar a limitação 6, com as
+    % alterações do C", plus the author's follow-up choice of the two-block form on 2026-08-04).
+    % "August 2011" is LOAD-BEARING: probe R8-vintage requires that literal string, so the Gowalla
+    % window must not be reworded when this item is edited.
+    % THE AUTHOR'S PREMISE FOR THIS EDIT WAS REFUTED, and the sentence above is what survived.
+    % He believed the Istanbul check-ins were 2017-2018 data and that Massive-STEPS is the most modern
+    % public benchmark. Neither holds as stated:
+    %   - the check-ins span 2012-04-03 to 2018-10-19 in TWO blocks with nothing in 2014, 2015 or 2016.
+    %     Of the 462,615 Istanbul check-ins this work models, 327,242 (70.7%) fall in 2012-2013 and
+    %     135,373 (29.3%) in 2017-2018. MEASURED, not quoted: the benchmark paper gives no per-city
+    %     window anywhere. Command: python3 src_utils/_history/_round13/aut35a_window.py datetime
+    %     output/check2hgi/istanbul/chrono_split/split_assignment.parquet, corroborated by
+    %     data/massive_steps_istanbul/parse_report.json (field datetime_range_local). The instrument
+    %     was blindness-checked first against the Gowalla files, where it returns 2009/2010/2011 and
+    %     nothing else, which is the window this same item states.
+    %   - "most modern public dataset" fails on Yelp, whose open dataset carries check-ins to
+    %     2022-01-19 (measured by streaming checkin.json). The narrow form that does survive concerns
+    %     only openly redistributable, city-partitioned check-in benchmarks used in this literature,
+    %     and it is a claim about the Massive-STEPS COLLECTION rather than the Istanbul split. That
+    %     claim is not made in this document.
+    % The prose says "roughly seven in ten" rather than 70.7%, because a per-dataset percentage of a
+    % third party's data does not belong in a limitation item; the exact figure lives here with its
+    % command. Full evidence and the source ledger: src_utils/_history/_round13/70_massivesteps_validation.md.
+    % Probes: R13-aut35a, and R8-vintage still guards the Gowalla string.
+    % [round9c, PENDENCIAS_RESOLVIDOS 5.6b (arquivado 2026-08-02), author decision, 2026-07-30] ONE WINDOW, THE
+    % MEASURED ONE. His words:
+    % "Vamos usar so as datas que encontramos no database de 2009 a 2011, pode omitir que no artigo eles
+    % comentam que e de 2009 a 20010." So the clause reporting what the dataset paper states (February
+    % 2009 to October 2010) is REMOVED, and the citation stays on the dataset itself, which is what it is
+    % for. "since either date" became "since", since there is now one date range.
+    % The measurement that produced the printed span is unchanged and is preserved in full in the
+    % provenance block above: five parquet files, union January 21 2009 to August 16 2011, with the
+    % command that reads them. The paper's own window is not lost either -- it is recorded in
+    % src_utils/_history/_round9/45_author_rulings.md under this item, which is where he asked documentation of
+    % this kind to live ("Se quider documentar isso tem que ser em algum lugar do src_util").
+    % [COD/PENDENCIAS_RESOLVIDOS 5.6 (arquivado 2026-07-30), round8, 2026-07-30] "collected between 2009 and 2011" ->
+    %     "collected between
+    % February 2009 and October 2010", with the citation added. Author decision, PENDENCIAS_RESOLVIDOS 5.6 (arquivado
+    %     2026-07-30): "Busque
+    % pelo que o artigo original cita e vamos usar isso em ambos. Inclusive ambos usaram o mesmo recorte
+    % nao houve diferenca."
+    % SOURCED THIS SESSION, first hand. Cho, Myers and Leskovec, "Friendship and Mobility: User Movement
+    % in Location-Based Social Networks", KDD 2011, DOI 10.1145/2020408.2020579. The publisher copy is
+    % closed (Unpaywall, Semantic Scholar, PMC, Elsevier and Springer all returned no open copy); the
+    % authors' own posted PDF was opened at cs.stanford.edu/people/jure/pubs/mobile-kdd11.pdf, 9 pages.
+    % Section 2, "CHARACTERISTICS OF CHECK-INS", page 2, states: "We collected all the public check-in
+    % data between Feb. 2009 and Oct. 2010 for Gowalla and Apr. 2008 to Oct. 2010 for Brightkite. The
+    % total number of check-ins for Gowalla is 6.4 million". Only the window is used here; the 6.4 million
+    % figure is NOT quoted in the text, because it counts the whole SNAP collection and not the five-state
+    % subset this work uses.
+    % CHAPTER 4 NEEDS NO EDIT, which is why this is a one-file change rather than two. Its published prose
+    % at 4_courb/conclusion.tex:20 already reads "collected between February 2009 and October 2010", the
+    % paper's window verbatim, so the two chapters now agree and no published text is touched. Checked
+    % against the Portuguese record and the English translation, ../CoUrb_2026/src/sections/conclusion.tex
+    % and src_en/sections/conclusion.tex: both carry the same window.
+    % A MEASURED FACT THIS DOES NOT ERASE, and it is the reason for the marker below. The provenance
+    % comment at 5_mobiwac/05_setup.tex:17-21 records that the data this work actually consumes is the
+    % figshare CC0 category-annotated dump (36,001,959 check-ins), whose date range was MEASURED on the
+    % parquet on 2026-07-09 as 2009-01-21 to 2011-08-16, and it states that the SNAP/cho2011 dump is not
+    % the data source. That measurement is where "2009 and 2011" came from, so it was not a careless
+    % number, and it is left in place unaltered. The sentence above is therefore written as a statement
+    % about the GOWALLA COLLECTION as its own paper reports it, not as a claim about the span of the five
+    % parquet files, which is the only form in which the author's instruction and the measurement can both
+    % stand. PENDENCIAS_RESOLVIDOS 5.6 (arquivado 2026-07-30)'s own warning applies and is respected: do not "correct" a
+    %     measured number to
+    % match an inherited one.
+    % [NEEDS SIGN-OFF 36 | CLOSED] Author confirmed both studies used the same extract.
+    \item \textbf{Taxonomy coarseness.} Next-category prediction uses seven top-level
+    classes. A finer taxonomy may change the effect of joint training.
+    \item \textbf{Transductive representation.} Check2HGI is trained on the check-in
+    graph of each dataset, so it cannot represent unseen places or users without
+    retraining. The place-level representation it builds
+    on~\cite{huang2023hgi} is trained the same way, and methods that learn aggregators
+    instead of per-node vectors~\cite{hamilton2017graphsage} are the alternative this
+    constraint points toward.
+    % AUT-35 (b) (PENDENCIAS §4, same ruling as (a) and (c)). The author wanted to add that the
+    % transductive constraint "affects several approaches in the literature". That is a claim about
+    % OTHER PEOPLE'S work, and AGENT_GUARDRAILS §1 forbids it as a bare generality: it needs a located
+    % citation, and the citation must come BEFORE the claim rather than be appended to it, which is the
+    % order used here. Both poles were already in references.bib with resolvable identifiers:
+    % huang2023hgi (10.1016/j.isprsjprs.2022.11.021), whose HGI is the place embedding this work's
+    % baseline uses and is trained per dataset, and hamilton2017graphsage, whose title is literally
+    % "Inductive Representation Learning on Large Graphs".
+    % WHAT IS DELIBERATELY NOT WRITTEN: no count, no "several", no "many methods". The sentence names
+    % two identified works and stops, because "several approaches" is a survey claim and no survey was
+    % read in first person to support it. A broader statement needs a survey sentence opened and quoted,
+    % not an adverb.
+    % NOTE FOR WHOEVER EDITS THIS ITEM NEXT: this edit was applied twice. The first application was
+    % lost when a parallel editing lane rewrote this file at 02:49 while the round was in progress, and
+    % the loss was caught only because probe R13-aut35b failed. The probe is the reason it did not ship
+    % missing.
+    % Probe: R13-aut35b.
+    \item \textbf{No next-place task.} The experiments do not predict the exact next
+    POI, and their conclusions apply only to next category and next region.
+    \item \textbf{Geographic coverage.} Outside the United States, the evidence rests on
+    a single city, Istanbul.
+    \item \textbf{The task-pair confound.} The task pair changed together with the
+    representation and the sharing topology. Chapters~\ref{ch:cbic}
+    and~\ref{ch:courb} paired static category classification with next-category
+    prediction, while Chapter~\ref{ch:mobiwac} pairs two sequential targets,
+    next-category and next-region prediction. No single controlled ablation
+    separates the representation-and-topology change from the task-pair change in
+    the final result. Chapter~\ref{ch:courb} is the fixed-pair control for the
+% [2026-08-12] The sentence describing the parameter-count experiment and its scope is withdrawn
+% with that appendix (see the note above and content.tex). What it said about the LIMITATION is
+% unchanged and stated in the sentence that follows: no controlled ablation separates the two
+% changes, and the greater similarity of the final pair may contribute to the improvement.
+    diagnosis. The greater similarity of
+    the final pair may still contribute to the size of the improvement. The
+    ablation that would separate the two changes,
+    running static category classification under the check-in-level representation, is
+    not clean under that representation: the category of the visited place is an input
+    feature of a check-in node, so that target would be partly readable from its own
+    input. This follows from the design of the representation and was not measured, so
+    the confound is bounded by the fixed-pair control rather than removed.
+    % AUT-35 (c) (PENDENCIAS §4, ruling "commentar a limitação 6, com as alterações do C").
+    % THIS ITEM WAS COMMENTED OUT IN THE WORKING TREE AND WAS RESTORED ON THE AUTHOR'S INSTRUCTION,
+    % 2026-08-04. It is live at HEAD 9813ac21 and all twelve lines had been prefixed with % by a
+    % parallel editing lane, with no provenance comment, which is not this repository's convention. Two
+    % consequences made it a defect rather than a choice: the section says "Six limitations" and would
+    % have rendered five, and §6.4 ties future-work items to limitation NUMBERS, so shortening the
+    % enumeration leaves limitation~6 pointing at nothing. CORRECTED after a reviewer finding: this
+    % comment previously said the removal "silently repoints limitation~1 through limitation~4", which is
+    % false and I stated it as fact after hedging it correctly when I asked the author. This item is the
+    % LAST in the enumerate, so removing it renumbers nothing above it; the tags 1 through 5 keep their
+    % referents and only the tag for this item dangles. The load-bearing reason to restore it is the one
+    % that does hold: the section opens with "Six limitations" and would have rendered five.
+    % The item also carries a
+    % registered sign-off from 2026-07-22, which AGENT_GUARDRAILS requires be renewed before removal.
+    % THE ADDED SENTENCES ARE MARKED AS INFERENCE, and that marking is load-bearing. The leakage
+    % reasoning is ANALYTIC, derived from the representation's construction (the category one-hot is an
+    % input feature of the check-in node, preprocess.py:615-642), and NO experiment measured it. The
+    % text therefore says "follows from the design" and "was not measured" rather than reporting a
+    % finding. Do not upgrade those clauses to a result.
+    % WHY THIS STRENGTHENS THE LIMITATION RATHER THAN WEAKENING IT, which was the author's own reading:
+    % if the ablation that would resolve the confound cannot be run cleanly, then the confound is not
+    % cleanly resolvable, which is a stronger bound on the conclusions than "no ablation was run".
+    % What the argument DOES invalidate is the future-work item that proposed running that ablation.
+    % See AUT-36 for the coupled change: NORTH_STAR §6 requires each future-work item to be tied 1:1 to
+    % a limitation, so this limitation and that item move together.
+    % Probes: R13-aut35c, R13-lim6live.
+    % [GATE FIX C-1] "the size of the win" -> "the size of the improvement" (idiom law).
+    % [NEEDS SIGN-OFF 37 | CLOSED] Author: already qualified in the live prose above (category
+    % task, two of six datasets, one width point per dataset, width scaling rather than depth).
+\end{enumerate}
+
+
+\section{Future work}
+\label{sec:conc:future}
+
+Future work follows directly from these limitations. Newer and denser traces would
+test the conclusions beyond the Gowalla vintage (limitation~1), and finer-grained
+taxonomies would test them beyond the seven-class division (limitation~2). Because the
+check-in-level representation is trained on a fixed graph, an inductive variant of it,
+one that embeds unseen places and users without retraining, would remove the
+transductive constraint and support deployment in growing cities. Two further changes to
+the same representation would test how much of its behavior follows from how it is
+assembled rather than from the hierarchy: its place-vector table is initialized from a
+pre-trained table and then held near it during training, so an ablation that varies that
+coupling would separate the contribution of the initialization, and a hypergraph
+formulation, in which one edge joins the several visits of a session rather than only
+consecutive pairs, would test whether the pairwise graph is the right structure for a
+visit history (limitation~3).
+% AUT-36 (PENDENCIAS §4, ruling "Seguimos com até quatro frases novas ... Sobre o proximo lugar podemos
+% adicionar ele no trabalho futuro relacionado ao uso do check2hgi para outros contextos. Esse eu faço
+% questão de estar de alguma forma. Quanto ao resto adicione os que você analisou e cabem estar lá").
+% THREE items were added, and they were attached to EXISTING limitations rather than creating new ones.
+% (His ruling allowed up to four. A first draft of this edit did add a fourth, the cascade-tuning and
+% soft-sharing item under limitation 6, and that version was replaced: limitation 6 already hosts the
+% task-pair item, so tagging a second item to it broke the 1:1 rule this comment goes on to explain.
+% The fourth item is therefore recorded as dropped below, not as added.)
+% That choice is the whole structural point: NORTH_STAR §6 requires future work tied 1:1 to
+% limitations, and §6.3 opens with "Six limitations", so inventing limitations to host new items would
+% have changed the count sentence and silently repointed every limitation~N tag in this section.
+%   - the initialization coupling and the hypergraph formulation attach to limitation 3, which is about
+%     how the representation is built, and they are the two of his seven items that were ABSENT from
+%     the whole tree (a hypergraph search returned zero hits across all .tex files).
+%   - the next-place item carries his mechanism, and it is the one he insisted on ("faço questão").
+%     TENSE DISCIPLINE IS LOAD-BEARING HERE: "would require a change to the input pipeline and one
+%     additional output" is conditional. His own phrasing, "do jeito que está hoje já conseguimos
+%     usar", must NEVER be carried over: the present tense would claim a capability, and next place is
+%     a GATED scope exclusion (GLOSSARY §1.1; Definition 2.9 in 2_fundamentals.tex states that no
+%     chapter reports a result for it, guarded by probes R12-fplace and R12-fplace2). His framing of
+%     the item as Check2HGI reaching other contexts is what the clause carries.
+%   - the cascade-tuning and soft-sharing item was DROPPED rather than squeezed in, because both
+%     candidate hosts (limitation 6 and a new limitation) were unavailable: limitation 6 already hosts
+%     the task-pair item, and adding a limitation changes the count. Recorded rather than silently
+%     omitted, so it can be revisited if he authorizes a seventh limitation.
+% Two of his seven items were ALREADY PRESENT and needed nothing: finer taxonomies (limitation 2) and
+% further non-U.S. cities (limitation 5).
+% Probes: R13-aut36a, R13-aut36b.
+
+Adding the exact next place as a third target would extend the joint model beyond the
+two properties predicted in this work. The cascade architectures reviewed in
+Chapter~\ref{ch:mobiwac} suggest that category and region predictions can provide
+additional structure for this task, and reusing the existing check-in-level
+representation would require a change to the input pipeline and one additional output
+rather than a new representation, which is also the route by which this representation
+would serve contexts other than the two studied here (limitation~4).
+Further cities outside the United States would widen the geographic base
+(limitation~5).
+Isolating the effect of changing the task pair needs a static target
+that the check-in-level representation does not already carry as an input feature, since
+running the earlier pair directly under this representation is not a clean comparison
+(limitation~6).
+
+% AUT-36 (PENDENCIAS §4) COUPLED CHANGE, and it is not optional. The item here previously proposed
+% "training the Chapter 5 joint model on the Chapter 3 task pair, under the check-in-level
+% representation", which is precisely the ablation that AUT-35 (c) establishes is not clean: the
+% category of the visited place is an input feature of a check-in node, so the static target would be
+% partly readable from its own input. Leaving both texts unchanged would have the limitation explain
+% why an experiment cannot be run cleanly while the future work proposed running it.
+% NORTH_STAR §6 requires every future-work item to be tied 1:1 to a limitation, so the tie to
+% limitation 6 is preserved and only the proposal changes. It now names the condition a valid version
+% of the comparison would have to meet instead of naming an experiment that cannot meet it.
+% Probe: R13-aut36lim6.
+
+
+\section{Final remarks}
+\label{sec:conc:final}
+
+The practical output of this dissertation is a single model that predicts two
+properties of the next visit in one forward pass: what kind of place the user will
+visit and in which part of the city. The methodological contribution is the sequence
+of evidence that led to this model: a published negative result, the diagnosis that
+identified the input representation as the main bottleneck, and a solution designed
+from that diagnosis. The negative result was not an obstacle to the contribution. It
+was its first half.

@@ -1,0 +1,305 @@
+\documentclass{beamer}
+\usepackage[net,green]{nesped}
+
+
+\usepackage[brazilian]{babel}
+
+\title[Título Curto]{Título Completo da Apresentação}
+\subtitle{Usando o template do NESPeD para apresentações}
+\author{Henrique S. Santana}
+\institute[UFV]{Universidade Federal de Viçosa}
+\date{25 de setembro de 2024}
+
+\begin{document}
+
+\titleframe{
+    \titlelogo{img/logo-nesped.png}
+    \titlelogo{img/logo-ufv.png}
+}
+
+\tocframe[]
+
+\section{Introdução}
+
+\begin{frame}{Introdução}
+    \framesubtitle{É mais fácil do que parece}
+    
+    \begin{itemize}
+        \item Coloque aqui sua introdução.
+        \item Use o comando \texttt{itemize} para organizar seus pontos principais.
+    \end{itemize}
+    
+    \begin{block}{}
+        Ao longo do template são apresentados alguns comandos e funcionalidades de exemplo para te ajudar a estruturar sua apresentação, como este bloco de destaque.
+    \end{block}
+    
+\end{frame}
+
+\begin{frame}{Documentação}
+    Caso precise de mais controle sobre o Beamer, consulte:
+    \begin{itemize}
+        \item Guia do Beamer;~\cite{beamerclass}    
+        \item Beamer Cheat Sheet.~\cite{beamercheat}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Organização}
+    \begin{itemize}
+        \item As apresentações no Beamer são organizadas em \texttt{frame}s;
+        \item Cada \texttt{frame} contém pelo menos um slide;
+        \item Se um \texttt{frame} tiver mais conteúdo do que cabe num slide, ou se for usado o recurso de animação (ex.: itens aparecendo na tela um de cada vez), o \texttt{frame} vai ser partido em mais slides.
+    \end{itemize}
+\end{frame}
+
+
+\section{Funcionalidades}
+
+\tocframe[sectionstyle=show/shaded,subsectionstyle=show/show/shaded]
+
+\subsection{Layout}
+
+{
+\specialframe
+\begin{frame}[fragile]{Layout}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item Existem várias opções para construir layouts interessantes.
+                \item Uma delas é este tipo de \texttt{frame} customizado.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{}
+                Para habilitar essa configuração, você deve envolver o frame em chaves e chamar o comando \verb|\specialframe|:
+                \begin{lstlisting}[language=Tex, caption=\lstcaption{Configuração de frame especial}, label=lst:special]
+{
+\specialframe
+\begin{frame}{Frame Especial}
+    ...
+\end {frame}
+}\end{lstlisting}
+                \vspace{-3mm}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+}
+
+\begin{frame}{Blocos}
+    \begin{block}{Sugestão}
+        Use blocos para dar destaque a pontos específicos da apresentação.
+    \end{block}
+    
+    \begin{alertblock}{Aviso}
+        O pacote Beamer define esse outro tipo de bloco, que seria um bloco de aviso/alerta, para informações críticas.
+    \end{alertblock}
+    
+    \begin{exampleblock}{Exemplo}
+        O terceiro tipo de bloco é o chamado bloco de exemplo.
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{Recapitulação do Sumário}
+
+    Sempre que quiser recapitular a seção ou subseção onde está na apresentação, use o comando \verb|\tocframe| com o parâmetro que achar adequado (assim como consta na Seção \textit{"10.5 Adding a Table of Contents"} do manual do Beamer~\cite{beamerclass}). Ele foi usado no começo desta seção, e será usado novamente a seguir focando nesta subseção.
+
+
+\end{frame}
+
+\tocframe[sectionstyle=show/shaded,subsectionstyle=show/shaded]
+
+{
+\specialframe
+\begin{frame}{Itens dinâmicos}
+    \framesubtitle{Apresentando informação aos poucos}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}[<+->]
+                \item Você pode apresentar as informações do slide pouco a pouco.
+                \item As opções são bem variadas.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{}<3->
+                \begin{enumerate}
+                    \item<3-> Explique uma coisa.
+                    \item<4-| alert@4> Depois outra.
+                    \item<5-> E mais outra.
+                \end{enumerate}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+}
+
+\subsection{Tabelas, Figuras, Código}
+
+\begin{frame}{Tabelas}
+    
+    \begin{itemize}
+        \item Use o comando \texttt{tabular} para criar tabelas -- veja a Tabela~\ref{tab:verdade}, por exemplo.
+        \item Como num documento qualquer no \LaTeX, a numeração desse tipo de elemento é feita automaticamente.
+    \end{itemize}
+    
+    \begin{table}
+        \centering
+        \begin{tabular}{c|c|c}
+            $A$ & $B$ & $A \wedge B$ \\\hline
+            $0$ & $0$ & $0$          \\
+            $0$ & $1$ & $0$          \\
+            $1$ & $0$ & $0$          \\
+            $1$ & $1$ & $1$          \\
+        \end{tabular}
+        \caption{\label{tab:verdade}Uma tabela da verdade.}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Figuras}
+    Adicione imagens na apresentação como de costume no \LaTeX, como mostram as Figuras~\ref{fig:logo-ufv} a~\ref{fig:logo-mmc}:
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{img/logo-ufv.png}
+                \caption{Logo da UFV}
+                \label{fig:logo-ufv}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{img/logo-nesped.png}
+                \caption{Logo do NESPeD}
+                \label{fig:logo-nesped}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{img/logo-mmc.png}
+                \caption{Logo do myMobiConf}
+                \label{fig:logo-mmc}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Algoritmos em pseudocódigo}
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
+            O Algoritmo~\ref{alg:fft} mostra um exemplo de pseudocódigo usando o pacote \texttt{algorithm2e}.
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \begin{algorithm}[H]
+                \caption{FFT de Cooley-Tukey}
+                \label{alg:fft}
+                \DontPrintSemicolon
+                \SetKwProg{Fn}{function}{:}{}
+                \SetKwFunction{FFT}{fft}
+                \KwIn{$x[0 ... n-1]$, tal que  $x[i] \in \mathbb{C}, n = 2^c, c \in \mathbb{N}$}
+                \KwOut{$y[0...n-1]$, tal que  $y[i] \in \mathbb{C}$}
+                \Fn{\FFT{$x$}}{
+                    \If{$n = 1$}{
+                        \KwRet $x$\;
+                    }
+                    $y_e \gets \FFT{x[0,2,...,n-2]}$\;
+                    $y_o \gets \FFT{x[1,3,...,n-1]}$\;
+                    \For{$k \gets 0$ to $\frac{n}{2} - 1$}{
+                        $w \gets e^{\frac{2 \pi k i}{n}}$\;
+                        $y[k] \gets y_e[k] + y_o[k] \cdot w$\;
+                        $y[k+\frac{n}{2}] \gets y_e[k] - y_o[k] \cdot w$\;
+                    }
+                    \KwRet $y$\;
+                }
+            \end{algorithm}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Código}
+    \begin{columns}
+        \begin{column}{0.35\textwidth}
+            Já a Listagem~\ref{lst:fft} mostra o mesmo código do slide anterior, porém em C++, usando um bloco de código formatado com o pacote \texttt{listings}.
+
+            \begin{alertblock}{\scriptsize Importante}
+                \scriptsize Veja que neste \texttt{frame} foi necessário habilitar a opção \verb|[fragile]|.
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.65\textwidth}
+            \begin{lstlisting}[language=C++, caption=\lstcaption{FFT de Cooley-Tukey em C++}, label=lst:fft]
+void fft(Complex x[], int n, int &op) {
+  if (n <= 1)
+    return;
+
+  Complex x_e[n/2], x_o[n/2];
+  for (int i = 0; i < n/2; ++i)
+    x_e[i] = x[i*2], x_o[i] = x[i*2 + 1];
+  fft(x_e, n/2, op);
+  fft(x_o, n/2, op);
+
+  for (int k = 0; k < n/2; ++k) {
+    ++op;
+    Complex w = exp(Complex(0, -2*M_PI*k / n));
+    x[k] = x_e[k] + x_o[k] * w;
+    x[k + n/2] = x_e[k] - x_o[k] * w;
+  }
+}\end{lstlisting}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Equações e Citações}
+
+{
+\specialframe
+\begin{frame}{Equações}
+    
+    Uma das vantagens de usar o \LaTeX{} para criar apresentações é poder mostrar equações matemáticas detalhadas com qualidade. Por exemplo, a Equação~\ref{eq:normal} mostra a função de densidade de probabilidade duma distribuição normal, de média $\mu$ e variância $\sigma^2$.
+
+    \begin{block}{}
+        \begin{equation}
+            \label{eq:normal}
+            f(x)={\frac {1}{\sigma {\sqrt {2\pi }}}}\;\;\mathrm {e} ^{-{\frac {1}{2}}\left({\frac {x-\mu }{\sigma }}\right)^{2}}
+        \end{equation}
+    \end{block}
+    
+    É possível usar equações não numeradas também:
+
+    \begin{block}{}
+        $$
+        \pi = 3.14159265358979323846...
+        $$  
+    \end{block}
+    
+\end{frame}
+}
+
+\begin{frame}{Citações}
+    
+    \begin{itemize}
+        \item Já dizia Phil Karlton~\cite{david2017naming}:
+    \end{itemize}
+    \begin{quote}
+        Só existem duas coisas difíceis na ciência da computação: nomear coisas e invalidação de cache.
+    \end{quote}
+    \begin{itemize}
+        \item Formatar referências bibliográficas também é bem chato, ainda bem que isso é automático.
+        \item Ao final do documento, você pode mudar o estilo de bibliografia para o que preferir, como de costume.
+    \end{itemize}
+    
+\end{frame}
+
+\section{Customização}
+
+\begin{frame}{Customização}
+    ???
+\end{frame}
+
+\miniframesoff
+\begin{frame}[allowframebreaks]{Referências}
+    \setbeamertemplate{bibliography item}[text]
+    \bibliographystyle{acm}
+    \bibliography{references}
+\end{frame}
+
+\end{document}

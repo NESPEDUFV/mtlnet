@@ -1,0 +1,6 @@
+2026-10-03 19:50:49,202 - WARNING - Generating folds on the fly (no cache at /Users/vitor/d2_scratch/output/check2hgi_v18/alabama/folds/fold_indices_next.pt). Run `python scripts/study/freeze_folds.py --state alabama --engine check2hgi_v18 --task next` to freeze them; paired statistical tests require frozen splits.
+2026-10-03 19:50:49,668 - INFO - Fold 1/5: train=77061, val=19265
+2026-10-03 19:50:49,668 - INFO - Fold 2/5: train=77062, val=19264
+2026-10-03 19:50:49,668 - INFO - Fold 3/5: train=77061, val=19265
+2026-10-03 19:50:49,668 - INFO - Fold 4/5: train=77059, val=19267
+2026-10-03 19:50:49,668 - INFO - Fold 5/5: train=77061, val=19265

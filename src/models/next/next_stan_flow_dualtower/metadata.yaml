@@ -1,0 +1,8 @@
+name: next_stan_flow_dualtower
+domain: next
+status: promoted
+evidence_status: promoted
+registry_key: next_stan_flow_dualtower
+runtime_class: models.next.next_stan_flow_dualtower.head.NextHeadStanFlowDualTower
+runtime_file: src/models/next/next_stan_flow_dualtower/head.py
+source_doc: docs/NORTH_STAR.md

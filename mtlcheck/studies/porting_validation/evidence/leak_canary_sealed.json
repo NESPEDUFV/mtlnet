@@ -1,0 +1,82 @@
+{
+ "_": "§1 — o canário de vazamento, aplicado RETROATIVAMENTE às células de região da primeira leitura selada. A regra pré-registrou 'ood_hit_rate > 1% fails the run' ANTES do lacre; até 2026-08-19 ela não existia em código executável.",
+ "_data": "2026-08-19",
+ "limite": 0.01,
+ "folds_avaliados": 60,
+ "folds_disparados": 0,
+ "veredito": "NENHUM fold estourou. E o valor não é 'abaixo do limite' — é EXATAMENTE ZERO em todos os 60, contra ood_fraction de 1,1 % em Alabama e 0,15 % em Istambul. Havia linhas suficientes para o canário ter chance de disparar.",
+ "celulas": {
+  "reg-alabama-p0s0": {
+   "folds": 5,
+   "ood_fraction_max": 0.0111,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-alabama-p0s1": {
+   "folds": 5,
+   "ood_fraction_max": 0.0111,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-alabama-p0s100": {
+   "folds": 5,
+   "ood_fraction_max": 0.0111,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-alabama-p0s7": {
+   "folds": 5,
+   "ood_fraction_max": 0.0111,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-arizona-p0s0": {
+   "folds": 5,
+   "ood_fraction_max": 0.005,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-arizona-p0s1": {
+   "folds": 5,
+   "ood_fraction_max": 0.005,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-arizona-p0s100": {
+   "folds": 5,
+   "ood_fraction_max": 0.005,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-arizona-p0s7": {
+   "folds": 5,
+   "ood_fraction_max": 0.005,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-istanbul-p0s0": {
+   "folds": 5,
+   "ood_fraction_max": 0.0015,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-istanbul-p0s1": {
+   "folds": 5,
+   "ood_fraction_max": 0.0015,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-istanbul-p0s100": {
+   "folds": 5,
+   "ood_fraction_max": 0.0015,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  },
+  "reg-istanbul-p0s7": {
+   "folds": 5,
+   "ood_fraction_max": 0.0015,
+   "ood_hit_rate_max": 0.0,
+   "veredito": "ok"
+  }
+ }
+}

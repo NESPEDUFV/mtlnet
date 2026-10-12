@@ -1,0 +1,63 @@
+# A escada do §2a no Alabama — a primeira célula da vitrine nova.
+#
+# O Alabama vai primeiro de propósito: é o conjunto mais barato (~0,17 h por execução) e é onde o
+# eixo de partição foi medido MAIOR na campanha anterior (+0,37 pp em região, quase o tamanho de
+# δ = 0,4). Se a escada funciona em algum lugar, tem de funcionar aqui — e se ela escalar até o
+# teto, é aqui que isso aparece primeiro e barato.
+#
+# ## O que `partitions = "pilot"` faz
+#
+# O manifesto declara o PISO (2 execuções) e a escada decide o resto, medindo a dispersão na
+# VALIDAÇÃO INTERNA — que não gasta leitura do teste externo. Cada execução é um par
+# `(split_seed, model_seed)` com os DOIS botões sorteados juntos: `(0,0)`, `(7,7)`, `(1,1)`, …
+#
+# Não declare `seeds` aqui além de `[0]`: a escada os define, e um manifesto que declara semente que
+# não roda é uma linha que alguém vai ler como verdade.
+#
+# ## Nada é reaproveitado da campanha arquivada
+#
+# Por decisão do autor, 2026-08-25. As células antigas são todas de `split_seed = 0`, e só a
+# execução `(0,0)` seria reutilizável — economia pequena, e ela é justamente a célula cujo teste
+# externo já foi lido em AL/AZ/IST. Rodar do zero deixa a proveniência de uma peça só.
+
+[wave]
+# ⚠ `v19_ladder`, e NÃO `v19_defence`: as células da campanha arquivada vivem em
+# `runs/v19_defence/` com fingerprint idêntico (a receita de TREINO não mudou), e o resume as
+# pularia em silêncio — o reaproveitamento que a decisão de 25-08 recusa. Diretório de execução
+# separado é o que torna "do zero" verdadeiro em vez de intencional.
+study = "v19_ladder"
+# Lida por `tests/test_campaign_manifests.py`, não pelo runtime: é a marca por que o contrato
+# varre, e ele exige `save_predictions` em toda célula que a carregue. Tirá-la em 25-08 fez
+# estes seis saírem do contrato em silêncio -- seis casos a menos na suíte, nenhum erro.
+confirmatory = true
+# De onde a escada tira o δ. Sem esta linha ele viria do default de `--margin`, que é CLI
+# e não pré-registro: uma wave rodada com outro δ para no degrau errado e a leitura aceita,
+# porque o gate confere a FORMA do conjunto e não a condição de parada.
+analysis = "recipes/analysis/v19_ladder.toml"
+
+[substrate.identity.alabama]
+checkin = "696ac00419d287d3"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

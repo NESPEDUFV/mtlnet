@@ -1,0 +1,42 @@
+# Escalada para S=4 — Texas. Lançar DEPOIS do reinício do servidor, manhã de 2026-08-25 (BRT).
+#
+# Separado do manifesto de FL/CA de propósito: a fronteira do reinício é uma fronteira de lançamento,
+# não um acidente no meio de uma wave. Um `wave run` interrompido por reboot deixa a célula corrente
+# pela metade, e o resume só é honesto sobre células que TERMINARAM.
+#
+# O contexto, a justificativa do §2 e o motivo de os três braços irem juntos estão em
+# `escalation_s4_florida_california.toml` — não repito aqui para não haver duas versões da mesma
+# explicação divergindo com o tempo.
+#
+# Custo medido: ≈ 12,7 h (cat 1,10 h + reg 0,73 h + joint 4,50 h, por réplica, vezes duas).
+
+[wave]
+study = "v19_defence"
+confirmatory = true
+
+[substrate.identity.texas]
+checkin = "4c02019abe146d75"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["texas"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["texas"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["texas"]
+seeds = [1, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

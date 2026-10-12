@@ -1,0 +1,94 @@
+% !TeX root = ../main.tex
+% Appendix E -- Data ethics and governance. NEW 2026-07-27, dissertation-authored prose.
+% Licenses: src_utils/evidence/DATASET_LICENSING_FINDINGS.md (Figshare, Hugging Face and GitHub
+% records re-opened 2026-07-27). Pipeline facts: src/etl/gowalla/main.py:22-25,
+% src/etl/massive_steps/stage_1.py:84-90, src/etl/gowalla/stage_3.py:38-43, .gitignore:5.
+
+\chapter{Data Ethics and Governance}
+\label{apx:ethics}
+
+Every result in this dissertation is measured on check-ins published by location-based
+social networks, and neither collection used here was assembled by the author. This
+appendix states where each came from, under what terms, what the pipeline does with it,
+and what remains unsettled.
+
+\section{Where the data came from}
+
+% [round5] \texttt{} on the DOI is unbreakable and overflowed the margin by 0.94 pt; \path
+% breaks at the punctuation. Same fix as Appendix D's file paths.
+The Gowalla check-ins are read from a category-annotated deposit published on Figshare,
+DOI \path{10.6084/m9.figshare.22126586.v2}, which carries the Creative Commons CC0
+public-domain dedication.\footnote{\url{https://creativecommons.org/publicdomain/zero/1.0/}}
+Four of its files enter the pipeline: the check-in table, two place tables, and the
+category structure file. The seven place categories used throughout the dissertation are
+the top-level names in that structure file, so the taxonomy arrives with the deposit;
+what the pipeline adds is the mapping of each finer category up to its top-level parent,
+plus a short local supplement for names the structure file leaves uncovered.
+
+Two qualifications belong with that label, and both come from the record itself. The
+dedication was applied by the depositor of this copy, identified there by a single name,
+and not by the party that collected the data. The record also names a further site as
+the origin of the files, and that address now redirects to an unrelated commercial site,
+so its terms could not be read. What is supportable is therefore a statement about the copy in hand,
+which is distributed under CC0; that Gowalla data as such is in the public domain is a
+broader claim, and nothing that could be opened supports it. A second and older Gowalla
+release, hosted by the Stanford Large Network Dataset Collection and cited here as the
+collection reference \cite{cho2011gowalla,jure2014snap}, is a different artifact: it
+carries no place categories, and its page states no license.
+
+The Istanbul check-ins come from the Massive-STEPS collection
+\cite{wongso2025massivesteps}, distributed on Hugging Face under the Apache License
+2.0.\footnote{\url{https://huggingface.co/datasets/CRUISEResearchGroup/Massive-STEPS-Istanbul}}
+The project repository carries the same license. Massive-STEPS is derived material, and
+its documentation names the Semantic Trails Dataset and Foursquare Open Source Places as
+its sources; among the records that could be opened, no upstream term more restrictive
+than the Apache License 2.0 appeared. Two facts qualify that. The Foursquare
+distribution is additionally access-gated behind an agreement prompt, so a reader who goes
+to that upstream must accept terms before downloading, while the Massive-STEPS copy used
+here is not gated. And one check is outstanding: the Foursquare product terms themselves
+were not read, only the license tag on the distribution.
+% [round5, fact gate M-1/M-2] Both verified live 2026-07-27: www.yongliu.org/datasets/ returns
+% HTTP 301 to idnpokerasia.net (not a dead link, a repurposed host); HF API gives gated="auto" for
+% foursquare/fsq-os-places and gated=false for CRUISEResearchGroup/Massive-STEPS-Istanbul.
+
+\section{Real people, and how the traces are handled}
+
+A user identifier in these files is a pseudonym and not a name, but a sequence of
+timestamped visits is still a description of one person's movements. Pseudonymity is not
+anonymity. The mobility literature treats the residual risk as open, and reports that
+models trained on mobility data raise privacy questions during training as well as at
+prediction time, because the portions of information a model absorbs cannot be
+controlled directly \cite{luca2021mobilitysurvey}. Public availability settles who may
+hold the files, not what can be inferred from them.
+
+Against that, this work adds no de-identification of its own. No coordinate is
+perturbed, rounded, generalized, or masked, and no formal privacy mechanism is
+applied. Latitude and
+longitude are used at the precision the sources publish, because the prediction target
+of Chapter~\ref{ch:mobiwac} is itself spatial, and a coarsened coordinate would change
+the quantity being measured.
+
+Exposure is limited by restriction instead. The Figshare deposit also contains a
+social-graph file and a user-profile file; neither is declared as an input, and no code
+reads either one, so the friendship network and the profile fields never enter the
+study. User identifiers are carried as opaque integers exactly as the sources supply
+them, and a non-numeric identifier is replaced by a position index that is not kept.
+Nothing in the code links a user across the two collections or to any outside source.
+
+No check-in data is redistributed. The public repository publishes code and
+configuration, and the data directory is excluded from version control, so a reader
+reproducing the results obtains both collections from the sources named above.
+
+% [round12, 2026-08-03] SECTION C.3, "The human-subjects question", MOVED OUT of this volume on the
+% author's instruction: "APENDICES -- remover A.1, C.3 e E, mandando esse conteudo para o material
+% extra." Its text is preserved verbatim in chapters/apx_extra_human_subjects.tex, which the
+% supplementary volume includes as its Appendix F. One concern was raised before the move and the
+% author ruled on it: the moved text is not a procedural note but a record of his position that
+% review by a research ethics committee was not required for a secondary analysis of already-public
+% collections. His ruling was to move all three pieces as instructed and to preserve that text
+% intact; it is recorded in src_utils/_history/_round12/40_appendix_letters.md and again in 41_appendix_move.md.
+% Sections C.1 and C.2 stay here. The opening statement of this appendix promises "what remains
+% unsettled", and that clause still resolves inside this volume: the outstanding Foursquare
+% product-terms check is stated at the end of the first section.
+% The label \label{apx:ethics} on the chapter is unchanged; it was referenced nowhere before this
+% edit and is referenced nowhere after it.

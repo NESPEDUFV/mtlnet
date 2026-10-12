@@ -1,0 +1,38 @@
+% !TeX root = ../../main.tex
+% frame/lineage.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+  \centering
+  \caption{Representation and model lineage threaded through this dissertation, from the
+  place-level graph-infomax embeddings to the check-in-level representation and the joint
+  model built on it. Status of the Check2HGI representation and the joint model is
+  \emph{accepted for publication} (MobiWac 2026).}
+  % [2026-09-01, AUT-35] was "\emph{submitted, under review}"; accepted 2026-08-26.
+  \label{tab:fund:lineage}
+  % REDESIGNED 2026-07-26 (REV-021). The previous @{}lll@{} tabular hand-wrapped the middle
+  % column across two rows per model and overran the text block by 29.76pt
+  % (build/main.log:1604, "lines 220--238"), bringing the rendered page to 0.97cm from the
+  % paper edge against the 2cm right margin of UFV_COMPLIANCE.md:34. The description column is
+  % now an X column, so LaTeX wraps it and one row carries one model; tabularx sizes X to make
+  % the table exactly \textwidth, which is why this construction cannot overrun the margin.
+  % Both packages are already loaded by memoir -- array (memoir.cls:5453, log line 140) supplies
+  % >{} and \arraybackslash, tabularx (memoir.cls:5469, log line 156) supplies X -- so nothing is
+  % added to 0_main.tex. booktabs rules only, caption above, six rows in lineage order, and every
+  % citation, chapter reference, and description kept as it was.
+  \begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}Xl@{}}
+    \toprule
+    Model / method & What it added & Reference \\
+    \midrule
+    DGI & Unsupervised place embeddings by maximizing mutual information between local patches and a global graph summary. & \cite{velickovic2019deep} \\
+    \addlinespace
+    HGI & Extends graph infomax over the POI, region, and city hierarchy to yield region-aware place embeddings. & \cite{huang2023hgi} \\
+    \addlinespace
+    MTLnet & First joint model: place embedding, FiLM conditioning, and hard parameter sharing. Null result for that configuration. & \cite{silva2025mtlnet} \\
+    \addlinespace
+    ST-MTLNet & Keeps MTLnet, replaces the place-embedding input with decomposed spatial, temporal, and categorical encoders. & Chapter~\ref{ch:courb} \\
+    \addlinespace
+    Check2HGI & Check-in-level representation: graph infomax extended to the check-in, so each visit carries its own vector. & Chapter~\ref{ch:mobiwac} \\
+    \addlinespace
+    Joint model & Cross-attention model on Check2HGI: one model for both tasks, next category and next region. & Chapter~\ref{ch:mobiwac} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}

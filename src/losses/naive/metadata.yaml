@@ -1,0 +1,8 @@
+name: naive
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: naive
+runtime_class: losses.naive.NaiveLoss
+runtime_file: src/losses/naive/loss.py
+source_doc: ""

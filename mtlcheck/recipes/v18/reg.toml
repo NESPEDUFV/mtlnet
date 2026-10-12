@@ -1,0 +1,66 @@
+# v18 — dedicated next-region.
+#
+# Unchanged from v17: this study tuned the category recipe only. The region numbers elsewhere are a
+# read-out, not a sweep.
+#
+# Source: docs/studies/closing_data/v18/run_wave.sh:160-166, and p1_region_head_ablation.py's own
+# defaults for everything the driver does not pass.
+
+[data]
+window = 9
+min_sequence_length = 10
+stride = 1
+n_splits = 5
+# The region tower reads its embeddings from a different substrate than the check-in tower. In the
+# reference this was a filesystem symlink inside the v18 engine directory; here it is named.
+region_engine = "check2hgi_design_k_resln_mae_l0_1"
+
+[train]
+family = "reg"
+engine = "check2hgi_v18"
+epochs = 50
+folds = 5
+# 2048, not 8192 — p1's argparse default, which the driver never overrides. The two dedicated
+# families therefore ran at DIFFERENT batch sizes, which is easy to miss and easy to "harmonise"
+# by accident.
+batch_size = 2048
+precision = "fp32"         # p1 never autocasts; the pin is explicit here
+compile = true
+tf32 = true
+train_metrics = false      # p1 computes no train metric at all
+
+# The region head, at the head module's OWN defaults — the opposite convention to the category
+# family above, and deliberate on the reference's part: its ablation driver states that it "respects
+# each head's module-default hyperparameters; we only pass embed_dim, num_classes and seq_length",
+# after an earlier revision forced a single hidden_dim on every head and mis-tuned them.
+#
+# So d_model 128 / 4 heads / dropout 0.3 are the values that ran. They are written out here rather
+# than inherited, because "the module default" is not a stable thing to depend on.
+[train.reg_head]
+name = "next_stan_flow"
+d_model = 128
+num_heads = 4
+dropout = 0.3
+seq_length = 9
+# The trajectory-flow prior, frozen at zero: it contributes an exact zero to every batch. In
+# mtlcheck an inactive prior is an absent branch rather than a multiply by zero (R6).
+freeze_alpha = true
+alpha_init = 0.0
+
+[train.optim]
+lr = 1e-4
+weight_decay = 0.01
+max_grad_norm = 1.0
+scheduler = "onecycle"
+max_lr = 0.003
+
+# tau = 0. NOT an oversight, and not a default that happens to be zero: logit adjustment moves the
+# decision boundary toward the balanced posterior, which is Bayes-optimal for macro-F1 and
+# SUB-optimal for frequency-weighted ranking. Region is reported by Acc@10. Measured at two
+# datasets, ten metric comparisons, every one significant and in the predicted direction:
+#   Acc@10  AL -1.841 (p=0.0002)   IST -2.749 (p<0.0001)
+#   macro-F1 AL +0.377 (p=0.0008)  IST +0.671 (p=0.0081)
+# config.TrainConfig refuses to construct with tau > 0 on this head.
+[train.reg_loss]
+logit_adjust_tau = 0.0
+class_weights = false

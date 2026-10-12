@@ -1,0 +1,13 @@
+{
+  "default": {
+    "first_divergence": 4,
+    "seconds": 14.016478798504977,
+    "max_delta": 0.1238906979560852
+  },
+  "deterministic": {
+    "first_divergence": null,
+    "seconds": 15.774651127998368,
+    "max_delta": 0.0,
+    "slowdown": 1.1254360923858366
+  }
+}

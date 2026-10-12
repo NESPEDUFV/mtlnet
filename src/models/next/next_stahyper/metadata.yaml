@@ -1,0 +1,8 @@
+name: next_stahyper
+domain: next
+status: ablated
+evidence_status: ablated
+registry_key: next_stahyper
+runtime_class: models.next.next_stahyper.head.NextHeadSTAHyper
+runtime_file: src/models/next/next_stahyper/head.py
+source_doc: docs/findings/GETNEXT_FINDINGS.md

@@ -1,0 +1,8 @@
+name: next_temporal_cnn
+domain: next
+status: implemented
+evidence_status: implemented
+registry_key: next_temporal_cnn
+runtime_class: models.next.next_temporal_cnn.head.NextHeadTemporalCNN
+runtime_file: src/models/next/next_temporal_cnn/head.py
+source_doc: ""

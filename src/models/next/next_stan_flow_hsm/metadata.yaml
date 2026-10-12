@@ -1,0 +1,8 @@
+name: next_stan_flow_hsm
+domain: next
+status: ablated
+evidence_status: ablated
+registry_key: next_stan_flow_hsm
+runtime_class: models.next.next_stan_flow_hsm.head.NextHeadStanFlowHSM
+runtime_file: src/models/next/next_stan_flow_hsm/head.py
+source_doc: docs/findings/MTL_FLAWS_AND_FIXES.md

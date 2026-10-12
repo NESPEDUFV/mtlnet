@@ -1,0 +1,232 @@
+{
+  "state": "arizona",
+  "confirmatory": true,
+  "analysis": {
+    "name": "v19_headline",
+    "path": "recipes/analysis/v19_headline.toml",
+    "fingerprint": "a3e2854771f0868d",
+    "delta": 0.4,
+    "levels": [
+      0.9,
+      0.95
+    ],
+    "correction": "holm"
+  },
+  "co_primary": {
+    "verdict": "not_held",
+    "reason": "reg inconclusive"
+  },
+  "escalation": null,
+  "tasks": [
+    {
+      "task": "cat",
+      "arm_a": "cat",
+      "arm_b": "joint",
+      "pooled": {
+        "cat": 34.28828367897251,
+        "joint": 34.168082634020806
+      },
+      "delta": -0.12747725897979123,
+      "bca_90": [
+        -0.24541417829729145,
+        -0.011106458282564064
+      ],
+      "bca_95": [
+        -0.26587833755098184,
+        0.010182453115926124
+      ],
+      "percentile_90": [
+        -0.2421601084155465,
+        -0.008702734825914238
+      ],
+      "half_width_90": 0.11715386000736369,
+      "p_ni": 0.00011996454342235783,
+      "p_ni_adjusted": 0.00023992908684471566,
+      "alpha_local": 0.025,
+      "p_studentized": 0.0694930506949305,
+      "p_unstudentized": 0.0694930506949305,
+      "verdict": "non_inferior",
+      "verdict_marginal": "non_inferior",
+      "delta_critical": {
+        "non_inferiority": 0.24541417829729145,
+        "inferiority": 0.011106458282564064,
+        "tost": 0.11715386000736369
+      },
+      "tost_claimable": true,
+      "within_rerun_floor": false,
+      "sensitivity": {
+        "0.2": "inconclusive",
+        "0.4": "non_inferior",
+        "1.0": "non_inferior"
+      },
+      "seed_deltas": [
+        -0.17938795656388673,
+        -0.07278973307863201,
+        -0.1639801688119169,
+        -0.09375117746472927
+      ],
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "n_users": 2136,
+      "intervals_disagree": false,
+      "diagnostics": {
+        "half_width": 0.11715386000736369,
+        "half_width_projected": [
+          0.05,
+          0.3
+        ],
+        "half_width_within_projection": true,
+        "unpaired_benchmark": 0.5,
+        "pairing_gain": 4.267891813112881,
+        "mde": 0.19954147716463616,
+        "mde_power": 0.8,
+        "n_users": 2136,
+        "per_class": [
+          {
+            "class": 0,
+            "f1_a": 0.4267553185051299,
+            "f1_b": 0.4251109753614335,
+            "delta": -0.16443431436963807,
+            "users": 1125
+          },
+          {
+            "class": 1,
+            "f1_a": 0.19187140875767783,
+            "f1_b": 0.19262530036714928,
+            "delta": 0.0753891609471452,
+            "users": 1330
+          },
+          {
+            "class": 2,
+            "f1_a": 0.4534448487643245,
+            "f1_b": 0.4464114479604632,
+            "delta": -0.7033400803861278,
+            "users": 1932
+          },
+          {
+            "class": 3,
+            "f1_a": 0.20602610717053108,
+            "f1_b": 0.20769777706228787,
+            "delta": 0.1671669891756794,
+            "users": 1117
+          },
+          {
+            "class": 4,
+            "f1_a": 0.27883169181505024,
+            "f1_b": 0.27734011610791204,
+            "delta": -0.1491575707138204,
+            "users": 1228
+          },
+          {
+            "class": 5,
+            "f1_a": 0.4617584630281577,
+            "f1_b": 0.46162061592644316,
+            "delta": -0.013784710171454995,
+            "users": 1598
+          },
+          {
+            "class": 6,
+            "f1_a": 0.3814920194872044,
+            "f1_b": 0.38095955159576694,
+            "delta": -0.05324678914374603,
+            "users": 1706
+          }
+        ],
+        "min_users_per_class": 1117
+      },
+      "warnings": []
+    },
+    {
+      "task": "reg",
+      "arm_a": "reg",
+      "arm_b": "joint",
+      "pooled": {
+        "reg": 58.67020085119093,
+        "joint": 58.12364668110207
+      },
+      "delta": -0.5465541700888532,
+      "bca_90": [
+        -0.7217822159790211,
+        -0.34794736123358605
+      ],
+      "bca_95": [
+        -0.7546764802538614,
+        -0.3100687163457327
+      ],
+      "percentile_90": [
+        -0.7306124549656027,
+        -0.35757171292097295
+      ],
+      "half_width_90": 0.18691742737271755,
+      "p_ni": 0.8895779039931332,
+      "p_ni_adjusted": 0.8895779039931332,
+      "alpha_local": 0.05,
+      "p_studentized": 9.999000099990002e-05,
+      "p_unstudentized": 9.999000099990002e-05,
+      "verdict": "inconclusive",
+      "verdict_marginal": "inconclusive",
+      "delta_critical": {
+        "non_inferiority": 0.7217822159790211,
+        "inferiority": 0.34794736123358605,
+        "tost": 0.18691742737271755
+      },
+      "tost_claimable": true,
+      "within_rerun_floor": false,
+      "sensitivity": {
+        "0.2": "inferior",
+        "0.4": "inconclusive",
+        "1.0": "non_inferior"
+      },
+      "seed_deltas": [
+        -1.0164513800741681,
+        -0.4519774011299438,
+        -0.3389830508474634,
+        -0.37880484830383754
+      ],
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "n_users": 2136,
+      "intervals_disagree": false,
+      "diagnostics": {
+        "half_width": 0.18691742737271755,
+        "half_width_projected": [
+          0.05,
+          0.3
+        ],
+        "half_width_within_projection": true,
+        "unpaired_benchmark": 0.5,
+        "pairing_gain": 2.674977967693664,
+        "mde": 0.3183657761120403,
+        "mde_power": 0.8,
+        "n_users": 2136,
+        "region": {
+          "reg": {
+            "top10_raw": 0.5867020085119092,
+            "top10_full": 0.5867020085119092,
+            "top10_acc_indist": 0.5884183935819159,
+            "ood_fraction": 0.002916946663680032,
+            "ood_hit_rate": 0.0,
+            "n_windows": 803580.0
+          },
+          "joint": {
+            "top10_raw": 0.5812364668110207,
+            "top10_full": 0.5812364668110207,
+            "top10_acc_indist": 0.5829368625473643,
+            "ood_fraction": 0.002916946663680032,
+            "ood_hit_rate": 0.0,
+            "n_windows": 803580.0
+          }
+        }
+      },
+      "warnings": []
+    }
+  ]
+}

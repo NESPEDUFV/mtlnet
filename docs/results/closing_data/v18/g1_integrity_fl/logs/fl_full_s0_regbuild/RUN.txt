@@ -1,0 +1,8 @@
+start 2026-10-02 02:17:38 commit d01cd2a8 swap_used_MB=4012
+cmd: .venv/bin/python scripts/probe/build_design_k_delaunay.py --state florida --seed 0 --device cpu --epochs 500 --out-suffix resln_mae_l0_1_fullcpu_s0
+waiting for heavy lock 02:17:38
+heavy lock acquired 02:17:38
+rc=0 wall=1515s peakRSS_bytes=12919799808
+repo-write-guard OK
+end 2026-10-02 02:42:53
+DONE

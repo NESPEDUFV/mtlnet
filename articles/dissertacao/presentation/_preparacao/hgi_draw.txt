@@ -1,0 +1,162 @@
+DESENHO DO HGI — descrição do fluxo para o diagrama do slide 23
+================================================================
+
+Escrito pelo autor no considerations.md e transcrito aqui em 2026-08-26, porque no .md
+o desenho foi reflowado por um formatador e as quebras de linha colapsaram numa linha só.
+Este arquivo é .txt exatamente para isso não voltar a acontecer.
+
+Se algo aqui divergir do que o autor escreveu, o dele vence.
+
+
+O GRAFO
+-------
+
+    POI Categories
+          ↓
+    [Pretrained Category Encoder]
+          ↓
+    POI Category Embeddings
+          ↓  Delaunay
+    POI Graph
+        /        \
+      Xp          X̃p
+    original    shuffled
+        \        /
+    [same POI GCN]
+          ↓
+    POI Embeddings  {orig., corr.}
+          ↓  MHA
+    Region Raw Embeddings  {orig., corr.}
+          ↓  Geographic Adjacency
+    Region Graph
+          ↓
+    [same Region GCN]
+          ↓
+    Region Embeddings  {orig., corr.}
+          │  original only
+          ↓
+    Area-weighted aggregation
+          ↓
+    City Embedding
+
+
+AS COMPARAÇÕES QUE SE PUXAM DOS NÓS
+-----------------------------------
+
+Junto com o grafo acima, temos que puxar dos nós:
+
+    POI Embedd Pos & Negativo ↔ REGION        REGION Embedd Pos & Negativo ↔ CITY
+
+         (pᵢ, rₖ)   +                              (rₖ, city)    +
+         (pⱼ, rₖ)   −                              (r̃ₖ, city)    −
+             │                                          │
+           D_pr                                       D_rc
+             │                                          │
+           L_pr                                       L_rc
+              \                                        /
+               └───────────  Total Loss  ────────────┘
+                                  ↓
+                           Backpropagation
+                                  ↓
+                    POI GCN  +  MHA  +  Region GCN
+
+
+VOCABULÁRIO — decidido 2026-08-26
+---------------------------------
+
+O nome do andar é "place", não "POI", nas duas chapas (HGI e Check2HGI).
+
+O glossário registra POI e place como UMA entrada só (GLOSSARY.md:84), então não há
+violação em nenhuma direção. Mas as entradas dos dois métodos usam place: HGI é
+"hierarchical place->region->city embeddings, the standard place-level baseline"
+(GLOSSARY.md:62) e Check2HGI "extends the place->region->city hierarchy with a fourth
+check-in level" (GLOSSARY.md:69). E o Cap. 5 usa place nas duas superfícies que importam:
+"four levels: the check-in, its place, the place's region, and the city"
+(5_mobiwac/04_method.tex:18) e "(check-in, place, region, city)"
+(5_mobiwac/02_related.tex:282).
+
+POI aparece no Cap. 2 quando ele parafraseia o paper original do HGI. Na frase seguinte o
+próprio capítulo diz "HGI is the place-level representation". POI é o vocabulário do paper
+citado; place é o vocabulário desta dissertação.
+
+As caixas de encoder podem manter o nome técnico do módulo ([same POI GCN] é o nome do
+módulo, não do nível). O rótulo do ANDAR é place, nas duas chapas. É isso que torna o
+parentesco visível.
+
+
+NOTAS DE PRECISÃO
+-----------------
+
+Duas fronteiras, não três. O desenho tem D_pr (POI contra região) e D_rc (região contra
+cidade). As três fronteiras — check-in para lugar, lugar para região, região para cidade —
+e a equação de pesos 0,4 / 0,3 / 0,3 são do Check2HGI, não do HGI. Um diagrama do HGI com
+três fronteiras estaria desenhando o Check2HGI com outro nome, e destruiria o contraste
+que o slide seguinte precisa fazer.
+[a equação de três fronteiras é 2_fundamentals.tex:711-713, eq:fund:check2hgi]
+
+Os discriminadores são bilineares, ao contrário do DGI, que é linear.
+    score = poi^T W regiao        e        score = regiao^T W cidade
+[research/embeddings/hgi/model/HGIModule.py:79, :250, :261]
+
+O negativo da fronteira POI–região é um POI DIFERENTE pareado com a mesma região: (pⱼ, rₖ).
+É isso que realiza a frase do capítulo: "a POI embedding is optimized to score high against
+the embedding of its own region and low against the embeddings of other regions."
+[2_fundamentals.tex:449-453]
+
+A GCN de nível de região existe e a prosa do Cap. 2 a omite. No desenho ela é o
+[same Region GCN], sobre o grafo de adjacência geográfica de regiões.
+[research/embeddings/hgi/model/RegionEncoder.py:35 e :191-192, comentário literal
+ "Apply region-level GCN on adjacency graph"]
+
+A agregação POI → região é atenção multi-cabeça. No código é um PMA: pooling por atenção
+com um vetor-semente aprendido, e a semente é a mesma para todas as regiões. Se ajudar no
+desenho: por isso a região é um ponto único de coleta, e não um somatório.
+[research/embeddings/hgi/model/RegionEncoder.py:56-64]
+
+Só o ramo original sobe para a cidade. O ramo corrompido para nas Region Embeddings, onde
+é consumido pelo discriminador. Está marcado no desenho como "original only".
+
+
+O QUE O DESENHO NÃO DEVE FAZER
+------------------------------
+
+Não reexplicar o objetivo contrastivo em texto. Ele já é dito uma vez, para os três
+métodos, no slide 10 ("The idea these three share"). Repetir aqui gasta exatamente o tempo
+de fala que trocar prosa por figura deveria economizar. As duas fronteiras aparecem como
+marcas no diagrama, não como explicação escrita.
+
+Não herdar "GCN" da caixa errada. No DGI a camada é GATConv e o capítulo escreve "graph
+attention convolution". No HGI o encoder de POI é GCN e o de região também é GCN, e são
+duas caixas distintas: [same POI GCN] e [same Region GCN].
+
+
+CONTINUIDADE COM O CHECK2HGI
+----------------------------
+
+Esta é a restrição mais importante do desenho, e vale mais do que qualquer detalhe acima.
+
+O diagrama do Check2HGI (slide 31) é este mesmo, com um nível a mais embaixo: o check-in,
+abaixo do lugar. O argumento inteiro daquele slide é "é o mesmo método, um nível mais
+fundo". Se os dois diagramas não forem visualmente irmãos, o argumento se perde.
+
+Vale desenhar os dois como uma família. Pode ser mais seguro desenhar o do Check2HGI
+primeiro e derivar o do HGI removendo o andar de baixo, para garantir que sejam o mesmo
+desenho menos um nível.
+
+
+ORÇAMENTO DO SLIDE
+------------------
+
+Slide 23, "HGI: how it works | why it was used".
+
+A figura mais no máximo duas linhas de texto. Título de uma linha: um título de duas
+linhas custa 3,7 mm, que é quase a linha de conclusão.
+
+As duas linhas que ficam ao lado da figura, para saber o que ela não precisa dizer:
+
+  1. the place-level output already reflects the region the place belongs to;
+  2. built for urban region representation; its place-level output is repurposed here
+     for sequential prediction, a use the original evaluation does not cover.
+
+A primeira é o que explica o resultado do Capítulo 4. Se o diagrama já a tornar óbvia (a
+região realimentando o POI), ela pode virar fala e sobra uma linha.

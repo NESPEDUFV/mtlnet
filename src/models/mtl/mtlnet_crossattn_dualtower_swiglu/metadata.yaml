@@ -1,0 +1,16 @@
+name: mtlnet_crossattn_dualtower_swiglu
+domain: mtl
+status: implemented
+evidence_status: experimental
+registry_key: mtlnet_crossattn_dualtower_swiglu
+runtime_class: models.mtl.mtlnet_crossattn_dualtower_swiglu.model.MTLnetCrossAttnDualTowerSwiGLU
+runtime_file: src/models/mtl/mtlnet_crossattn_dualtower_swiglu/model.py
+source_doc: docs/studies/mtl_improvement/HANDOFF.md
+notes: >
+  T2.4 combo (F) — "stack all winners". Subclass of mtlnet_crossattn_dualtower that
+  swaps the post-norm+GELU shared block for the pre-norm+SwiGLU block (overrides only
+  _build_shared_backbone; dual-tower forward/next_forward + param partition inherited).
+  Run with prior OFF (freeze_alpha=True alpha_init=0.0) to compose private reg tower ⊕
+  SwiGLU shared ⊕ prior-OFF. Diamond-avoiding single-parent inheritance. Expected: reg
+  ≈ flag-only dual+prior-OFF (SwiGLU gated out of reg), cat best-of-board — a cat/joint
+  champion play, not a new reg lever.

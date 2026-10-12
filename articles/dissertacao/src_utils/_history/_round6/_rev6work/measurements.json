@@ -1,0 +1,42 @@
+{
+ "build": {
+  "defense_pages": 108,
+  "final_pages": 105,
+  "ppgc_pages": 109,
+  "sha_defense_snapshot": "c8b2b1e5b6a8",
+  "text_identical_after_split_commit": true
+ },
+ "make_check": "exit 1 (FAIL) at 01915ba7 AND at 4e84cf7a; the tripping gate is 'this paper/this article' on apx_b_errata.tex:307",
+ "appendix_A_paths": {
+  "audited": 13,
+  "missing_on_origin_mobiwac": 9,
+  "missing_on_origin_main": 4
+ },
+ "torn_sentence": "6_conclusion.tex:132 'California run, completed since,' \u2014 article lost at 59de8280; renders on p.77",
+ "glossary_unregistered": [
+  "bilinear discriminator",
+  "logistic function"
+ ],
+ "needs_signoff_markers": 43,
+ "gowalla_dates": {
+  "p56_ch4": "February 2009 and October 2010",
+  "p78_ch6": "2009 and 2011"
+ },
+ "courb_gain_recompute": {
+  "static_FL": 20.24,
+  "static_CA": 20.91,
+  "static_TX": 21.98,
+  "sequential_FL": 1.86,
+  "sequential_CA": 2.28,
+  "sequential_TX": 5.43
+ },
+ "parity": {
+  "floor_claims": 19,
+  "failures": 0,
+  "pt_words": 310,
+  "en_words": 271,
+  "pt_sent": 11,
+  "en_sent": 11,
+  "checker_default_pages_stale": "PT_PAGE=3/EN_PAGE=4 default; actual pages are 2 and 3"
+ }
+}

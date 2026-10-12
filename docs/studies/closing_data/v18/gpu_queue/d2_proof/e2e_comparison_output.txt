@@ -1,0 +1,9 @@
+old_f0 exercised 'Generating folds on the fly': True | rc=0 peakRSS_bytes=2712567808 max_wired_GB=9.2
+new_f0 exercised 'Generating folds on the fly': True | rc=0 peakRSS_bytes=2150449152 max_wired_GB=7.9
+old_f3 exercised 'Generating folds on the fly': True | rc=0 peakRSS_bytes=2860580864 max_wired_GB=9.1
+new_f3 exercised 'Generating folds on the fly': True | rc=0 peakRSS_bytes=2145419264 max_wired_GB=8.0
+old_f0_rep exercised 'Generating folds on the fly': True | rc=0 peakRSS_bytes=2875621376 max_wired_GB=9.0
+f0 old-vs-new: per-epoch CSVs identical=True | files ['fold1_next_train.csv', 'fold1_next_val.csv'] | best F1 32.1061 vs 32.1061
+f3 old-vs-new: per-epoch CSVs identical=True | files ['fold1_next_train.csv', 'fold1_next_val.csv'] | best F1 29.8362 vs 29.8362
+f0 old-vs-old (control): per-epoch CSVs identical=True | files ['fold1_next_train.csv', 'fold1_next_val.csv'] | best F1 32.1061 vs 32.1061
+D2 E2E: PASS

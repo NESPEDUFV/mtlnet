@@ -1,0 +1,139 @@
+% !TeX root = ../main.tex
+% ==================================================================
+% Chapter 3 -- Article 1 (CBIC 2025), re-typeset for the dissertation.
+% Source: articles/CBIC___MTL/ (published record; DOI 10.21528/CBIC2025-1191324).
+% Adaptation rules: NORTH_STAR §3-§4 + WRITING_LAW; every departure from the
+% published text is logged in ../../src_utils/adaptation_ledgers/3_cbic_ADAPTATION_LEDGER.md (feeds Appendix B).
+% Citation keys are kept AS-IS from the paper's references.bib (Phase-4 merge).
+% ==================================================================
+% Short one-line display + TOC heading (matches the frame chapters and the Germano
+% precedent, which titles article chapters by the model/paper name, not "Article N: <full
+% academic title>"). The full published title is stated verbatim in the preface below.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text. Kept, unrelocated in meaning, for review.]
+\chapter[Multitask Learning for POI Category and Next-POI Prediction]{Multitask Learning for POI Category and Next-POI Prediction}
+\label{ch:cbic}
+
+\begin{chapterpreface}
+% AUT-03 (PENDENCIAS §4, author ruling A): the hyphen is restored INSIDE this verbatim
+% quotation. The published title is hyphenated at the source of record (Crossref, DOI
+% 10.21528/CBIC2025-1191324) and in the paper's own source (CBIC___MTL/main.tex:31). A
+% prior de-hyphenation sweep of house prose reached inside the quotation marks, so the
+% document printed this paper under two titles: "Multitask" here and "multi-task" in the
+% bibliography. Correcting a quotation to match its source is not a style choice; leaving
+% it would violate R2 (attributes copied from the source of record). Do NOT re-normalize.
+% Probe: R13-cbictitle.
+% [2026-09-30, AUTHOR-APPROVED, frame, no errata row] "typographical and tabulation errata were
+% corrected" -> "typographical, tabulation, and wording errata were corrected": with the two
+% method.tex footnotes removed the same day (7251739b), this sentence is the deposited text's
+% only disclosure that two published claims were reworded (the Standley training/inference clause
+% and the Nash-MTL cost clause); the record is Table B.2 of the supplement. R13-cbictitle's quoted
+% title is untouched.
+This chapter reproduces the article ``An Investigation into Multi-Task Learning for
+Point-of-Interest Category Classification and Next-POI Prediction'', published at the
+Congresso Brasileiro de Intelig\^encia Computacional (CBIC 2025), DOI
+10.21528/CBIC2025-1191324, with Vitor H. O. Silva as first author. The text was
+reformatted from the two-column conference layout to the dissertation format. Its
+conclusions are the conclusions of the time, for the configuration studied here: with a
+place-level embedding and hard parameter sharing, multitask learning did not
+consistently improve on the dedicated single-task models. The two chapters that follow
+revise that verdict, and they change different things to do it.
+Chapter~\ref{ch:courb} keeps this architecture and replaces the input representation,
+which is what identifies the representation as the binding constraint for that configuration.
+Chapter~\ref{ch:mobiwac} then changes the architecture as well, moving from hard
+parameter sharing to a cross-attention sharing topology, and changes the task pair with
+it. The chapter's preference for the Nash-MTL optimizer is likewise
+a conclusion of the time, weakened by a later finding about the optimizer
+implementation, and Chapter~\ref{ch:mobiwac} does not rely on it. A note on terminology:
+the term ``Next-POI Prediction'' as used in the reproduced article denotes the frame's
+\emph{next category} task, that is, predicting the category of the next visited place,
+not the exact place itself; the dissertation reserves \emph{next place} for the
+exact-POI task, which is not studied here.
+% [2026-09-02, B-12, banca annotation "nao e ruim isso?" at results.tex:36, author-approved] The
+% article body confesses that folds are split over samples (COD-007, our own addition) and, since
+% round 14 removed the two Chapter 5 pointers from that paragraph, no longer says where the
+% limitation is resolved. The way out goes HERE, in the preface, which is dissertation prose (no
+% Appendix B row, same footing as the notes above) and leaves the round-14 decision and the
+% STL-05-pinned sentence at results.tex:36 untouched.
+One protocol detail also differs from the final study: the folds here are formed over
+samples rather than over users, so one user's check-ins can fall in both training and
+validation. Section~\ref{sec:fund:split} states what that limits, and
+Chapter~\ref{ch:mobiwac} keeps each user on one side of a fold.
+% [2026-10-06, AUTHOR-RULED D10; frame, no errata] Uniform closing sentence of the three prefaces; the
+% "typographical, tabulation, and wording errata were corrected" clause above is folded into it.
+Corrections and clarifications to the published article were applied in this chapter.
+% [2026-09-02, B-10] A navigation sentence lived here for one day and was REMOVED on 2026-09-03.
+% It read: "Because the article is reproduced in full, its Section \ref{sec:cbic:related} and
+% Section \ref{sec:cbic:dataset} restate background and protocol that Chapter \ref{ch:fundamentals}
+% already covers; a reader coming from that chapter can go directly to Section
+% \ref{sec:cbic:methodology}." It answered the banca's B-10, the complaint that collecting articles
+% breeds redundancy.
+% WHY IT WENT. The advisor ruled on 2026-09-03 that the chapter is fine as it stands and that the
+% clarification belongs in ONE place, the opening of Chapter 2 before its first section: "tenta so
+% deixar mais claro na primeira parte do capitulo (antes do 2.1 mesmo)". Asked separately about a
+% per-article preface sentence, he answered "acho que nao precisa".
+% AND IT WOULD NOT HAVE STOPPED HERE. The same overlap exists in Chapters 4 and 5, which carry their
+% own related-work sections, so keeping it here alone is asymmetric and repeating it three times
+% would restate locally what Chapter 2 now states globally -- triplicating a sentence inside a
+% document whose criticism was repetition. The Chapter 4 preface also carries a label-leak
+% disclosure; navigation advice beside it would dilute the most serious thing that preface says.
+% B-10 IS STILL ANSWERED, in the place the advisor chose: the Chapter 2 opening states that the
+% datasets, metrics and protocol are described there "because the three studies share them" and that
+% "each article chapter keeps the description its original text gave".
+% [COD-015a, round8, 2026-07-30] The preface said Chapters 4 and 5 "revise that verdict by changing the
+% input representation rather than the architecture", which is right about Chapter 4 and wrong about
+% Chapter 5. Author decision, PENDENCIAS_RESOLVIDOS 5.4 (arquivado 2026-07-30), quoted: "vamos mudar o prefacio, pq o cap 4 defato nao
+% muda a arc mas o cap 5 muda", with "Pode refazer por conta propria" on the wording. One sentence
+% became three, and each half is now sourced in this document:
+%   Ch.4 keeps the architecture -- 4_courb/methodology.tex:12 and its Figure caption at :21
+%     ("Architecture based on MTLnet") swap the single 64-dimensional place-level input for decomposed
+%     spatial, temporal and categorical encoders and leave the model itself alone; Chapter 5's own
+%     recap says the same in one clause, 5_mobiwac/02_related.tex:25 "kept the MTLnet architecture
+%     unchanged and replaced its single 64-dimensional place-level input"; and Chapter 1 objective 2
+%     states it as the objective ("while holding the architecture fixed").
+%   Ch.5 changes the architecture -- 5_mobiwac/01_introduction.tex:26 and 04_method.tex:28 both
+%     describe the shared trunk as a cross-attention stack, and 02_related.tex:31 says in those words
+%     that the "sharing topology is redesigned around it". The task pair moved too, which is why this
+%     preface now names it: 6_conclusion.tex:240 lists the task-pair change as a confound of the final
+%     result. NOT sourced to 02_related.tex:20 -- that line describes MTLnet, the Chapter 3 model, and
+%     an earlier draft of this comment cited it for Chapter 5's topology, which is the misattribution
+%     class this round exists to catch.
+% "sharing topology" is the GLOSSARY term (line 128); "task pair" is used in Chapters 1, 5 and 6 and in
+% the conclusion's confound item, so no new vocabulary enters here. The sentence about Nash-MTL that
+% follows is untouched, and it is the round-4 correction that already distinguishes Chapter 4 (which
+% trains with the balancer) from Chapter 5 (which does not).
+% This is dissertation-authored preface prose, not reproduced published text, so it carries no
+% Appendix B errata row, on the same footing as the round-4 note below.
+% [round7, 2026-07-29] Errata pointer repointed, NOT deleted. It read "are listed in
+% Appendix B"; Appendix B moved to the supplementary volume (content.tex's appendix block
+% records the decision), so a bare "Appendix B" would send the reader to this document's
+% Appendix C. The advisor's ruling is that this preface is what explains the re-typeset, so
+% the sentence has to keep telling the reader where the itemized corrections are. The volume is
+% named through \extravolume (defined in preamble.tex) so all eight pointers agree, and the
+% appendix LETTER is literal rather than a \ref because the target label is in another document;
+% main_extra.tex freezes that letter and check_extra_xrefs.py guards it.
+% [round-extravol, this session] Pointer to "Appendix B of \extravolume" REMOVED on author
+% instruction: the main-volume chapters must not point at the supplementary volume. The sentence
+% now states the reformatting and the errata correction without saying where the itemized list
+% lives; Appendix B itself is untouched in main_extra.tex, so the corrections are still recorded,
+% just no longer pointed at from here. Logged in PENDENCIAS_RESOLVIDAS.md.
+% [round4, NEW-4] Pointer corrected: the earlier wording said "the following chapters do
+% not rely on it", which is false for Chapter 4 -- 4_courb/methodology.tex:36 trains with the
+% Nash-MTL balancer ("Multi-task training uses the Nash-MTL regularizer"), and
+% 4_courb/related.tex:45 states the same for the MTLnet baseline. Chapter 5 is the chapter that
+% does not use it: it reports a fixed loss weighting and states that no balancer, Nash-MTL
+% included, improved on it (5_mobiwac/02_related.tex:111-114). This sentence is dissertation-authored preface prose, not
+% reproduced published text, so it carries no Appendix B errata row.
+% [round3, author 3.5/MJ-8] terminology bridge: the article reuses "Next-POI" for what
+% the frame names "next category" (and internally the published text even shades it toward
+% exact-location on p.27); this sentence fixes the mapping so a reader who trusts the
+% abstract's "exact place is not predicted" is not tripped.
+\end{chapterpreface}
+
+% SECTIONS, split into chapters/3_cbic/ on 2026-07-28 at the author's request to match the
+% one-file-per-section layout of articles/CBIC___MTL/sections/. Purely mechanical: cut at
+% \section boundaries, no prose edited, and the order below IS the reading order.
+\input{chapters/3_cbic/intro}
+\input{chapters/3_cbic/basis}
+\input{chapters/3_cbic/method}
+\input{chapters/3_cbic/results}
+\input{chapters/3_cbic/conclusion}

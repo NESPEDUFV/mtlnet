@@ -1,0 +1,150 @@
+% ============================================================================
+% Check2HGI -- o andar de check-in (impresso ~30/31).
+% Fonte: o ASCII do AUTOR, `considerations.md:3101-3130`.  Transcricao, nao
+% reinterpretacao: Check-in -> Encoder -> Check-in Feature Embedding -> grafo
+% de sequencia DIRIGIDA -> original/corrompido -> a MESMA GCN -> Check-in
+% Embeddings -> Attention Pooling per POI -> POI Embeddings -> HGI.
+%
+% ESTA CHAPA E' IRMA DA DO HGI, DE PROPOSITO E NA LETRA.  Mesmos estilos, mesma
+% paleta, mesmas raias, mesmos glifos de vetor, mesmo tratamento de "a mesma
+% rede recebe os dois ramos".  E' o que torna literal o argumento do slide --
+% "e' o mesmo metodo, um nivel mais fundo" -- em vez de pedir que a plateia
+% acredite na palavra.  Por isso ela TERMINA numa caixa `HGI`: o que sai daqui
+% e' o que entra na chapa anterior.
+%
+% ⚠ AS ARESTAS DO GRAFO SAO DIRIGIDAS, e isso nao e' decoracao.  A sequencia de
+% visitas liga cada visita a's seguintes em UMA direcao so' (anterior -> posterior).
+% E' o mecanismo antivazamento do v18: com a aresta bidirecional, o rotulo
+% vazava e valia 28,63 macro-F1 em Alabama.  Desenhar sem ponta, ou com ponta
+% nos dois lados, contradiz a defesa central do capitulo.  O proprio autor
+% escreve "Build directed user visit sequence".
+% ============================================================================
+% O MESMO pictograma de grafo das chapas do DGI e do HGI -- mesmas posicoes de
+% no', mesma silhueta -- so' que com as arestas DIRIGIDAS.  Duas razoes para nao
+% escolher entre uma coisa e outra:
+%  - consistencia: o leitor reconhece "isto e' um grafo" pelo mesmo simbolo nas
+%    tres chapas, e a corrente de bolinhas em fila nao tinha esse parentesco;
+%  - fidelidade: a sequencia de visitas e' DIRIGIDA e DESCONEXA, e as duas
+%    propriedades sao substantivas:
+%      * dirigida -- as arestas correm todas no sentido do tempo e NENHUMA fecha
+%        ciclo.  Um ciclo dirigido diria que a ultima visita aponta de volta
+%        para a primeira, que e' exatamente o que o v18 proibiu;
+%      * desconexa -- a aresta de sucessao liga visitas DO MESMO USUARIO, entao
+%        usuarios diferentes formam componentes separados.  Um grafo conexo
+%        diria que todas as visitas se ligam entre si, o que e' falso.
+%    E' aqui que esta chapa se separa das outras duas de proposito: o grafo de
+%    Delaunay (DGI/HGI) e o de adjacencia de regioes (HGI) sao CONEXOS, e os
+%    pictogramas deles refletem isso.  Mesmo simbolo, propriedade diferente.
+\tikzset{
+  dgpic/.pic={
+    \begin{scope}[->, line width=0.8pt, opacity=0.55,
+                  >={Latex[length=1.4mm]}, shorten >=1.4pt, shorten <=1.4pt]
+      % Cada no' tem NO MAXIMO uma aresta de entrada e uma de saida -- ou seja,
+      % cada componente e' um CAMINHO, nao um grafo qualquer.  E' o que torna a
+      % coisa uma SEQUENCIA: uma visita tem uma anterior e uma seguinte, nunca
+      % duas.  Ramificar diria que a mesma visita e' sucedida por duas outras.
+      % Os nos ficam espalhados, e nao em fila, para o simbolo continuar sendo
+      % o mesmo das chapas do DGI e do HGI -- muda a propriedade, nao o simbolo.
+      %
+      % Componente 1 -- as visitas de um usuario
+      \draw (-0.54,-0.06) -- (-0.38, 0.28);
+      \draw (-0.38, 0.28) -- (-0.06, 0.16);
+      \draw (-0.06, 0.16) -- (-0.16,-0.22);
+      % Componente 2 -- as visitas de OUTRO usuario, sem aresta ligando os dois
+      \draw ( 0.22,-0.34) -- ( 0.54,-0.22);
+      \draw ( 0.54,-0.22) -- ( 0.40, 0.06);
+    \end{scope}
+    \fill (-0.54,-0.06) circle (1.55pt) (-0.38,0.28) circle (1.55pt)
+          (-0.06, 0.16) circle (1.55pt) (-0.16,-0.22) circle (1.55pt)
+          ( 0.22,-0.34) circle (1.55pt) ( 0.54,-0.22) circle (1.55pt)
+          ( 0.40, 0.06) circle (1.55pt);
+  }
+}
+\begin{tikzpicture}[
+    font=\small,
+    >={Latex[length=2mm]},
+    lbl/.style={align=center, font=\small, text=secondary},
+    box/.style={draw=secondaryshade, rounded corners=2.5pt, fill=white,
+                align=center, inner sep=4pt, line width=1pt, text=secondary},
+    % caixas que atravessam as duas raias -- so' estas precisam ser altas
+    tall/.style={box, minimum height=2.25cm},
+    vcell/.style={draw=secondary!70, line width=0.8pt, minimum width=4mm,
+                  minimum height=2.1mm, inner sep=0pt, fill=white},
+    ncell/.style={vcell, draw=alert!85, fill=alert!10},
+    flow/.style={->, line width=1.1pt, draw=secondary},
+    nflow/.style={->, line width=1.1pt, draw=alert!85}
+]
+\def\yA{0.95}\def\yB{-0.95}
+
+% O encoder e' de UMA raia so' -- nao precisa atravessar nada, e achatado ele
+% para de competir com as caixas que de fato atravessam.
+% ⚠ ERA "Encoder / pretrained", e a segunda palavra era FALSA (corrigido 27/08,
+% medido pelo `gate`).  Nada pre-treinado esta' no caminho check-in -> feature:
+% os 15 valores sao LIDOS do check-in (7 indicadores de categoria + 4 de tempo
+% ciclico + 4 de tempo decorrido, `apx_h:95`, `:437`), e quem mapeia 15 -> 64 e'
+% a PRIMEIRA CAMADA DE CONVOLUCAO do proprio Check2HGI (`apx_h:130-133`) -- que
+% nesta chapa e' a caixa `GCN`, DEPOIS desta.  O que E' pre-treinado existe, mas
+% e' outro andar: a ancora da place-table (`apx_h:167`), a jusante do pooling.
+% `Preprocessing` e' tambem a primeira palavra do desenho do autor
+% (`considerations.md:3128-3135`).  A caixa alargou 0,6cm e a PAGINA NAO MUDOU
+% -- os extremos do desenho estao noutro lugar (verificado por export).
+% ⚠ GEOMETRIA APERTADA -- medida, nao estimada.  O vao util vai da borda direita
+% do rotulo "Check-in" (x=0,496; `Check-in` mede 1,191cm em \small) ate' a
+% pilha `fe`.  E `fe` NAO pode ir muito para a direita: a seta seguinte faz
+% cotovelo em x=4,08 e, se `fe.east`+0,22 passar disso, o trecho final INVERTE
+% e a ponta aponta para tras (mesmo defeito que a chapa do DGI teve).
+% Por isso: \footnotesize em vez de \normalsize, e a caixa recentrada em 1,80.
+% ⚠ MEDIR NO BEAMER, nao em `article`.  A base do deck e' 11pt, entao \small=10pt
+%   e \footnotesize=9pt -- um ponto acima do que article da'.  "Preprocessing"
+%   mede 2,32cm a 11pt / 2,11cm a 10pt / 1,90cm a 9pt.  So' o ultimo cabe nos
+%   1,95cm de `text width`.  Medir na classe errada custou uma iteracao aqui.
+% Folgas resultantes: 0,19cm ate' o rotulo, 0,26cm ate' `fe`, 0,27cm de coto
+% final da seta do cotovelo.  A PAGINA NAO MUDOU: 393,24 x 120,24 pt.
+\node[box, minimum height=1.3cm, text width=1.95cm, inner sep=4pt] (enc) at (1.80,0)
+      {\footnotesize\textbf{Preprocessing}};
+\node[lbl, anchor=south] at (-0.10,0.10) {Check-in};
+\draw[flow] (-0.30,0) -- (enc.west);
+
+\begin{scope}[local bounding box=fe]
+  \foreach \k in {0,1,2,3} \node[vcell] at (3.38,0.33-\k*0.22) {};\end{scope}
+\draw[flow] (enc.east) -- (fe.west);
+
+{\color{secondary}\pic at (4.75,\yA) {dgpic};}
+{\color{alert}\pic at (4.75,\yB) {dgpic};}
+\node[lbl, text width=1.9cm] at (4.90,0)
+      {\textbf{directed visit}\\\textbf{sequence}};
+\node[lbl, anchor=south] at (4.75,\yA+0.42) {original graph};
+\node[lbl, text=alert, anchor=north] at (4.75,\yB-0.42) {corrupted graph};
+\draw[flow]  (fe.east) -- ++(0.22,0) |- (4.08,\yA);
+\draw[nflow] (fe.east) -- ++(0.22,0) |- (4.08,\yB);
+
+\node[tall, text width=0.85cm] (gcn) at (6.70,0) {\textbf{GCN}};
+\draw[flow]  (5.46,\yA) -- ([yshift=9.5mm]gcn.west);
+\draw[nflow] (5.46,\yB) -- ([yshift=-9.5mm]gcn.west);
+
+\begin{scope}[local bounding box=cea]
+  \foreach \k in {0,1,2,3} \node[vcell] at (8.05,\yA+0.33-\k*0.22) {};\end{scope}
+\begin{scope}[local bounding box=ceb]
+  \foreach \k in {0,1,2,3} \node[ncell] at (8.05,\yB+0.33-\k*0.22) {};\end{scope}
+\draw[flow]  ([yshift=9.5mm]gcn.east)  -- (cea.west);
+\draw[nflow] ([yshift=-9.5mm]gcn.east) -- (ceb.west);
+
+\node[tall, text width=1.6cm] (pool) at (9.50,0)
+      {\textbf{Attention}\\\textbf{pooling}};
+\draw[flow]  (cea.east) -- ([yshift=9.5mm]pool.west);
+\draw[nflow] (ceb.east) -- ([yshift=-9.5mm]pool.west);
+
+\begin{scope}[local bounding box=pea]
+  \foreach \k in {0,1,2,3} \node[vcell] at (11.20,\yA+0.33-\k*0.22) {};\end{scope}
+\begin{scope}[local bounding box=peb]
+  \foreach \k in {0,1,2,3} \node[ncell] at (11.20,\yB+0.33-\k*0.22) {};\end{scope}
+\draw[flow]  ([yshift=9.5mm]pool.east)  -- (pea.west);
+\draw[nflow] ([yshift=-9.5mm]pool.east) -- (peb.west);
+\node[lbl, text width=1.85cm, anchor=north] at (11.20,\yB-0.42) {place embeddings};
+
+\node[box, fill=secondarytint, text width=0.75cm, minimum height=1.6cm]
+     (hgi) at (12.45,0) {\textbf{HGI}};
+\draw[flow]  (pea.east) -- ([yshift=5mm]hgi.west);
+\draw[nflow] (peb.east) -- ([yshift=-5mm]hgi.west);
+
+\end{tikzpicture}

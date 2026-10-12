@@ -1,0 +1,96 @@
+# A leitura confirmatória da v19 — os parâmetros pré-registrados, congelados.
+#
+# ⚠ CONGELADO como qualquer receita: um resultado que cita este arquivo o torna imutável. Uma
+# análise diferente é um arquivo NOVO, não uma edição — senão o `git diff` deixa de responder "os
+# parâmetros mudaram entre a ponte e os estados grandes?", que é a pergunta que este arquivo existe
+# para responder.
+#
+# Nada aqui é escolha desta sessão. Cada valor sai do `docs/plans/EVALUATION_PROTOCOL.md`, que é
+# pré-registro datado, e as duas linhas que o protocolo deixou em aberto estão marcadas.
+
+[analysis]
+name = "v19_headline"
+implements = "docs/plans/EVALUATION_PROTOCOL.md"
+
+[margin]
+# §3. Cadeia de ancoragem de três elos: piso de decidibilidade (2× a banda pareada de semente),
+# piso de re-instanciação (~2 × 0,18 pp de rebuild), e teto externo (mais estrito que o ROPE de 1 pp
+# usual). Não-circular porque deriva de medições do mesmo braço, sem nenhum delta A-contra-B.
+delta = 0.4
+# §3: "every equivalence verdict restated at δ ∈ {0.2, 0.4, 1.0}".
+sensitivity = [0.2, 0.4, 1.0]
+
+[intervals]
+# §3: "TOST — 90% bootstrap CI ⊂ (−δ, +δ); one-sided NI — lower 95% bound > −δ". É UM intervalo: o
+# limite inferior bilateral de 90% é o unilateral de 95%.
+ni = 0.90
+# §3: superioridade exige, além da NI, "the bootstrap CI to exclude 0 in the same direction", a α
+# bilateral de 0,05.
+superiority = 0.95
+
+[bootstrap]
+# §3: "≥10,000 replicates" e "≥10,000 permutations".
+replicates = 10000
+permutations = 10000
+seed = 0
+
+[family]
+# §5: "Per-state headline family (2–3 tests): Holm within each state; no correction across states".
+# Com os três braços congelados da v19 a família é m = 2 — declarada aqui, ANTES de rodar, porque
+# uma correção só significa alguma coisa relativa ao conjunto que PODERIA ter sido reportado.
+correction = "holm"
+tests = [
+    { task = "cat", arm_a = "cat", arm_b = "joint" },
+    { task = "reg", arm_a = "reg", arm_b = "joint" },
+]
+
+[escalation]
+# §2, os três gates de S=2. O `sd` calibrado é a banda de RÉPLICA dos estados-ponte (§10.3), que é
+# medida na leitura deles — por isso a ordem ponte → grandes não é preferência, é dependência.
+sd_source = "bridge"
+# Quais conjuntos formam a ponte. Um estado fora desta lista que rode com duas réplicas exige a
+# banda medida aqui — é a ordem ponte→grandes virando recusa em vez de nota de procedimento.
+bridge_states = ["alabama", "arizona", "istanbul"]
+# ⚠ O §2 diz "calibrated" sem pinar como agregar entre os três estados-ponte. `max` é a escolha
+# conservadora, registrada em nota datada no §12 antes da leitura.
+sd_aggregation = "max"
+# §2 licencia S=2 sse `sd/√2 ≤ ⅓ × min(menor efeito de interesse, folga da margem)`. O "menor efeito
+# de interesse" não é definido no texto; a leitura registrada em §12.4c usa a MARGEM como escala de
+# efeito, que é a grandeza que um desenho de não-inferioridade tem. A razão fica declarada aqui.
+calibration_ratio = 3.0
+
+[design]
+# §2: "Outer folds | 5". Declarado porque `--only-folds` é parâmetro de EXECUÇÃO e não entra no
+# fingerprint da receita — uma célula bancada com um fold só entraria no OOF agrupado com ~20% dos
+# usuários daquele braço, que é outro estimando, sem nada visível no veredito.
+folds = 5
+
+[replicates]
+# §2: 4 réplicas nos estados-ponte, 2 nos grandes, travadas pela calibração da ponte. Ficam aqui e
+# não em código porque são pré-registro — e porque um sync parcial que trouxesse só a semente 0
+# estimaria outra coisa (o Δ é a média das réplicas) sem sintoma nenhum no veredito.
+alabama = [0, 1, 7, 100]
+arizona = [0, 1, 7, 100]
+istanbul = [0, 1, 7, 100]
+florida = [0, 7]
+california = [0, 7]
+texas = [0, 7]
+
+[conjunction]
+# §4a manda intersectar os IDs de usuário ANTES de qualquer frase cross-state e pré-registra o
+# desvio: "if overlap is non-trivial ... switch to the Bonferroni combining variant". A precondição
+# rodou em 23-08 e FALHOU — 24,5 % dos usuários aparecem em mais de um estado americano, e os
+# viajantes carregam 51 % dos check-ins do Texas (§12.6c). Simes exigiria independência ou PRDS
+# entre os conjuntos; Bonferroni vale sob dependência arbitrária e se paga em poder. Não é escolha
+# desta sessão: é o ramo que a precondição disparou.
+combiner = "bonferroni"
+
+[diagnostics]
+# §3 manda confrontar a meia-largura REALIZADA com a projetada, e §6 manda republicar a tabela de
+# poder com os valores medidos. Os números aqui são as projeções do §6, não medições — estão no
+# arquivo para que a comparação seja contra um alvo pré-registrado e não contra memória.
+projected_half_width = [0.05, 0.30]
+unpaired_benchmark = 0.5
+# §5: a tabela de MDE sai ANTES dos testes. Em modo só-larguras ela é cega a sinal e a centro, então
+# publicá-la não é espiar o resultado.
+mde_power = 0.80

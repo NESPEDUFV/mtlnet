@@ -1,0 +1,8 @@
+name: uncertainty_weighting
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: uncertainty_weighting
+runtime_class: losses.uncertainty_weighting.loss.UncertaintyWeightingLoss
+runtime_file: src/losses/uncertainty_weighting/loss.py
+source_doc: ""

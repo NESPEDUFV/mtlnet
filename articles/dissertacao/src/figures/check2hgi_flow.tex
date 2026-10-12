@@ -1,0 +1,122 @@
+% !TeX root = ../main.tex
+%
+% Three columns, four bands, all placement relative (positioning library). No node
+% carries an absolute coordinate: every node is anchored to a neighbor's BORDER, so a
+% node that grows with its text pushes the band below it down instead of printing over
+% it. That is what the previous version could not do, and it is why the export row
+% printed on top of the hierarchy row: five nodes at fixed y with a fixed minimum
+% height, one of which carried four lines of text and grew past its slot.
+%
+% Sizing rule: every box in the three grid columns shares one text width (3.95cm), so
+% such a box may only grow DOWNWARD, and each band's minimum height is set from the
+% tallest box in that band. The handoff node is the one exception at 5.6cm: it spans the
+% two left columns and carries the figure's longest line ("Two separate nine-visit
+% sequences", 148.27pt measured), which does not fit 3.95cm (=112.36pt).
+% Bands 1 and 3 hold the four-line stage boxes (five lines since the level tags were
+% added); bands 2 and 4 hold two-line boxes.
+%
+% Why three columns and not five across. Measured against this document's 455pt text
+% block: a five-across row of the hierarchy boxes was compiled at text width=2.7cm
+% (=76.85pt per box) and already measured 462.18pt overall, which is an Overfull \hbox.
+% That width is below the 100.35pt needed by "region adjacency GCN" (the longest line
+% among the five hierarchy boxes), so every wider -- that is, every non-wrapping --
+% five-across variant is wider still. The 462.18pt figure is therefore a LOWER bound on
+% the five-across requirement, not the requirement at a fitting width. The chain is therefore folded into a snake: left to right
+% across band 1, down the right-hand column through the detached place table, then
+% right to left across band 3. This layout measures 441.65pt wide.
+%
+% [round14, second pass] ADDED the hierarchy spine and the per-stage level tags. The
+% figure previously showed the processing STAGES but never named the four node levels
+% (check-in, place, region, city) that Section E.2 calls "four node levels" and "the
+% four resolutions of the representation", and it did not show the membership chain
+% that the "Hierarchy membership" item in that section describes. A reader therefore
+% could not connect the prose's levels to the boxes. Two additions close that:
+%   (1) a spine strip across the top carrying the four levels and the containment
+%       arrows between them. Each arrow is labelled with the contrastive objective
+%       that spans that boundary, because the three discriminators are defined
+%       across exactly these level pairs, not at arbitrary places: check-in-place
+%       (alpha_c2p), place-region (alpha_p2r), region-city (alpha_r2c) in
+%       research/embeddings/check2hgi/check2hgi.py:1001-1003. This makes the spine
+%       readable against Equation E.2 rather than being a separate legend.
+%   (2) a scriptsize level tag as the first line of each processing box, naming the
+%       resolution that box works at. The tag is INSIDE the box on purpose: an
+%       outside label would sit in the band gap and could collide with an arrow,
+%       which is the class of defect this figure was rebuilt to remove.
+\begin{tikzpicture}[
+    font=\small,
+    node distance=0.7cm and 1.2cm,
+    level/.style={draw=black!55, rounded corners=1pt, fill=white,
+        align=center, text width=1.72cm, minimum height=0.62cm, inner sep=3pt,
+        font=\scriptsize},
+    lvlhead/.style={align=left, text width=2.45cm, inner sep=2pt,
+        font=\scriptsize\itshape},
+    member/.style={-{Latex[length=1.5mm]}, line width=0.6pt, draw=black!55},
+    stage/.style={draw=black!70, rounded corners=2pt, fill=black!3,
+        align=center, text width=3.95cm, minimum height=3.3cm, inner sep=5pt},
+    learned/.style={stage, fill=black!9, line width=0.8pt},
+    export/.style={draw=black!75, rounded corners=2pt, fill=white,
+        align=center, text width=3.95cm, minimum height=1.6cm, inner sep=5pt,
+        double, double distance=1pt},
+    auxiliary/.style={draw=black!60, rounded corners=2pt, dashed, fill=white,
+        align=center, text width=3.95cm, minimum height=1.6cm, inner sep=5pt},
+    handoff/.style={draw=black!80, rounded corners=2pt, fill=black!12,
+        align=center, text width=5.6cm, minimum height=1.6cm, inner sep=5pt,
+        line width=0.9pt},
+    flow/.style={-{Latex[length=2.2mm]}, line width=0.75pt, draw=black!80},
+    exportflow/.style={-{Latex[length=2.2mm]}, line width=0.75pt, dashed,
+        draw=black!70},
+    loss/.style={fill=white, inner sep=1.5pt, font=\scriptsize}
+]
+    % Spine: the four node levels and the containment chain. Each arrow carries the
+    % contrastive objective defined across that level boundary (Equation E.2).
+    \node[lvlhead] (lhead) {Four nested levels};
+    \node[level, right=0.72cm of lhead] (lci) {check-in $x_i$};
+    \node[level, right=1.15cm of lci]   (lpl) {place $p$};
+    \node[level, right=1.15cm of lpl]   (lrg) {region $r$};
+    \node[level, right=1.15cm of lrg]   (lct) {city $\Omega$};
+    \draw[member] (lci) -- node[loss]{$\mathcal{L}_{C\!P}$} (lpl);
+    \draw[member] (lpl) -- node[loss]{$\mathcal{L}_{P\!R}$} (lrg);
+    \draw[member] (lrg) -- node[loss]{$\mathcal{L}_{R\!\Omega}$} (lct);
+
+    % Band 1: the first three levels of the hierarchy, left to right. Anchored under
+    % the spine's left edge, so the whole figure still carries no absolute coordinate.
+    \node[stage, anchor=north west] (records) at ([yshift=-0.8cm]lhead.south west)
+        {{\scriptsize\itshape raw records}\\\textbf{Input}\\Check-in records\\category, time, coordinates};
+    \node[learned, right=of records] (event)
+        {{\scriptsize\itshape check-in level}\\\textbf{Trajectory context}\\Succession graph\\two weighted GCNs\\$\mathbf{x}_i\in\mathbb{R}^{64}$};
+    \node[learned, right=of event] (place)
+        {{\scriptsize\itshape place level}\\\textbf{Place summary}\\Four-head attention\\over check-ins\\$\mathbf{e}_{p_i}\in\mathbb{R}^{64}$};
+
+    % Band 2: the first export, and the detached place table the chain continues through.
+    \node[export, below=of records] (xexport)
+        {Exported check-in table\\one 64-vector per visit};
+    \node[auxiliary, below=of place] (ptable)
+        {Detached place summary\\+ pretrained table};
+
+    % Band 3: the remaining two levels, right to left.
+    \node[learned, below=0.9cm of ptable] (spatial)
+        {{\scriptsize\itshape region level}\\\textbf{Spatial context}\\Delaunay place GCN\\place--region attention\\region adjacency GCN};
+    \node[stage] (city) at (event |- spatial)
+        {{\scriptsize\itshape city level}\\\textbf{Global context}\\Area-weighted city summary\\training only};
+
+    % Band 4: the second export and the handoff to the joint model. The handoff sits in
+    % the middle column, so the two double-bordered tables reach it from opposite sides.
+    \node[export, below=of spatial] (zexport)
+        {Exported region table\\one 64-vector per region};
+    \node[handoff, below=of city] (windows)
+        {Two separate nine-visit sequences\\passed to the joint model};
+
+    % Hierarchy routes. The loss labels sit above their arrow and inside the 1.2cm
+    % column gap, which is wider than either label, so neither can reach a node.
+    \draw[flow] (records) -- (event);
+    \draw[flow] (event) -- node[loss,above]{$\mathcal{L}_{C\!P}$} (place);
+    \draw[exportflow] (place) -- (ptable);
+    \draw[exportflow] (ptable) -- node[loss,left]{$\mathcal{L}_{P\!R}$} (spatial);
+    \draw[flow] (spatial) -- node[loss,above]{$\mathcal{L}_{R\!\Omega}$} (city);
+
+    % Export routes and the handoff.
+    \draw[exportflow] (event.south) |- (xexport.east);
+    \draw[exportflow] (spatial) -- (zexport);
+    \draw[flow] (xexport.south) |- (windows.west);
+    \draw[flow] (zexport.west) -- (windows.east);
+\end{tikzpicture}

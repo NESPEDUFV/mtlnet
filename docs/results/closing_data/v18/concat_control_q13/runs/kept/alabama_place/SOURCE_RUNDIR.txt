@@ -1,0 +1,1 @@
+hgi_dk_ovl/alabama/next_lr1.0e-04_bs8192_ep50_20260816_191511_2730880

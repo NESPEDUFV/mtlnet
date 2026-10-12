@@ -1,0 +1,8 @@
+name: famo
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: famo
+runtime_class: losses.famo.loss.FAMOLoss
+runtime_file: src/losses/famo/loss.py
+source_doc: ""

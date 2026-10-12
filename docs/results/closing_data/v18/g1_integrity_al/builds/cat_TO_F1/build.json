@@ -1,0 +1,128 @@
+{
+  "study": "check2hgi_integrity_v2",
+  "cell": "TO_F1",
+  "state": "alabama",
+  "generated_utc": "2026-10-02T02:04:15.168173+00:00",
+  "revision": "d01cd2a854fb79851d1eb00e3fdb10421418eb0e",
+  "command": "scripts/integrity_v2/build_study_repr.py --state alabama --cell TO_F1 --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --exclude-users-file results/g1/splits/alabama_split_seed0_fold1.json --study-root results/integ18_repr",
+  "recipe": {
+    "dim": 64,
+    "num_layers": 2,
+    "attention_head": 4,
+    "alpha_c2p": 0.4,
+    "alpha_p2r": 0.3,
+    "alpha_r2c": 0.3,
+    "mae_poi_lambda": 0.3,
+    "mae_poi_mask_rate": 0.15,
+    "mae_poi_gamma": 3.0,
+    "anchor_lambda": 0.1,
+    "gamma_init": 1.0,
+    "lr": 0.001,
+    "weight_decay": 0.0,
+    "max_norm": 0.9,
+    "lr_gamma": 1.0,
+    "epochs": 500,
+    "encoder": "resln",
+    "dropout": 0.1
+  },
+  "encoder": "resln",
+  "epochs": 500,
+  "repr_seed": 42,
+  "device": "cpu",
+  "torch_version": "2.11.0",
+  "selection": "minimum full-graph training loss (as in the frozen v14 builder)",
+  "best_epoch": 491,
+  "best_loss": 0.1924521028995514,
+  "n_params": 785356,
+  "graph": {
+    "path": "output/check2hgi/alabama/temp/checkin_graph.pt",
+    "sha256_first64MB": "3247d980a5e6cea1cff9d4531f6f52195132c2a319a78677ab65092e66e9ca17",
+    "restricted": true,
+    "n_checkins": 92620,
+    "n_checkins_full": 113846,
+    "checkin_frac_kept": 0.8135551534529101,
+    "n_pois": 11194,
+    "n_pois_full": 11848,
+    "pois_dropped_no_training_visit": 654,
+    "n_regions": 1084,
+    "n_regions_full": 1109,
+    "regions_dropped": 25,
+    "n_users_kept": 3640,
+    "edge_weight_min": 0.0,
+    "edge_weight_max": 1.0
+  },
+  "training_users": {
+    "exclude_users_file": "results/g1/splits/alabama_split_seed0_fold1.json",
+    "n_excluded_users": 218,
+    "split": {
+      "state": "alabama",
+      "seed": 0,
+      "fold": 1,
+      "n_folds": 5,
+      "engine": "check2hgi_dk_ovl"
+    },
+    "val_users_sha256": "04da416d4b6531da22a68fd94f3fa564f5212c6db5fb43c4f39a12ea8a7d918a"
+  },
+  "spatial_scaffolding": {
+    "delaunay_edges": "output/hgi/alabama/temp/edges.csv",
+    "poi2vec": "output/hgi/alabama/poi2vec_poi_embeddings_Alabama.csv",
+    "held_fixed_across_arms": true,
+    "scope_note": "full-dataset place-spatial prior, held fixed on purpose so the contrast isolates the check-in channel; recorded as an open channel"
+  },
+  "node_feature_schema": {
+    "width": 15,
+    "layout": "7 category one-hot + hour sin/cos + dow sin/cos",
+    "category_vocabulary_source": "configs.globals.CATEGORIES_MAP"
+  },
+  "exports": {
+    "embeddings_insample.parquet": {
+      "rows": 92620,
+      "sha256": "6478ef70829b7c69ce8659e6be6096f3a2874e88a33f2714af690f34b1306671",
+      "note": "training users only when the cell is restricted"
+    },
+    "checkpoint.pt": {
+      "sha256": "d1b35174410c8ec2bdd3958b5a409d6985fc903854d63abad1b2b9fd2c7a3268",
+      "contains": "selected state_dict + constructor args"
+    }
+  },
+  "causal_graph": {
+    "forward_only": true,
+    "edges_before": 177960,
+    "edges_after": 88980,
+    "dropped_backward": 88980,
+    "rule": "kept edges with src < tgt; node ids are in per-user visit order (fact F1)",
+    "semantics": "a visit's representation is computed from its own past only, at TRAINING time as well as at readout, which is the deployed information set"
+  },
+  "node_enrichment": {
+    "continuous_time": {
+      "columns": [
+        "log1p_gap_hours/10",
+        "log1p_since_first_hours/10",
+        "gap_clipped_24h/24",
+        "is_first_visit"
+      ],
+      "median_gap_hours": 3.5019445419311523,
+      "p90_gap_hours": 75.5512466430664,
+      "legitimacy": "all measured up to the visit itself; the gap to the TARGET is never added, which would be the leak this study exists to prevent"
+    },
+    "layout": [
+      "canonical_11",
+      "continuous_time_4"
+    ],
+    "in_channels": 15
+  },
+  "user_fraction": {
+    "user_fraction": null
+  },
+  "anchor": {
+    "anchor_dim_native": 64,
+    "anchor_adapted": false
+  },
+  "capacity": {
+    "dim": 64,
+    "num_layers": 2,
+    "reference_dim": 64,
+    "reference_num_layers": 2,
+    "overridden": false
+  }
+}

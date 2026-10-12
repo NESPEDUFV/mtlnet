@@ -1,0 +1,8 @@
+name: stch
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: stch
+runtime_class: losses.stch.loss.STCHLoss
+runtime_file: src/losses/stch/loss.py
+source_doc: docs/mtl_optimizers/stch/README.md

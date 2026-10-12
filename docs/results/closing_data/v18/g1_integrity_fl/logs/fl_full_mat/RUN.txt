@@ -1,0 +1,8 @@
+start 2026-10-02 02:16:50 commit d01cd2a8 swap_used_MB=4012
+cmd: .venv/bin/python scripts/integrity_v2/materialize_engine.py --state florida --arm-npz results/integ18_repr/florida/FULL_CPU/win_matched.npz --source-engine check2hgi_dk_ovl_srcview --dest-engine check2hgi_v18_fullcpu
+waiting for heavy lock 02:16:50
+heavy lock acquired 02:16:50
+rc=0 wall=34s peakRSS_bytes=15299723264
+repo-write-guard OK
+end 2026-10-02 02:17:24
+DONE

@@ -1,0 +1,6 @@
+start 2026-10-02 01:25:04 commit d01cd2a8 swap_used_MB=2952
+cmd: .venv/bin/python scripts/probe/build_design_k_delaunay.py --state arizona --seed 0 --device cpu --epochs 500 --out-suffix resln_mae_l0_1_fullcpu_s0
+rc=0 wall=549s peakRSS_bytes=2762915840
+repo-write-guard OK
+end 2026-10-02 01:34:14
+DONE

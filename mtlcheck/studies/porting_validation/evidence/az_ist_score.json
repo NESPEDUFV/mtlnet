@@ -1,0 +1,499 @@
+{
+  "summary": {
+    "cat/arizona": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        34.59825158119202,
+        34.63041961193085,
+        34.58173334598541,
+        34.63976263999939
+      ],
+      "mean": 34.61254179477692,
+      "std_over_seeds": 0.02716591910253233,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 964.54
+    },
+    "cat/istanbul": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        35.30644953250885,
+        35.32833635807037,
+        35.37434458732605,
+        35.342249274253845
+      ],
+      "mean": 35.33784493803978,
+      "std_over_seeds": 0.02844706872417241,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 1313.6599999999999
+    },
+    "joint:cat/arizona": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        34.51693892478943,
+        34.589287638664246,
+        34.62759792804718,
+        34.54127073287964
+      ],
+      "mean": 34.56877380609512,
+      "std_over_seeds": 0.0494110939175141,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 3912.5
+    },
+    "joint:cat/istanbul": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        35.519561767578125,
+        35.47443330287933,
+        35.44816195964813,
+        35.46086549758911
+      ],
+      "mean": 35.475755631923676,
+      "std_over_seeds": 0.031111910501869372,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 5241.65
+    },
+    "joint:reg/arizona": {
+      "metric": "top10_full",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        59.23691401979128,
+        59.207546524465215,
+        59.2687701945159,
+        59.36085346942134
+      ],
+      "mean": 59.268521052048435,
+      "std_over_seeds": 0.06643853016635203,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 3912.5
+    },
+    "joint:reg/istanbul": {
+      "metric": "top10_full",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        75.293561665881,
+        75.30938239625307,
+        75.3075438176318,
+        75.26227016631356
+      ],
+      "mean": 75.29318951151986,
+      "std_over_seeds": 0.02178990612488061,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 5241.65
+    },
+    "reg/arizona": {
+      "metric": "top10_acc",
+      "lane": "dedicated_banked",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        59.397196769714355,
+        59.50969219207764,
+        59.47435021400452,
+        59.455426931381226
+      ],
+      "mean": 59.459166526794434,
+      "std_over_seeds": 0.047037653626367235,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 552.95
+    },
+    "reg/istanbul": {
+      "metric": "top10_acc",
+      "lane": "dedicated_banked",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        75.14742493629456,
+        75.18128156661987,
+        75.12680649757385,
+        75.19637703895569
+      ],
+      "mean": 75.16297250986099,
+      "std_over_seeds": 0.031626948488041144,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 703.4100000000001
+    }
+  },
+  "performance": {
+    "cells": [
+      {
+        "cell": "cat/arizona/seed0",
+        "wall_seconds": 238.09,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/arizona/seed1",
+        "wall_seconds": 241.6,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/arizona/seed100",
+        "wall_seconds": 242.47,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/arizona/seed7",
+        "wall_seconds": 242.38,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/istanbul/seed0",
+        "wall_seconds": 328.40999999999997,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/istanbul/seed1",
+        "wall_seconds": 328.4,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/istanbul/seed100",
+        "wall_seconds": 328.34000000000003,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/istanbul/seed7",
+        "wall_seconds": 328.51,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/arizona/seed0",
+        "wall_seconds": 994.62,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/arizona/seed0",
+        "wall_seconds": 994.62,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/arizona/seed1",
+        "wall_seconds": 973.24,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/arizona/seed1",
+        "wall_seconds": 973.24,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/arizona/seed100",
+        "wall_seconds": 972.2,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/arizona/seed100",
+        "wall_seconds": 972.2,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/arizona/seed7",
+        "wall_seconds": 972.44,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/arizona/seed7",
+        "wall_seconds": 972.44,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/istanbul/seed0",
+        "wall_seconds": 1326.19,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/istanbul/seed0",
+        "wall_seconds": 1326.19,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/istanbul/seed1",
+        "wall_seconds": 1305.37,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/istanbul/seed1",
+        "wall_seconds": 1305.37,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/istanbul/seed100",
+        "wall_seconds": 1305.1,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/istanbul/seed100",
+        "wall_seconds": 1305.1,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/istanbul/seed7",
+        "wall_seconds": 1304.99,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/istanbul/seed7",
+        "wall_seconds": 1304.99,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/arizona/seed0",
+        "wall_seconds": 145.31,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/arizona/seed1",
+        "wall_seconds": 135.9,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/arizona/seed100",
+        "wall_seconds": 135.91,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/arizona/seed7",
+        "wall_seconds": 135.82999999999998,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/istanbul/seed0",
+        "wall_seconds": 179.87,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/istanbul/seed1",
+        "wall_seconds": 174.59,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/istanbul/seed100",
+        "wall_seconds": 174.55,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/istanbul/seed7",
+        "wall_seconds": 174.4,
+        "train_seconds": 0,
+        "val_seconds": 0,
+        "unaccounted_share": null,
+        "has_diagnostics": false,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      }
+    ],
+    "total_wall_seconds": 21842.86,
+    "total_train_seconds": 0,
+    "total_val_seconds": 0
+  }
+}

@@ -1,0 +1,91 @@
+diff --git i/src/data/folds.py w/src/data/folds.py
+index 9311ad03..8fe03371 100644
+--- i/src/data/folds.py
++++ w/src/data/folds.py
+@@ -323,8 +323,10 @@ def _get_num_workers() -> int:
+     # perturbs the consumption order (measured shift vs the byte-identical
+     # workers=0 baseline). Adding a seeded generator would itself change the
+     # frozen baseline numbers, so we keep workers=0. The VRAM win for large states
+-    # comes from CPU-residency alone (MTL_DATASET_CPU, byte-identical), NOT from
+-    # workers — so there's no quality-neutral reason to enable them.
++    # comes from CPU-residency alone (MTL_DATASET_CPU; byte-identical on CUDA, and on MPS
++    # only for the single-task path with the blocking copy of D2b, MTL path not covered —
++    # see ``_dataset_device``), NOT from workers — so there's no quality-neutral reason to
++    # enable them.
+     return 0
+ 
+ 
+@@ -341,10 +343,17 @@ def _dataset_device(num_workers: int, tensor_nbytes: int | None = None):
+     it fits in (free VRAM − headroom); else keep it CPU-resident. Decisions are made
+     per-loader as loaders are built, so ``cuda.mem_get_info()`` already reflects tensors
+     pre-moved by earlier loaders (cumulative-aware). This removes the manual guessing
+-    that caused the FL-overlap OOM and is robust across machines. **Byte-identical**:
+-    the dataset's device never changes the computation (verified: CPU-resident vs
+-    GPU-pre-move produce identical metrics) — only throughput/VRAM. The CHOICE may vary
+-    with GPU occupancy (non-deterministic), but the trained model + scored numbers do not.
++    that caused the FL-overlap OOM and is robust across machines. **Byte-identical on
++    CUDA**: there the dataset's device never changes the computation (verified on CUDA:
++    CPU-resident vs GPU-pre-move produce identical metrics) — only throughput/VRAM. The
++    CHOICE may vary with GPU occupancy (non-deterministic), but the trained model + scored
++    numbers do not. **On MPS a CPU-resident dataset is byte-identical only through the
++    blocking single-task batch copy** (``non_blocking`` only on CUDA in
++    ``_single_task_train`` / ``shared_evaluate`` / ``next_cv``, D2b, 2026-10-04): a
++    non-blocking CPU→MPS copy from the pageable ``index_select`` temporary corrupted the
++    labels (AL proof, ``docs/studies/closing_data/v18/gpu_queue/dataset_cpu_proof/``). The
++    MTL loops (``mtl_cv`` / ``mtl_eval`` / ``mtl_validation``) still copy with
++    ``non_blocking=True`` and are NOT covered: do not use MTL_DATASET_CPU=1 for MTL on MPS.
+ 
+     Overrides: ``MTL_DATASET_CPU=1`` forces CPU-resident; ``MTL_DATASET_GPU=1`` forces
+     pre-move; ``MTL_GPU_HEADROOM_GB`` (default 16) reserves VRAM for model+activations.
+diff --git i/src/training/runners/_single_task_train.py w/src/training/runners/_single_task_train.py
+index cf87c69c..f2c23b23 100644
+--- i/src/training/runners/_single_task_train.py
++++ w/src/training/runners/_single_task_train.py
+@@ -102,8 +102,8 @@ def train_single_task(
+ 
+         for X_batch, y_batch in train_loader:
+             if X_batch.device != device:
+-                X_batch = X_batch.to(device, non_blocking=True)
+-                y_batch = y_batch.to(device, non_blocking=True)
++                X_batch = X_batch.to(device, non_blocking=(device.type == "cuda"))
++                y_batch = y_batch.to(device, non_blocking=(device.type == "cuda"))
+             optimizer.zero_grad(set_to_none=True)
+             with _autocast_ctx:
+                 logits = model(X_batch)
+@@ -190,8 +190,8 @@ def train_single_task(
+         with torch.no_grad():
+             for X_batch, y_batch in val_loader:
+                 if X_batch.device != device:
+-                    X_batch = X_batch.to(device, non_blocking=True)
+-                    y_batch = y_batch.to(device, non_blocking=True)
++                    X_batch = X_batch.to(device, non_blocking=(device.type == "cuda"))
++                    y_batch = y_batch.to(device, non_blocking=(device.type == "cuda"))
+                 with _autocast_ctx:
+                     logits = model(X_batch)
+                     loss = criterion(logits, y_batch)
+diff --git i/src/training/runners/next_cv.py w/src/training/runners/next_cv.py
+index 4937fec5..7baf162e 100644
+--- i/src/training/runners/next_cv.py
++++ w/src/training/runners/next_cv.py
+@@ -47,7 +47,7 @@ def _extract_diagnostics(
+ 
+     with torch.no_grad():
+         for X_batch, y_batch in val_loader:
+-            X_batch = X_batch.to(device, non_blocking=True)
++            X_batch = X_batch.to(device, non_blocking=(device.type == "cuda"))
+             if supports_attention:
+                 logits, attn = model(X_batch, return_attention=True)
+                 attn_list.append(attn)
+diff --git i/src/training/shared_evaluate.py w/src/training/shared_evaluate.py
+index 5cc8c4bc..6a3756b7 100644
+--- i/src/training/shared_evaluate.py
++++ w/src/training/shared_evaluate.py
+@@ -32,7 +32,7 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device,
+     with torch.no_grad():
+         for X_batch, y_batch in loader:
+             if X_batch.device != device:
+-                X_batch = X_batch.to(device, non_blocking=True)
++                X_batch = X_batch.to(device, non_blocking=(device.type == "cuda"))
+             with _autocast_ctx:
+                 logits = model(X_batch)
+             preds_list.append(logits.argmax(dim=1))

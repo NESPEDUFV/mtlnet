@@ -1,0 +1,8 @@
+name: mtlnet_crossattn
+domain: mtl
+status: implemented
+evidence_status: implemented
+registry_key: mtlnet_crossattn
+runtime_class: models.mtl.mtlnet_crossattn.model.MTLnetCrossAttn
+runtime_file: src/models/mtl/mtlnet_crossattn/model.py
+source_doc: docs/findings/SOTA_MTL_ALTERNATIVES_V2.md

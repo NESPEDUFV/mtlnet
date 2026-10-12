@@ -1,0 +1,311 @@
+{
+  "summary": {
+    "cat/alabama": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        31.857234239578247
+      ],
+      "mean": 31.857234239578247,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 23.04
+    },
+    "cat/arizona": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        34.45200324058533
+      ],
+      "mean": 34.45200324058533,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 47.43
+    },
+    "cat/istanbul": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        36.48160696029663
+      ],
+      "mean": 36.48160696029663,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 64.2
+    },
+    "joint:cat/alabama": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        31.750929355621338
+      ],
+      "mean": 31.750929355621338,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 121.94
+    },
+    "joint:cat/arizona": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        34.33563411235809
+      ],
+      "mean": 34.33563411235809,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 247.77
+    },
+    "joint:cat/istanbul": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        36.708804965019226
+      ],
+      "mean": 36.708804965019226,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 331.24
+    },
+    "joint:reg/alabama": {
+      "metric": "top10_full",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        71.64288067799124
+      ],
+      "mean": 71.64288067799124,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 121.94
+    },
+    "joint:reg/arizona": {
+      "metric": "top10_full",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        62.63471001466602
+      ],
+      "mean": 62.63471001466602,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 247.77
+    },
+    "joint:reg/istanbul": {
+      "metric": "top10_full",
+      "lane": "diag_best",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        76.45077276095581
+      ],
+      "mean": 76.45077276095581,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 331.24
+    },
+    "reg/alabama": {
+      "metric": "top10_acc",
+      "lane": "dedicated_banked",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        72.18790650367737
+      ],
+      "mean": 72.18790650367737,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 16.13
+    },
+    "reg/arizona": {
+      "metric": "top10_acc",
+      "lane": "dedicated_banked",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        62.69444227218628
+      ],
+      "mean": 62.69444227218628,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 33.76
+    },
+    "reg/istanbul": {
+      "metric": "top10_acc",
+      "lane": "dedicated_banked",
+      "seeds": [
+        0
+      ],
+      "seed_means": [
+        76.59249305725098
+      ],
+      "mean": 76.59249305725098,
+      "std_over_seeds": 0.0,
+      "n_seeds": 1,
+      "n_folds_total": 1,
+      "wall_seconds": 43.99
+    }
+  },
+  "performance": {
+    "cells": [
+      {
+        "cell": "cat/alabama/seed0",
+        "wall_seconds": 23.04,
+        "train_seconds": 21.7,
+        "val_seconds": 1.33,
+        "unaccounted_share": 0.0004340277777776791,
+        "has_diagnostics": true,
+        "peak_memory_gb": 3.038,
+        "mean_best_epoch": 13.0
+      },
+      {
+        "cell": "cat/arizona/seed0",
+        "wall_seconds": 47.43,
+        "train_seconds": 44.73,
+        "val_seconds": 2.68,
+        "unaccounted_share": 0.0004216740459624946,
+        "has_diagnostics": true,
+        "peak_memory_gb": 3.264,
+        "mean_best_epoch": 46.0
+      },
+      {
+        "cell": "cat/istanbul/seed0",
+        "wall_seconds": 64.2,
+        "train_seconds": 60.57,
+        "val_seconds": 3.62,
+        "unaccounted_share": 0.00015576323987542828,
+        "has_diagnostics": true,
+        "peak_memory_gb": 3.418,
+        "mean_best_epoch": 38.0
+      },
+      {
+        "cell": "joint:cat/alabama/seed0",
+        "wall_seconds": 121.94,
+        "train_seconds": 114.21,
+        "val_seconds": 7.61,
+        "unaccounted_share": 0.0009840905363294183,
+        "has_diagnostics": true,
+        "peak_memory_gb": 11.781,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/alabama/seed0",
+        "wall_seconds": 121.94,
+        "train_seconds": 114.21,
+        "val_seconds": 7.61,
+        "unaccounted_share": 0.0009840905363294183,
+        "has_diagnostics": true,
+        "peak_memory_gb": 11.781,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/arizona/seed0",
+        "wall_seconds": 247.77,
+        "train_seconds": 231.85,
+        "val_seconds": 15.79,
+        "unaccounted_share": 0.0005246801469105389,
+        "has_diagnostics": true,
+        "peak_memory_gb": 12.263,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/arizona/seed0",
+        "wall_seconds": 247.77,
+        "train_seconds": 231.85,
+        "val_seconds": 15.79,
+        "unaccounted_share": 0.0005246801469105389,
+        "has_diagnostics": true,
+        "peak_memory_gb": 12.263,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:cat/istanbul/seed0",
+        "wall_seconds": 331.24,
+        "train_seconds": 310.17,
+        "val_seconds": 20.94,
+        "unaccounted_share": 0.0003924646781789942,
+        "has_diagnostics": true,
+        "peak_memory_gb": 12.504,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "joint:reg/istanbul/seed0",
+        "wall_seconds": 331.24,
+        "train_seconds": 310.17,
+        "val_seconds": 20.94,
+        "unaccounted_share": 0.0003924646781789942,
+        "has_diagnostics": true,
+        "peak_memory_gb": 12.504,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "reg/alabama/seed0",
+        "wall_seconds": 16.13,
+        "train_seconds": 14.91,
+        "val_seconds": 1.22,
+        "unaccounted_share": 0.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.524,
+        "mean_best_epoch": 45.0
+      },
+      {
+        "cell": "reg/arizona/seed0",
+        "wall_seconds": 33.76,
+        "train_seconds": 31.21,
+        "val_seconds": 2.54,
+        "unaccounted_share": 0.0002962085308055862,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.756,
+        "mean_best_epoch": 50.0
+      },
+      {
+        "cell": "reg/istanbul/seed0",
+        "wall_seconds": 43.99,
+        "train_seconds": 40.96,
+        "val_seconds": 3.02,
+        "unaccounted_share": 0.0002273243919072021,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.901,
+        "mean_best_epoch": 47.0
+      }
+    ],
+    "total_wall_seconds": 1630.45,
+    "total_train_seconds": 1526.54,
+    "total_val_seconds": 103.09
+  }
+}

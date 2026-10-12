@@ -1,0 +1,6 @@
+start 2026-10-01 22:36:11 commit d01cd2a8 swap_used_MB=2449
+cmd: env OUTPUT_DIR=/Volumes/Vitor's SSD/ingred_g1/output_fullcpu RESULTS_ROOT=/Volumes/Vitor's SSD/ingred_g1/results/g1_cat/full_cpu .venv/bin/python scripts/train.py --task next --state alabama --model next_gru --embedding-dim 64 --folds 5 --only-fold 0 --epochs 50 --seed 0 --batch-size 8192 --max-lr 0.0025 --logit-adjust-tau 0.5 --no-checkpoints --engine check2hgi_v18
+rc=0 wall=227s peakRSS_bytes=3042656256
+repo-write-guard OK
+end 2026-10-01 22:39:59
+DONE

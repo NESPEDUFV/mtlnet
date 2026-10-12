@@ -1,0 +1,32 @@
+--- a/scripts/integrity_v2/freeze_split.py
++++ b/scripts/integrity_v2/freeze_split.py
+@@ -47,12 +47,20 @@
+     ap.add_argument("--engine", default="check2hgi_dk_ovl",
+                     help="the windowing the reported runs use")
+     ap.add_argument("--out", required=True)
++    ap.add_argument("--group-dtype", choices=("str", "int"), default="str",
++                    help="dtype of the userid groups passed to StratifiedGroupKFold. 'str' (default, "
++                         "unchanged) is what the integrity_v2 study used. 'int' reproduces train.py's "
++                         "FoldCreator, which passes the int64 userids from load_next_data: SGKF sorts the "
++                         "groups, string order is not integer order, and the two partitions differ "
++                         "(measured 2026-10-01, AL/AZ seed 0: 0 of 5 folds equal). Use 'int' for any "
++                         "split that must equal the delivered folds.")
+     args = ap.parse_args()
+ 
+     engine = EmbeddingEngine(args.engine)
+     nxt = IoPaths.load_next(args.state, engine)
+     y = nxt["next_category"].to_numpy()
+-    groups = nxt["userid"].astype(str).to_numpy()
++    groups = (nxt["userid"].astype(str).to_numpy() if args.group_dtype == "str"
++              else nxt["userid"].astype(np.int64).to_numpy())
+ 
+     sgkf = StratifiedGroupKFold(n_splits=args.n_folds, shuffle=True, random_state=args.seed)
+     splits = list(sgkf.split(np.zeros(len(y)), y, groups=groups))
+@@ -72,6 +80,7 @@
+         "state": args.state, "seed": args.seed, "fold": args.fold, "n_folds": args.n_folds,
+         "engine": args.engine,
+         "splitter": "StratifiedGroupKFold(n_splits, shuffle=True, random_state=seed), group=userid, stratify=next_category",
++        "group_dtype": args.group_dtype,
+         "fold_indexing": "0-indexed here; reported logs number the same fold as fold1",
+         "n_rows_total": int(len(y)),
+         "n_train_rows": int(train_idx.size), "n_val_rows": int(val_idx.size),

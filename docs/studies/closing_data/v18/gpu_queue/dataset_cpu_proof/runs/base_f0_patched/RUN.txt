@@ -1,0 +1,2 @@
+start 2026-10-04 00:20:28 commit=c0f1e61c extra_env=[]
+rc=0 peakRSS_bytes=2152136704 max_wired_GB=8.6 wall_s=227.54

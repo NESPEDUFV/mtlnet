@@ -1,0 +1,24 @@
+[infer] replayed node enrichment ['canonical_11', 'continuous_time_4']: -> 15 channels
+[infer] training graph forward_only=True masked_backward=False, readout=prefix_forward_only
+[infer] florida readout=prefix_forward_only users=21052 encoder=resln cell=TO_F3
+[self-test] F2 user-alone vs in-batch: max abs 9.537e-07, max rel 3.005e-07 (bound 1e-05)
+[self-test] per-window prefix internal consistency (NOT an independent reimplementation): max rel diff 0.000e+00
+[infer] wrote /Volumes/Vitor's SSD/ingred_g1fl/results/integ18_repr/florida/TO_F3/win_matched.npz (1274418 windows)
+     1318.51 real      1810.53 user       566.74 sys
+         10349445120  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1074548  page reclaims
+                 130  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 639  voluntary context switches
+           100153550  involuntary context switches
+      20023021116897  instructions retired
+       7177789799217  cycles elapsed
+         10209862032  peak memory footprint

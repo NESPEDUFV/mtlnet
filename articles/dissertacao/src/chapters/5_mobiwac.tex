@@ -1,0 +1,74 @@
+% !TeX root = ../main.tex
+% =====================================================================
+% Chapter 5 -- Article 3 (MobiWac 2026): re-typeset of the version of record
+% articles/[mobiwac]/src/ (author decision NORTH_STAR section 5.4: "the last one in
+% the src"; re-sync before the final gate pass). Status: ACCEPTED at MobiWac 2026 on 2026-08-26
+% (EDAS #1571313639); prose says "accepted for publication" (AUT-35, 2026-09-01). Not yet
+% "published": the proceedings are not out.
+% Adaptation ledger: ../../src_utils/adaptation_ledgers/5_mobiwac_ADAPTATION_LEDGER.md (feeds Appendix B).
+% Figure assets: figures/mobiwac/ (TikZ figures recompiled standalone with
+% newtxtext/newtxmath at natural single-column width; fig3/fig4 regenerated from
+% the paper's own scripts at 5.2 in width, numbers untouched).
+% Claim discipline: inherited verbatim from articles/[mobiwac]/ (PAPER_PLAN
+% section 3 whitelist; ERRATA.md constraints). Region verbs bound to tests; never
+% upgrade Arizona; scaling claim scoped to the five U.S. states.
+% =====================================================================
+% Short one-line display + TOC heading (see Ch.3 note). Full published title is in the preface.
+\chapter[A Check-in-Level Multitask Study of Next Category and Region]{A Check-in-Level Multitask Study of Next Category and Region}
+\label{ch:mobiwac}
+
+\begin{chapterpreface}
+% [round7, 2026-07-29] "recorded in the errata appendix" -> "recorded in Appendix~B of
+% \extravolume". This is PREFACE prose written for the dissertation, not reproduced article
+% text, so it carries no parity cost against the submitted manuscript and no errata row. The
+% sentence had to change: the errata appendix is no longer in this document, and a reader who
+% went looking for it would find the AI-disclosure appendix at that letter.
+% AUT-03 (PENDENCIAS §4, author ruling A): hyphen restored inside this verbatim quotation.
+% The submitted manuscript's own title is hyphenated ([mobiwac]/src/main.tex:52, EDAS
+% #1571313639). Same cause as 3_cbic.tex:17. Probe: R13-mwtitle.
+% [2026-09-01, AUT-35] Status clause only: "submitted to MobiWac 2026, under review at the time of
+% writing" -> "accepted for publication at MobiWac 2026". Accepted 2026-08-26 (presentation/_preparacao/HANDOFF.md
+% §7 item 1). "at the time of writing" also goes: WRITING_LAW §1 bans it as process narration. The
+% quoted title span is untouched (probe R13-mwtitle pins it, hyphen included).
+% [2026-09-02, AUTHOR RULING, §1.5 vs preface] The version clause ", in the revised form that
+% followed the final evaluation" is removed. §1.5 says the chapter follows "the submitted
+% manuscript"; the author ruled that the current text is to be treated as the submitted version
+% ("pode tratar a versao atual como a submetida; o mais importante nao e a versao mas o conteudo,
+% e o da atual nao vai mudar numa versao revisada para o MobiWac"). §1.5 is the sentence of record
+% and is untouched; the preface now asserts no version, so the two agree. Title, status and EDAS
+% id stay. ORA-1 (wrapup/open_points/LACUNAS.md) is the oral record of the numbers differing from
+% the July PDF.
+% [2026-10-03, AUTHOR-RULED D5 (a); frame, no errata row] One sentence added at the end, as in the
+% Ch.3 preface: corrections to the accepted article were applied and are listed in the repository.
+% The repository is named as Appendix A names it (articles/[mobiwac]/ERRATA.md lives on the main
+% branch, not on the /tree/mobiwac branch the Ch.5 footnote links); the supplement is not pointed at
+% (Q24). Section 1.5 aligned the same day; verified.
+This chapter reproduces the article ``Predicting the Next Category and Region of a
+Visit: A Check-in-Level Multi-Task Study on Mobility Data,'' accepted for publication
+at MobiWac 2026 (EDAS \#1571313639). It closes the
+investigation that Chapters~\ref{ch:cbic} and~\ref{ch:courb} open: with a
+check-in-level representation and a redesigned sharing topology, a single joint
+model replaces two dedicated single-task
+models across the six datasets studied (five U.S. states and Istanbul), and it
+outperforms them on next region at the two datasets with the largest region
+vocabularies and on next category at one dataset. The article was
+reformatted from its two-column original into the dissertation layout: sections,
+figures, and tables were renumbered, and the figures were regenerated at
+single-column width.
+% [2026-10-06, AUTHOR-RULED D10; frame] The D5 sentence of 2026-10-03 is replaced by the uniform closing
+% sentence of the three prefaces, without the Appendix A pointer: that \ref reached the MAIN volume's
+% Appendix A (other scientific contributions), not an errata appendix, which only the supplement has.
+Corrections and clarifications to the accepted article were applied in this chapter.
+\end{chapterpreface}
+
+% SECTIONS, split into chapters/5_mobiwac/ on 2026-07-28 at the author's request to match the
+% one-file-per-section layout of articles/[mobiwac]/src/sections/. Purely mechanical: cut at
+% \section boundaries, no prose edited, and the order below IS the reading order.
+\input{chapters/5_mobiwac/01_introduction}
+\input{chapters/5_mobiwac/02_related}
+\input{chapters/5_mobiwac/03_problem}
+\input{chapters/5_mobiwac/04_method}
+\input{chapters/5_mobiwac/05_setup}
+\input{chapters/5_mobiwac/06_results}
+\input{chapters/5_mobiwac/07_discussion}
+\input{chapters/5_mobiwac/08_conclusion}

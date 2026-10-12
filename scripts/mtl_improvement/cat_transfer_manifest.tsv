@@ -1,0 +1,14 @@
+catonly_cw1.0|alabama	catonly	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260608_185331_3061125
+catonly_cw1.0|florida	catonly	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260608_185334_3061119
+catonly_cw1.0_s1|alabama	catonly	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260610_031508_3671027
+catonly_cw1.0_s7|alabama	catonly	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260610_031907_3671875
+catonly_cw1.0_s100|alabama	catonly	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260610_032306_3672588
+# P0 FIX 2026-06-12 (HANDOFF_AUDIT): the three FL rows below previously ALL pointed to
+# ...20260610_031405_3670616 — which is NOT a cat-transfer run at all but the FL FULLY-SHARED
+# intrinsic-test run (reg ON, NextHeadStanFlow, reg top10≈0.73, grad-ratio 1.78). The
+# `ls -dt|head` rundir-capture race mis-mapped it. FL cat-transfer at seeds {1,7,100} never
+# ran; re-run genuine reg-OFF (reg cratered ≈0) via cat_transfer_fl_reseed.sh → distinct
+# PID-suffixed rundirs below. True 4-seed FL cat+trunk = 72.24 ± 0.03 (was 72.09 contaminated).
+catonly_cw1.0_s1|florida	catonly	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260612_180342_759371
+catonly_cw1.0_s7|florida	catonly	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260612_180342_759377
+catonly_cw1.0_s100|florida	catonly	results/check2hgi_design_k_resln_mae_l0_1/florida/mtlnet_lr1.0e-04_bs2048_ep50_20260612_184406_775255

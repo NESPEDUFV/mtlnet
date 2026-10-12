@@ -1,0 +1,50 @@
+% !TeX root = ../../main.tex
+% mobiwac/datasets.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+\caption{Dataset statistics, ordered by region count: five Gowalla states and Istanbul
+(Massive-STEPS). All share the same seven root categories; the region unit is a census
+tract (a mahalle for Istanbul). Check-ins, users, and POIs are counts over the full corpus,
+before the filter that keeps users with at least ten visits; the Windows column is computed
+after it. Windows: sliding nine-visit inputs plus the next-visit
+target; lengths: per-user check-in counts; density: $100\times\text{check-ins}/(\text{users}\times\text{POIs})$; Majority: share of next-visit
+labels in the most common category (Food in every dataset).}
+% [2026-09-02, Table 8 caption, author-approved] Added the corpus-vs-filter clause. NO number changed.
+% Verified by the ERR audit on the raw corpus: AL 3,858 users / 113,846 check-ins / 11,848 POIs and
+% AZ 7,869 / 236,450 / 20,666 match the printed cells to the digit; users with >= 10 check-ins are
+% 1,101 (AL) and 2,136 (AZ), as wrapup/NEW_VERSION.md §10.1 reports. The printed counts describe the
+% corpus; what was missing was saying so. Zero probes on this file.
+% Majority provenance (hidden): computed on the next-visit target labels of the task inputs
+% (CATEGORY_DISTRIBUTION.md); Gowalla values match the overlap windows to <=0.5 pp (AL 34.18 at
+% overlap); the Istanbul 33.4 is from the earlier windowing of the same visits (raw visit share
+% 27.0; recompute on the dk_ovl inputs at the next A40 session if exactness is wanted).
+\label{tab:mobiwac:datasets}
+\centering
+% [NEW-7, 2026-07-26] Was the same tabular under {adjustbox}{max width=\textwidth} with the
+% default 6 pt \tabcolsep, which shrank the body to a measured 8.13 pt against 11.96 pt body text.
+% Two changes reduce what the table has to fit instead of scaling it harder: the four two-word
+% headers are stacked onto two lines (they were the widest cells in their columns, each far wider
+% than the digits beneath it), and \tabcolsep drops to 3 pt inside this float only. Estimated
+% natural width falls from about 667 pt to about 538 pt against a 455 pt text block, so the
+% adjustbox still scales but to roughly 10.1 pt rather than 8.13 pt. No column was removed, no
+% value or header word was changed, and the column order is untouched.
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l l r r r r r r r r r}
+\toprule
+\textbf{Dataset} & \textbf{Source} & \shortstack[r]{\textbf{Check-}\\\textbf{ins}} & \textbf{Users} & \textbf{POIs} &
+\textbf{Regions} & \textbf{Windows} & \shortstack[r]{\textbf{Max}\\\textbf{len}} & \shortstack[r]{\textbf{Avg}\\\textbf{len}} & \shortstack[r]{\textbf{Density}\\\textbf{(\%)}} & \shortstack[r]{\textbf{Majority}\\\textbf{(\%)}} \\
+\midrule
+Istanbul & Massive-STEPS &   462{,}615 & 23{,}694 &  29{,}816 &     520 &   271{,}666 &     817 &  19.5 & 0.065 & 33.4 \\
+AL       & Gowalla       &   113{,}846 &  3{,}858 &  11{,}848 & 1{,}109 &    96{,}326 & 3{,}835 &  29.5 & 0.249 & 34.2 \\
+AZ       & Gowalla       &   236{,}450 &  7{,}869 &  20{,}666 & 1{,}547 &   200{,}895 & 5{,}589 &  30.1 & 0.145 & 34.0 \\
+FL       & Gowalla       & 1{,}407{,}034 & 21{,}052 &  76{,}544 & 4{,}703 & 1{,}274{,}418 & 16{,}679 &  66.8 & 0.087 & 24.7 \\
+TX       & Gowalla       & 4{,}089{,}892 & 38{,}644 & 160{,}938 & 6{,}553 & 3{,}830{,}414 & 42{,}300 & 105.8 & 0.066 & 31.0 \\
+CA       & Gowalla       & 3{,}171{,}380 & 37{,}090 & 169{,}145 & 8{,}501 & 2{,}925{,}466 & 14{,}855 &  85.5 & 0.051 & 32.7 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+% Hidden caveat (available on request, not rendered): the Istanbul row uses the mahalle-level data
+% after dropping null-coordinate visits; the raw corpus is 544,471 check-ins over 23,700 users.
+% Windows updated 2026-07-08 to the rebuilt dk_ovl substrate count (271,666; was 270,217 on the
+% old stride-1 base -- h3_istanbul/RESULTS.md).
+\end{table}

@@ -1,0 +1,56 @@
+# Paridade de CATEGORIA contra a referência — protocolo PLANO, prospectiva.
+#
+# ── POR QUE ESTA WAVE EXISTE ─────────────────────────────────────────────────────────────────────
+#
+# A alegação "+0,03 pp em AL, +0,06 pp em AZ" foi publicada em 19-08 **sem manifesto e sem arquivo
+# de evidência**: os folds existiam só como prosa. Foi rebaixada no mesmo dia, e esta wave é a
+# reposição feita da forma certa.
+#
+# ⚠ Isto é uma re-execução PROSPECTIVA, não um retrofit. A barra do retrofit — "o manifesto resolve
+# para o fingerprint que a célula bancada gravou" — não se aplica, porque não há célula bancada para
+# reproduzir. A disciplina aqui é outra e mais simples: o manifesto é commitado ANTES da execução, e
+# a execução passa pelo `mtlcheck wave run`.
+#
+# ── PROTOCOLO PLANO, DE PROPÓSITO ────────────────────────────────────────────────────────────────
+#
+# `inner_validation` fica no default (false) → treina em 80 %, valida e escolhe a época nos 20 % de
+# fora. É a regra LEGADA, e é a única sob a qual a comparação com a referência faz sentido: ela roda
+# 5-fold plano. Comparar contra uma célula aninhada seria o erro de 3,66 pp que o
+# `EVALUATION_METHOD_GUIDE.md` §8 documenta.
+#
+# CUSTO DE TESTE: zero. AL e AZ já tiveram o conjunto externo lido em 18-08. Nenhum outro estado
+# entra aqui, e CA/TX continuam intocados.
+#
+# ── O COMPARADOR, NOMEADO ────────────────────────────────────────────────────────────────────────
+#
+# O Δ é a subtração de dois artefatos nomeados, não de um JSON e de uma lembrança. O lado da
+# referência sai dos rundirs que o `PROVENANCE.md` do v18 lista, lidos em 19-08 pelos relatórios por
+# fold em `folds/fold{k}_next_report.json`:
+#
+#   alabama   macro-F1 por fold  32,19 / 30,54 / 29,44 / 29,62 / 31,74   →  30,7058 ± 1,2340
+#   arizona   macro-F1 por fold  34,40 / 35,47 / 33,27 / 33,55 / 35,80   →  34,4992 ± 1,1239
+#
+# ── COMO LER ─────────────────────────────────────────────────────────────────────────────────────
+#
+# Piso de ruído entre sorteios de substrato: 0,034 pp. Execuções compiladas variam 0,02–0,05 pp
+# entre sessões. Um |Δ| dentro dessa faixa é "reproduz", não "empata por sorte".
+
+# ⚠ CORRIGIDO 2026-08-21: onde este manifesto diz que CA/TX continuam "intocados", a premissa
+# estava errada — o batch size foi buscado neles sob o protocolo antigo. Isso NÃO invalida esta
+# wave (ela não tocou CA/TX de forma alguma); invalida a justificativa de que havia reserva a
+# proteger. Ver docs/QUAL_CONJUNTO_USAR.md §6.
+
+[wave]
+study = "parity_cat_flat"
+
+[substrate]
+recipe = "recipes/v19/substrate.toml"
+[substrate.identity]
+checkin = "696ac00419d287d3"      # alabama — a wave recusa rodar sobre outro substrato
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+save_predictions = false          # o protocolo plano já lê o fold externo; não há linha a bancar

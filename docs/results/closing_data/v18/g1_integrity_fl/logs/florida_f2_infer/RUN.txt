@@ -1,0 +1,7 @@
+start 2026-10-04 10:03:43 commit 17571c16 tier=CRITICAL swap_used_MB_at_start=2830 swap_total_MB_at_start=4096 disk_int_GB_at_start=19 disk_ssd_GB_at_start=11 pressure_at_start=1
+cmd: .venv/bin/python scripts/integrity_v2/infer_checkins.py --state florida --checkpoint results/integ18_repr/florida/TO_F2/checkpoint.pt --readout prefix_forward_only --out results/integ18_repr/florida/TO_F2/win_matched.npz --self-test
+rc=0 wall=1322s peakRSS_bytes=10347790336
+trace peaks: max_pressure=1 min_free=82% max_swap_total=4096MB max_wired=3.1GB max_child_rss=9.6GB
+repo-write-guard OK
+end 2026-10-04 10:25:45
+DONE

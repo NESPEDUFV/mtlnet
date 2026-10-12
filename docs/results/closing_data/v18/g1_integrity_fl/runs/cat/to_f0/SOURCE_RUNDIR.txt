@@ -1,0 +1,1 @@
+results/g1_cat_f0/to/check2hgi_v18_to_f0/florida/next_lr1.0e-04_bs8192_ep50_20261004_034711_47272/

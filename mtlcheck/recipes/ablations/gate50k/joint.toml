@@ -1,0 +1,122 @@
+# ── ABLAÇÃO p2r_hard_neg_size_gate = 50 000 ──────────────────────────────────────────────────────
+# Idêntica à v19 em tudo, menos UMA coisa: o negativo duro POI↔região DESLIGA acima de 50 000
+# lugares, que é a divisão da referência (R15/S17).
+#
+# POR QUE ESTA ABLAÇÃO EXISTE. A v19 mantém o negativo duro ligado em todo estado — melhoria
+# deliberada, porque o gate da referência existia por custo (laço Python com um sync por sorteio,
+# 3,1 s/época na Califórnia) e aqui o amostrador é vetorizado. Mas isso significa que em FL
+# (76 544 lugares), TX (160 938) e CA (169 145) o nosso substrato treina sob objetivo DIFERENTE do
+# que construiu os números da dissertação. Em AL/AZ/IST os dois coincidem — todos abaixo do corte —
+# e é por isso que a divergência nunca apareceu.
+#
+# O QUE ELA RESPONDE. Quanto o gate muda o objetivo, medido na FLÓRIDA — que está acima do corte
+# como CA/TX, mas é estado de DESENVOLVIMENTO e não a reserva confirmatória. Sem este número a
+# decisão sobre CA/TX é no escuro; com ele, pode ser trivial.
+#
+# ENGINE PRÓPRIO, pela mesma razão do mae7: é um substrato diferente e tem de ocupar um diretório
+# diferente, para o artefato ser autodescritivo em vez de depender de qual ARTIFACTS_ROOT estava
+# exportado.
+# ────────────────────────────────────────────────────────────────────────────────────────────────
+
+# ── v19 ─────────────────────────────────────────────────────────────────────────────────────────
+# v19 = v18 com UMA mudança: a torre de região lê o MESMO substrato que a torre de check-in, em vez
+# de um substrato bidirecional separado (o v14). Check2HGI é hierárquico sobre quatro níveis, então
+# uma execução já emite os embeddings de região — o substrato separado era herança, não desenho.
+#
+# As receitas v18 continuam no repo porque células bancadas as citam e receitas são imutáveis uma
+# vez citadas. Elas não são uma alternativa viva; v19 é o único conjunto vivo.
+#
+# Medido em Alabama antes da troca (mesma partição, mesma semente, protocolo aninhado):
+#   efeito do grafo       +0,122 pp (erro-padrão 0,108) — indistinguível de zero
+#   efeito do construtor  -0,927 pp (erro-padrão 0,151) — o déficit é nosso, não do grafo
+# Ver studies/porting_validation/SUBSTRATE_FROM_SCRATCH.md.
+# ────────────────────────────────────────────────────────────────────────────────────────────────
+
+# v18 — joint MTL (the v17 recipe, unchanged, on the leak-free substrate).
+#
+# Source: docs/studies/closing_data/v18/run_wave.sh:186-212.
+
+[data]
+window = 9
+min_sequence_length = 10
+stride = 1
+n_splits = 5
+region_engine = "check2hgi_gate50k"
+
+[train]
+family = "joint"
+engine = "check2hgi_gate50k"
+epochs = 50
+folds = 5
+batch_size = 8192
+precision = "fp32"
+compile = true
+tf32 = true
+
+category_weight = 0.50
+selector = "geom_simple"    # sqrt(cat macro-F1 * reg top10_indist) — gates the ONE saved checkpoint
+min_best_epoch = 0
+
+# The two train loaders draw INDEPENDENT shuffles, so cross-attention mixes randomly-paired
+# category/region rows at train time while validation is aligned. Every banked v18 joint cell
+# trained this way. Aligned pairing exists in the reference as an opt-in flag whose gate was never
+# closed, and the driver never passes it.
+#
+# This is the single most dangerous line in the file: the "obvious" clean implementation of a joint
+# dataset — one row yielding (x_cat, x_reg, y_cat, y_reg) — is ALIGNED, a different training
+# distribution for the shared trunk, and no headline conclusion would notice the swap.
+pairing = "random"
+
+# Both heads, with the shapes the RUN uses. Omitting these is the trap documented in
+# config.HeadConfig, arriving from the other side: with no head entry the heads fall back to their
+# module defaults, and the category head becomes 791 815 parameters where v18 built 1 581 319 —
+# half the model at triple the dropout, with every parameter-count check still passing because the
+# checks were fed the right values by hand.
+[train.cat_head]
+name = "next_gru"
+hidden_dim = 256
+num_layers = 4
+dropout = 0.1
+
+[train.reg_head]
+name = "next_stan_flow_dualtower"
+d_model = 128
+shared_heads = 8          # the model-level num_heads, injected into the SHARED tower
+shared_dropout = 0.1
+private_heads = 4         # the private tower keeps the dedicated head's own shape
+private_dropout = 0.3
+raw_embed_dim = 64
+freeze_alpha = true
+alpha_init = 0.0
+
+[train.optim]
+lr = 1e-4
+weight_decay = 0.05         # the MTL default; the two dedicated families use 0.01
+max_grad_norm = 1.0
+scheduler = "onecycle"
+max_lr = 3e-3
+reg_lr = 3e-3
+shared_lr = 1e-3
+
+# Per-head category LR. In the reference this only took effect because the driver exported
+# MTL_ONECYCLE_PER_HEAD_LR=1; without it the scalar max_lr broadcast to every parameter group and
+# the run was silently v16 instead of v17. Here the presence of the three per-head rates IS the
+# activation, and a partial trio refuses to construct.
+[train.optim.cat_lr_by_state]
+alabama = 1e-3
+arizona = 1e-3
+istanbul = 1e-3
+florida = 2e-3
+california = 2e-3
+texas = 2e-3
+
+# Logit adjustment on the CATEGORY head only. In the reference this fell out of the code structure:
+# the region criterion is a plain CrossEntropyLoss built independently of the calibration config
+# (mtl_cv.py:500), so --logit-adjust-tau could only ever reach the category head. Here it is stated.
+[train.cat_loss]
+logit_adjust_tau = 0.5
+class_weights = false
+
+[train.reg_loss]
+logit_adjust_tau = 0.0
+class_weights = false

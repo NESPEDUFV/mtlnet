@@ -1,0 +1,53 @@
+# §10.4 — a decomposição que o protocolo prometeu e nunca rodou.
+#
+# O estudo inteiro congelou UM sorteio de usuários em folds (`split_seed = 0`). O §10.4 registra que
+# essa escolha seria MEDIDA, num fatorial 2×2 no Alabama: `split_seed ∈ {0,7}` × `model_seed ∈
+# {0,7}`, três braços, cinco folds. A coluna `split_seed = 0` já existe na campanha; falta esta.
+#
+# A regra pré-registrada, e é ela que torna isto não-opcional:
+#
+#   "if the partition axis exceeds 0.15 pp, the freeze is unsafe and §2 reopens before any
+#    large-state fit; otherwise the freeze stands"
+#
+# e, na mesma seção, "'Declare-only' was rejected — 30 fits against a 270-fit package".
+#
+# ── DUAS DECISÕES DE DESENHO, DECLARADAS ────────────────────────────────────────────────────────
+#
+# `study` PRÓPRIO, não `v19_defence`. Estas células são do Alabama com OUTRA partição, e cair no
+# mesmo diretório faria o `compare` recolhê-las junto com as da campanha — a guarda de partição
+# veria dois hashes no mesmo estado e recusaria a leitura, corretamente e por motivo errado.
+#
+# `save_predictions = false`. O §10.4 mede movimento de EIXO, que é grandeza de Tier B, sobre a
+# validação interna. Não precisa do fold externo, e persistir predições de uma segunda partição do
+# Alabama criaria material de leitura para um conjunto que ninguém pré-registrou ler. É o caso que o
+# `STUDY.md` chama de sondagem, e ali `--no-save-predictions` é o certo.
+
+[wave]
+study = "s10_4_partition_axis"
+
+[substrate.identity.alabama]
+checkin = "696ac00419d287d3"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["alabama"]
+seeds = [0, 7]
+split_seed = 7
+save_predictions = false
+set = { inner_validation = true, retain_checkpoints = "none" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["alabama"]
+seeds = [0, 7]
+split_seed = 7
+save_predictions = false
+set = { inner_validation = true, retain_checkpoints = "none" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["alabama"]
+seeds = [0, 7]
+split_seed = 7
+save_predictions = false
+set = { inner_validation = true, retain_checkpoints = "none" }

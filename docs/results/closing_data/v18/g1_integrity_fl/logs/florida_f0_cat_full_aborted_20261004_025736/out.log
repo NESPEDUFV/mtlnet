@@ -1,0 +1,34 @@
+2026-10-04 00:11:00,121 - WARNING - [canon-guard] torch is '2.11.0', expected '2.11.0+cu128' (torch ≥2.12 rewrote the TopK kernel → frozen reg Acc@10 tie-break shifts).
+2026-10-04 00:11:00,825 - WARNING - Generating folds on the fly (no cache at /Volumes/Vitor's SSD/ingred_g1fl/output_fullcpu/check2hgi_v18/florida/folds/fold_indices_next.pt). Run `python scripts/study/freeze_folds.py --state florida --engine check2hgi_v18 --task next` to freeze them; paired statistical tests require frozen splits.
+2026-10-04 00:11:00,827 - INFO - Creating 5-fold CV for next
+2026-10-04 00:11:00,827 - INFO - Loading next-POI data: florida/check2hgi_v18
+2026-10-04 00:11:06,835 - INFO - Next-POI data: (1274418, 576) (dim=64, window=9), distribution: {np.int64(0): np.int64(131583), np.int64(1): np.int64(110222), np.int64(2): np.int64(318253), np.int64(3): np.int64(55458), np.int64(4): np.int64(90743), np.int64(5): np.int64(283638), np.int64(6): np.int64(284521)}
+2026-10-04 00:11:08,939 - INFO - NEXT single-task: user-disjoint folds via StratifiedGroupKFold.
+2026-10-04 00:11:10,822 - INFO - Fold 1/5: train=1019534, val=254884
+2026-10-04 00:11:10,823 - INFO - Fold 2/5: train=1019534, val=254884
+2026-10-04 00:11:10,823 - INFO - Fold 3/5: train=1019534, val=254884
+2026-10-04 00:11:10,823 - INFO - Fold 4/5: train=1019535, val=254883
+2026-10-04 00:11:10,823 - INFO - Fold 5/5: train=1019535, val=254883
+2026-10-04 00:11:10,827 - INFO - ========================================================================
+2026-10-04 00:11:10,827 - INFO - Training: state=florida  engine=check2hgi_v18  task=next  epochs=50  folds=1
+2026-10-04 00:11:10,827 - INFO - ========================================================================
+[36m[1m2026-10-04 00:11:13 - INFO  - ========================= FOLD 1/1 =========================[0m
+2026-10-04 00:11:13,517 - WARNING - Unsupported operator aten::abs encountered 1 time(s)
+2026-10-04 00:11:13,517 - WARNING - Unsupported operator aten::sum encountered 2 time(s)
+2026-10-04 00:11:13,518 - WARNING - Unsupported operator aten::gru encountered 1 time(s)
+2026-10-04 00:11:13,518 - WARNING - Unsupported operator aten::sub encountered 1 time(s)
+[36m[1m2026-10-04 00:11:13 - INFO  - FLOPS: 6144 | Params: 1433863[0m
+
+============================================================
+🔍 Model Profiling Report (Pytorch model)
+============================================================
+📊 Computational Complexity
+  - Total: 6.14 KFLOPs
+
+📏 Model Parameters
+  - Total: 1.43 M
+  - Trainable: 1.43 M (100.0%)
+  - Non-trainable: 0 (0.0%)
+============================================================
+Training:   0%|          | 0/50 [00:00<?, ?batch/s]/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

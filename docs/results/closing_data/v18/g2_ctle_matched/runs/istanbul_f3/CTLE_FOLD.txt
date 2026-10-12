@@ -1,0 +1,4 @@
+state=istanbul seed=0 fold=3 vocab=29947
+pretrain_epochs=10 smoke=False
+split_engine=check2hgi_dk_ovl n_val_users=2896 val_users_sha256=418de9b78db47114fd965581d290614a52591ebea1641e3aad8d5eb97f2be1a7
+LEAK-SAFE: encoder pretrained on fold-3 TRAIN users only.

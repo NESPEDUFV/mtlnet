@@ -1,0 +1,25 @@
+# ── FATORIAL A2 × A3 — braço a2 ────────────────────────────────────────────────────────────────
+#
+# A2 = correção de unidades do Delaunay. O peso da aresta compara a diagonal do bounding box em
+#      GRAUS com a distância em METROS; o log sai negativo em 98,56 % das arestas, e a penalidade de
+#      cruzar região vira BÔNUS. Ligar corrige.
+# A3 = simetrização do grafo antes da caminhada do POI2Vec. Hoje a caminhada só anda de índice menor
+#      para maior, porque o edges.csv guarda cada par não-dirigido uma vez.
+#
+# ⚠ FATORIAL, e não duas medições separadas: a correção de unidades redefine os pesos das arestas
+# que o POI2Vec caminha. Medir as duas em separado atribuiria a uma o que é interação.
+#
+# Braço deste arquivo: A2=true · A3=false
+# Engine próprio para não colidir de diretório — é um substrato diferente.
+
+[substrate]
+engine = "check2hgi_a2"
+forward_only = true
+continuous_time = true
+encoder = "resln"
+dim = 64
+num_layers = 2
+epochs = 500
+repr_seed = 42
+fix_unit_mismatch = true
+symmetrise_poi2vec = false

@@ -1,0 +1,15 @@
+name: mtlnet_crossattn_xstitch
+domain: mtl
+status: implemented
+evidence_status: experimental
+registry_key: mtlnet_crossattn_xstitch
+runtime_class: models.mtl.mtlnet_crossattn_xstitch.model.MTLnetCrossAttnXStitch
+runtime_file: src/models/mtl/mtlnet_crossattn_xstitch/model.py
+source_doc: docs/studies/mtl_improvement/HANDOFF.md
+notes: >
+  T2.4 speculative hybrid (user-requested completeness). Subclass of mtlnet_crossattn
+  composing cross-stitch (per-task FFN + learned 2x2 alpha mix) -> bidirectional
+  cross-attention in series within each block. Entire block is shared (avoids the
+  two-partition-philosophy clash of standalone crossstitch). Overrides only
+  _build_shared_backbone. Expected NULL on reg (composed shared-pathway mixers);
+  cat-only.

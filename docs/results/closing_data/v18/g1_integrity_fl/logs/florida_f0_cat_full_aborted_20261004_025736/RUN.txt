@@ -1,0 +1,10 @@
+start 2026-10-04 00:10:58 commit ab92d07d tier=CRITICAL swap_used_MB_at_start=7026 swap_total_MB_at_start=8192 disk_int_GB_at_start=16 disk_ssd_GB_at_start=7 pressure_at_start=1
+cmd: env OUTPUT_DIR=/Volumes/Vitor's SSD/ingred_g1fl/output_fullcpu RESULTS_ROOT=/Volumes/Vitor's SSD/ingred_g1fl/results/g1_cat_f0/full_cpu .venv/bin/python scripts/train.py --task next --state florida --model next_gru --embedding-dim 64 --folds 5 --only-fold 0 --epochs 50 --seed 0 --batch-size 8192 --max-lr 0.005 --logit-adjust-tau 0.5 --no-checkpoints --engine check2hgi_v18
+ABORT 00:11:15 pressure=4 free=17 swap_total=8192 disk_int=16 disk_ssd=7
+rc=143 wall=17s peakRSS_bytes=
+trace peaks: max_pressure=4 min_free=17% max_swap_total=8192MB max_wired=10.3GB max_child_rss=8.1GB
+repo-write-guard FAIL:
+/Users/vitor/Desktop/mestrado/ingred/docs/results/closing_data/v18/g2_ctle_matched/MANIFEST.md5
+/Users/vitor/Desktop/mestrado/ingred/docs/results/closing_data/v18/g2_ctle_matched/README.md
+end 2026-10-04 00:11:16
+DONE

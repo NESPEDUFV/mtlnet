@@ -1,0 +1,7 @@
+start 2026-10-04 14:09:30 commit 17571c16 tier=CRITICAL swap_used_MB_at_start=2806 swap_total_MB_at_start=4096 disk_int_GB_at_start=19 disk_ssd_GB_at_start=10 pressure_at_start=1
+cmd: .venv/bin/python scripts/integrity_v2/materialize_engine.py --state florida --arm-npz results/integ18_repr/florida/TO_F3/win_matched.npz --source-engine check2hgi_dk_ovl_srcview --dest-engine check2hgi_v18_to_f3
+rc=0 wall=35s peakRSS_bytes=10241048576
+trace peaks: max_pressure=1 min_free=53% max_swap_total=4096MB max_wired=3.1GB max_child_rss=8.2GB
+repo-write-guard OK
+end 2026-10-04 14:10:06
+DONE

@@ -1,0 +1,18 @@
+--- a/src/configs/paths.py
++++ b/src/configs/paths.py
+@@ -129,6 +129,15 @@
+     CHECK2HGI_V18_UNTRAINED_S0 = "check2hgi_v18_untrained_s0"
+     CHECK2HGI_V18_UNTRAINED_S1 = "check2hgi_v18_untrained_s1"
+     CHECK2HGI_V18_UNTRAINED_S7 = "check2hgi_v18_untrained_s7"
++    # integrity re-run on the delivered protocol (2026-09-30): v18 representation rebuilt per fold
++    # from TRAINING USERS ONLY (split = integrity_v2 freeze_split.py on check2hgi_dk_ovl, seed 0),
++    # all users then encoded with those weights. One engine per fold, states as subdirs. Study
++    # engines, never a headline number. [ENUM-MERGE] appended at the END.
++    CHECK2HGI_V18_TO_F0 = "check2hgi_v18_to_f0"
++    CHECK2HGI_V18_TO_F1 = "check2hgi_v18_to_f1"
++    CHECK2HGI_V18_TO_F2 = "check2hgi_v18_to_f2"
++    CHECK2HGI_V18_TO_F3 = "check2hgi_v18_to_f3"
++    CHECK2HGI_V18_TO_F4 = "check2hgi_v18_to_f4"
+ 
+ 
+ # Engines valid for the MTL_CHECK2HGI (check-in-level joint) preset: check-in-level

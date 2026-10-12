@@ -1,0 +1,14 @@
+% Driver de PREVIEW. Compila UMA figura dentro de um slide beamer REAL do deck
+% (mesma classe, mesmo nesped.sty, mesma geometria 16x9cm), para que o que o autor
+% ve seja exatamente o que vai aparecer na tela -- fonte, cor, barra de titulo e
+% largura util verdadeiras. NAO faz parte do deck; nunca e' incluido por main.tex.
+\documentclass{beamer}
+\usepackage[net,green]{nesped}
+\usepackage[brazilian]{babel}
+\usetikzlibrary{positioning,arrows.meta,fit,shapes.geometric,decorations.pathreplacing}
+\begin{document}
+\begin{frame}{\FIGTITLE}
+    \centering
+    \input{src/\FIGFILE}
+\end{frame}
+\end{document}

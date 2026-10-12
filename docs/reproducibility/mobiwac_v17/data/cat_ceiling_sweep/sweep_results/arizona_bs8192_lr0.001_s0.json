@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/arizona/next_lr1.0e-04_bs8192_ep50_20260702_145147_2007969",
+  "tag": "arizona_s0_stl_cat_ceiling_v17",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 55.3587,
+  "cat_macro_f1_std": 1.1582,
+  "cat_per_fold": [
+    57.2953,
+    54.2998,
+    56.0086,
+    54.2445,
+    54.945
+  ],
+  "cat_best_epochs": [
+    36,
+    43,
+    37,
+    31,
+    34
+  ]
+}

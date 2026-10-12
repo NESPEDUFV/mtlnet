@@ -1,0 +1,5 @@
+start 2026-10-02 01:00:55 commit e5167a06 swap_used_MB=2976 state=florida folds=5 epoch_select=per_task
+ABORT 02:09:24 swap=6341 free=25
+b3 rc=143 wall=4109s peakRSS_bytes=
+end 2026-10-02 02:09:24
+DONE

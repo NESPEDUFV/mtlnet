@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/florida/next_lr1.0e-04_bs2048_ep50_20260702_165644_2031970",
+  "tag": "florida_bs2048_lr0.005_s0",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 72.9812,
+  "cat_macro_f1_std": 0.7794,
+  "cat_per_fold": [
+    72.3858,
+    73.538,
+    72.5168,
+    72.225,
+    74.2404
+  ],
+  "cat_best_epochs": [
+    7,
+    7,
+    9,
+    6,
+    7
+  ]
+}

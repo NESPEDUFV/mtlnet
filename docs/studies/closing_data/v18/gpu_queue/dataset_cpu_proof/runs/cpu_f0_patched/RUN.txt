@@ -1,0 +1,2 @@
+start 2026-10-04 00:24:16 commit=c0f1e61c extra_env=[MTL_DATASET_CPU=1]
+rc=0 peakRSS_bytes=2211266560 max_wired_GB=8.6 wall_s=227.23

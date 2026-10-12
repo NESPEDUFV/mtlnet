@@ -1,0 +1,8 @@
+start 2026-10-02 03:23:04 commit d01cd2a8 swap_used_MB=4815
+cmd: env RESULTS_ROOT=/Volumes/Vitor's SSD/ingred_g1/results/g1_cat_f1/to .venv/bin/python scripts/train.py --task next --state arizona --model next_gru --embedding-dim 64 --folds 5 --only-fold 1 --epochs 50 --seed 0 --batch-size 8192 --max-lr 0.0005 --logit-adjust-tau 0.5 --no-checkpoints --engine check2hgi_v18_to_f1
+waiting for heavy lock 03:23:04
+heavy lock acquired 03:23:04
+rc=0 wall=461s peakRSS_bytes=5446582272
+repo-write-guard OK
+end 2026-10-02 03:30:46
+DONE

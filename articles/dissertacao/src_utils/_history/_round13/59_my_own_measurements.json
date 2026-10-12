@@ -1,0 +1,56 @@
+{
+ "measured_at": "2026-08-03 20:58:21",
+ "baseline": {
+  "git_HEAD": "82080ce4",
+  "snapshot": "src_utils/_round13/_snapshot/ (56 files + MANIFEST.tsv with per-file sha256)",
+  "pdf": "src/build/main.pdf, 105 pp, mtime 2026-08-03 20:19:18",
+  "concurrent_lane": [
+   "20:36:49 PENDENCIAS.md 2060->463 lines (section 6 archived)",
+   "20:44:44 PENDENCIAS.md edited again (section 4 now at line 217)",
+   "20:46:43 2_fundamentals.tex edited again",
+   "check_audit_claims.py grew 138->139 string probes (R9-pend6b) mid-audit",
+   "section 4 itself byte-identical to HEAD at every check: sha e2a44fea, 162 lines, 37 items"
+  ]
+ },
+ "gates_at_baseline": {
+  "check_audit_claims.py": "RC=0, 140 of 140 probes hold, 5 unprobed, 1 retired",
+  "check_tracker_refs.py": "RC=0, 4 numbered sections resolve"
+ },
+ "anchor_counts": {
+  "anchors_total": 29,
+  "EXACT": 12,
+  "CHANGED": 12,
+  "GONE": 5,
+  "items_with_anchor": 22,
+  "item_EXACT": 10,
+  "item_CHANGED": 10,
+  "item_GONE": 2,
+  "items_no_anchor": 14,
+  "empty_stub": [
+   37
+  ],
+  "_caveat_added_2026-08-04": "THE RE-VERIFICATION OF THESE COUNTS AT THE NEWER HEAD WAS NARROWER THAN IT WAS REPORTED. After the concurrent lane advanced HEAD, I re-ran the anchor pass and reported that all 29 verdicts held with zero drift. That is true only for the 22 ratio-decided anchors. The 7 hand-adjudicated ones (A1d, A14new, A14old, A15, A26, A31, A32) are pinned by construction in that cell: the code restores the stored hand verdict unless the anchor has vanished entirely, so only a transition INTO GONE could have surfaced for them. An EXACT-to-CHANGED movement in those seven passages would have been invisible, and three of the files they live in are exactly the files the lane had changed. The 12/12/5 anchor tally and the 10/10/2 item tally are therefore verified for 22 of 29 anchors at the newer HEAD and carried forward by construction for the other 7. The hand adjudications themselves are documented with their reasoning where they were made, so they can be re-derived rather than trusted."
+ },
+ "settled_by_me": {
+  "2": "half already satisfied: ZERO live-prose 'multi-task' (all 19 hits are in % comments or the commented title alternates preamble.tex:201-206). POI hyphenation overlaps FAB-20/FAB-25 exactly.",
+  "9": "CONFIRMED. 'hard parameter sharing' is used in ch1 at lines 131/168/302 with no gloss; it IS defined in ch2 (2_fundamentals.tex:795 area, and Ch.3 basis.tex:31 defines it in published prose). So the defect is ch1 using it before ch2 defines it.",
+  "16": "ALREADY SATISFIED by the uncommitted round-12 edit: 2.1.1.1 now defines U,P,C,R, then Definition 'Check-in' gives x_i=(u,p_i,t_i,c_i,r_i) naming every component, and Definition 'Check-in history' gives H_i. c_p, c_i, r_i are all bound. Present in the built PDF too.",
+  "18": "LARGELY SATISFIED: 2.2.2 is 584 words and explains the infomax mechanism (mutual information between adjacent hierarchy levels, bilinear discriminator, logistic function, true-vs-false pair loss) plus HGI's four stages. What is missing is a plain-language 'what infomax IS' sentence before the mechanism.",
+  "21": "CONFIRMED and OVERLAPS GER-06. The FiLM/MTLnet sentence sits in subsubsection 'Context encoders' (2.2.3.1). GER-06 already ruled the same defect YOU APPLY: 'FiLM is a conditioning mechanism, not a mobility representation, and belongs with the sharing topologies in 2.3'.",
+  "26": "CONFIRMED. L_k occurs once, at 2_fundamentals.tex:822 in eq:fund:mtl-total. The prose glosses K, theta and w_k but never says what L_k denotes.",
+  "28": "His proposal moves subsubsection 2.3.2.2 BEFORE its own parent 2.3.2 and splits it ('part B'), so it is a RE-NESTING, not a reorder. Sizes: 2.3.1=242w, 2.3.2=129w, 2.3.2.1=159w, 2.3.2.2=225w, 2.3.3=267w, 2.3.4=233w.",
+  "29": "CONFIRMED, two defects: (a) OOD appears as a bare acronym BEFORE 'out-of-distribution' 80 chars later; (b) OOD is not in the List of Abbreviations, and content.tex:262-264 justifies its omission by claiming it 'never appears in prose', which is now false (3 prose hits).",
+  "30": "§2.4 is 741 words in 3 subsections (Datasets 80w, Metrics and reference points 23w + 3 subsubsections 106/101/169w, Validation and statistical decisions 227w). His new subsection's seed material is in 2.4.3's own split sentences.",
+  "25": "Rename blast radius measured: 'the joint model' has 49 live-prose hits; 15 in the SUBMITTED Ch.5, 5 inside errata TABLES whose quoted strings are the evidence for a correction, 22 in free frame prose/content.tex, 2 in the lineage table, 2 in published Ch.3. GLOSSARY.md:63 registers 'the joint model' as the canonical name."
+ },
+ "probe_collisions": {
+  "7": "R10-fab22 (must be PRESENT) sits 305 chars from item 7's anchor in 1_introduction.tex",
+  "8": "R10-fab22 sits 462 chars from item 8's anchor",
+  "note": "no other item's anchor has a probe within 600 chars; file-level co-location is not collision"
+ },
+ "pendencias_probes": {
+  "R9-agree2": "ABSENT-type on PENDENCIAS.md: 'As 21 ancoras dos capitulos'",
+  "R12-clock4": "ABSENT-type on PENDENCIAS.md: the retracted '7 por cento DENTRO' reading",
+  "R9-schema": "PRESENT-type requiring '### AUT-01' in CONSIDERATIONS.md -> the AUT- namespace is ALREADY IN USE"
+ }
+}

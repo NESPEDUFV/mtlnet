@@ -1,0 +1,31 @@
+% !TeX root = ../main.tex
+
+\chapter{Adaptation of the HGI Baseline}
+\label{apx:hgi-tuning}
+
+This appendix records one methodological choice that is necessary to interpret the
+HGI baseline used in the later studies. Huang et al.\ set the cross-region edge weight
+to 0.4 in the HGI experiments on Xiamen and Shenzhen~\cite{huang2023hgi}. The present
+work did not transfer that value without evaluation. It selected the weight on Alabama
+before applying HGI to the United States state graphs.
+
+The sweep evaluated weights 0.4, 0.5, 0.6, and 0.7 with five folds and a budget of 50
+epochs. The recorded category F1, on a zero-to-one scale and reported as the mean plus
+or minus the standard deviation across folds, increased in the same order:
+
+\begin{center}
+\begin{tabular}{cc}
+  \toprule
+  Cross-region weight & Category F1 \\
+  \midrule
+  0.4 & $0.7388 \pm 0.0205$ \\
+  0.5 & $0.7678 \pm 0.0211$ \\
+  0.6 & $0.7944 \pm 0.0186$ \\
+  0.7 & $0.8186 \pm 0.0123$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The later studies therefore use 0.7. This sweep supports adaptation of one baseline
+hyperparameter; it is not evidence about the relative performance of HGI and
+Check2HGI, and it does not change HGI's role in the representation lineage.

@@ -1,0 +1,197 @@
+% ============================================================================
+% HGI (Hierarchical Graph Infomax) -- diagrama de slide (impresso 23).
+% Fonte: `presentation/_preparacao/hgi_draw.txt` (o ASCII do autor) + a revisao de
+% composicao que ele fez na rodada 7.
+%
+% POR QUE DUAS FAIXAS, e nao uma linha so'.  O fluxo forward pedido tem ONZE
+% estagios (cat.encoder, grafos POI, POI GCN, vetores, MHA, vetores, grafos de
+% regiao, Region GCN, vetores, agregacao por area, cidade).  Somadas, as caixas
+% dao 11,8cm; sobram ~2mm por vao numa largura util de 14cm, o que produz setas
+% menores que a propria ponta.  O autor pediu "uma nova linha" para os grafos de
+% regiao, e e' exatamente isso que resolve: faixa 1 ate' os region raw
+% embeddings, faixa 2 dali ate' a cidade.
+% A faixa 2 e' alinhada A' DIREITA de proposito: assim a volta de uma faixa para
+% a outra e' curta (1,2cm) em vez de atravessar a figura inteira -- e o canto
+% inferior esquerdo que sobra e' onde a banda de discriminacao cabe.
+%
+% GRAMATICA HERDADA DA CHAPA DO DGI (as tres chapas sao familia):
+%   VERMELHO = ramo negativo, e nada mais.  Grafo corrompido, vetores dele e as
+%   setas que os carregam.  Por isso o backprop e' CINZA tracejado: se vermelho
+%   significa "negativo", nao pode significar tambem "sinal de treino".
+%
+% POR QUE AS LIGACOES DE DISCRIMINACAO SAO TRACEJADAS: elas atravessam o fluxo
+% forward (a banda de discriminacao esta' embaixo e as fontes estao nas duas
+% faixas).  O tracejado separa "o que flui" de "o que e' comparado".
+%
+% PRECISOES do hgi_draw.txt que o desenho respeita:
+%  - DUAS fronteiras, nunca tres.  Tres seria desenhar o Check2HGI com outro
+%    nome e destruiria o contraste que o slide 31 precisa fazer;
+%  - so' o ramo ORIGINAL sobe para a cidade; o corrompido para nas region
+%    embeddings, onde o discriminador o consome.  No desenho isso e' visivel
+%    pela ausencia de seta: a raia vermelha simplesmente nao continua;
+%  - a GCN de nivel de regiao existe e a prosa do Cap. 2 a omite.
+%
+% ⚠ RESSALVA REGISTRADA (rodada 7).  O autor pediu que o "Discrimination
+%   POI-Region" receba os DOIS vetores que saem do POI GCN -- o original e o
+%   corrompido.  Desenhado com o ORIGINAL apenas, e a razao esta' no proprio
+%   hgi_draw.txt dele: "O negativo da fronteira POI-regiao e' um POI DIFERENTE
+%   pareado com a MESMA regiao: (p_j, r_k)."  O ramo corrompido serve a'
+%   fronteira REGIAO-CIDADE, via r~_k -- e la' ele esta' desenhado.  Ligar o
+%   vermelho ao D_pr diria que o negativo daquela fronteira e' um POI com
+%   features embaralhadas, que e' outro metodo.  Se ele reafirmar, trocar.
+%
+% Gabarito: 140 x 63,7 mm.  ⚠ esta chapa usa ~60mm de altura -- e' um slide de
+% FIGURA, sem espaco para as duas linhas de texto que o `gate` orcou.
+% ============================================================================
+% UMA COR POR DISCRIMINACAO.  Nenhuma das duas esta' na paleta do nesped de
+% proposito: teal, navy e magenta ja' significam contexto, fluxo e negativo nas
+% tres chapas, e reusar qualquer um deles era o que fazia as ligacoes de
+% discriminacao se confundirem com o resto do desenho.
+%  ambar  = fronteira POI-regiao
+%  violeta = fronteira regiao-cidade
+% Cada cor vai da FONTE ate' a Total loss sem interrupcao, entao da' para seguir
+% uma comparacao inteira com o olho sem soltar o fio.
+\definecolor{discA}{rgb}{0.74,0.50,0.05}
+\definecolor{discB}{rgb}{0.36,0.29,0.58}
+\tikzset{
+  gpic/.pic={
+    \draw[line width=0.8pt, opacity=0.45]
+      (-0.34,0.15)--(-0.06,0.28)--(0.28,0.06)--(0.06,-0.24)--(-0.28,-0.17)--cycle
+      (-0.34,0.15)--(0.28,0.06);
+    \fill (-0.34,0.15) circle (1.3pt) (-0.06,0.28) circle (1.3pt)
+          (0.28,0.06) circle (1.3pt) (0.06,-0.24) circle (1.3pt)
+          (-0.28,-0.17) circle (1.3pt);
+  }
+}
+\begin{tikzpicture}[
+    font=\small,
+    >={Latex[length=2mm]},
+    lbl/.style={align=center, font=\small, text=secondary},
+    box/.style={draw=secondaryshade, rounded corners=2.5pt, fill=white,
+                align=center, inner sep=4pt, line width=1pt, text=secondary},
+    tall/.style={box, minimum height=1.35cm},
+    dboxA/.style={box, draw=discA, line width=1.1pt, minimum height=0.75cm},
+    dboxB/.style={box, draw=discB, line width=1.1pt, minimum height=0.75cm},
+    dboxL/.style={box, draw=black!55, line width=1.1pt, minimum height=0.75cm},
+    vcell/.style={draw=secondary!70, line width=0.8pt, minimum width=3.4mm,
+                  minimum height=1.8mm, inner sep=0pt, fill=white},
+    ncell/.style={vcell, draw=alert!85, fill=alert!10},
+    ccell/.style={vcell, draw=primaryshade, fill=primarytint},
+    conn/.style={circle, draw=secondary, line width=1pt, fill=white,
+                 minimum size=5mm, inner sep=0pt, font=\small, text=secondary},
+    nconn/.style={conn, draw=alert!85, text=alert},
+    flow/.style={->, line width=1.1pt, draw=secondary},
+    nflow/.style={->, line width=1.1pt, draw=alert!85},
+    cmpA/.style={->, line width=0.95pt, draw=discA, dashed, shorten >=2pt},
+    cmpB/.style={->, line width=0.95pt, draw=discB, dashed, shorten >=2pt}
+]
+\def\yA{2.30}\def\yB{1.25}\def\yC{0.20}\def\yD{-0.85}
+
+% ======================= LINHA 1 -- nivel POI, do encoder ao region raw
+\node[tall, text width=1.6cm] (cat) at (1.10,1.775)
+      {\textbf{Category}\\\textbf{encoder}};
+{\color{secondary}\pic at (3.30,\yA) {gpic};}
+{\color{alert}\pic at (3.30,\yB) {gpic};}
+\node[lbl] at (3.30,1.775) {\textbf{Delaunay}};
+\draw[flow]  ([yshift=5.25mm]cat.east)  -- (2.85,\yA);
+\draw[nflow] ([yshift=-5.25mm]cat.east) -- (2.85,\yB);
+
+\node[tall, text width=1.1cm] (pgcn) at (5.10,1.775) {\textbf{POI}\\\textbf{GCN}};
+\draw[flow]  (3.75,\yA) -- ([yshift=5.25mm]pgcn.west);
+\draw[nflow] (3.75,\yB) -- ([yshift=-5.25mm]pgcn.west);
+
+\begin{scope}[local bounding box=pva]
+  \foreach \k in {-1,0,1} \node[vcell] at (6.80,\yA+\k*0.18) {};\end{scope}
+\begin{scope}[local bounding box=pvb]
+  \foreach \k in {-1,0,1} \node[ncell] at (6.80,\yB+\k*0.18) {};\end{scope}
+\draw[flow]  ([yshift=5.25mm]pgcn.east)  -- (pva.west);
+\draw[nflow] ([yshift=-5.25mm]pgcn.east) -- (pvb.west);
+
+\node[tall, text width=1.55cm] (mha) at (8.95,1.775)
+      {\textbf{Multi-Head}\\\textbf{Attention}};
+\draw[flow]  (pva.east) -- ([yshift=5.25mm]mha.west);
+\draw[nflow] (pvb.east) -- ([yshift=-5.25mm]mha.west);
+
+\begin{scope}[local bounding box=rra]
+  \foreach \k in {-1,0,1} \node[vcell] at (10.85,\yA+\k*0.18) {};\end{scope}
+\begin{scope}[local bounding box=rrb]
+  \foreach \k in {-1,0,1} \node[ncell] at (10.85,\yB+\k*0.18) {};\end{scope}
+\draw[flow]  ([yshift=5.25mm]mha.east)  -- (rra.west);
+\draw[nflow] ([yshift=-5.25mm]mha.east) -- (rrb.west);
+
+\node[conn]  (ca1) at (11.95,\yA) {A};
+\node[nconn] (cb1) at (11.95,\yB) {B};
+\draw[flow]  (rra.east) -- (ca1.west);
+\draw[nflow] (rrb.east) -- (cb1.west);
+
+% ======================= LINHA 2 -- nivel regiao, do grafo a' cidade
+\node[conn]  (ca2) at (0.75,\yC) {A};
+\node[nconn] (cb2) at (0.75,\yD) {B};
+{\color{secondary}\pic at (1.95,\yC) {gpic};}
+{\color{alert}\pic at (1.95,\yD) {gpic};}
+\node[lbl] at (1.95,-0.325) {\textbf{Geographic adjacency}};
+\draw[flow]  (ca2.east) -- (1.50,\yC);
+\draw[nflow] (cb2.east) -- (1.50,\yD);
+
+\node[tall, text width=1.25cm] (rgcn) at (4.60,-0.325) {\textbf{Region}\\\textbf{GCN}};
+\draw[flow]  (2.40,\yC) -- ([yshift=5.25mm]rgcn.west);
+\draw[nflow] (2.40,\yD) -- ([yshift=-5.25mm]rgcn.west);
+
+\begin{scope}[local bounding box=rea]
+  \foreach \k in {-1,0,1} \node[vcell] at (5.85,\yC+\k*0.18) {};\end{scope}
+\begin{scope}[local bounding box=reb]
+  \foreach \k in {-1,0,1} \node[ncell] at (5.85,\yD+\k*0.18) {};\end{scope}
+\draw[flow]  ([yshift=5.25mm]rgcn.east)  -- (rea.west);
+\draw[nflow] ([yshift=-5.25mm]rgcn.east) -- (reb.west);
+
+% so' o ramo ORIGINAL sobe: a raia vermelha simplesmente nao continua daqui.
+\node[tall, text width=1.85cm, minimum height=1.0cm] (awa) at (8.10,\yC)
+      {\textbf{Area-Weighted}\\\textbf{Aggregation}};
+\draw[flow] (rea.east) -- (awa.west);
+\begin{scope}[local bounding box=city]
+  \foreach \k in {-1,0,1} \node[ccell] at (10.10,\yC+\k*0.18) {};\end{scope}
+\draw[flow] (awa.east) -- (city.west);
+\node[lbl, text=primaryshade, anchor=west] at (10.40,\yC) {city};
+
+% ======================= LINHA 3 -- so' discriminacao, ate' a Total loss.
+% POI-Regiao a' ESQUERDA e Regiao-Cidade a' DIREITA: a ordem da hierarquia
+% (POI->regiao vem antes de regiao->cidade) passa a ser tambem a ordem de
+% leitura da faixa.
+\node[dboxB, text width=2.15cm] (drc) at (5.00,-2.675)
+      {Discrimination\\Region--City};
+\node[dboxL, text width=1.0cm] (loss) at (9.00,-2.675) {Total\\loss};
+\node[dboxA, text width=2.15cm] (dpr) at (12.00,-2.675)
+      {Discrimination\\POI--Region};
+\draw[cmpB] (drc.east) -- (loss.west);
+\draw[cmpA] (dpr.west) -- (loss.east);
+
+% TODA ligacao de comparacao sai pela BASE do embedding, nunca pela lateral.
+% Motivo: a lateral e' onde as setas do forward CHEGAM, e uma saida ali fica
+% ambigua -- o fio parecia nascer no embedding de baixo, o rosa, quando nasce no
+% de cima.  O degrau curto logo apos a saida serve para passar ao largo do
+% embedding da outra raia, que fica exatamente abaixo.
+%
+% AS PONTAS CHEGAM ALINHADAS: duas entradas igualmente espacadas no topo do
+% POI-Regiao (4,40 / 5,60) e tres no do Regiao-Cidade (11,30 / 12,00 / 12,70).
+%
+% QUATRO CANAIS, e a ordem deles nao e' arbitraria.  Com todos os fios indo para
+% o mesmo lado, dois da MESMA COR so' deixam de se cruzar se o canal mais alto
+% for o que dobra mais longe na direcao do percurso.  Dai a atribuicao abaixo --
+% e por isso `pva` e `city` PODEM dividir o canal -1,30: os trechos horizontais
+% deles nao se sobrepoem em x (4,40..6,45 contra 10,10..12,70).
+% Cruzamentos ambar-com-violeta sobram e sao aceitaveis: a cor resolve.  O que
+% nao pode e' violeta cruzar violeta -- ali a cor deixa de ajudar.
+
+% --- fronteira POI-REGIAO (ambar), para a esquerda
+\draw[cmpA] (pva.south) -- (6.80,1.80) -- (6.45,1.80) -- (6.45,-1.725)
+            -- (12.00,-1.725) -- (12.00,-2.30);
+\draw[cmpA] (pvb.south) -- (6.80,-1.875) -- (11.25,-1.875) -- (11.25,-2.30);
+\draw[cmpA] (rra.south) -- (10.85,1.80) -- (12.75,1.80) -- (12.75,-2.30);
+
+% --- fronteira REGIAO-CIDADE (violeta), para a direita
+\draw[cmpB] (reb.south) -- (5.85,-1.275) -- (4.30,-1.275) -- (4.30,-2.30);
+\draw[cmpB] (rea.south) -- (5.85,-0.30) -- (6.20,-0.30) -- (6.20,-1.425)
+            -- (5.00,-1.425) -- (5.00,-2.30);
+\draw[cmpB] (city.south) -- (10.10,-1.575) -- (5.70,-1.575) -- (5.70,-2.30);
+
+\end{tikzpicture}

@@ -1,0 +1,86 @@
+% !TeX root = ../main.tex
+%
+% Five columns, four bands, all placement relative (positioning library). The category
+% lane occupies band 1 and the region lane band 2; the region task's second tower gets
+% its own band 3 so the two towers cannot touch, and the fusion node sits at the
+% midpoint of the two towers in column 5 so each tower reaches it on its own line.
+%
+% Three label rules, one per collision the previous layout produced:
+%   * the exchange label lies in the 1.5cm band gap between the two shared-context
+%     nodes, so it cannot reach either node's text;
+%   * the bypass label lies ABOVE its own dashed segment, not on it;
+%   * every edge label carries fill=white, so an edge that passes behind it is cut.
+%
+% Measured width 441.59pt against this document's 455pt text block.
+\begin{tikzpicture}[
+    font=\small,
+    node distance=0.9cm and 0.6cm,
+    block/.style={draw=black!70, rounded corners=2pt, fill=black!3,
+        align=center, text width=2.3cm, minimum height=1.3cm, inner sep=4pt},
+    interaction/.style={block, fill=black!10, line width=0.8pt},
+    head/.style={block, fill=black!7},
+    output/.style={draw=black!80, rounded corners=2pt, fill=white,
+        align=center, text width=2.3cm, minimum height=1.3cm, inner sep=4pt,
+        double, double distance=1pt},
+    flow/.style={-{Latex[length=2.2mm]}, line width=0.75pt, draw=black!80},
+    privateflow/.style={-{Latex[length=2.2mm]}, line width=0.75pt, dashed,
+        draw=black!70},
+    exchange/.style={{Latex[length=2.0mm]}-{Latex[length=2.0mm]},
+        line width=0.75pt, draw=black!75},
+    edgelabel/.style={fill=white, inner sep=1.5pt, font=\scriptsize},
+    group/.style={draw=black!40, rounded corners=4pt, dashed, fill=black!2,
+        inner sep=6pt}
+]
+    % Band 1: the category lane, left to right.
+    \node[block] (cin) {\textbf{Category input}\\Check-in history\\$9\times64$};
+    \node[block, right=of cin] (cenc) {\textbf{Private encoder}\\$64\rightarrow256$};
+    \node[interaction, right=of cenc] (cstate)
+        {\textbf{Shared context}\\Category stream\\$9\times256$};
+    \node[head, right=of cstate] (chead)
+        {\textbf{Category head}\\Four-layer GRU\\last valid state};
+    \node[output, right=of chead] (cout)
+        {\textbf{Prediction}\\Next category\\seven logits};
+
+    % Band 2: the region lane. The band gap is set wide enough for the exchange label.
+    \node[block, below=1.5cm of cin] (rin)
+        {\textbf{Region input}\\Region history\\$9\times64$};
+    \node[block, right=of rin] (renc) {\textbf{Private encoder}\\$64\rightarrow256$};
+    \node[interaction, right=of renc] (rstate)
+        {\textbf{Shared context}\\Region stream\\$9\times256$};
+    \node[head, right=of rstate] (shared)
+        {\textbf{Shared route}\\Region tower\\shared $9\times256$ stream};
+
+    % Band 3: the second region tower, on its own band so the towers stay apart.
+    \node[head, below=of shared] (private)
+        {\textbf{Private route}\\Region tower\\raw $9\times64$ history};
+
+    % Column 5 for the region lane: fusion between the two towers, prediction below it.
+    \coordinate (towermid) at ($(shared)!0.5!(private)$);
+    \node[head] (fusion) at (cout |- towermid)
+        {\textbf{Fusion}\\Private plus\\scaled shared};
+    \node[output, below=of fusion] (rout)
+        {\textbf{Prediction}\\Next region\\dataset-specific logits};
+
+    \draw[flow] (cin) -- (cenc);
+    \draw[flow] (cenc) -- (cstate);
+    \draw[flow] (cstate) -- (chead);
+    \draw[flow] (chead) -- (cout);
+
+    \draw[flow] (rin) -- (renc);
+    \draw[flow] (renc) -- (rstate);
+    \draw[flow] (rstate) -- (shared);
+    \draw[flow] (shared) -- (fusion);
+    \draw[flow] (private) -- (fusion);
+    \draw[flow] (fusion) -- (rout);
+
+    \draw[exchange] (cstate) -- node[edgelabel]{two blocks} (rstate);
+
+    % The bypass drops below the region lane and runs in the empty band-3 corridor.
+    \coordinate (bypasscorner) at (rin.south |- private.west);
+    \draw[privateflow] (rin.south) -- (bypasscorner)
+        -- node[edgelabel, above]{raw-region bypass} (private.west);
+
+    \begin{scope}[on background layer]
+        \node[group, fit=(cstate)(rstate)] (crossgroup) {};
+    \end{scope}
+\end{tikzpicture}

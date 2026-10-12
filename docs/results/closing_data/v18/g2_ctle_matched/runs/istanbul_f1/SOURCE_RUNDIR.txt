@@ -1,0 +1,1 @@
+/Users/vitor/g2_scratch/results/istanbul_f1/run/check2hgi_ctle/istanbul/next_lr1.0e-04_bs2048_ep50_20261003_232415_3942

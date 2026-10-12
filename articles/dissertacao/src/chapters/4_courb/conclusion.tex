@@ -1,0 +1,34 @@
+% !TeX root = ../../main.tex
+% chapters/4_courb/conclusion.tex -- one section of Chapter 4 (CoUrb 2026, published).
+% Split out of chapters/4_courb.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CoUrb_2026/src_en/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Conclusion and Future Work}
+\label{sec:courb:conclusion}
+
+This chapter investigated whether replacing the monolithic embedding of DGI with decoupled and specialized representations could produce a base more suitable for the tasks of POI Category Classification and Next-POI Prediction. The results obtained in the three evaluated states indicate that it can. By incorporating a continuous spatial encoder, a temporal encoder (Time2Vec), and a hierarchical categorical encoder (HGI), ST-MTLNet outperforms the baseline based only on DGI in most of the evaluated combinations.
+% [2026-09-02, B-20, author ruling "podemos trocar"] "consistently outperforms" -> "outperforms ...
+% in most of the evaluated combinations". The next paragraph gives the audited counts (21 of 21 on
+% category; 15 of 21 plus one technical tie on next), and results.tex:52 says the baseline keeps
+% six; "consistently" against 15 of 21 was a tension of degree left when the frame lowered the
+% published 16/21. Reproduced (translated) CoUrb text -> errata row B.3 (registry).
+
+In the POI Category Classification task, the proposed variants outperform MTLnet in all 21 category-state combinations, with average gains per state of 20.2 to 22.0 percentage points, considering the better of the two spatial encoders in each combination. In the Next-POI Prediction task, the performance is also mostly favorable to ST-MTLNet, which outperforms the baseline in 15 of the 21 evaluated combinations, with one additional technical tie, with emphasis on categories such as \textit{Food}. Taken together, these results show that decomposing the representation into spatial, temporal, and categorical components allows capturing patterns that DGI, by itself, does not model sufficiently.
+
+The comparison between SIREN and Sphere2Vec-M also shows that there is no single universally superior spatial encoder. SIREN presents better performance more frequently in Florida and California, while Sphere2Vec-M stands out in Texas, suggesting that the suitability of the encoder depends on the geographic distribution of the POIs in each territory. Thus, the main gain of this chapter lies not only in the choice of a specific spatial architecture, but in the very adoption of decoupled representations as an alternative to the monolithic paradigm of DGI.
+
+A relevant limitation remains in the \textit{Travel} category of the Next-POI Prediction task, in which the original MTLnet still obtains the best results in part of the scenarios. This suggests that long-distance movements and topological relationships between regions are still better captured by the graph structure used by DGI. In addition, since the three proposed components are used together, this chapter does not isolate the individual contribution of each encoder, which restricts a more detailed analysis of the relative weight of each source of information.
+
+% [2026-09-02, B-22, author ruling: "mudar o texto do capitulo para ficar melhor e criar uma errata;
+% nao precisa referenciar a errata"] The published sentence asked for caution about generalization
+% without saying what ages with the dataset. It now names the two things that do: the places and
+% visiting habits of 2009-2010, and the single-country coverage. No cross-reference to Chapter 5 is
+% placed inside the reproduced article text (dissertation structure stays out of article bodies);
+% the empirical answer, Istanbul as the non-U.S. test, is Chapter 5's own and the frame carries it.
+% Reproduced (translated) CoUrb text -> errata row B.3 (registry).
+Another limitation is related to the exclusive use of Gowalla, a dataset commonly used in the literature but composed of mobility records collected between February 2009 and October 2010, all of them in the United States. Two things age with such a dataset: the places and the visiting habits it records, and the single national context it covers. Consequently, the results should be read as evidence about that period and that country, and their generalization to current urban mobility patterns, or to cities outside the United States, remains to be tested.
+
+As future work, we highlight the investigation of more flexible multitask architectures, the exploration of more sophisticated fusion strategies between the encoders, and the combination of graph-based representations and continuous coordinate encodings. These directions may broaden the observed gains and help reduce the limitations still present in categories such as \textit{Travel}.

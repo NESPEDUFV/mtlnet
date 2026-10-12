@@ -1,0 +1,14 @@
+[fold 4 seed 0] train_users=879 val_users=222 disjoint=True
+  CTLE pretrain: vocab=11850 train_trajs=1850 (of 5071 total) device=mps epochs=10
+    epoch 1/10  loss=12.2599 mlm=9.3195 mh=2.9403
+    epoch 2/10  loss=11.4656 mlm=8.9918 mh=2.4738
+    epoch 3/10  loss=10.9504 mlm=8.6555 mh=2.2950
+    epoch 4/10  loss=10.7138 mlm=8.5336 mh=2.1802
+    epoch 5/10  loss=10.5650 mlm=8.4649 mh=2.1001
+    epoch 6/10  loss=10.4249 mlm=8.3892 mh=2.0357
+    epoch 7/10  loss=10.3314 mlm=8.3537 mh=1.9777
+    epoch 8/10  loss=10.2759 mlm=8.3310 mh=1.9450
+    epoch 9/10  loss=10.1623 mlm=8.2676 mh=1.8948
+    epoch 10/10  loss=10.1190 mlm=8.2602 mh=1.8589
+  embeddings.parquet -> /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_ctle/alabama/embeddings.parquet (rows=113846, vocab=11850)
+  fold 4: next rows=96326 next_region rows=96326 aligned=True

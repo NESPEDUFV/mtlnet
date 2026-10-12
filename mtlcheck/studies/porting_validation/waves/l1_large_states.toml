@@ -1,0 +1,44 @@
+# L1 — does the harness hold at scale? One fold, one seed, three families, FL/CA/TX.
+#
+# The question is NOT "what do the large states score" — it is "does this implementation run them
+# correctly, in memory, at 4,703 / 8,501 / 6,553 region classes and up to 3.8M windows". The old
+# system believed for two years that region-MTL could not fit an A40, and the cause turned out to be
+# a per-epoch metric accumulating O(N·C) logits, not the model.
+#
+# ⚠ NO --save-predictions, and that is deliberate.
+#
+# Under inner_validation the runner never touches the outer fold unless predictions are captured
+# (runner.py: the one-shot outer pass is gated on capture_predictions). So this wave reads the outer
+# test of NOBODY. That matters because §9.4 assigns the confirmatory weight to Istanbul, CA and TX,
+# and Istanbul is already spent — CA and TX are the entire remaining confirmatory reserve. Spending
+# them on a feasibility check would be trading the dissertation's strongest evidence for a smoke test.
+#
+# One fold, not five: fold 0 of the canonical 5-split, so the cell is a real fold of the real
+# partition rather than a smaller problem. --only-folds 1 is the CLI's 1-based name for it.
+
+[wave]
+study = "l1_large_states"
+
+[[cell]]
+recipe = "recipes/v18/cat.toml"
+states = ["florida", "california", "texas"]
+seeds = [0]
+split_seed = 0
+folds = "1"
+set = { inner_validation = true }
+
+[[cell]]
+recipe = "recipes/v18/reg.toml"
+states = ["florida", "california", "texas"]
+seeds = [0]
+split_seed = 0
+folds = "1"
+set = { inner_validation = true }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["florida", "california", "texas"]
+seeds = [0]
+split_seed = 0
+folds = "1"
+set = { inner_validation = true }

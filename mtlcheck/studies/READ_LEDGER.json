@@ -1,0 +1,1409 @@
+{
+ "_": "Quais pares (receita, conjunto) já tiveram o teste externo lido. Um par aqui pode ser reproduzido à vontade (`train --confirmatory`); um par ausente exige um `compare`, que é o ato racionado. Ver eval/ledger.py.",
+ "reads": [
+  {
+   "fingerprint": "0c46f69b27a98546",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "4ee7da2ccfcf1d46",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "635f9f82598e7987",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d987893e791c752b",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "5094f6f1dbd42cd5",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "a10fd96634021c86",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d97942d549c4024e",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "def6d0e5c393ab5b",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "0d9efe10dbcfe6a0",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "2d45f2d9c1f0ed54",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c7e4b3ddb25a88ca",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ff301e926c74bb03",
+   "state": "alabama",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "635362d15d88d5ef",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ac60c2cd0d226661",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "df7e4301278c01cf",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ffdf9ffaefdad425",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "65daba414fcb934a",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "8fcbba8b6a8d2f6d",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "a6f2d72b8ac2df21",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d33b4c4ca3b674e4",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "20b0f99dc67c59e0",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "2f9ce11940f15167",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "4c1f61f61d307fd9",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "51cf3ad181c84410",
+   "state": "arizona",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "5fb6321416f5f555",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "68acbce9c91fd485",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d87a935401ebc5a1",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "e41111e813101300",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "5ce8ceb56f6915ba",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "5d0e043117f50647",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c84f55e4c333fdde",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ec1f2bc964272e03",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "05fb1c617a7d79b4",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "2c69c3db77d29f12",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ef37ee416e93495e",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "f698cb4cfae3b80c",
+   "state": "istanbul",
+   "study": "v19_defence",
+   "on": "2026-08-24",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "507feb263561319b",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "635f9f82598e7987",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "81e46741eaba0b9a",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "b30190c64cebceea",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c54a381164fc995a",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "e39832ea8ab6706a",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "43d32cc3f5155699",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "457d3a5813c10ff8",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d9647202b8230444",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "dbde43b8059c4a1c",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "def6d0e5c393ab5b",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "eb3557a9fae38285",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "1fd7f6ae20aaa130",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "3ad9f81ab08d8527",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "99fb6299b93479d8",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "aa499fd60d4b2851",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "bc5d2cc84e15723f",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c7e4b3ddb25a88ca",
+   "state": "alabama",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "4ef4e002066aa5f5",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "52e0c750d125e8fd",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "61a42a003747b052",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "68acbce9c91fd485",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "7d21d3bc5f348164",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "9d27395744bd50a5",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "12af2a71be020ce0",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "5a0cb0a3fd639617",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "7b1bf34df928d753",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c7110da1a1b20603",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c84f55e4c333fdde",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "f13c28650b140193",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "4ddcf96e038ac85a",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "67bc701ca9daef2e",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "a9705b29bb53d236",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ae654c1a5b7b944f",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "be0cf79a939537fa",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ef37ee416e93495e",
+   "state": "istanbul",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "8dbf368d966623f8",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ac60c2cd0d226661",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "b353818a5d64e70f",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "bf8304c8ffa975fd",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "76ee0334c1b4e278",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "8fcbba8b6a8d2f6d",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d378f71206ce9380",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "f4c35f3d729fd5cd",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "20b0f99dc67c59e0",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "54bccfb0e07f59fd",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "58d0078786d4fbe7",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "bd1f5b960511be67",
+   "state": "arizona",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "4109228c1d2f6f77",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "79f7df6c61af9d7f",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "7ad0c7ce5775631a",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "a1912cfc53ba9193",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "16ad7b2171951c69",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "467651a34c303268",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "639dabea3b9c7a1e",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d61dfd7adadd1748",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "23313afb55bd00f5",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "3ced77e9cd753df9",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "55c14362e73f864a",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c40e0850474d0a24",
+   "state": "florida",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "0d5b9c9a2b4aa599",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "85f487d2b158a041",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "c2a737c67bf93143",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "ffc8feec4b170967",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "03767645e2b3a27c",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "652032094fa8be23",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "65b2c18cf08df27e",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "813937b8d7d185a1",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "0538f6713bfe61af",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "d2b75b123b5a63d3",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "dae7f828bb953a30",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "f0b74c2b9d798707",
+   "state": "california",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "030dca659c05fd83",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "1e3cc485668e3dda",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "9040f649115e41ce",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/cat.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "1b4d806363ee0b93",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "4f43cac682722143",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "a5536555c104e39e",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/joint.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "39353188c5a7f513",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "64c5aeb208316be1",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  },
+  {
+   "fingerprint": "7e04f9792cd41468",
+   "state": "texas",
+   "study": "v19_ladder",
+   "on": "2026-08-27",
+   "recipe": "recipes/v19/reg.toml",
+   "arms": [
+    "cat",
+    "joint",
+    "reg"
+   ]
+  }
+ ]
+}

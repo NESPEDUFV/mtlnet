@@ -1,0 +1,140 @@
+% !TeX root = ../../main.tex
+% mobiwac/results.tex -- one table. Extraction provenance and verification: tables/README.md
+% [2026-10-01, AUTHOR-APPROVED errata, Table B.5 row] POI-RGNN PROVENANCE, CORRECTED. The 2026-08-12
+% header that stood here said the opposite of the truth: it called the per-fold JSONs
+% docs/results/baselines/faithful_poi_rgnn_<state>_5f_35ep_*.json "the PRE-BUGFIX May-2 draw" and the
+% printed FL/CA/TX cells (34.49 / 31.78 / 33.03) "correct". Measured chain: (1) the reimplementation
+% (research/baselines/poi_rgnn, user-grouped StratifiedGroupKFold, seed 42) ran at all six datasets and
+% its JSONs give AL 23.80 / AZ 27.64 / FL 33.35 / CA 30.71 / TX 32.08 / IST 30.12 (per_fold f1, n=5
+% each; re-aggregated by the writer 2026-10-01). (2) The old FL/CA/TX cells came from the OCTOBER-2025
+% runs of the older TensorFlow implementation (results/baselines/rgnn/*_2025100*), which splits folds
+% within each user, uses 3-visit windows and a 1,500-user sample -- a different protocol from every
+% other cell of this table. (3) There was never a bug: the port's code is unchanged since 6e3cd490 apart
+% from a path reorg; "pre-bugfix" began as a guess in a32bfdc4 ("JSONs may be pre-bugfix. Trusted
+% §0.6.", 2026-05-02) and was later restated as fact, including by the header this one replaces. The
+% six POI-RGNN cells now all come from the reimplementation JSONs, on the same split protocol as the
+% dedicated and joint cells; the derived margin "at least 3.06" became "at least 4.11" (06_results.tex,
+% 08_conclusion.tex). No emphasis changes: POI-RGNN is never among the two largest values of its row.
+\begin{table}[htbp]
+% [2026-08-12, AUTHOR RULING] ROW ORDER CHANGED to ascending check-in count (AL 113,846; AZ 236,450;
+% Istanbul 462,615; FL 1,407,034; CA 3,171,380; TX 4,089,892 -- read from Table
+% \ref{tab:mobiwac:datasets}), replacing region count. Rows were moved whole by script, never retyped,
+% so every cell and every footnote marker travelled with its dataset. The Regions column stays as a
+% covariate and no longer sorts, which is why the caption now names both quantities: the ordering key
+% and the column that is no longer monotone in it. No claim in the chapter reads off row order; every
+% one names its datasets, so the reorder changes nothing that is asserted.
+% [2026-09-02, B-27] ADDED to the caption: "it does not mark the largest value in a column." A banca
+% reader annotated this table on the delivered PDF (wrapup/REVISAO_BANCA_PDF.md, B-27) asking why two
+% cells are bold in the lower block and one in the upper -- he read bold as "the best value". The
+% caption already excluded that reading by implication (bold marks a Holm-surviving improvement over
+% the DEDICATED model, not a column maximum), but only by implication. The misreading is predictable
+% because this document uses bold with the other sense two chapters earlier: tables/cbic/category.tex
+% prints "the better of the MTL and Single values per row in bold, as in the published table". Same
+% document, two conventions. The added clause is a negative, not a new claim: no number, mark or
+% verdict changes. Caption prose only -- this caption is already dissertation-authored and diverges
+% substantially from the article's own ([mobiwac]/src_fix/tables/tbl3_results.tex:22-29, which orders
+% by region count and carries neither the two-block sentence nor the half-point bound).
+\caption{One model, two tasks: the single joint model against the dedicated single-task models and the
+external baselines, ordered by check-in count (Table~\ref{tab:mobiwac:datasets}); the region counts in
+the second column do not follow that order. The upper block reports next-category (macro-F1) and the
+lower block next-region (Acc@10); the two share the dataset and region-count columns, and the same
+six datasets appear in the same order in both. Two kinds of mark carry two different things. Bold
+and underline report magnitude only: in each row the largest value is in bold and the second largest
+is underlined, and when the two largest tie at the printed precision both are in bold and no second
+is marked. The statistical verdict is a separate mark beside the joint-model value: $\uparrow$ marks
+an improvement over the dedicated model that survives Holm correction within its task family, and, in
+the region block, $\approx$ marks a difference that stays within the two-point margin registered
+before any result was read (statistical non-inferiority, TOST;
+Section~\ref{sec:mobiwac:results-part2}). A row with the dedicated value in bold and $\approx$ beside
+the joint value therefore reads as: the dedicated model has the larger number, and the difference is
+inside the margin. Category cells carry no equivalence mark because the margin was registered for the
+region axis only, so a category difference that fails superiority is reported by the bound its
+interval supports, half a point.}
+% [2026-09-02, AUTHOR RULING, transversal emphasis convention (from the defense deck,
+% presentation/slides/main.tex:1620-1638), B-27 follow-up] The B-27 clause "it does not mark the
+% largest value in a column" became FALSE the moment bold started marking the row maximum, and is
+% gone. The caption now separates the two channels explicitly, which is the confusion behind the
+% reviewer's B-27 question (Alabama: dedicated larger, nothing bold, read as "no best here").
+% Tie rule as the deck executed it: AZ and CA category rows, 34.57 / 35.63 both bold, no underline.
+% Emphasis re-verified by the writer with a row-max check over all 96 data rows of the five
+% tables (2 ties, 0 mismatches); no digit changed.
+\label{tab:mobiwac:results}
+\centering
+% [NEW-7, 2026-07-26] Was ONE eleven-column tabular inside {adjustbox}{max width=\textwidth},
+% which shrank the body to a measured 8.00 pt (fold sd 6.00 pt) against 11.96 pt body text.
+% Split at the cmidrule the two task blocks already carried, into two tabulars inside this one
+% float: one caption, one \label{tab:mobiwac:results} (all nine \ref sites unchanged), one
+% footnote block. Both halves fit \textwidth at their natural size (category 377 pt, region
+% 408 pt against a 455 pt text block: 3 cm + 2 cm margins on A4), so neither is scaled and the
+% body renders at full 11.96 pt. Each half keeps a {max width=\textwidth} adjustbox purely as a
+% guard: at these widths it is a no-op, and if the estimate is off it clips the overshoot instead
+% of producing an overfull box. If the rebuild confirms the fit, both wrappers can be dropped.
+% Every value, bold mark, \sd{}, $^{\uparrow}$, $^{\approx}$, $^{\dagger}$, $^{\ddagger}$, and
+% the Dataset/Regions key columns are carried over character for character; the Dataset and
+% Regions columns repeat in the second half so each block reads on its own.
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l r r r r r}
+\toprule
+& & \multicolumn{4}{c}{\textbf{Next-category (macro-F1)}} \\ \cmidrule(lr){3-6}
+\textbf{Dataset} & \textbf{Regions} & \textbf{Markov-K} & \textbf{POI-RGNN} & \textbf{Dedicated} & \textbf{Joint (ours)} \\
+\midrule
+AL       & 1{,}109 & 20.50 & 23.80 & \textbf{30.77}\sd{0.07} & \underline{30.59}\sd{0.07} \\
+AZ       & 1{,}547 & 23.92 & 27.64 & \textbf{34.57}\sd{0.04} & \textbf{34.57}\sd{0.06} \\
+Istanbul & 520     & 24.55 & 30.12 & \underline{35.34}\sd{0.01} & \textbf{35.42}\sd{0.06} \\
+FL       & 4{,}703 & 29.74 & 33.35 & \underline{37.35}\sd{0.02} & \textbf{37.55}\sd{0.07}$^{\uparrow}$ \\
+CA       & 8{,}501 & 27.58 & 30.71 & \textbf{35.63}\sd{0.01} & \textbf{35.63}\sd{0.02} \\
+TX       & 6{,}553 & 28.67 & 32.08 & \textbf{36.33}\sd{0.01} & \underline{36.19}\sd{0.04} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+
+\vspace{6pt}
+
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l r r r r r r}
+\toprule
+& & \multicolumn{5}{c}{\textbf{Next-region (Acc@10)}} \\ \cmidrule(lr){3-7}
+\textbf{Dataset} & \textbf{Regions} & \textbf{HMT-GRN} & \textbf{ReHDM} & \textbf{STAN} & \textbf{Dedicated} & \textbf{Joint (ours)} \\
+\midrule
+AL       & 1{,}109 & 63.19 & 65.38 & 60.72 & \textbf{70.12}\sd{0.10} & \underline{69.24}\sd{0.16}$^{\approx}$ \\
+AZ       & 1{,}547 & 52.11 & 53.00 & 49.86 & \textbf{59.48}\sd{0.07} & \underline{59.04}\sd{0.22}$^{\approx}$ \\
+Istanbul & 520     & 68.06 & 69.33 & 61.86 & \textbf{75.16}\sd{0.01} & \underline{75.08}\sd{0.05}$^{\approx}$ \\
+FL       & 4{,}703 & 72.76 & 64.49 & 72.99 & \textbf{76.69}\sd{0.01} & \underline{76.54}\sd{0.01}$^{\approx}$ \\
+CA       & 8{,}501 & 59.59 & 50.26$^{\ddagger}$ & 58.61 & \underline{63.48}\sd{0.03} & \textbf{64.54}\sd{0.04}$^{\uparrow}$ \\
+TX       & 6{,}553 & 61.39 & 48.81$^{\ddagger}$ & 61.75 & \underline{64.94}\sd{0.01} & \textbf{66.15}\sd{0.07}$^{\uparrow}$ \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+
+\vspace{2pt}
+% [2026-10-01, A5 batch, Table B.5 row] Footnote: "ReHDM (its own protocol)" -> "ReHDM (its own
+% chronological split)": docs/baselines/next_region/rehdm.md, chronological 80/10/10 by trajectory
+% start time. The "filtered region vocabulary" half was NOT added: not verified from the record this
+% session, and the author's rule is as few words as possible.
+% [2026-10-01, AUTHOR-APPROVED A4, Table B.5 row] Footnote: "HMT-GRN (region-native, on our folds,
+% scored on ..." -> "HMT-GRN (region-native, scored on ...".
+% [2026-10-10, author authorized the pending GPU runs; Table B.5 row] STAN CA and TX completed to five folds
+% with the printed recipe (v6, patience 10, bf16, seed 0): CA 58.52 (2/5) -> 58.61 (folds 58.433 / 58.600 /
+% 59.051 / 59.180 / 57.762, mean 58.6051), TX 61.67 (4/5) -> 61.75 (61.477 / 61.685 / 61.501 / 61.997 /
+% 62.095, mean 61.7509); writer's recomputation from the per-fold JSONs in docs/results/baselines/ and
+% stan_rerun_2026-10-10/. The dagger marks and the footnote clause go; no dagger remains; "(seed 0)" went
+% with that clause, so "at one seed" is restored beside STAN's name (seed 0 at all six datasets). Arizona unchanged
+% (the rerun reproduced fold 2's failure, 49.44 vs 49.86 printed). Dependent claims re-checked: "at least
+% 3.55" (FL vs STAN 72.99) holds; TX joint minus STAN 4.40; CA's strongest reference stays HMT-GRN 59.59;
+% STAN CA 58.61 below the floor 59.09, TX 61.75 above 60.10, so "fall on both sides" stands. Emphasis
+% unchanged; verified.
+% [2026-10-03, G5 PROPOSAL, Table B.5 row by the registry] HMT-GRN column read at each head's best epoch
+% (the dedicated cells' convention) instead of epoch 50: 57.05 / 43.70 / 60.4 / 63.74 / 49.61 / 53.85 ->
+% 63.19 / 52.11 / 68.06 / 72.76 / 59.59 / 61.39 (g5_hmt_best_epoch; Istanbul now at two decimals).
+% Footnote: "on our windows and folds at one seed, read at its best epoch" added. Emphasis unchanged;
+% verified by the writer against the six JSONs.
+{\footnotesize HMT-GRN (region-native, on our windows and folds at one seed, read at its best epoch, scored on visits whose region appears in training, $>$99\% of test visits in every dataset
+and fold) is the primary external comparison; STAN (our re-implementation, at one seed) and ReHDM (its own chronological split)
+are references. Markov-K: strongest order per dataset. $^{\ddagger}$ReHDM at TX and CA: a single seed. Joint and dedicated entries: four seeds
+$\times$ five folds; $\pm$: sd across seeds. Batch size was searched for the dedicated
+category model at every dataset and the learning rate at four of the six, with the joint model
+searched at the smaller datasets and the coverage per knob in
+Section~\ref{sec:mobiwac:setup-windows}; TX and CA
+carry the joint configuration transferred from those searches, and the dedicated region models use one
+fixed configuration throughout.}
+\end{table}

@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/istanbul/next_lr1.0e-04_bs2048_ep50_20260706_041628_3856035",
+  "tag": "h3ist_cat_s0",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 54.7063,
+  "cat_per_fold": [
+    55.6125,
+    54.1397,
+    53.616,
+    54.7574,
+    55.4058
+  ],
+  "cat_best_epochs": [
+    25,
+    44,
+    49,
+    31,
+    13
+  ],
+  "_provenance": "recovered from the A40 2026-07-25 by scripts/closing_data/score_stl_cat_ceiling.py sidecar copy; closes stats_n20/RESULTS.md LIMITS #2 for Istanbul. Per-seed means match h3_istanbul/step3_runs/cat_ceil_s*.txt exactly."
+}

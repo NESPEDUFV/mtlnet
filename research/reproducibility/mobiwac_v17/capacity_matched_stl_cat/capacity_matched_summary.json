@@ -1,0 +1,270 @@
+{
+ "study": "capacity-matched dedicated category baseline (post-submission negative control)",
+ "status": "POST-SUBMISSION \u2014 frame-level analysis (Ch.6/appendix); never a Chapter 5 result",
+ "scorer": "scripts/closing_data/score_stl_cat_ceiling.py \u2014 macro-F1 at f1-best epoch, fold-mean",
+ "protocol": {
+  "model": "next_gru (dedicated category head)",
+  "engine": "check2hgi_dk_ovl",
+  "folds": 5,
+  "seeds": [
+   0,
+   1,
+   7,
+   100
+  ],
+  "n_per_arm": 20
+ },
+ "param_audit": {
+  "alabama": {
+   "joint_v17": 4197621,
+   "dedicated_h256": 644359,
+   "matched_width": "hidden_dim=672",
+   "matched_params": 4207399
+  },
+  "california": {
+   "joint_v17": 5151189,
+   "dedicated_h256": 644359,
+   "matched_width": "hidden_dim=752",
+   "matched_params": 5249719
+  }
+ },
+ "reference_points_diag_best": {
+  "alabama": {
+   "dedicated_ceiling_h256": 56.82,
+   "ceiling_std": 0.03,
+   "joint_v17": 64.54
+  },
+  "california": {
+   "dedicated_ceiling_h256": 70.6,
+   "ceiling_std": 0.07,
+   "joint_v17": 77.05
+  }
+ },
+ "jobs": {
+  "alabama": [
+   "d38a1382-8fbe-4e36-91f7-e6071f75c307",
+   "c0cc0edd-2c88-441e-a9ee-25cacdf9fb4c"
+  ],
+  "california": [
+   "4cff4b00-0694-4b47-84ea-171b751a0212"
+  ],
+  "host": "A40"
+ },
+ "results": {
+  "alabama_h672": {
+   "bs2048_lr0.0025": {
+    "n": 20,
+    "mean": 56.1611,
+    "std": 1.885,
+    "per_seed_mean": {
+     "s0": 56.3189,
+     "s1": 55.9358,
+     "s100": 56.0836,
+     "s7": 56.3062
+    },
+    "per_fold": {
+     "s0": [
+      56.9759,
+      58.2845,
+      57.5347,
+      56.9338,
+      51.8657
+     ],
+     "s1": [
+      56.1753,
+      56.774,
+      57.3811,
+      56.7109,
+      52.6376
+     ],
+     "s100": [
+      56.7135,
+      56.8893,
+      57.5376,
+      57.0846,
+      52.1932
+     ],
+     "s7": [
+      56.4329,
+      56.5719,
+      57.3808,
+      57.1649,
+      53.9804
+     ]
+    }
+   },
+   "bs2048_lr0.005": {
+    "n": 20,
+    "mean": 55.6098,
+    "std": 2.0523,
+    "per_seed_mean": {
+     "s0": 55.3049,
+     "s1": 56.461,
+     "s100": 55.4465,
+     "s7": 55.227
+    },
+    "per_fold": {
+     "s0": [
+      55.7934,
+      56.8589,
+      56.9038,
+      55.2889,
+      51.6794
+     ],
+     "s1": [
+      54.9696,
+      59.7273,
+      57.2894,
+      56.7622,
+      53.5566
+     ],
+     "s100": [
+      56.8493,
+      56.4979,
+      56.7011,
+      56.0548,
+      51.1292
+     ],
+     "s7": [
+      55.384,
+      56.1806,
+      56.5906,
+      55.5871,
+      52.3928
+     ]
+    }
+   },
+   "bs8192_lr0.005": {
+    "n": 20,
+    "mean": 55.7406,
+    "std": 1.9952,
+    "per_seed_mean": {
+     "s0": 55.6446,
+     "s1": 55.9857,
+     "s100": 55.57,
+     "s7": 55.7621
+    },
+    "per_fold": {
+     "s0": [
+      56.307,
+      57.0625,
+      56.6948,
+      56.4547,
+      51.7038
+     ],
+     "s1": [
+      56.0303,
+      57.3938,
+      57.5758,
+      56.7161,
+      52.2124
+     ],
+     "s100": [
+      55.9694,
+      56.6901,
+      56.4933,
+      56.9016,
+      51.7954
+     ],
+     "s7": [
+      56.3693,
+      56.4722,
+      57.0617,
+      56.887,
+      52.0203
+     ]
+    }
+   }
+  },
+  "california_h752": {
+   "bs8192_lr0.0025": {
+    "n": 20,
+    "mean": 69.8789,
+    "std": 0.2645,
+    "per_seed_mean": {
+     "s0": 69.7841,
+     "s1": 70.0098,
+     "s100": 69.839,
+     "s7": 69.8826
+    },
+    "per_fold": {
+     "s0": [
+      69.4914,
+      69.9354,
+      69.6282,
+      69.971,
+      69.8943
+     ],
+     "s1": [
+      69.981,
+      70.2157,
+      69.6129,
+      69.9241,
+      70.3154
+     ],
+     "s100": [
+      69.5046,
+      69.5583,
+      69.9105,
+      70.4293,
+      69.7921
+     ],
+     "s7": [
+      70.0715,
+      69.5801,
+      69.8887,
+      70.0589,
+      69.8138
+     ]
+    }
+   },
+   "bs8192_lr0.005": {
+    "n": 20,
+    "mean": 68.2061,
+    "std": 0.5435,
+    "per_seed_mean": {
+     "s0": 68.4096,
+     "s1": 68.1153,
+     "s100": 67.7664,
+     "s7": 68.5329
+    },
+    "per_fold": {
+     "s0": [
+      67.5645,
+      68.6525,
+      68.6221,
+      68.3733,
+      68.8358
+     ],
+     "s1": [
+      67.9697,
+      67.2119,
+      68.3714,
+      68.5637,
+      68.4597
+     ],
+     "s100": [
+      67.4178,
+      67.625,
+      68.1378,
+      67.6461,
+      68.0052
+     ],
+     "s7": [
+      67.675,
+      68.8671,
+      69.1125,
+      68.2768,
+      68.7331
+     ]
+    }
+   }
+  }
+ },
+ "best_arms": {
+  "alabama_h672": "bs2048_lr0.0025",
+  "california_h752": "bs8192_lr0.0025"
+ },
+ "verdict": "At both datasets the capacity-matched dedicated model lands at or slightly below its own tuned narrow optimum (AL -0.66, CA -0.72) and recovers none of the joint margin (AL -8.38, CA -7.17 vs diagnostic-best joint). Scope: category task, 2 of 6 datasets, one width point per dataset, width scaling not depth.",
+ "interim_reading_corrected": "A partial CA read (first arm only, seeds 0/1/7) gave 68.35 and was called 'same direction, larger magnitude' than AL. The completed sweep refutes the magnitude half: best arm 69.88, shortfall -0.72 ~ AL's -0.66. Direction unchanged."
+}

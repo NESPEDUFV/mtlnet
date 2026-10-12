@@ -1,0 +1,1 @@
+hgi_ovl_feat/arizona/next_lr1.0e-04_bs8192_ep50_20260816_211014_2783064

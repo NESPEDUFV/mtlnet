@@ -1,0 +1,10 @@
+2026-10-02 03:14:43,551 - WARNING - [canon-guard] torch is '2.11.0', expected '2.11.0+cu128' (torch ≥2.12 rewrote the TopK kernel → frozen reg Acc@10 tie-break shifts).
+2026-10-02 03:14:44,024 - WARNING - Generating folds on the fly (no cache at /Volumes/Vitor's SSD/ingred_g1fl/output/check2hgi_v18_to_f0/florida/folds/fold_indices_next.pt). Run `python scripts/study/freeze_folds.py --state florida --engine check2hgi_v18_to_f0 --task next` to freeze them; paired statistical tests require frozen splits.
+2026-10-02 03:14:44,026 - INFO - Creating 5-fold CV for next
+2026-10-02 03:14:44,026 - INFO - Loading next-POI data: florida/check2hgi_v18_to_f0
+2026-10-02 03:14:45,944 - INFO - Next-POI data: (1274418, 576) (dim=64, window=9), distribution: {np.int64(0): np.int64(131583), np.int64(1): np.int64(110222), np.int64(2): np.int64(318253), np.int64(3): np.int64(55458), np.int64(4): np.int64(90743), np.int64(5): np.int64(283638), np.int64(6): np.int64(284521)}
+2026-10-02 03:14:46,648 - INFO - NEXT single-task: user-disjoint folds via StratifiedGroupKFold.
+2026-10-02 03:14:48,112 - INFO - Fold 1/5: train=1019534, val=254884
+2026-10-02 03:14:51,013 - INFO - Fold 2/5: train=1019534, val=254884
+2026-10-02 03:14:53,889 - INFO - Fold 3/5: train=1019534, val=254884
+2026-10-02 03:14:56,437 - INFO - Fold 4/5: train=1019535, val=254883

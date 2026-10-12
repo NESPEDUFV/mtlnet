@@ -1,0 +1,36 @@
+# Profiling wave: one fold, three states, three families, seed 0 — nine cells with every diagnostic on.
+#
+# Purpose is NOT a result. It is (a) to find where the wall goes and what is slow, and (b) to become
+# the BASELINE that the monitoring module must not regress. In the reference, the metrics module was
+# the single largest source of training slowdown, so the order here is deliberate: measure first,
+# build monitoring second, re-measure third.
+#
+# One fold because profiling five costs 5x for the same shape of answer, and seed 0 because the
+# question is where time goes, not what the number is.
+
+[wave]
+study = "profile_1fold"
+
+[[cell]]
+recipe = "recipes/v18/cat.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0]
+folds = "1"
+set = { diagnostics = true }
+
+[[cell]]
+recipe = "recipes/v18/reg.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0]
+folds = "1"
+set = { diagnostics = true }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0]
+folds = "1"
+set = { diagnostics = true }

@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/alabama/next_lr1.0e-04_bs2048_ep50_20260723_035644_209150",
+  "tag": "alabama_capmatch_h672_s0",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 55.3049,
+  "cat_macro_f1_std": 1.916,
+  "cat_per_fold": [
+    55.7934,
+    56.8589,
+    56.9038,
+    55.2889,
+    51.6794
+  ],
+  "cat_best_epochs": [
+    10,
+    46,
+    47,
+    48,
+    48
+  ]
+}

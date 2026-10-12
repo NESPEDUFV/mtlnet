@@ -1,0 +1,7 @@
+start 2026-10-04 20:02:44 commit 17571c16 tier=CRITICAL swap_used_MB_at_start=3613 swap_total_MB_at_start=4096 disk_int_GB_at_start=15 disk_ssd_GB_at_start=9 pressure_at_start=1
+cmd: .venv/bin/python scripts/pre_freeze_gates/a4_build.py --state florida --seed 0 --fold 4 --split-json results/g1/splits/florida_split_seed0_fold4.json --device cpu --cleanup-pseudo
+rc=0 wall=1238s peakRSS_bytes=10656710656
+trace peaks: max_pressure=1 min_free=79% max_swap_total=4096MB max_wired=3.0GB max_child_rss=2.8GB
+repo-write-guard OK
+end 2026-10-04 20:23:23
+DONE

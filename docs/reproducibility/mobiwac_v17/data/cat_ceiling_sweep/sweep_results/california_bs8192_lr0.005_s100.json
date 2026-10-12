@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/california/next_lr1.0e-04_bs8192_ep50_20260703_020927_2152151",
+  "tag": "california_bs8192_lr0.005_s100",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 70.5794,
+  "cat_macro_f1_std": 0.226,
+  "cat_per_fold": [
+    70.2443,
+    70.5865,
+    70.473,
+    70.9333,
+    70.6596
+  ],
+  "cat_best_epochs": [
+    49,
+    48,
+    45,
+    43,
+    50
+  ]
+}

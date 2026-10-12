@@ -1,0 +1,5 @@
+=== A40 matched-metric score: mtlnet_lr1.0e-04_bs8192_ep50_20260805_214756_3491799 ===
+  seed=0  tag=rg2_california_s0_f0
+  cat macro-F1 (diag-best)      = 8.9545 ± 0.0000  (n=1)  per-fold=[8.9545]  epochs=[1]
+  reg FULL top10_acc (indist-best) = 65.3276 ± 0.0000  (n=1)  per-fold=[65.3276]  epochs=[46]
+  wrote /home/vitor.oliveira/PoiMtlNet/results/check2hgi_dk_ovl/california/mtlnet_lr1.0e-04_bs8192_ep50_20260805_214756_3491799/a40_matched_score.json

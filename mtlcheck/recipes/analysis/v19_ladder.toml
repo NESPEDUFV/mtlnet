@@ -1,0 +1,74 @@
+# A leitura confirmatória da v19 sob a ESCADA do §2a — os parâmetros pré-registrados, congelados.
+#
+# ⚠ CONGELADO como qualquer receita: um resultado que cita este arquivo o torna imutável. Uma
+# análise diferente é um arquivo NOVO, não uma edição.
+#
+# Irmã de `v19_headline.toml`, que governou a campanha da PONTE e continua congelada para ela. A
+# diferença entre os dois arquivos é a resposta a "os parâmetros mudaram entre a ponte e a escada?",
+# e é para que essa pergunta tenha resposta por `git diff` que este é um arquivo separado.
+#
+# Nada aqui é escolha desta sessão. Cada valor sai do `docs/plans/EVALUATION_PROTOCOL.md`.
+
+[analysis]
+name = "v19_ladder"
+implements = "docs/plans/EVALUATION_PROTOCOL.md"
+
+[margin]
+# §3, idêntico à ponte — a margem não depende de como as execuções são compradas. Cadeia de
+# ancoragem de três elos: piso de decidibilidade (2× a banda pareada de semente), piso de
+# re-instanciação (~2 × 0,18 pp de rebuild) e teto externo (mais estrito que o ROPE de 1 pp usual).
+delta = 0.4
+sensitivity = [0.2, 0.4, 1.0]
+
+[intervals]
+# §3: TOST com IC bootstrap de 90% ⊂ (−δ, +δ); NI unilateral com limite inferior de 95%. É UM
+# intervalo: o limite inferior bilateral de 90% é o unilateral de 95%.
+ni = 0.90
+superiority = 0.95
+
+[bootstrap]
+replicates = 10000
+permutations = 10000
+seed = 0
+
+[family]
+# §5: família manchete por estado, Holm dentro do estado, sem correção entre estados. m = 2.
+correction = "holm"
+tests = [
+    { task = "cat", arm_a = "cat", arm_b = "joint" },
+    { task = "reg", arm_a = "reg", arm_b = "joint" },
+]
+
+[escalation]
+# §2a. `self` e não `bridge`: cada conjunto mede a PRÓPRIA dispersão na validação interna e escala
+# sozinho. Não há banda importada, e por isso `bridge_states` fica ausente — declarar os dois é uma
+# regra morta que alguém leria como viva, e o validador recusa.
+sd_source = "self"
+# Herdada da ponte e INERTE aqui (nada calibra contra banda importada). Fica declarada porque o
+# schema a exige e porque um leitor que a encontre ausente perguntaria se a razão mudou. Não mudou.
+calibration_ratio = 3.0
+sd_aggregation = "max"
+
+# ⚠ SEM seção [replicates], de propósito. A ponte pré-registrava `alabama = [0,1,7,100]` porque o
+# número era decidido ANTES; a escada o decide medindo, então qualquer lista aqui ou conflita com o
+# que chegou ou é um número morto. O eixo é conferido por `assert_ladder`, com mais força: ele exige
+# que P seja um DEGRAU da escada, que P−1 ≥ 2 (o §2a proíbe parar no piso), e que todos os braços
+# tenham exatamente as MESMAS execuções — o que a lista fixa não conferia.
+
+[design]
+# §2. Declarado porque `--only-folds` é parâmetro de EXECUÇÃO e não entra no fingerprint: uma célula
+# bancada com um fold só entraria no OOF agrupado com ~20% dos usuários daquele braço.
+folds = 5
+
+[conjunction]
+# §4a: a precondição de sobreposição de usuários rodou em 23-08 e FALHOU — 24,5% dos usuários
+# aparecem em mais de um estado americano. Simes exigiria independência ou PRDS; Bonferroni vale sob
+# dependência arbitrária. É o ramo que a precondição disparou, não uma escolha.
+combiner = "bonferroni"
+
+[diagnostics]
+# §3 manda confrontar a meia-largura REALIZADA com a projetada; §6 manda republicar a tabela de
+# poder com os valores medidos. Estes são as projeções do §6, não medições.
+projected_half_width = [0.05, 0.30]
+unpaired_benchmark = 0.5
+mde_power = 0.80

@@ -1,0 +1,32 @@
+# Ablação: mae_poi_target_dim = 7 contra os 8 reproduzidos.
+#
+# A PERGUNTA. A coluna 7 do alvo de reconstrução é a média de hour_sin do lugar, não uma categoria —
+# defeito da referência, reproduzido porque AMBOS os substratos bancados o carregam. Reproduzi-lo é
+# defensável; corrigi-lo é mudança científica. Esta wave mede o que a correção custa ou compra,
+# para que a decisão seja tomada com número e não com opinião.
+#
+# COMO LER. O piso de ruído entre sorteios de substrato é 0,034 pp (SUBSTRATE_FROM_SCRATCH.md §6),
+# então um efeito abaixo disso é indistinguível de trocar a semente. A base é `final_al`, mesmo
+# estado, mesma partição, mesma semente, mesmo protocolo — só o alvo muda.
+#
+# ⚠ Isto é validação INTERNA. Não gasta leitura do teste e não produz resultado citável; produz a
+# resposta para "corrijo ou reproduzo?", que é uma decisão de desenvolvimento.
+
+[wave]
+study = "ablation_mae7"
+
+[[cell]]
+recipe = "recipes/ablations/mae7/cat.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+save_predictions = false
+set = { inner_validation = true }
+
+[[cell]]
+recipe = "recipes/ablations/mae7/reg.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+save_predictions = false
+set = { inner_validation = true }

@@ -1,0 +1,142 @@
+% !TeX root = ../../main.tex
+% courb/errata.tex -- one table. Extraction provenance and verification: tables/README.md
+% \small is set INSIDE \begin{table} here, and OUTSIDE the environment in the two longtable
+% errata files (tables/frame/bib_errata.tex, tables/cbic/errata.tex, each wrapped in an
+% explicit {\small ... } brace pair). Both forms are correct and they are not interchangeable:
+% \begin{table} is a float and opens a group, so a font change inside it ends with the table,
+% whereas longtable opens no group and needs the braces to stop \small leaking into the rest of
+% the document. Do not harmonize the two families. The full reasoning and the six commits the
+% missing brace cost are in the header of tables/frame/bib_errata.tex.
+\begin{table}[htb]
+\caption{Content errata of the CoUrb 2026 article and the corrections applied in
+Chapter~\ref{ch:courb} (English translation of the published text).}
+\label{tab:apx:courb-errata}
+\centering
+\small
+\begin{tabular}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\toprule
+\textbf{Defect in the published article} & \textbf{Correction in the chapter} \\
+\midrule
+Results and conclusion state wins over the baseline in ``16 of the 21
+evaluated combinations''. &
+Audited count: 15 of the 21 combinations, with one additional technical tie
+(\emph{Outdoors} in Florida, where the baseline mean exceeds the best variant by
+0.02 percentage points, within one standard deviation). \\
+\addlinespace
+Introduction and conclusion state ``average gains of 20 to 24
+percentage points'' on the category task. &
+Audited per-state means: gains of 20.2 to 22.0 percentage points, considering the
+better of the two spatial encoders in each combination (the disclosure the audit
+requires). \\
+\addlinespace
+Introduction states ``wins in most scenarios''. &
+``outperforms the baseline in most scenarios'' (verdict-verb rule; claim
+strength unchanged). \\
+\addlinespace
+The methodology states that maximizing the product of the task utilities ``ensures that the
+update is beneficial for all tasks simultaneously''. The guarantee is unconditional as
+written. &
+Narrowed to the guarantee the method's own paper derives: at points that are not Pareto
+stationary, and under its assumption that the task gradients there are linearly independent,
+the update direction is a descent direction for every task. The paper states the property in
+those terms, and it approximates the bargaining solution by an iterative procedure rather than
+solving it exactly. The claim is weaker than the published one, and no result depends on
+it. \\
+\addlinespace
+The methodology attributes to a next-POI recommendation method the claim that cyclical
+mobility regularities carry discriminative information about the functional nature of the
+visited places. That method models long- and short-term user preference and states nothing
+about temporal signal revealing what kind of place a visit is. &
+Split into the part the literature supports and the part it does not. The regularity itself is
+attributed to the paper that published the check-in collection this chapter uses, already
+cited elsewhere in the chapter, and the recommendation method is kept for the property it does
+establish, that models of the next visit read temporal structure explicitly. The claim about
+place function is withdrawn rather than re-attributed, since no work in the bibliography
+supports it. The paragraph's argument, that the original architecture lacks an explicit
+temporal representation, is unchanged. \\
+\addlinespace
+The category-encoder loss attributes its hierarchical regularization term, an L2 penalty that
+pulls a subcategory embedding toward its parent over a known label tree, to a paper on
+nonlinear dimensionality reduction. The two share a graph Laplacian and nothing else. &
+Re-attributed to a multitask embedding method for place-category annotation, which
+regularizes relatedness among categories using a predefined category hierarchy: the same
+construction the loss implements. The reference was already in the bibliography and already
+cited in this chapter. No term, coefficient, or reported value changes. \\
+\addlinespace
+Two sentences of the methodology name a data column by its identifier in the source files,
+\texttt{fclass}, which is not a term a reader of the chapter can resolve. &
+Replaced by the registered reader-facing name, fine class, in both sentences, set in roman
+because it is ordinary English rather than a code token. The parenthetical gloss that
+introduced the column is kept, so the sentence still tells the reader what a secondary
+category is. \\
+\addlinespace
+% [2026-09-02, emphasis] Same ruling as the CBIC emphasis row. Here the published tables already
+% bolded the row maximum; what was missing was the second-best mark and any statement of the rule.
+% Applied by the same script and the same digit-preservation proof.
+Both results tables mark the largest value in each row in bold and mark nothing else, and
+neither caption states what the mark means. &
+The second largest value in each row is now underlined and both captions state the rule, so
+the two tables read under the same convention as the rest of the document. No value
+changes; only which cells carry emphasis, and the captions. \\
+\addlinespace
+% [2026-09-02, B-20] The conclusion said "consistently outperforms"; the very next paragraph of the
+% same section reports 15 of 21 combinations plus one technical tie, and the results section says the
+% baseline retains six. Those counts are themselves an errata-round correction of the published
+% "16/21 (76%)" (NORTH_STAR §4 Ch.4), so the frame had already lowered the number and left the
+% adverb. Author ruling 2026-09-02: "concordo podemos trocar".
+The conclusion states that the proposed model \emph{consistently} outperforms the
+baseline. The paragraph that follows reports fifteen of twenty-one evaluated combinations
+with one further technical tie, and the results section states that the baseline retains
+six of them. &
+The adverb is replaced by the scope the counts support: the model outperforms the baseline
+in most of the evaluated combinations. The counts in the following paragraph are unchanged
+and carry the exact figures. \\
+\addlinespace
+% [2026-09-02, B-22] The reader asked "o que e dependente entre modelo e dataset?" -- the sentence
+% told him to read the results with caution without saying WHAT ages with the dataset. The author
+% ruled to change the published chapter text and register the errata, without pointing at it from the
+% text: "podemos mudar o texto do capitulo para ficar melhor e criar uma errata, mas nao precisa
+% referenciar a errata". That is the deposited document's own policy -- it cites only itself and the
+% repository. ⚠ NO FORWARD POINTER to Chapter 5 was written inside the reproduced conclusion: the
+% empirical answer exists there (Istanbul, a non-U.S. dataset) but a cross-chapter reference inside an
+% article body is dissertation structure in reproduced text, which this project does not do. The
+% chapter preface carries the bridging role.
+The conclusion names the exclusive use of a single dataset as a limitation and asks the
+reader to interpret the generalization with caution, without saying which properties of
+the results depend on that dataset. The single national context the corpus covers is not
+named at all. &
+The sentence now names both dependencies: the places and visiting habits the corpus
+records, which belong to its period, and the single country it covers. The verdict is
+scoped accordingly, as evidence about that period and that country whose generalization to
+current patterns, or to cities elsewhere, remains to be tested. No result changes. \\
+\addlinespace
+% [2026-10-10, author-approved method-description errata, rows drafted by the writer] #1 spatial pairs, #2 Sphere2Vec, #3 census tracts.
+The methodology states that the two spatial encoders train on
+pairs labeled by geographic distance, positive within 10 km and
+negative beyond 70 km. &
+The implementation of record forms a positive pair from a
+coordinate and a copy of it perturbed by Gaussian noise of
+standard deviation $0.01^{\circ}$, about 1 km, and a negative pair
+from the coordinate and another drawn at random; the temperature
+is as published. The distance rule belongs to a variant the
+article did not use. No number changes. \\
+\addlinespace
+The methodology describes Sphere2Vec-M as the \textit{sphereM}
+variant with sixteen scales spaced between 10 km and 10,000 km and
+interaction terms between latitude and longitude. &
+That description matches neither of the two Sphere2Vec
+implementations in the code of record, and which of the two
+produced the published column cannot be established. The sentence
+now states only what both share: each coordinate is mapped to a
+unit vector on the sphere, from which multi-scale features are
+computed and passed to a feed-forward network. No number changes. \\
+\addlinespace
+The POI Encoder's graph is said to penalize edges between
+distinct counties, identified by GEOID. &
+The regions are census tracts, from the TIGER 2021 shapefiles the
+implementation downloads, and the GEOID is the tract's. The word is
+corrected; the Haversine weights and the cross-region penalty
+stand. No number changes. \\
+\bottomrule
+\end{tabular}
+\end{table}

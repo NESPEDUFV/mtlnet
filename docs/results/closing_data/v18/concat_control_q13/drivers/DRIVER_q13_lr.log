@@ -1,0 +1,13 @@
+[21:05:16] INICIA arizona/place eng=hgi_dk_ovl lr=0.0005 (disco 37G)
+[21:10:11] TERMINA arizona/place rc=0 (295s)
+[21:10:11] INICIA arizona/feat eng=hgi_ovl_feat lr=0.0005 (disco 37G)
+[21:15:11] TERMINA arizona/feat rc=0 (300s)
+[21:15:11] INICIA arizona/checkin eng=check2hgi_v18 lr=0.0005 (disco 37G)
+[21:20:06] TERMINA arizona/checkin rc=0 (295s)
+[21:20:06] INICIA florida/place eng=hgi_dk_ovl lr=0.005 (disco 37G)
+[21:50:25] TERMINA florida/place rc=0 (1819s)
+[21:50:25] INICIA florida/feat eng=hgi_ovl_feat lr=0.005 (disco 37G)
+[22:21:24] TERMINA florida/feat rc=0 (1859s)
+[22:21:24] INICIA florida/checkin eng=check2hgi_v18 lr=0.005 (disco 37G)
+[22:51:46] TERMINA florida/checkin rc=0 (1822s)
+[22:51:46] ONDA COM TAXAS POR DATASET COMPLETA

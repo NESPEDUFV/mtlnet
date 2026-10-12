@@ -1,0 +1,53 @@
+% !TeX root = ../../main.tex
+% chapters/4_courb/related.tex -- one section of Chapter 4 (CoUrb 2026, published).
+% Split out of chapters/4_courb.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CoUrb_2026/src_en/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Related Work}
+\label{sec:courb:related}
+
+POI prediction and classification are fundamental challenges in location-based recommendation systems and in urban mobility analysis. This section organizes the related work into four axes: graph-based representations, spatial encoders, temporal representations, and multitask learning applied to POIs.
+
+\subsection{Graph-Based POI Representations}
+
+Modeling POIs through graphs allows capturing spatial and semantic neighborhood relationships between places. The POI2Vec model \cite{feng2017poi2vec} adapts the Word2Vec architecture to generate POI embeddings that incorporate the geographic influence between places through a geographic binary tree structure. CATAPE (\textit{Category-Aware Location Embedding}) \cite{rahmani2019category} extends this idea by incorporating categorical and sequential information, capturing the geographic influence between POIs based on the temporal sequence of user visits.
+
+In a self-supervised approach, \textit{Deep Graph Infomax} (DGI) \cite{velickovic2019deep} maximizes the mutual information between local (node) and global (graph) representations to generate embeddings without explicit supervision. HGI (\textit{Hierarchical Graph Infomax}) \cite{huang2023hgi} advances this line by operating at multiple hierarchical levels (POI, region, and city), producing representations enriched with regional information through graph convolutions and multi-attention mechanisms.
+
+However, these approaches encode spatial information implicitly through the graph topology, without directly using the geographic coordinates as an input signal for the representation.
+
+\subsection{Spatial Representations}
+
+The direct use of geographic coordinates to generate latent spatial features is an approach distinct from graph-based representations. The TorchSpatial framework \cite{wu2024torchspatial} establishes a unified benchmark for evaluating spatial representation strategies, allowing systematic comparison between different architectures.
+
+The SIREN methodology (\textit{Sinusoidal Representation Networks}) \cite{sitzmann2020implicit}, applied to the geographic context \cite{russwurm2024geographiclocationencodingspherical}, models continuous functions through sinusoidal activations, being able to represent high-frequency signals in spatial data. Sphere2Vec \cite{mai2023sphere2vecgeneralpurposelocationrepresentation} operates directly on spherical coordinates with multiple resolution scales, preserving geodesic distance properties that are lost in planar projections.
+
+Although these strategies have been evaluated on geospatial tasks such as species prediction and population estimation, their application can be extended to POI prediction and classification models as proposed in this chapter.
+
+\subsection{Temporal Representations}
+
+The temporal dimension is central to POI prediction tasks, since user visitation patterns present regularities (e.g., meal times, weekly movements). The LSTPM model (\textit{Long- and Short-Term Preference Modeling}) \cite{sun2020go} captures short- and long-term preferences using a Geo-Dilated RNN that relates non-consecutive POIs through temporal sequences of visits and geographic information. TransTARec \cite{sun2024transtarec} proposes an adaptive temporal translation model that unites representations of the POI, the timestamp, and user preferences for Next-POI Prediction.
+
+These models incorporate the temporal dimension mainly in the context of the user's visit sequence. In this sense, Time2Vec \cite{kazemi2019time2vec} proposes a temporal representation that combines linear terms with sinusoidal functions of learnable frequency and phase, capturing periodic and non-periodic patterns from continuous temporal values.
+
+\subsection{Multitask Learning for POI Tasks}
+
+Multitask learning (MTL) \cite{caruana1997multitask} has been explored in POI tasks mainly to combine Next-POI Prediction with temporal, behavioral, or regional signals. MCARNN \cite{Liao2018} integrates sequential dependencies and temporal regularities to simultaneously predict future activities and places. MTPR \cite{Xia2020} jointly models location and temporal context through geographic LSTMs and adversarial learning. In a more recent line, Halder et al. \cite{Halder2022} propose a multitask model based on \textit{Transformers} to recommend the next POI and simultaneously predict the waiting time.
+
+In categorical classification, TME \cite{Xu2023} explores a hierarchical category structure for semantic annotation of POIs, while HMT-GRN \cite{Lim2022} combines Next-POI Prediction and prediction of its geographic region in a recurrent model with hierarchical graphs. Together, these works indicate that MTL is promising in POI problems, but there is still little exploration of architectures that jointly address \textit{POI Category Classification} and \textit{Next-POI Prediction} with continuous spatial and explicit temporal representations. This gap motivates the investigation proposed in this chapter.
+
+\subsection{The MTLnet framework}
+\label{sec:courb:mtlnet-recap}
+
+% [round14] STANDALONE. "introduced in Chapter~\ref{ch:cbic}" -> "introduced by \cite{...}". The
+% article bodies of Chapters 3-5 must read as standalone papers, so they may not point at
+% dissertation structure. MTLnet's source is a real published paper (CBIC 2025, DOI
+% 10.21528/CBIC2025-1191324) already cited on this same line, so the citation carries the reference
+% with nothing lost. The chapter PREFACES keep their cross-chapter framing: NORTH_STAR
+% "Ch.3/4/5 prefaces" requires it, and a preface is dissertation frame, not article text.
+The baseline of this study is MTLnet, a joint architecture for this task pair \cite{silva2025mtlnet}. MTLnet addresses POI Category Classification and Next-POI Prediction in one model with hard parameter sharing: task-specific encoders project the input embeddings into a shared latent space, FiLM modulation conditions the shared layers on the task identity, and specialized heads produce the two outputs, with Nash-MTL balancing the task gradients during training. Its input is a single 64-dimensional embedding per POI, produced by Deep Graph Infomax over a spatial graph.
+
+That evaluation \cite{silva2025mtlnet} found that this joint model performed on par with the dedicated single-task models at a higher training cost, a conclusion of the time for that configuration, and hypothesized that the shared input representation might not be rich enough for the two tasks. This chapter takes that hypothesis as its starting point: it keeps the MTLnet architecture unchanged and replaces only its input representation, as detailed in Section~\ref{sec:courb:methods}.

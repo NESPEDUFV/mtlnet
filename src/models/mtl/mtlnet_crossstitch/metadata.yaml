@@ -1,0 +1,9 @@
+name: mtlnet_crossstitch
+domain: mtl
+status: implemented
+evidence_status: implemented
+registry_key: mtlnet_crossstitch
+runtime_class: models.mtl.mtlnet_crossstitch.model.MTLnetCrossStitch
+runtime_file: src/models/mtl/mtlnet_crossstitch/model.py
+source_doc: docs/findings/MTL_FLAWS_AND_FIXES.md
+reference: "Misra et al., 'Cross-Stitch Networks for Multi-Task Learning', CVPR 2016 (arXiv:1604.03539)"

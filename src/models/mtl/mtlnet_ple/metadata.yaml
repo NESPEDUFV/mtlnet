@@ -1,0 +1,8 @@
+name: mtlnet_ple
+domain: mtl
+status: implemented
+evidence_status: implemented
+registry_key: mtlnet_ple
+runtime_class: models.mtl.mtlnet_ple.model.MTLnetPLE
+runtime_file: src/models/mtl/mtlnet_ple/model.py
+source_doc: ""

@@ -1,0 +1,226 @@
+% !TeX root = ../../main.tex
+% cbic/errata.tex -- one table. Extraction provenance and verification: tables/README.md
+% [round6] CONVERTED table -> longtable, for the same reason and by the same precedent as
+% tables/frame/bib_errata.tex: with the Standley claim-narrowing row added, this table is TALLER THAN
+% THE TEXT BLOCK, and a float cannot break across pages. Measured before converting: pdflatex reported
+% "Float too large for page by 190.30908pt", the only oversized float in either build.
+% Measured after converting: oversized_floats=0 in both variants, at 109 pages defense and 105 final.
+% The conversion itself costs ZERO pages, isolated rather than assumed: in a scratch copy, this round's
+% eight rows put back into the original float container build to the same 109/105, with the "Float too
+% large" warning present in both variants. So the conversion removes the warning and moves no page.
+% ATTRIBUTION OF THE PAGE GROWTH, measured and NOT what an earlier version of this note claimed. In a
+% second scratch copy, with only this track's six files reverted to HEAD and every other file left as it
+% currently stands, the build is 108/104 against the current 109/105. So this track's prose additions
+% across Chapters 3, 4 and 5 and this appendix cost about ONE page per variant. The rest of the distance
+% from the 106/101 that a pristine HEAD checkout produces belongs to other work landing in this tree in
+% parallel, not to this track. Do not read 106 -> 109 as this round's cost; the isolated figure is
+% 108 -> 109 defense and 104 -> 105 final.
+% All eight rows, the caption, the label and \small are preserved; only the container changed.
+% The {\small ... } GROUP is load-bearing and must stay: longtable is not a float, so \small cannot be
+% set inside the environment the way a \begin{table} sets it. Dropping its opening brace is what stopped
+% every build for six commits in round 5 (see the note in frame/bib_errata.tex). Brace balance verified
+% after the change.
+% \centering is dropped, not lost: longtable centers itself through \LTleft/\LTright, and a \centering
+% inside it has no effect. Column widths, header text and row order are untouched.
+{\small
+\begin{longtable}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\caption{Content errata of the CBIC 2025 article and the corrections applied in
+Chapter~\ref{ch:cbic}. Numeric values quoted in the corrections are the published
+table values.}
+\label{tab:apx:cbic-errata} \\
+\toprule
+\textbf{Defect in the published article} & \textbf{Correction in the chapter} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{@{}l}{\footnotesize\itshape Table \thetable\ continued from the previous page.}\\
+\toprule
+\textbf{Defect in the published article} & \textbf{Correction in the chapter} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r@{}}{\footnotesize\itshape Continued on the next page.}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Prose states ``almost four times more wall time''; the convergence table gives
+80.88~s for the joint model against a cumulative 34.97~s for the single-task models,
+a factor of about 2.3. &
+Prose reconciled to the table: ``about 2.3 times the cumulative 34.97~s of the
+individual single-task models''. \\
+\addlinespace
+Prose states the MFLOPs cost of the joint model is ``roughly double''; the
+table gives 0.234 MFLOPs for the joint model against 2.315 and 0.012 for the two
+single-task models. &
+Prose reconciled to the table: the text now states that the table does not show a
+higher MFLOPs cost for the joint model and quotes the three cell values; four
+follow-on wording edits restrict the overhead claim to wall time. \\
+\addlinespace
+Broken cross-reference: the label intended for the single-task heads sits on the
+Dataset subsection, and the method section points to it as if it described the heads. &
+Dataset subsection relabeled; the dangling pointer sentence was removed, since no
+section describing the single-task heads exists in the published paper. \\
+\addlinespace
+Typo ``spatio-tegm mporal''. &
+``spatio-temporal''. \\
+\addlinespace
+Unfilled dataset placeholders ($N_{\text{users}}$, $N_{\text{poi}}$,
+$N_{\text{checkins}}$) in the results section. &
+Filled with the Florida figures of record for the same Gowalla data, as published in the
+CoUrb dataset table: 20{,}301 users, 65{,}009 POIs, and 990{,}518 check-ins. The published
+CBIC paper left these three statistics as placeholders; they are taken from the published
+CoUrb table so that one corpus figure serves both chapters, and they are the counts that the
+extraction pipeline of that time produced, not the counts the current pipeline produces
+(Section~\ref{apx:errata:corpus}). \\
+\addlinespace
+The optimizer subsection states that Nash-MTL's ``reliance on gradient signs rather than
+scales inherently balances heterogeneous tasks''. Nash-MTL does not read gradient signs,
+and the same subsection states the correct property four paragraphs earlier, listing
+scale invariance among the optimizer's axioms. &
+Corrected to name the property the method has: its invariance to the scale of the
+individual task gradients, the axiom already listed in the same subsection, balances
+heterogeneous tasks without manual re-weighting. Checked against the optimizer's own
+paper and against the implementation released with the two studies, neither of which
+uses gradient signs. The claim is weaker than the published one, and no result depends
+on it. \\
+\addlinespace
+Prose states that Nash-MTL ``requires only two matrix-vector products per iteration''. &
+% [2026-10-02] "and its correction given in a footnote" removed: the footnote left the chapter on
+% 2026-09-30 (7251739b, author); the preface now says wording errata were corrected.
+The clause is removed from the reproduced sentence.
+The claim is not supported by the method's own paper, where the phrase does not occur, and
+it understates the cost: both implementations examined run an iterative concave-convex
+procedure, twenty passes by default, each a convex solve, on top of one backward pass per
+task. The correction raises the reported cost of a method this chapter used, so it runs
+against the chapter's own interest. \\
+\addlinespace
+The rationale for hard parameter sharing states that the approach ``frequently matches or
+exceeds the performance of more complex architectures on many benchmarks, while offering
+faster training and inference'', citing a work on task grouping. &
+Narrowed to the inference-cost claim the cited work supports, that a single network is
+evaluated rather than one network per task. The
+cited work names improved accuracy and reduced training time among the benefits joint
+training may have in theory, then reports empirically that joint training often performs
+worse than separate networks, and its contribution is a framework for splitting tasks across
+networks, which it describes as costly at training time. Its one result favoring joint
+training is conditioned on a matched parameter budget and on three or more tasks, and it
+excludes the two-task case this chapter studies. The correction removes a stated advantage of
+the architecture this chapter adopts, so it runs against the chapter's own interest. \\
+\addlinespace
+The survey of optimization techniques states that MGDA ``finds Pareto-optimal descent
+directions''. Pareto optimality and a per-step descent direction are two different
+guarantees, and the cited work proves the first for a bound rather than for the step. &
+Narrowed to the two properties the cited work states. Its method computes a direction that
+decreases every task loss, or else the current point is already Pareto-stationary; the Pareto
+optimality it proves is for an upper bound on the multi-objective loss and holds under stated
+assumptions. Neither the chapter's design nor any of its results depends on this method, which
+it does not use. \\
+\addlinespace
+The rationale for hard parameter sharing attributes the claim that constraining the
+hypothesis space regularizes, and generalizes better when tasks are related, to a work on
+learned soft sharing. That work is a method for learning what and how much to share,
+presented as an improvement on fixed sharing, so it argues against the sentence rather than
+for it. &
+Re-attributed to the work that states the argument the sentence makes: choosing a hypothesis
+space large enough to contain a solution yet small enough to generalize, searched over an
+environment of related tasks. The substituted reference was already in the bibliography and
+is cited for the same claim elsewhere in the chapter. The soft-sharing work remains cited
+where the chapter discusses cross-connection architectures and negative transfer. \\
+\addlinespace
+% [2026-09-02, B-13] ELEVENTH ROW. Content defect, not wording: the published claim's SCOPE is
+% falsified by the published table. Twenty-one cells; HMRM is the highest in exactly one, Recall /
+% Nightlife (42.13 against 36.77 and 25.80).
+% [2026-09-02, CORRECTED BEFORE DEPOSIT] An earlier draft of this row and of its comment claimed the
+% gap was "wider than the three standard deviations involved". THAT WAS FALSE and it was mine.
+% HMRM - Single = 5.36 against the single-task model's own sd of 5.86, so the margin sits INSIDE it
+% (only HMRM - MTL = 16.33 clears its sd of 3.54). Worse, it was an inferential claim in a chapter
+% that runs no inferential test -- which is exactly what the neighbouring Table B.2 row says about
+% the word "significantly". The clause is gone. The defect this row records does not need it: the
+% published prose says HMRM is never the highest value, and the published table prints HMRM as the
+% highest value once. That is a statement about what the table shows, not about significance.
+% Verified four ways before this row was written: this chapter's tables/cbic/category.tex:30, the
+% published article's own tables/category_result.tex:25 (same column order, same values), the
+% delivered banca.pdf as rendered on p.48, and a mechanical parse of all twenty-one cells.
+% THE NUMBER WAS ALREADY KNOWN AND THE CONSEQUENCE WAS NOT. src_utils/adaptation_ledgers/
+% 3_cbic_ADAPTATION_LEDGER.md B7 (round 4) records this exact cell -- "HMRM 42.13 > Single 36.77
+% bold" -- while fixing how the table's bolding is explained in the caption. Nobody connected it to
+% the prose claim fifteen lines earlier. Found again 2026-09-02 because a banca reader highlighted
+% the sentence on the delivered PDF (wrapup/REVISAO_BANCA_PDF.md, B-13); author-confirmed same day.
+% SECOND EDIT TO ONE PUBLISHED SENTENCE. Table B.2 already carries this sentence, for removing
+% "significantly" and replacing "across all" with "in every". That row's right column was re-quoted
+% in the same commit so the appendix does not describe chapter text that no longer exists. The two
+% rows are deliberate: B.2 is why the significance verb went, this one is why the scope narrowed.
+The comparison against HMRM is stated over every POI category and all three per-category
+measures. The table the sentence cites reports twenty-one cells, and HMRM holds the
+highest value in one of them: recall in the Nightlife category, where HMRM reaches 42.13
+against 36.77 for the single-task model and 25.80 for the joint one. &
+Scope reconciled to the table: the claim now holds for every category in F1-score and
+precision, and for every category except Nightlife in recall. The remaining twenty cells
+confirm the published claim, and HMRM is the lowest of the three values in all fourteen
+F1-score and precision cells, so the chapter's conclusion for this task is unchanged. The
+correction narrows a claim stated in the chapter's favor, so it runs against the chapter's
+own interest. \\
+\addlinespace
+% [2026-09-02, emphasis] TWELFTH ROW. This is a DEPARTURE from the published emphasis, decided by the
+% author on 2026-09-02, and it reverses a preservation choice this project made deliberately: ledger
+% entry B7 recorded that the published bolding was "preserved exactly as published" PRECISELY because
+% HMRM is the row maximum in one cell and never appeared in bold. The author's ruling makes one
+% convention hold across every results table in the document -- bold the row maximum, underline the
+% second, bold both when they tie at the printed precision -- carried down from the correction he made
+% for the defense presentation (presentation/slides/main.tex:1620-1625). Applied by script over the
+% printed values, with the proof that stripping all emphasis returns the file byte-identical, so no
+% digit moved; independently re-checked row by row against a row-max rule (96 rows, 2 ties, 0
+% mismatches, and the same check reports 91 mismatches on the pre-change tables, so it sees defects).
+% It converges with the B-13 row above: Recall / Nightlife now shows HMRM in bold, so the table states
+% visually what the corrected sentence states in words.
+The emphasis marks the better of the two proposed models in each row and never the
+baseline, so in the one cell where the baseline holds the largest value, recall in the
+Nightlife category, the largest value carries no mark and a smaller one does. The
+convention is not declared beyond the caption's own sentence, and it differs from the one
+used in the article's other results table, where the row maximum is in bold and, in most
+rows, the second is underlined. &
+Brought under the convention the rest of the dissertation uses: in each row the largest of
+the three values is in bold and the second largest is underlined. The recall entry for the
+Nightlife category therefore shows the baseline in bold, which agrees with the corrected
+sentence in the same section. No value changes; only which cells carry emphasis. \\
+\addlinespace
+% [2026-09-02, B-14/B-15] THIRTEENTH ROW. The banca reader marked the two target F1 values and then
+% asked, on the next highlight, "so it only tests for one of them?". The table reports ONE epoch
+% count for the MTL model, 3.2, which equals the Next row and differs from the Category row's 3.8,
+% and the caption promises "epochs to reach the target F1-score" while the MTL model has two targets.
+% THE AUTHOR DOES NOT REMEMBER which target stopped the clock and ruled on 2026-09-02 to close it
+% with what exists: "nao lembro, se puder acho melhor corrigir com o que temos e deixar isso para
+% tras; e ruim, mas nao critico para o resultado final". So the caption declares the gap.
+% ⚠ IT DECLARES THE WAY OUT IN THE SAME BREATH, deliberately. A limitation stated without saying what
+% it does not touch is what made the same reader stumble at B-12 two sections earlier, where the
+% chapter confessed the sample-level split and the resolution sat fifteen pages back. Here the 2.3x
+% wall-time comparison holds under either stopping criterion, because it sets one joint run against
+% the sum of two dedicated runs, and the caption says so.
+The convergence table reports a single epoch count for the joint model, which is trained
+against two targets, one per task, and the caption describes the column as the epochs
+needed to reach the target F1-score. Which of the two targets the reported count
+corresponds to is not recoverable from the record. &
+The caption states both facts: that the joint model has two targets and a single recorded
+epoch count, and that which target stopped its clock is not recorded. It also states what
+the gap does not reach: the wall-time comparison the section draws sets one joint run
+against the sum of two dedicated runs, so it holds under either stopping criterion. No
+value changes. \\
+\addlinespace
+% [2026-10-02] Correccao aprovada a 2026-09-02 (comentario em 3_cbic/basis.tex: "the errata row is
+% the registry's") e nunca registada; achada pela revisao Fable dos Caps. 3-4. O PDF do MTPR tem zero
+% ocorrencias de "uncertain" e doze de "sparse".
+The related-work section says that MTPR combines recurrent networks and adversarial learning
+``to address uncertainty in check-ins''. &
+The cited work addresses the sparsity of check-in data; uncertainty is the concern of another
+model described in the same paragraph. The phrase is corrected to ``the sparsity of check-in
+data''. \\
+\addlinespace
+% [2026-10-10, author-approved method-description erratum, row drafted by the writer] DGI edge weights.
+The method section defines a weighted Delaunay graph for DGI, with
+edge weights that decay logarithmically with the geodesic distance
+between POIs. &
+The released implementation computes those weights but its graph
+attention layer reads only the edge set, so they never enter the
+encoding. The definition is kept and its reach stated. No number
+changes. \\
+\end{longtable}
+}

@@ -1,0 +1,8 @@
+name: db_mtl
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: db_mtl
+runtime_class: losses.db_mtl.loss.DBMTLLoss
+runtime_file: src/losses/db_mtl/loss.py
+source_doc: docs/mtl_optimizers/db_mtl/README.md

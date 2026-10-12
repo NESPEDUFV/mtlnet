@@ -1,0 +1,61 @@
+# What does the gradient probe actually cost? — the measurement docs/TELEMETRY_GUIDE.md §5.3 requires.
+#
+# The reference measured "diagnostics on" at -9% of wall (AL fold-0, 137s -> 125s). That number
+# entangles three things: two extra backwards per epoch, three host syncs, and disabling inductor's
+# donated buffers for the WHOLE run. Only the first two are the probe. The third is a compile-config
+# change, and if compile buys this model nothing, it is not a cost at all.
+#
+# Three arms, one state, one seed, five folds. Diagnostics ON in all three so the phase timers exist
+# and the ONLY differences are the two switches under test:
+#
+#   A  compiled, no probe   -> the default before this study
+#   B  eager,    no probe   -> A - B is what compile buys
+#   C  eager,    probe      -> C - B is what the in-graph probe costs
+#   D  compiled, probe      -> the eager-sidecar design; A - D is its TRUE cost
+#
+# D exists because A/B/C answered the question and the answer was not what I assumed: compile is
+# worth 24.4%, so the in-graph probe's real price was never its own 8.7% but the 35.2% of giving up
+# compilation to get it. The sidecar builds its own eager graph on the uncompiled base module, so
+# training stays compiled and the two stop being exclusive. D measures whether that actually works.
+#
+# Banked hint this exists to confirm or kill: joint/arizona ran 195.62 s/fold compiled-without-
+# diagnostics and 194.90 s/fold with them on. If A ~= B here too, "eager always" is free and the
+# probe can be judged on its own cost rather than on compile's.
+#
+# No predictions: this measures wall-clock, and the capture pass would add a term to all three.
+# inner_validation stays ON so the arithmetic matches the runs whose defaults this decides.
+
+[wave]
+study = "probe_cost"
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+arm = "a-compiled-noprobe"
+set = { inner_validation = true, diagnostics = true, compile = true, grad_geometry = false }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+arm = "b-eager-noprobe"
+set = { inner_validation = true, diagnostics = true, compile = false, grad_geometry = false }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+arm = "c-eager-probe"
+set = { inner_validation = true, diagnostics = true, compile = false, grad_geometry = true }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+arm = "d-compiled-sidecar"
+set = { inner_validation = true, diagnostics = true, compile = true, grad_geometry = true }

@@ -1,0 +1,8 @@
+name: category_gated
+domain: category
+status: implemented
+evidence_status: implemented
+registry_key: category_gated
+runtime_class: models.category.category_gated.head.CategoryHeadGated
+runtime_file: src/models/category/category_gated/head.py
+source_doc: ""

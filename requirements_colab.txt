@@ -1,0 +1,44 @@
+# Colab requirements for MTLnet training + embedding pipelines.
+#
+# What is NOT listed here (handled separately):
+#   torch / torchvision  — Colab ships CUDA-enabled builds; upgrade only if needed:
+#       pip install torch==2.11.0 torchvision==0.26.0 --index-url https://download.pytorch.org/whl/cu121
+#   torch-geometric / torch-scatter / torch-sparse / torch-cluster
+#       — installed by colab_runner.py bootstrap using the live torch version URL.
+#       Do NOT pin them here; the wheel URL changes with every torch release.
+#
+# Tested on Colab T4 with torch 2.x + CUDA 12.1.
+
+# ── PyTorch add-ons ───────────────────────────────────────────────────────────
+pytorch-warmup==0.2.0      # LinearWarmup scheduler used by HGI trainer
+torchmetrics               # multiclass_f1_score / accuracy / confusion_matrix
+fvcore                     # FLOPs profiling (src/utils/flops.py)
+
+# ── Optimization (NashMTL) ───────────────────────────────────────────────────
+# ecos is the solver NashMTL calls explicitly (cp.ECOS); without it the
+# optimizer silently falls back to fixed [1,1] task weights.
+cvxpy==1.6.4
+ecos==2.0.14
+
+# ── Numerics ─────────────────────────────────────────────────────────────────
+numpy==2.0.2
+scipy==1.16.3
+scikit-learn==1.8.0      # 1.8 fixes StratifiedGroupKFold stratification w/ shuffle=True (PR #32540)
+numba==0.60.0
+
+# ── Data ─────────────────────────────────────────────────────────────────────
+pandas==2.2.3
+pyarrow                    # parquet backend for pandas
+h5py==3.13.0
+
+# ── Geospatial (HGI / DGI / POI2HGI embedding pipelines) ────────────────────
+geopandas==1.0.1
+shapely==2.1.2
+networkx==3.2.1
+
+# ── Visualization ────────────────────────────────────────────────────────────
+matplotlib==3.9.4
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+tqdm==4.67.1
+psutil==7.0.0

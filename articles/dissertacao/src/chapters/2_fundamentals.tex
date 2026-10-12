@@ -1,0 +1,2176 @@
+% !TeX root = ../main.tex
+% Chapter 2 -- Fundamentals (Fundamentacao Teorica). Frame chapter, English.
+% Draft 2 (panel-reviewed), assembled 2026-07-23 from the section drafts of 2026-07-21 into this
+% one file; sections in source order 2.1-2.5, lineage table inlined in Section 2.2. Every section
+% obeys WRITING_LAW.md + GLOSSARY.md and closes with its own citation/number ledger.
+% Bibliography: single global dissertation .bib. New keys are in science/fundamentals/_bib/new_references_ch2.bib;
+% all other keys are already in the project bibs (see COVERAGE_EVALUATION.md and _bib/BIB_NOTES.md).
+
+
+\chapter{Fundamentals}
+\label{ch:fundamentals}
+
+This chapter provides the concepts shared by the three studies. It first distinguishes
+the POI prediction tasks (Section~\ref{sec:fund:tasks}). It then traces mobility
+representations from one-hot identifiers to Check2HGI
+(Section~\ref{sec:fund:repr}), explains the main forms and risks of multitask learning
+(Section~\ref{sec:fund:mtl}), and defines the data and evaluation protocol
+(Section~\ref{sec:fund:eval}). Section~\ref{sec:fund:relevance} connects these
+elements to the questions addressed in the article chapters.
+
+% [2026-09-02, B-08, banca annotation on §2.4 ("ficou bem parecida com uma secao de metodos"),
+% author ruling: "nao mover nada; dizer ao leitor porque e que aquilo esta ali". One paragraph
+% appended to the chapter opening; nothing reordered (the round-12 sub-levels stay, probe
+% R12-s3head pins one of them). The paragraph above is untouched.]
+The order of the sections follows the dependencies between their contents. The tasks
+come first because the representations are built for them and because sharing, in
+multitask learning, is defined over a set of tasks. The datasets, metrics, and
+validation protocol come last, and they are described here rather than inside the
+articles because the three studies share them: this chapter states them once, in the
+form the comparison across chapters requires, and each article chapter keeps the
+description its original text gave. For that reason Section~\ref{sec:fund:eval} reads
+as a methods section, which is what it is.
+% Section 2.1 -- POI-prediction tasks
+
+
+\section{Point-of-interest prediction tasks}
+\label{sec:fund:tasks}
+
+This section establishes what each model predicts before reviewing how those
+predictions are made. Location-based social networks (LBSNs) record mobility as
+check-ins, each linking a user, a POI, and a timestamp. Their geographic and temporal
+detail supports data-driven studies of cities~\cite{silva2019urbancomputing}. The
+records also reveal recurring behavior: people often return to a small set of places
+and make longer trips less frequently~\cite{cho2011gowalla}. An entropy analysis
+estimated the potential predictability of an individual's next location at about 93
+percent~\cite{song2010limits}. Because this estimate concerns next-location prediction
+at a coarse spatial resolution, it shows that mobility contains learnable regularity
+but does not provide a reference point for the category and region metrics defined in
+Section~\ref{sec:fund:eval}.
+
+\subsection{Task boundaries and notation}
+% [NEEDS SIGN-OFF 07 | CLOSED] Author: "Deixa como esta."
+% KEEP THE SCOPE. Song's 93% bound is for next-location at coarse resolution -- NOT for category-F1
+% or region ranking. Stated unscoped it contradicts §2.4, which is why this clause names
+% next-location and forward-refs §2.4. Do not generalize it back into "the ceiling any model should
+% be read against".
+
+Human-mobility models address distinct targets, from crowd-flow estimation to
+next-location prediction~\cite{luca2021mobilitysurvey}. Because these targets are not
+interchangeable, model comparisons require explicit task boundaries. This dissertation
+studies three tasks: one static and two sequential.
+
+% [ROUND 12, item 44] THE PAGE-COUNT COMPACTION OF ROUND 10 IS UNDONE, on the author's
+% authorization now that the page budget is suspended. Round 10's own report
+% (src_utils/_history/_round10/29_ch2_definitions.md sec. 4) records three display equations inlined and four
+% lead-in sentences shortened, and states both were done for the page count and not for
+% readability. Restored to display form here and below: $H_i$ (Definition 2.2), $g_{cat}$
+% (Definition 2.3), and the pair $f_{cat}$ / $f_{reg}$ (Definitions 2.4 and 2.5). Restored lead-ins:
+% "Three definitions separate the targets" (sec. 2.1), "One further target must be named" (sec. 2.2),
+% and "rather than a figure of speech" (the gradient-conflict subsection). The FOURTH item on round
+% 10's list, the duplicated place-embedding limitation sentence, is NOT restored: it was a
+% deduplication rather than a clipped lead-in, its content is now Definition 2.7 itself, and round
+% 11 (item 31) rebuilt that passage when it split the merged definition head. No equation restored
+% here carries a label, because none is referenced from prose; the labelled equations of this
+% chapter (eq:fund:mtl-total, eq:fund:cosine, eq:fund:macro-f1, and the rest) are labelled because
+% something points at them.
+
+\subsubsection{Check-ins and histories}
+
+% [round12 STEP 1, 2026-08-03] The second sentence binds $c_p$ and $r_p$, which were UNBOUND before
+% this edit. MEASURED, and the first version of this comment asserted a measurement that had not run
+% (an auditor caught it; the grep cell had failed with empty output and I wrote the claim anyway):
+%   - `c_p\in\mathcal{C}` and `r_p\in\mathcal{R}`: ZERO live occurrences anywhere in the tree at
+%     HEAD, so neither symbol was ever given a type. The one live occurrence of each today is this
+%     edit itself.
+%   - bare `c_p`: ONE live occurrence at HEAD, at :119, and it is a CONSUMER -- the static-classifier
+%     equation $g_{\mathrm{cat}}(\mathbf{e}_p)\longrightarrow c_p$ read the symbol without the
+%     chapter ever having declared it. That is the defect this step fixes, and it is sharper than
+%     "the symbol was absent": the symbol was in USE and undefined.
+%   - bare `r_p`: ZERO live occurrences at HEAD. It enters with this edit and with the
+%     $r_i=r_{p_i}$ of step 2, which is its first consumer. Author's ruling of
+% 2026-08-03: option (a), keep the section order, and apply the definition redesign.
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] Ch.2 sites, all verified against the live text they cite:
+% (7a) balancer sentence -> "none of nineteen such methods improves on a tuned fixed weighting across both
+% tasks and both datasets screened" (5_mobiwac/02_related.tex:146-148, same words); (7b) "A paired test" ->
+% "A one-sample $t$ test" (the cosine script, src_utils/_history/_round7/cosine_stats6.py, calls
+% ttest_1samp against zero); (7c) "hard-shared" dropped from "partial hard-shared interaction subsystem"
+% (GLOSSARY: the cross-attention stack is not hard sharing); (7d) ", for which no such scalar exists,"
+% removed; (7e) "and the split is the same" removed; (7f) carry/carries 7 -> 3 ("has a category", "has one
+% limitation", "runs the risk", "must encode"; :94 and :144 kept because probes R12-s1bind and
+% R12-ad6pos pin them, :716 and :2061 are the physical sense; 4 remain against the budget of 3); (7g) ", substituted from
+% another example in the batch" cut; "roughly one third of the check-ins in a representative state" ->
+% "a quarter to a third of the next-visit labels in the datasets of Chapter 5" (Majority column of
+% tables/mobiwac/datasets.tex: 24.7 to 34.2 percent); the self-reference clause after "set out in the
+% original paper" cut; "CAGrad has such points as fixed points" -> "CAGrad's fixed points are such points".
+% The census-tract/mahalle paragraph is untouched (author decision).
+Let $\mathcal{U}$, $\mathcal{P}$, $\mathcal{C}$, and $\mathcal{R}$ denote the sets of
+users, POIs, category classes, and region classes. Each POI $p\in\mathcal{P}$ carries a
+category $c_p\in\mathcal{C}$ and lies in a region $r_p\in\mathcal{R}$.
+% [2026-09-02, B-06, banca annotation "talvez, para um publico mais geral, mostrar exemplos de
+% elementos para os conjuntos" (wrapup/REVISAO_BANCA_PDF.md, reviewer alexb, 26/08), author-approved]
+% ONE NEW SENTENCE, appended after the binding sentence, which is byte-identical: probe R12-s1bind
+% pins it, line break between "carries a" and "category" included. Nothing interpolated into it.
+% Every instance is the document's own: the seven category names are :140's list; census tract /
+% mahalle is Section 2.4.1's wording (:604-605). Measured before the edit: U and P had no instance
+% anywhere in Chapter 2, and "for example" occurred zero times in the chapter.
+For example, in the datasets of this dissertation, $\mathcal{U}$ holds the users of one
+Gowalla state or of Istanbul, $\mathcal{P}$ holds the POIs that appear in their check-ins,
+$\mathcal{C}$ holds the seven categories Community, Entertainment, Food, Nightlife,
+Outdoors, Shopping, and Travel, and $\mathcal{R}$ holds the census tracts of one United
+States state or the \emph{mahalle} units of Istanbul.
+
+\begin{definition}[Check-in]\label{def:fund:checkin}
+    The $i$th check-in of user $u$ is the tuple
+    \begin{equation}
+        x_i=(u,p_i,t_i,c_i,r_i),
+    \end{equation}
+% [round12 STEP 2, 2026-08-03] Was "$c_i\in\mathcal{C}$ is its category, and
+% $r_i\in\mathcal{R}$ is its region". The equalities state that a check-in's category and region
+% are the visited POI's attributes, which is what makes $\mathbf{e}_{p_j}$ well typed later. The
+% set memberships still hold, now by way of the bindings in the notation prose above.
+    where $p_i\in\mathcal{P}$ is the visited POI, $t_i$ is its timestamp,
+    $c_i=c_{p_i}$ is its category, and $r_i=r_{p_i}$ is its region.
+\end{definition}
+
+\begin{definition}[Check-in history]\label{def:fund:history}
+    The check-in history of length $\ell$ preceding check-in $x_i$ is the ordered sequence
+    \begin{equation}
+        H_i=(x_{i-\ell},\ldots,x_{i-1}).
+    \end{equation}
+% [round12, 2026-08-03] THE AUTHOR WROTE THIS PASSAGE HIMSELF, closing AD-6 (sharpen the vague
+% retention sentence, which read "A target label is withheld from it when one of the sequential tasks
+% is trained"). His version names the target per task and states whose label it is, which is what
+% answers the leakage question. Three sharpenings on top of it, and none rewrites his content:
+%   1. FORWARD REFERENCE. His sentence was the FIRST live use of "next-category prediction" and
+%      "next-region prediction" in the chapter, which are defined at Definitions 2.7 and 2.8 further
+%      down. The symbols were fine ($c_i$ and $r_i$ are bound by Definition \ref{def:fund:checkin}),
+%      but naming an undefined task is the same defect class the redesign of this round removed.
+%      Fixed by pointing forward EXPLICITLY rather than by renaming his tasks away.
+%   2. THE POSITIVE HALF WAS IMPLICIT. Excluding the label of $x_i$ is the half that rules out
+%      leakage; the converse -- that the categories and regions of PAST visits are legitimate input --
+%      was left unsaid, and that omission is exactly what prompted the question. Now one clause.
+%   3. LINE WIDTH: rewrapped to the file's convention, near 85 columns. Revert the wrapping if the
+%      author prefers his own; the words are unchanged either way.
+    For the two sequential tasks studied here (Definitions~\ref{def:fund:nextcat}
+    and~\ref{def:fund:nextreg}), the prediction target is $c_i$ for next-category
+    prediction and $r_i$ for next-region prediction. These labels belong to $x_i$, not
+    to the preceding check-ins in $H_i$: the categories and regions carried by the
+    visits in $H_i$ are observed input, and only the attributes of $x_i$ itself are
+    withheld.
+\end{definition}
+
+% ---------------------------------------------------------------------------
+% CITATION / NUMBER LEDGER -- 2.1 (every claim traceable; verbs bound to tests)
+%  silva2019urbancomputing  LBSN traces at high geo/temporal resolution; urban computing (S2 abstract, opened)
+%  cho2011gowalla           periodic short-range + social long-range movement (Gowalla origin; KDD 2011)
+%  song2010limits           93% potential predictability (VERIFIED firsthand, PDF Science 327:1018). "80%" is
+%                           a low-predictability EXAMPLE, not a population figure -- not quoted.
+%  luca2021mobilitysurvey   DL-for-mobility spans several distinct tasks (survey)
+%  Xu2023                   static category classification (semantic annotation) is non-sequential
+%  liu2016strnn             ST-RNN: time/distance-specific transition matrices (next PLACE)
+%  feng2018deepmove         DeepMove: attentional recurrent over periodic mobility (next PLACE)
+%  kong2018hstlstm          HST-LSTM: hierarchical LSTM w/ ST transitions (next PLACE) [new bib]
+%  yang2020flashback        Flashback: attends past hidden states, sparsity (next PLACE)
+%  luo2021stan              STAN: spatio-temporal attention, non-adjacent visits (next PLACE)
+%  lian2020geosan           GeoSAN: geography-aware self-attention, grid (next PLACE) [new bib]
+%  yang2022getnext          GETNext: global trajectory-flow map + transformer (next PLACE)
+%  lin2021ctle              CTLE: context/time-aware per-visit location embedding (bridge to 2.2)
+%  Lim2022                  HMT-GRN: region auxiliary to place (beam-search constraint)
+%  yu2020catdm              CatDM: category auxiliary (candidate pruning)
+%  zhu2022drrgnn            next-region as an end target (region granularity)
+%  capanema2023poirgnn      POI-RGNN: next category as end target [ERRATA: CBIC cites wrong paper -> this key]
+%  NUMBERS: only 93% (song2010limits), "seven categories", region counts ("a few hundred to several thousand")
+%           -- region counts stated qualitatively here; exact per-dataset counts belong to Ch.5, not Ch.2.
+% ---------------------------------------------------------------------------
+
+% [round12 STEP 3, 2026-08-03] NEW SUBSUBSECTION, and the reason it sits HERE rather than in §2.2.
+% The author ruled option (a) on 2026-08-03 (PENDENCIAS_RESOLVIDOS §6.24 (arquivado 2026-08-03)): keep the section
+% order, and move the
+% two representation definitions up into §2.1 so that no definition consumes a symbol defined later.
+% Before this edit, Definition \ref{def:fund:catclf} read $\mathbf{e}_p$ roughly three hundred lines
+% before the definition that introduces it. THE HEAD IS THE AUTHOR'S: "Check-in and place embedding",
+% chosen by him on 2026-08-03 from the two registered candidates, after his revocation of the term
+% "place representation" invalidated the head he had given earlier. It is not inferred from any other
+% sentence of his. The two definition environments below are MOVED VERBATIM from §2.2, including the
+% probe-pinned sentence of the check-in-level definition character-for-character (R12-eqxi,
+% R11-def27), and each provenance comment block moved with its definition.
+
+\subsubsection{Check-in and place embedding}
+
+A task definition must also state what the model reads. Two representations recur
+throughout this dissertation, and the three studies vary which one supplies the model
+input.
+
+% [ROUND 11, item 31] The two concepts below were ONE definition head until this round
+% ("Place embedding and check-in-level representation", round 10). Round 10's own report
+% (src_utils/_history/_round10/29_ch2_definitions.md §4 and §7 item 2) records the merge as a page-count
+% measure, not a content decision, and the defect it left was visible in the cross-references:
+% :242 and :247 both pointed at the same label while meaning opposite halves of it. The author
+% lifted the page budget and authorized the split. The wording of each half is round 10's,
+% unchanged except for the dropped "instead", which contrasted with a sentence no longer in the
+% same block.
+% [round12 STEP 3] MOVED from §2.2 with the definition. The limitation paragraph that used to sit
+% between the two definitions STAYS in §2.2, where it introduces the move from HGI to Check2HGI;
+% its \ref is now a backward reference to this block.
+\begin{definition}[Place embedding]\label{def:fund:placelevel}
+    A place embedding assigns one vector $\mathbf{e}_p$ to each POI $p$, so every check-in
+    at that POI enters the model with the same representation.
+\end{definition}
+
+% [round12, 2026-08-03, the author's finding] THIS DEFINITION NAMED NO SYMBOL. Definition 2.7 gives the
+% place-level vector as $\mathbf{e}_p$ and this one said only "one vector to each check-in", which left
+% the central contrast of the chapter half-formalized: the two representations are the pivot of the whole
+% argument, and only one of them could be written down.
+% THE SYMBOL IS $\mathbf{e}_{x_i}$, and it was chosen rather than invented freely:
+%   - it parallels $\mathbf{e}_p$ exactly, differing only in what the subscript indexes, which IS the
+%     distinction being defined (a place versus a check-in);
+%   - $x_i$ is already the registered symbol for the $i$th check-in (GLOSSARY §1.1, Definition 2.1), so
+%     the subscript introduces no new object;
+%   - measured before minting: $\mathbf{e}_{x_i}$, $\mathbf{e}_{x}$, $\mathbf{e}_i$, $\mathbf{z}_i$ and
+%     $\mathbf{z}_{x_i}$ occur ZERO times anywhere in the live tree, so nothing is overloaded. The only
+%     $\mathbf{e}$ subscripts in use are $p$, and the generic $1$/$2$/$+$/$-$ of the discriminator
+%     equations.
+% GLOSSARY §1.1 ALREADY IMPLIED THIS GAP: its $\mathbf{e}_p$ row reads "distinct from a per-visit
+% Check2HGI vector" while giving that vector no symbol of its own.
+% REGISTRY ROW: WRITTEN, 2026-08-03, and this sentence had to change with it. It used to read "A
+% registry row for $\mathbf{e}_{x_i}$ is PROPOSED to the author and is not written by an agent; the
+% notation table is his" -- true when written, and made FALSE by the act of writing the row. The author
+% authorized the exception explicitly (PENDENCIAS_RESOLVIDOS §6.26 (arquivado 2026-08-03) option 3: he
+% told me to paste both rows rather
+% than paste them himself), which closes AD-5. The general rule still holds and is not weakened by this
+% one instance: the notation table is the author's, and an agent proposes rows rather than minting them.
+% The row for $f_{\mathrm{place}}(H_i)$ landed in the same commit for the same reason -- it too was in
+% live use, at Definition \ref{def:fund:nextplace}, with no registry entry.
+% [round12 STEP 3] MOVED from §2.2 with its comment block. The sentence below is pinned by R12-eqxi and
+% R11-def27 and is carried character-for-character.
+\begin{definition}[Check-in-level representation]\label{def:fund:checkinlevel}
+    A check-in-level representation assigns one vector $\mathbf{e}_{x_i}$ to each check-in
+    $x_i$, so two visits to the same POI may enter the model with different
+    representations, because the vector reads context that belongs to the visit rather
+    than to the place.
+\end{definition}
+
+% [round12 STEP 3, AD-1] THE REPRESENTATION MAP AS A NUMBERED DEFINITION, not a displayed equation in
+% prose: the author chose thirteen definitions on 2026-08-03 ("Vamos de treze"), which makes $\rho$ a
+% numbered object of the chapter. The remark that follows is corrected for defects F-1, F-2 and F-3 of
+% src_utils/_history/_round12/49: it is scoped to the SEQUENTIAL tasks (the static task reads $\mathbf{e}_p$
+% directly, so "every predictive model" was false of it), and Chapter 5's two streams are both named.
+\begin{definition}[Representation map]\label{def:fund:repmap}
+    A representation map assigns to each check-in a vector,
+    \begin{equation}
+        \rho(x_i)\in\mathbb{R}^{d},
+    \end{equation}
+    and extends to histories elementwise,
+    \begin{equation}
+        \rho(H_i)=\bigl(\rho(x_{i-\ell}),\ldots,\rho(x_{i-1})\bigr).
+    \end{equation}
+\end{definition}
+
+Every model of the sequential tasks in this dissertation reads $\rho(H_i)$ rather than
+$H_i$ itself. Chapter~\ref{ch:cbic} defines the input at the place level,
+$\rho(x_j)=\mathbf{e}_{p_j}$. Chapter~\ref{ch:courb} retains a vector tied to the visited
+POI but enriches it with separate spatial, temporal, and categorical components.
+% [2026-09-03, AUTHOR-APPROVED, cold-read finding] Was "$\rho(x_i)=\mathbf{e}_{x_i}$". The
+% definition three lines above reads $\rho(H_i)=(\rho(x_{i-\ell}),\ldots,\rho(x_{i-1}))$: the
+% history is what comes BEFORE $i$, so $\rho(x_i)$ put the semantic stream on the target itself and
+% a cold reader logged it as "a leak contradiction". The Chapter 3 sentence just above already uses
+% the correct index, $\rho(x_j)=\mathbf{e}_{p_j}$; this sentence now uses the same $j$ and says
+% where $x_j$ ranges. No claim changes; every other word of the sentence is unchanged.
+Chapter~\ref{ch:mobiwac} moves the input to the check-in level. Its semantic stream reads
+the per-visit vector $\rho(x_j)=\mathbf{e}_{x_j}$ for each check-in $x_j$ in $H_i$, while
+its spatial stream reads the trained vector of the visit's region node. The task definitions remain fixed, while
+each study uses its own form of $\rho$.
+
+\subsubsection{The three experimental tasks}
+
+Three definitions separate the targets. The first is static and reads a place; the
+other two are sequential and read a history.
+
+\begin{definition}[Category classification]\label{def:fund:catclf}
+    Category classification predicts the category of a POI from its representation:
+    \begin{equation}
+        g_{\mathrm{cat}}(\mathbf{e}_p)\longrightarrow c_p.
+    \end{equation}
+    At evaluation time, POI $p$ is held out from the classifier-training fold, so
+    ``unknown POI'' means unknown to the classifier, not necessarily absent from the graph
+    used to learn $\mathbf{e}_p$.
+\end{definition}
+
+\begin{definition}[Next-category prediction]\label{def:fund:nextcat}
+    Next-category prediction maps a check-in history to the category of the next visit:
+    \begin{equation}
+        f_{\mathrm{cat}}(H_i)\longrightarrow c_i.
+    \end{equation}
+\end{definition}
+
+\begin{definition}[Next-region prediction]\label{def:fund:nextreg}
+    Next-region prediction maps a check-in history to the region of the next visit:
+    \begin{equation}
+        f_{\mathrm{reg}}(H_i)\longrightarrow r_i.
+    \end{equation}
+\end{definition}
+
+The task pairing changes across the studies. Chapters~\ref{ch:cbic}
+and~\ref{ch:courb} combine category classification
+(Definition~\ref{def:fund:catclf}) with next-category prediction
+(Definition~\ref{def:fund:nextcat}). Chapter~\ref{ch:mobiwac} combines next-category
+prediction with next-region prediction (Definition~\ref{def:fund:nextreg}). All three
+% [2026-09-04, AUTHOR-APPROVED cuts, item 1] The seven category names were listed twice in the
+% chapter (here and in the §2.1.1.1 example added for B-06 on 2026-09-02); the B-06 list stays, this
+% one is reduced. Consistent with AUT-18: naming the categories inside a task definition is an error
+% ("o nosso modelo poderia usar N categorias"). The next sentence is pinned by R13-aut18 and is
+% left as delivered, unchanged.
+% [2026-10-07, PROPOSAL from the final Fable audit, verified by the registry and re-verified by the writer; pending the author's ruling] F7: "an administrative unit" ->
+% "an areal unit": after D7, Section 2.4.1 calls the census tract a statistical subdivision and says one
+% unit is statistical and the other administrative, so "administrative" is false for five of the six
+% datasets. R13-aut18 pins the old wording (author-ruled text); needs his ruling and a re-pin; verified.
+studies use the same seven categories. For the region task, the target is an areal unit at
+neighborhood scale. These output spaces require different metrics and reference points,
+and Section~\ref{sec:fund:eval} both names the unit each dataset supplies and explains
+the measurement.
+% AUT-18, first half (PENDENCIAS §4, author ruling). The specific unit names left the task
+% definition. His reasoning, and it settles a point I had argued the other way: the definition should
+% hold for any dataset the work later adds, so it names the KIND of unit, while the dataset
+% description names the instance. "we can refer to them generically, and be specific in the dataset
+% description."
+% ONE THING HE ALSO RULED OUT, recorded because it would otherwise look like an omission: the text
+% must NOT observe that the papers are non-generalist, or treat that as a shortcoming to flag.
+% TWO DEFECTS FROM MY FIRST ATTEMPT, both fixed here. (1) It pointed at Section~\ref{sec:fund:eval}
+% for unit names that section did not yet carry; the names are now added there first, and this pointer
+% was written only after measuring that they had landed. (2) It left TWO references to
+% Section~\ref{sec:fund:eval} in consecutive sentences; the pointer and the measurement note are now
+% one sentence with one reference.
+% The unit names survive in §2.4.1, in Ch.1 §1.2, and in Ch.5, which is a version of record and is
+% not touched. Probe: R13-aut18.
+
+\subsection{Related sequential prediction settings}
+
+One further target must be named, because it is the task that the models this section
+reviews were built to solve.
+
+% [round12, 2026-08-03, the author's finding] THIS DEFINITION BROKE THE PATTERN OF ITS OWN NEIGHBORS.
+% Definitions 2.3, 2.4 and 2.5 each state their task as a function: $g_{\mathrm{cat}}(\mathbf{e}_p)
+% \to c_p$, $f_{\mathrm{cat}}(H_i) \to c_i$, $f_{\mathrm{reg}}(H_i) \to r_i$. This one described the
+% mapping in words only, which made the third task look like a different KIND of object from the other
+% three at exactly the point where the chapter's job is to keep the three formally distinct.
+% $f_{\mathrm{place}}$ follows the established naming: $f$ for the sequential predictors that read a
+% history (as against $g$ for the static classifier that reads a place vector), subscripted by the
+% target. The target is $p_i \in \mathcal{P}$, both already registered (Definition 2.1, GLOSSARY §1.1).
+% NAMING THE FUNCTION SHARPENS THE SCOPE STATEMENT RATHER THAN WEAKENING IT. The exclusion now applies
+% to a defined object: the reader sees precisely which mapping is not being learned, instead of being
+% told in prose that something adjacent is out of scope. The sentence keeps the exclusion explicit, and
+% no chapter of this dissertation reports a result for $f_{\mathrm{place}}$.
+% A registry row for $f_{\mathrm{place}}(H_i)$ in GLOSSARY §1.1 is PROPOSED and not written here: the
+% notation table is the author's, as the two representation symbols are.
+\begin{definition}[Next-place prediction]\label{def:fund:nextplace}
+    Next-place prediction maps a check-in history to the identity of the next visited POI:
+    \begin{equation}
+        f_{\mathrm{place}}(H_i)\longrightarrow p_i.
+    \end{equation}
+    It is named to delimit the scope of the dissertation, and no chapter reports a result
+    for $f_{\mathrm{place}}$.
+\end{definition}
+
+Next place is the dominant task in the field, and methods developed for it provide the
+methodological basis for next-category and next-region prediction.
+% [2026-09-04, AUTHOR-APPROVED cuts, item 4] The seven-model inventory (ST-RNN, DeepMove, HST-LSTM,
+% Flashback; STAN, GeoSAN, GETNext), each with its one-line mechanism, is compressed to two named
+% models plus grouped citations. STAN stays by name because Chapter 5 runs it as an adapted region
+% baseline (05_setup.tex), which is what "direct" in the closing sentence carries; GETNext stays
+% because Chapter 5's related work cites it. Every citation is kept; each stays attached to a claim
+% that is true of it (the four recurrent ones under "recurrent architectures"; GeoSAN under
+% attention-centred). The closing sentence, which closes a door, is untouched.
+Early approaches relied on recurrent
+architectures~\cite{liu2016strnn,feng2018deepmove,kong2018hstlstm,yang2020flashback}.
+Later approaches make attention central to the architecture~\cite{lian2020geosan}: STAN
+connects non-adjacent visits through spatio-temporal correlations~\cite{luo2021stan},
+and GETNext introduces a global trajectory-flow map into a
+transformer~\cite{yang2022getnext}. Every model named here predicts the exact next
+place, so none of them is a direct baseline for the targets studied in this dissertation.
+
+\subsection{Category and region as end targets}
+
+Two strands of this literature support the task choice in this dissertation. The first
+concerns how a visit is represented. CTLE learns context-aware and time-aware location
+embeddings, allowing the same POI to have different vectors in different
+visits~\cite{lin2021ctle}. This per-visit view motivates the representation discussed in
+Section~\ref{sec:fund:repr}.
+
+The second strand concerns the role of category and region predictions. Some methods
+use them to support next-place prediction rather than as final outputs. HMT-GRN uses a
+predicted region to constrain the search for a place~\cite{Lim2022}, and CatDM predicts
+a category to reduce the set of candidate places~\cite{yu2020catdm}. Other studies make
+one of these properties the final target. Activity-region prediction addresses the
+region directly~\cite{zhu2022drrgnn}, while POI-RGNN predicts the next
+category~\cite{capanema2023poirgnn}. This dissertation uses next category and next
+region as final outputs of equal status in one model.
+% Section 2.2 -- Representations for mobility (the chapter's spine)
+
+
+\section{Representations for mobility}
+\label{sec:fund:repr}
+
+This section traces the representations used in the dissertation and explains why the
+final study moves from a place embedding to a check-in-level representation.
+
+\subsection{From identifiers to graph embeddings}
+
+The representation line begins with identifiers and progresses to vectors learned
+from graph structure.
+
+
+A one-hot identifier marks a place or category by position but encodes no relationship
+between identifiers. Distributed representations instead learn dense vectors whose
+geometry reflects relationships in the data. Skip-gram places symbols with similar
+contexts near one another~\cite{mikolov2013word2vec}. DeepWalk transfers this idea to
+graphs by treating random walks as sentences~\cite{perozzi2014deepwalk}, and node2vec
+adjusts the walk to emphasize homophily or structural
+roles~\cite{grover2016node2vec}. Graph neural networks learn these relationships
+through neighborhood aggregation. Graph convolutional networks use a localized
+spectral rule~\cite{kipf2017gcn}, graph attention networks learn the weight of each
+neighbor~\cite{velivckovic2017graph}, and GraphSAGE learns aggregators that can embed
+nodes not seen during training~\cite{hamilton2017graphsage}.
+
+\subsection{Hierarchical graph infomax}
+
+The graph-infomax methods supply the unsupervised representations used across the
+three studies. The idea these methods share is simple enough to state before any of
+the notation: the model learns useful vectors by being asked to tell a true pairing of
+two parts of the data from a corrupted one, and it needs no labels to do so, because
+the data itself says which pairing is the true one.
+% AUT-19 (PENDENCIAS §4): the subsection was already substantial, 584 words, and it did explain the
+% mechanism (mutual information between adjacent levels, the bilinear discriminator, the logistic
+% function, the four HGI stages). What it lacked was an entry point: it opened on what infomax
+% MAXIMIZES before saying what infomax IS, so a reader met the objective before the idea. The
+% sentence added here is didactic, which §1 of WRITING_LAW allows in a dissertation, and it introduces
+% no term outside the registry. Probe: R13-aut19.
+
+% AUT-20 (PENDENCIAS §4). The sentence here used to read "The representations used in this work are
+% trained without category or region labels", which is FALSE as written. Verified against the spec and
+% the shipped code:
+%   - the category one-hot of the CURRENT visit is an input feature of the check-in node
+%     (research/embeddings/check2hgi/preprocess.py:615-642; active feature width 11, checked against
+%     the shipped Alabama cache and against build_design_k_delaunay.py:198)
+%   - the Check2HGI configuration the final study uses adds a masked-place category reconstruction
+%     term at weight 0.3, so a category is read as a reconstruction target, not merely as an input
+% What IS true, and is what the sentence now says, is narrower and sufficient for this chapter's
+% purpose: no objective reads the prediction target of either sequential task.
+% ONE THING THE AUTHOR RULED ON EXPLICITLY, 2026-08-04: the graph channel by which a next visit's
+% category can reach a history vector (consecutive visits are joined bidirectionally and the encoder is
+% two-layer) is NOT named here. His words: "fix the phrasing and stay silent on the graph channel,
+% before we have more concrete information." Chapter 5, which is the chapter that measures it, keeps
+% its own disclosure at 5_mobiwac/05_setup.tex:70 and its three stated limits at :87. Do not add a
+% Chapter 2 sentence about that channel without his sign-off.
+% Two of his premises were also corrected by measurement and are recorded so they are not re-derived:
+% the region LABEL is not a node feature, and latitude and longitude are not node features either.
+% Both enter only at graph-construction time, coordinates through the polygon join that assigns a
+% place to a region. Full evidence: src_utils/_history/_round13/71_graphnode_features.md.
+% Probe: R13-aut20.
+The representations used in this work are trained with no next-category and no
+next-region target. Each visit contributes its own description: the category of
+the place visited is an input feature of its node, together with the hour and the day
+of the week.
+Mutual-information estimators provide one way to learn such
+representations~\cite{belghazi2018mine}. Deep InfoMax maximizes agreement between
+local features and a global summary~\cite{hjelm2019dim}, and Deep Graph Infomax (DGI)
+applies this objective to graph nodes and a graph-level
+summary~\cite{velickovic2019deep}. DGI supplies the objective and the place embeddings
+used in the first study. Hierarchical Graph Infomax (HGI) extends that objective
+across POI, region, and city levels~\cite{huang2023hgi}.
+
+HGI is the place-level representation that the final study replaces, so its reference
+point matters here. The mechanism itself is set out in the original paper. Its own stated goal is to
+learn urban region representations from POIs in a fully unsupervised manner, and it
+reaches that goal by extending the two scales of DGI to three: POI, region, and city.
+The name states what is maximized. Training raises the mutual information between
+representations at two adjacent levels of that hierarchy, and it does so without
+evaluating that quantity in closed form. A bilinear discriminator combines two
+embeddings through a learned weight matrix and passes the result through a logistic
+function, and the loss rewards a high score for a true pair and a low score for a
+false pair. No label of any downstream task enters that comparison, so the
+representation is obtained without supervision.
+
+One consequence of the design matters for the later chapters. A pre-trained category
+encoder supplies the initial POI features, one graph convolution layer over a Delaunay
+graph of the POIs of the study area adds spatial context to each of them, multi-head
+attention aggregates the POI embeddings of a region, and an area-weighted sum over
+regions produces one city embedding. The training signal updates the POI encoder, the
+aggregation function, and the region encoder together, so a POI embedding is optimized
+to score high against the embedding of its own region and low against the embeddings
+of other regions. Region membership also enters earlier, through the edge weights of
+the POI graph, which decrease with the distance between two POIs and are reduced
+further when the two POIs lie in different regions. The POI-level output is therefore
+not a description of the place in isolation. It already reflects the region the place
+belongs to.
+
+HGI was developed and evaluated for urban region representation. Its reported
+experiments estimate urban functional distributions, population density, and housing
+price in Xiamen Island and Shenzhen, and the object under evaluation there is the
+region embedding. The POI embedding is an internal stage in producing it. This
+dissertation repurposes that POI-level output for sequential prediction, a use the
+original evaluation does not cover. In this role, HGI supplies the place-level
+baseline in the later studies and the direct basis of Check2HGI.
+
+% [2026-09-04, AUTHOR-APPROVED cuts, item 7] Two scaffolding clauses out ("The move to other study
+% areas left one setting of that baseline open" and "and this work did not transfer that value
+% untested"); a five-word lead replaces the first so the paragraph does not open on "Huang et al.".
+% The fact (published 0.4 -> 0.7 here, one state, five folds) and the last two scope sentences stay:
+% this is the only place in the volume that says the HGI baseline was retuned (GER-03 residue), and
+% the scope warning is recorded below as kept deliberately.
+% [2026-09-29, frame fix, author's principle "describe the method, not the journey", sweep #10]
+% "One setting of that baseline was retuned ... and the later studies adopt it" -> the current
+% setting, stated as a setting. Every fact re-sourced this session against research/embeddings/hgi/
+% README.md:544-551 (header "Alabama w_r sweep (5 folds x 50 epochs)"; rows 0.4, 0.5, 0.6, 0.7; Cat F1
+% largest at 0.7) and preprocess.py:23 (DEFAULT_CROSS_REGION_WEIGHT = 0.7). Dropped as unsourced:
+% "the same five folds used elsewhere" (the README says five folds, not that they are the study's
+% folds). Kept "best ... among the values tried", never "optimal": the README notes no flattening at
+% 0.7. State still unnamed, as before (one-state sweep; the sentence claims no more). Last two scope
+% sentences byte-identical.
+One setting of that baseline differs from the published one. Huang et al.\ reduce an
+edge between POIs of different regions to 0.4 of its weight in the experiments named
+above. This dissertation uses 0.7, the value that gave the best category F1 among those
+tried, from 0.4 to 0.7, on one of its state datasets over five folds. What that
+comparison settles is one hyperparameter of
+the place-level baseline. It is not evidence about how HGI and Check2HGI compare.
+% [round12, 2026-08-03] THE 0.7 SENTENCE (item 42, second half), on the author's authorization:
+% "Sobre citar que na dissertacao usamos 0,7, podemos citar por alto, algo como: 'Em experimentos
+% avaliamos que para nossos datasets 0,7 gerava os melhores resultados', como vamos remover o
+% appendix E nao precisa referenciar ele." NO \ref to apx:hgi-tuning: there was none in this file
+% before this edit (checked live, comment-stripped), and none is added.
+% NUMBER PROTOCOL. The paragraph quotes exactly ONE number of its own, 0.7, and it is not a
+% result: it is the shipped default, research/embeddings/hgi/preprocess.py:23
+% DEFAULT_CROSS_REGION_WEIGHT = 0.7. The RESULT behind it is stated qualitatively ("the best
+% category F1 among the values tried"), which is readable off the source-of-record table without
+% computing anything: research/embeddings/hgi/README.md:544 (header, "5 folds x 50 epochs") and
+% :548-551, whose four rows are 0.4 -> 0.7388 +/- 0.0205, 0.5 -> 0.7678 +/- 0.0211,
+% 0.6 -> 0.7944 +/- 0.0186, 0.7 -> 0.8186 +/- 0.0123 (mean +/- standard deviation across the five
+% folds). The largest of the four is the 0.7 row, so "best among the values tried" is the table's
+% own ordering. "one of the state datasets" is Alabama (README.md:544 heads the table
+% "Alabama w_r sweep"); the state is not named in prose because the sweep is a single state and the
+% sentence claims no more than that.
+% WHY "category F1" AND NEVER "macro-F1" HERE: no source names the averaging convention behind the
+% swept "Cat F1" -- not CLAUDE.md, README.md, preprocess.py, nor the HGI PDF. Writing "macro-F1"
+% would assert a convention nobody recorded. Keep the vaguer, true word.
+% (The NUM-4 provenance ledger that used to sit earlier in this section was retired in round 15: the
+% sweep values it documented are no longer quoted in live prose. The four rows above are the record.)
+% THE PUBLISHED 0.4 WAS LOCATED FIRSTHAND THIS SESSION in the source PDF, science/articles/
+% Learning urban region representations with POIs and hierarchical graph infomax.pdf, p.137
+% (sheet 4) sec. 3.3, Eq. 2 and the sentence under it: "wr is a factor to differentiate intra-
+% (wr = 1) and cross-region (wr = 0.4) edges", and "The choices of the parameters ... and wr =
+% 0.4 (cross-region) are in view of the previous practices". Prose states it as a reduction to
+% 0.4 of the intra-region weight, which is what wr = 1 versus wr = 0.4 in that sentence says.
+% "the experiments named above" is the preceding paragraph's Xiamen Island and Shenzhen, so the
+% study areas are named once in this subsection, not twice.
+% SCOPE WARNING CARRIED HERE, DELIBERATELY -- do not replace it with a pointer. The warning ("this
+% sweep supports adaptation of one baseline hyperparameter; it is not evidence about the relative
+% performance of HGI and Check2HGI") used to live in chapters/apx_g_hgi_tuning.tex. That appendix has
+% since LEFT the main volume (confirmed 2026-08-04: content.tex no longer includes it), so a warning
+% placed there would be a warning in a document this chapter's reader does not have. It therefore
+% lives in this paragraph's last two sentences. If the appendix ever returns, the warning still
+% belongs here as well: the reader meets the 0.7 claim here, not there.
+% [round11, 2026-08-03] HGI MECHANISM EXPANDED (item GER-02, second part; the author's ruling is
+% that the HGI explanation is worth improving because it is "uma das abordagens mais importantes
+% para as contribuicoes da dissertacao"). The previous text was five sentences of correct but
+% compressed mechanism. Nothing in it was contradicted; every clause of it survives in substance.
+% EVERY MECHANISM CLAIM BELOW WAS READ THIS SESSION at the source PDF on disk,
+% science/articles/Learning urban region representations with POIs and hierarchical graph
+% infomax.pdf = huang2023hgi, ISPRS J. Photogramm. Remote Sens. 196 (2023) 134-145,
+% doi 10.1016/j.isprsjprs.2022.11.021 (journal pagination cited; PDF sheet in parentheses).
+%   goal + unsupervised   p.134 (sheet 1) abstract: "learning urban region representations (vector
+%                         embeddings) with points-of-interest (POIs) in a fully unsupervised manner".
+%   three scales          p.136 (sheet 3) end of Related works: "we extend DGI to model the
+%                         interactions between three scales, i.e., POI, region, and city".
+%   what is maximized     p.134 abstract: "trained through maximizing the mutual information among
+%                         the POI - region - city hierarchy"; p.139 (sheet 6): "a region-centered
+%                         hierarchical mutual information maximization".
+%   no closed-form MI     p.138 (sheet 5) sec. 3.7: "The general idea of HGI follows the paradigm of
+%                         contrastive learning". The MI is never estimated in closed form: the losses
+%                         Eq. 12-13 p.139 are log-scores of the discriminator D, nothing else. [round12,
+%                         item 42] The prose sentence naming the contrastive paradigm was CUT in the
+%                         trim; what this row now sources is the surviving clause "without evaluating
+%                         that quantity in closed form".
+%   discriminator         p.139 below Eq. 13: D_pr(p_i, r_k) = sigma_L(p_i W_pr r_k), "sigma_L is a
+%                         sigmoid function". Prose says "logistic function" per GLOSSARY. "bilinear
+%                         discriminator" is the registered term (GLOSSARY sec. 3), already used by
+%                         the Check2HGI equations later in this section.
+%   no downstream labels  p.138-139 sec. 3.7: "The training of HGI only relies on POIs and region
+%                         boundaries, and not on any ground truth data in the downstream tasks."
+%   category encoder      p.136 sec. 3.1(1): "A POI category encoder phi_c is pretrained to generate
+%                         the initial POI features, as categorical information generally plays a key
+%                         role in defining the meaning of a POI." Paraphrased to avoid the banned
+%                         "plays a crucial role" template shape (WRITING_LAW sec. 4).
+%   Delaunay + weights    p.137 (sheet 4) sec. 3.3: "all the POIs in a study area are connected using
+%                         DT to form a graph"; Eq. 2 a_p = log((1+L^1.5)/(1+l^1.5)) x w_r, "l
+%                         represents the spatial distance between the two POIs ... w_r is a factor to
+%                         differentiate intra- (w_r = 1) and cross-region (w_r = 0.4) edges". The
+%                         DIRECTION is what the mechanism sentence carries (decreases with distance;
+%                         reduced across regions). [round12, item 42] The published 0.4 is now ALSO
+%                         stated, once, in the adaptation paragraph below, which is where the retuning
+%                         to 0.7 is explained; the same Eq. 2 sentence sources both, and the two do
+%                         not collide because the paragraph says whose value each one is.
+%   one GCN layer         p.137 sec. 3.3: "we apply a one-layer GCN encoder"; p.138 (sheet 5) top: the
+%                         POI embedding is updated with "the information from itself and its spatial
+%                         context". [round12, item 42] The paper's "transformed combination ... which
+%                         captures its uniqueness" wording was CUT with the trim; prose now says only
+%                         that the layer adds spatial context, which is the clause quoted here.
+%   multi-head attention  p.138 sec. 3.4: the POI embeddings of a region are aggregated by multi-head
+%                         attention into the region raw embedding. [round12, item 42] The per-head
+%                         "each head represents a perspective" sentence was CUT; the aggregation
+%                         itself is what prose retains.
+%   city embedding        p.138 sec. 3.6, Eq. 10: "area-weighted summarization", aw_i "is the area
+%                         proportion of region r_i in the study area (city)".
+%   positives/negatives   p.139 sec. 3.7: for a region, positives are "the POI embeddings P_i within
+%                         the region", negatives "the POI embeddings P_j in another region r_j". This
+%                         is what the surviving sentence "score high against the embedding of its own
+%                         region and low against the embeddings of other regions" rests on. [round12,
+%                         item 42] The CITY-level pair (row-wise feature shuffling), the two worked
+%                         examples of p.135/p.137, and the single balancing weight alpha of Eq. 11
+%                         were all CUT as mechanism detail, so their ledger rows are removed with
+%                         them; the reader who wants them goes to the original paper, as the author
+%                         directed.
+%   joint training of     p.136 sec. 3.1(6): the hierarchical infomax objective trains "the components
+%   the three modules     of phi_p, AGG_poi-region, and phi_r".
+%   what HGI was FOR      p.134 abstract and p.139 (sheet 6) sec. 4.1: three downstream tasks,
+%   (the honest caveat)   "estimating urban functional distributions, population density, and housing
+%                         price", study areas "Xiamen Island and Shenzhen, China". The evaluated
+%                         object is the REGION representation throughout; the POI embedding is an
+%                         intermediate product (sec. 3.3 -> 3.4). The caveat sentence the previous
+%                         text carried is kept and made specific, per the item's constraint.
+% NOT WRITTEN, though the source supports them, because this is a fundamentals chapter and not a
+% paper summary: hard negative sampling with the cosine window (p.139), the PReLU activations, the
+% Laplacian-Eigenmaps term of the category encoder (p.136 Eq. 1), and all reported results.
+% NO NEW GLOSSARY TERM IS INTRODUCED. Every technical word used here is already registered or
+% already live in this chapter: bilinear discriminator and logistic function (GLOSSARY sec. 3),
+% POI / place, region, DGI, HGI, Check2HGI (sec. 2 and sec. 3); Delaunay graph, graph convolution and
+% multi-head attention are the source's own mechanism names and are used in Ch.3 and Ch.4 prose
+% already (chapters/3_cbic/method.tex:35, chapters/4_courb/related.tex:18).
+% CONSISTENCY CHECKED against the two places the chapter already commits to about HGI: the lineage
+% table row ("Extends graph infomax over the POI, region, and city hierarchy to yield region-aware
+% place embeddings", tables/frame/lineage.tex:26) and the place-level framing of sec. 2.2. The new
+% paragraph on how regional context reaches a POI embedding is the EXPLANATION of the table's
+% "region-aware", not a new claim.
+
+\subsection{From a fixed place vector to visit context}
+
+The move from HGI to Check2HGI begins with information that a fixed POI vector cannot
+express.
+
+% [round12 STEP 4, 2026-08-03] THE TWO DEFINITION ENVIRONMENTS THAT STOOD HERE MOVED UP INTO §2.1,
+% into the new subsubsection "Check-in and place embedding", under the author's option-(a) ruling
+% (PENDENCIAS_RESOLVIDOS §6.24 (arquivado 2026-08-03)). Their provenance comments moved with them. What STAYS here is
+% the prose that
+% USES them: the limitation paragraph below, which introduces the move from HGI to Check2HGI, and the
+% Check2HGI sentence further down.
+% REFERENCE DIRECTION: backward in both cases now, which is the point of the move.
+Definition~\ref{def:fund:placelevel} has one limitation for this research: a
+weekday morning and a Saturday night at the same place have identical inputs at the
+representation level. CTLE shows an alternative by learning context-aware and
+time-aware location embeddings whose vectors change with the
+visit~\cite{lin2021ctle}.
+
+% [round12 STEP 4] The check-in-level definition that stood here moved up to §2.1 with its comment
+% block; the sentence below keeps its reference, now backward.
+Check2HGI reaches the check-in level of Definition~\ref{def:fund:checkinlevel} by
+adding the check-in below the place in the hierarchy.
+
+\subsubsection{Context encoders}
+
+% [round12 STEP 5, 2026-08-03, AD-2 option 2] Was "while retaining a place-level input". The author
+% ruled that the unresolved level of Chapter 4's temporal channel is NOT recorded as an erratum
+% (PENDENCIAS_RESOLVIDOS §6.22 (arquivado 2026-08-03)) and that Chapter 2 uses the NEUTRAL form: a vector that is a
+% function of the
+% visited POI, with no claim about the level at which the temporal component is learned. The two
+% wordings that remain FORBIDDEN are "of the visit's timestamp", which would assert per-visit, and
+% "aggregated", which would assert a combination the code does not perform. The question itself is
+% documented as LO-12 in src_utils/LEFT_OUT.md and is closed rather than pending. This sentence now
+% matches the remark in §2.1, which says the same thing in the same terms.
+A per-visit representation needs temporal and spatial context in addition to the
+identity of the visited POI. The second study supplies that context through separate
+encoders while its input stays a function of the visited POI.
+Time2Vec combines linear and periodic components for temporal
+features~\cite{kazemi2019time2vec}. SIREN uses sinusoidal activation functions to
+represent continuous signals~\cite{sitzmann2020implicit}. Space2Vec encodes location
+and spatial context at several scales~\cite{mai2020multiscalerepresentationlearningspatial},
+while Sphere2Vec represents coordinates on a sphere rather than on a flat
+surface~\cite{mai2023sphere2vecgeneralpurposelocationrepresentation}. A related
+approach combines spherical harmonics with sinusoidal
+networks~\cite{russwurm2024geographiclocationencodingspherical}.
+% AUT-22 (PENDENCIAS §4) = GER-06, the SAME defect found independently by the author and by the
+% advisor's reviewer, already dispositioned [YOU APPLY] with the words "FiLM is a conditioning
+% mechanism, not a mobility representation, and belongs with the sharing topologies in 2.3".
+% Applied ONCE, here, for both items: the two FiLM sentences moved to §2.3.1, where the sharing
+% topologies are set out. Nothing about FiLM is lost; it is now introduced next to the hard-sharing
+% definition it modifies, which is what makes it legible.
+% The two Ch.4 sentences that followed them stay in this subsection: they are about the INPUT
+% representation (the controlled swap of one place embedding for three encoders), which is this
+% subsection's subject, so they are not part of the move.
+Chapter~\ref{ch:courb} keeps the MTLnet architecture but replaces its single
+place embedding with spatial, temporal, and categorical encoders. The controlled
+change isolates the effect of the input representation.
+
+\subsubsection{The check-in level}
+
+% AUT-23 (PENDENCIAS §4, author ruling: resolve with AUT-20 and AUT-21 in a single pass). Two
+% assertions in this subsection overstated the objective in the same way the §2.2.2 sentence did, and
+% both are corrected here.
+%   "learns one vector per visit without using task labels" -> the category of the visited place IS an
+%     input feature, and the configuration the final study uses reconstructs a masked place's category
+%     distribution at weight 0.3. The honest statement is about the TARGET, not about labels in general.
+%   "Its objective is the fixed-weight sum" -> the equation below is the three-term HIERARCHICAL CORE,
+%     not the complete objective that was trained. The final study's configuration adds two auxiliary
+%     terms, named after the equation rather than folded into it, so the equation keeps its meaning and
+%     the text stops presenting a partial objective as the whole one.
+% Evidence for every figure: src_utils/_history/_round13/71_graphnode_features.md, which cites the spec and the
+% shipped code line by line.
+% Probes: R13-aut23, R13-aut23b
+
+Check2HGI completes the move from contextualized inputs to one learned representation
+per visit. It adds a fourth level below the place and learns one vector per visit from
+the visits themselves, with no next-category and no next-region target in its
+objective. What each visit contributes is its own context rather than an identifier: elapsed time
+is what distinguishes a visit that follows minutes after the last one from a visit that opens a new
+outing, a distinction a place-level vector cannot carry because it is the same vector at every
+visit.
+% [2026-08-12] This paragraph used to list the three feature groups and the paragraph below then
+% listed them again, because the enumeration moved down when the formal definition was removed. The
+% lead-in now states WHY per-visit context matters and leaves WHAT enters to the paragraph that
+% enumerates it once.
+
+% [2026-08-12] THE FORMAL DEFINITION OF THE ELAPSED-TIME QUANTITIES WAS REMOVED, on the author's
+% symmetry argument, and replaced by the paragraph below. The argument is checkable and it holds: all
+% fourteen definitions of this chapter name a TASK or METHOD concept (check-in, history, the two
+% representations, the representation map, the four prediction tasks, hard and soft sharing, negative
+% transfer, gradient conflict). Not one describes a feature encoding. The category indicators and the
+% cyclic time values, which are two thirds of the same input vector, get no symbol and no equation,
+% so a formal Delta_i was the only object in the chapter specifying how a number enters a model
+% rather than what a concept means. It was out of kind with everything around it.
+% WHERE THE SPECIFICATION LIVES: Appendix \ref{apx:check2hgi-joint-model} already carries it in full,
+%   both in prose ("Each check-in begins with 15 values: seven category indicators, sine and cosine
+%   for hour of day, sine and cosine for day of week, and four elapsed-time values") and as a settings
+%   row ("7 category indicators + 4 cyclic time values + 4 elapsed-time values; width 15"). An
+%   implementation appendix is the right home for a featurization; this section needs the reader to
+%   know what the three groups are, not their formulas.
+% WHAT THE PARAGRAPH KEEPS, deliberately: (a) all three feature groups at the SAME level of detail,
+%   which is what removes the asymmetry rather than only relocating it; (b) the measurement rule (no
+%   value uses a later visit) and the forward-only edges, because those are leakage claims rather
+%   than featurization detail and the honesty gate depends on them; (c) the log compression, since
+%   Chapter 5's method section and the METHODOLOGY row both state it and three sites must agree.
+% NOTHING DEPENDED ON THE SYMBOL: Delta_i and \ref{def:fund:elapsed} appeared only inside the
+%   definition itself, no probe pinned it, and removing it returns Section 2.3's four definitions to
+%   2.10 through 2.13, the numbers they held before. The GLOSSARY symbol row goes with it; the term
+%   row and its Portuguese equivalent stay, because the prose still uses the term.
+% SOURCE OF RECORD for the values and the measurement rule (unchanged, kept here because this is now
+%   the only site in the chapter that states them): docs/studies/closing_data/v18/METHODOLOGY.md, the
+%   elapsed-time node columns row, plus the v18_config recorded in every reported cell,
+%   node_layout = [canonical_11, continuous_time_4], in_channels = 15, verified in 72 of 72 result
+%   sidecars under docs/results/closing_data/v18/ and all 24 rows of that study's results file.
+% CAUTION for a future reader: the build logs under docs/results/embedding_eval/delaunay_revalidate/
+%   print "feat=11". Those are the earlier graph build; the per-run records above are the authority.
+% [2026-09-03, PROPOSED BY THE WRITER at the author's release ("liberar para o Writer fazer a
+% proposta"), cold-read wall A] The longest sentence of the chapter (three feature groups and the
+% elapsed times in one breath) is now a three-item list, one group per item, at the author's own
+% suggestion; the two consecutive sentences that both listed the three hierarchy boundaries are one
+% sentence. Every value, transform and scale is the same as before; nothing added or dropped. The
+% "trainable table of place vectors" is glossed at its only mention, further down in this paragraph.
+Three groups of values describe each visit at the input:
+\begin{itemize}
+    \item the category of the visited place, as an indicator over the number of classes;
+    \item the time of day and the day of week, each through its sine and cosine, so that
+    the endpoints of the daily and weekly cycles fall next to each other rather than at
+    opposite ends of a scale;
+    \item the elapsed times: the interval since the user's previous visit and the interval
+    since that user's first visit, both compressed by a logarithm that keeps a gap of
+    minutes and a gap of weeks on a comparable scale, plus the gap within the same
+    calendar day and an indicator for a user's first visit, for which the two intervals
+    do not exist.
+\end{itemize}
+Appendix~\ref{apx:check2hgi-joint-model} gives the exact composition and its width. Every
+one of these values is measured up to the visit itself, and the edges between consecutive
+visits point forward in time only, so a vector describes its visit and the history before
+it. The hierarchy has three adjacent-level boundaries, check-in to place, place to region,
+and region to city, and they contribute the fixed-weight sum
+\begin{equation}\label{eq:fund:check2hgi}
+    \mathcal{L} = 0.4\,\mathcal{L}_{c2p} + 0.3\,\mathcal{L}_{p2r} + 0.3\,\mathcal{L}_{r2c},
+\end{equation}
+where $\mathcal{L}_{c2p}$, $\mathcal{L}_{p2r}$, and $\mathcal{L}_{r2c}$ correspond
+to these three boundaries. Each term uses a bilinear discriminator,
+\begin{equation}\label{eq:fund:check2hgi-disc}
+    \mathcal{D}(\mathbf{e}_1, \mathbf{e}_2) = \sigma(\mathbf{e}_1^{\top}\mathbf{W}\mathbf{e}_2),
+\end{equation}
+where $\mathbf{W}$ is learned and
+$\sigma(z)=1/(1+e^{-z})$ is the logistic function. The discriminator is linear in
+either embedding when the other is held fixed, and its output lies between 0 and 1.
+% [2026-09-04, AUTHOR-APPROVED cuts, item 5] "the loss favors a high score for a true pair and a low
+% score for a false pair" was already said in the HGI section; reduced to the lead-in.
+For each boundary, the term is
+\begin{equation}\label{eq:fund:check2hgi-term}
+    \mathcal{L}_{*} = -\log \mathcal{D}(\mathbf{e}, \mathbf{e}^{+})
+    - \log\left(1 - \mathcal{D}(\mathbf{e}, \mathbf{e}^{-})\right).
+\end{equation}
+% [2026-09-03, AUTHOR-APPROVED after code check, cold-read finding] Was
+% $\mathcal{D}(\mathbf{e}^{+},\mathbf{e}^{+})$ and $\mathcal{D}(\mathbf{e}^{+},\mathbf{e}^{-})$, which
+% collapsed the anchor and its true partner into one symbol while the prose spoke of two objects.
+% Source of the correction is the implementation, not a guess: Check2HGIModule.py:1157-1159
+%   pos_c2p = discriminate(pos_checkin, pos_poi_exp); neg_c2p = discriminate(pos_checkin, neg_poi_exp)
+% the first argument (the check-in) is the SAME in both terms and only the partner changes; :1182-1183
+% do the same for p2r (anchor = place, partner = region); :1187-1188 (discriminate_global) hold the
+% CITY summary fixed and vary the region (pos_region vs neg_region), so at r2c the corrupted side is
+% the lower level. The prose below states all three; the equation names the anchor $\mathbf{e}$ and
+% the partner $\mathbf{e}^{\pm}$, which is the reading the code has.
+Here, $\mathbf{e}$ is the anchor, the element that is the same in both terms;
+$\mathbf{e}^{+}$ is its true partner and $\mathbf{e}^{-}$ is a corrupted partner. At the check-in-to-place and
+place-to-region boundaries, the anchor is the lower-level element (the check-in, the
+place) and the partner is the element one level above it (the place where the check-in
+occurred, the region that contains the place). At the region-to-city boundary the roles
+are reversed: the city summary is held fixed and the region is the element that is true
+or corrupted. No next-step target appears in these equations. Two auxiliary terms complete the
+objective that the final study trains: a reconstruction term at weight 0.3, which
+recovers a masked place's own distribution over the seven categories from its
+neighbors, and a term at weight 0.1, which keeps the trainable table of place vectors
+near the values it started from. That table holds one trainable vector per place and enters the
+spatial route that the place-to-region and region-to-city boundaries read; the
+check-in-to-place boundary reads the pooled summary of the place's visits.
+% [2026-10-07, PROPOSAL from the final Fable audit, verified by the registry and re-verified by the writer; pending the author's ruling] F6 (BLOCKER): the gloss said the table is
+% "the place side that the check-in-to-place boundary reads", which is false. Check2HGIModule.py: the c2p
+% discriminator reads pos_poi_emb_pure, the pooled place summary captured BEFORE the table is added
+% (:626-632, :826-828); the trainable reg_poi_table enters only the detached reg path, delaunay_gcn
+% (:652-660), which feeds p2r and r2c, as Appendix E Step 3 states. Re-read by the writer in the module.
+% The R13-aut23b phrase before it is untouched; verified.
+% [2026-09-03] The gloss of the table is a separate sentence on purpose: probe R13-aut23b pins the
+% phrase "keeps the trainable table of place vectors near the values it started from" verbatim, and a
+% first version of this edit reworded it and turned the probe red.
+% AUT-23, third assertion. The old closing clause read "which is why the representation is described as
+% trained without task labels", drawing a conclusion the equations do not support once the two
+% auxiliary terms are counted. The terms are now named with their weights, so the equation reads as the
+% hierarchical core it is. The 0.3 and 0.1 weights are quoted from the spec and confirmed in the code
+% (src_utils/_history/_round13/71_graphnode_features.md §3); they are not computed here.
+% AUT-21 (PENDENCIAS §4, author ruling: "Vamos de i) Nomear o mecanimos citado e nada novo") is
+% satisfied by the second term above WITHOUT a new citation. The pretrained table is produced by
+% skip-gram over random walks on the graph of places, which is NOT the method of the published POI2Vec
+% (Feng et al., AAAI 2017); citing that paper here would be a misattribution of the same class this
+% project already carries as an erratum for POI-RGNN, so no reference is added. The mechanism is named
+% and nothing is cited.
+
+% [NEEDS SIGN-OFF 09 | CLOSED] Author: "vamos deixar do jeito que esta". Equations transcribed from
+% docs/context/check2hgi_overview.tex, section "Funcao de Perda"; the three weights (0.4/0.3/0.3) are
+% the shipped code defaults in Check2HGIModule.py:51-53.
+%
+% SCOPE FACT THAT MUST NOT BE LOST -- it is the reason this equation is CORRECT while looking
+% incomplete next to Chapter 5. The two auxiliary terms Ch.5 mentions (masked-place reconstruction
+% and place-table anchor, weights 0.3 and 0.1) are deliberately NOT here: this is the three-boundary
+% objective as the source states it, and the prose never claims to be the complete training loss of
+% every Ch.5 run. Do not "complete" the equation by adding them.
+% The full five-term loss, with code-verified weights, is documented in the Check2HGI appendix
+% (chapters/apx_h_check2hgi_joint_model.tex). That appendix is NOT yet referenced from any chapter:
+% the author is waiting on his advisor before deciding whether it stays. See PENDENCIAS.md 2.32.
+% Registry note: "bilinear discriminator" and "logistic function" are registered in GLOSSARY §2.
+% Prose says "logistic function", never "sigmoid".
+
+Where a place embedding answers ``what is this place,'' a check-in-level representation
+answers ``what is this visit,'' and
+Chapter~\ref{ch:mobiwac} develops this representation and the joint model built on it.
+Table~\ref{tab:fund:lineage} traces the full progression, from DGI through HGI to the
+check-in level and the joint model that uses it.
+
+\subsection{Model lineage}
+
+% AUT-24 (PENDENCIAS §4): the old opener read "The representation changes are paired with a
+% controlled progression in model architecture." Two faults, both named in WRITING_LAW §1. "are
+% paired with" says nothing about who pairs them or why, and "a controlled progression" is an
+% abstract noun doing the work a verb should do. It also opened a subsection whose body is concrete
+% (the final model keeps the MTLnet lineage and swaps residual layers for cross-attention blocks),
+% so the entry was more abstract than what it introduced. The replacement names the subject and what
+% it does. No new claim; the three architectures and their order are already the content of the
+% subsection.
+% ONE REVISION, worth recording because the first attempt introduced a defect of its own: I first
+% wrote a second pointer to Table~\ref{tab:fund:lineage} here. The preceding subsection already
+% closes on that pointer at :681, so the two would have referenced the same table in consecutive
+% sentences. Dropped.
+% A blank line separates this block from the prose below it. Without one, the trapped-prose gate
+% reads the comment tail as running into the first prose line and reports a broken sentence.
+% Probe: R13-aut24.
+
+Each study changes the input representation, and each also changes the architecture
+that consumes it. Naming both sequences together lets a later chapter be read against
+the step it altered.
+
+The final joint model remains part of the MTLnet lineage. It retains the task-specific
+input encoders, output heads, and division between shared and task-specific parameters.
+MTLnet uses residual layers conditioned by Feature-wise Linear Modulation (FiLM) as its
+shared middle. The joint model
+% REVIEWER FINDING, 2026-08-04. Moving the FiLM expansion out of §2.2.3.1 and into §2.3.1 (AUT-22, via
+% GER-06) left this use of the bare acronym EARLIER in the chapter than its expansion: this line is 776
+% and the expansion now sits at 924. That is the same defect I had just fixed for OOD in AUT-30, so
+% leaving it would have applied the expand-at-first-use rule to one acronym and not the other. The
+% expansion is written out here; §2.3.1 keeps its own, which is where the mechanism is explained rather
+% than named. FiLM is also in the abbreviations list (content.tex), but a list entry is not a first-use
+% expansion.
+% Probe: R13-filmfirst.
+replaces that component with cross-attention blocks, allowing each task stream to
+read the other while retaining its own feed-forward parameters. A private spatial
+path also gives the region output direct access to the region sequence before the
+streams interact. The models therefore differ in their sharing topology and in the
+private input available to the region output. Both architectures receive two inputs,
+and what changes between them is the source: MTLnet derives both from one place
+embedding, whereas the joint model reads two tables exported from the same check-in-level
+representation. The two tables share an origin by construction, so they are not
+independent views. This relationship allows the negative
+result in Chapter~\ref{ch:cbic} and the positive result in
+Chapter~\ref{ch:mobiwac} to be interpreted as two stages of one model lineage.
+% AUT-25 (PENDENCIAS §4, author ruling: "hedge, deixar no left_out.md a medeição").
+% His technical reading was confirmed on the two points that depended on the codebase: MTLnet already
+% took two inputs, and both were views of the SAME place embedding; in the joint model the two streams
+% read two DIFFERENT exported tables from one check-in-level representation.
+% THE THIRD POINT IS HEDGED, DELIBERATELY, AND THIS IS THE POINT OF THE RULING. He wanted to say the
+% two inputs are CORRELATED. That is a quantity, and no one has measured it, so the text states the
+% fact of construction instead: the spatial path receives a stop-gradient copy of the place pool, so
+% common origin follows from how the graph is built and needs no measurement. Writing "correlated"
+% would require a number the project does not have. The measurement he set aside is recorded as LO-13
+% in LEFT_OUT.md, which is where a deliberate omission belongs rather than a pendency.
+% Probe: R13-aut25.
+% [NEEDS SIGN-OFF 10 | CLOSED] Author: "Essa descricao e critica e esta em um bom caminho"; he points
+% at science/mtl_v17_complete_picture.md for fuller context.
+%
+% THE CHAIN, verified in the code, kept because the claim "overrides exactly one component" is
+% checkable and someone will want to re-check it:
+%   mtlnet/model.py:39                      class MTLnet(nn.Module)                  (base)
+%   mtlnet_crossattn/model.py:207           class MTLnetCrossAttn(MTLnet)
+%   mtlnet_crossattn_dualtower/model.py:42  class MTLnetCrossAttnDualTower(MTLnetCrossAttn)
+% CrossAttn overrides only _build_shared_backbone (mtlnet_crossattn/model.py:362), swapping the
+% base's FiLM + residual stack (mtlnet/model.py:193-197) for cross-attention blocks; each stream
+% keeps its own feed-forward weights (:63 "Separate FFNs per task, no parameter sharing"). DualTower
+% changes only that the region head receives the raw post-pad-mask region sequence (:1-9, :86-90).
+%
+% WHY THIS BELONGS IN Ch.2, NOT Ch.5: the fact is about the RELATION between two chapters'
+% artifacts, and it is what licenses reading Ch.3's null result against Ch.5's positive one. Inside
+% the paper the joint model stands alone. Registry ids stay out of prose per WRITING_LAW §2.
+
+\input{tables/frame/lineage}
+
+% ---------------------------------------------------------------------------
+% CITATION / NUMBER LEDGER -- 2.2 (the spine; DGI -> HGI -> check-in level explicit)
+%  mikolov2013word2vec   skip-gram distributed embeddings (one-hot -> dense) [new bib; ERRATA: CBIC
+%  church2017word2vec -> this]
+%  perozzi2014deepwalk   DeepWalk: skip-gram on graph random walks [new bib]
+%  grover2016node2vec    node2vec: biased-walk neighborhood objective
+%  kipf2017gcn           GCN: localized spectral neighbor aggregation [new bib]
+%  velivckovic2017graph  GAT: learned attention over neighbors [ERRATA: cite ICLR 2018 version]
+%  hamilton2017graphsage GraphSAGE: inductive aggregators [new bib]
+%  belghazi2018mine      MINE: MI estimable/maximizable by gradient descent [new bib]
+%  hjelm2019dim          Deep InfoMax: local-global MI representation [new bib]
+%  velickovic2019deep    DGI: node reps by local-patch/global-summary MI (base of lineage) [ERRATA: consolidate DGI
+%  triple-key]
+%  feng2017poi2vec       POI2Vec: geographical influence in POI embedding (early mobility place-embedding)
+%  huang2023hgi          HGI: MI across POI-region-city hierarchy (VERIFIED firsthand, PDF). Direct base.
+%                        REV-019 (2026-07-26): the "region-aware place embeddings" wording is CORRECT and was kept
+%                        (the implementation exports both a POI-level and a region-level embedding,
+%                        research/embeddings/hgi/hgi.py:101-110 + :176-199). Added instead the two qualifications a
+%                        domain examiner asks for: (a) Huang et al.'s stated goal is urban REGION representation
+%                        (abstract, VERIFIED firsthand in the repo PDF at articles/dissertacao/science/articles/:
+%                        "learning urban region representations ... evaluated on estimating urban functional
+%                        distributions, population density, and housing price"), so the POI-level intermediate is
+%                        REPURPOSED here for a sequential task the source never addresses; (b) the baseline was
+%                        retuned, w_r 0.4 -> 0.7. Sources for (b) in the [VERIFY] block at the clause itself.
+%  kazemi2019time2vec    Time2Vec: linear+periodic time encoding (general, cited at origin) [new bib]
+%  sitzmann2020implicit  SIREN: sinusoidal implicit neural reps (general)
+%  mai2020...spatial     Space2Vec: multi-scale position encoder (general)
+%  mai2023sphere2vec...  Sphere2Vec: spherical location encoder (general)
+%  russwurm2024...spherical spherical harmonics + SIREN location encoder (general; already in CoUrb bib --
+%                        existing key, ASCII-renamed 2026-07-25 from the former non-ASCII spelling
+%                        and re-typed from arXiv preprint to the ICLR 2024 record)
+%  perez2018film         FiLM: feature-wise linear modulation. FIX (domain F3): in Ch.3/4 FiLM conditions on
+%                        TASK IDENTITY (per-task gamma/beta); context enters by concatenation, NOT via FiLM.
+%  lin2021ctle           CTLE: context/time-aware per-visit embedding = the static->contextual hinge
+%  ENCODER ATTRIBUTION (domain F1 BLOCKER, FIXED): MTLnet (Ch.3) uses ONLY the place embedding + per-task FiLM;
+%                        the decomposed spatial/temporal/categorical encoders are CoUrb's (Ch.4) contribution.
+%                        Space2Vec (mai2020...) is named as background but adopted in NEITHER chapter.
+%  Check2HGI / check-in-level representation: the MobiWac work (submitted, under review). NO bib cite here --
+%                        silva2025mtlnet is the CBIC/MTLnet paper, NOT Check2HGI (fact-gate F1 BLOCKER, FIXED).
+%                        Deferred to \ref{ch:mobiwac} + the lineage table, as the lineage table already does.
+%  NUMBERS: none quoted in 2.2 (no dataset statistics). "fourth level", "seven"/counts not used here.
+%  CROSS-REF: Table~\ref{tab:fund:lineage} = the model-lineage table.
+% ---------------------------------------------------------------------------
+% Section 2.3 -- Multi-task learning
+
+
+\section{Multitask learning}
+\label{sec:fund:mtl}
+
+Multitask learning (MTL) trains related tasks together in the expectation that shared representations improve
+generalization~\cite{caruana1997multitask}. This section explains how tasks share a model,
+why that sharing may fail, and how multitask optimization responds to
+the failure. This dissertation builds joint models for two evolving task pairs. The first pair combines static category
+% [round12, 2026-08-03] "place representation" -> "place embedding". The author registered
+% "place representation" and revoked it hours later ("vamos usar so place embedding para evitar
+% conflitos e interpretacoes dubias"), which left this ONE live line using a term absent from the
+% fail-closed registry. It was the chapter's only use of that phrasing against eight uses of
+% "place embedding", so this is a one-off inconsistency and not a house convention. No claim changes:
+% the object is the same vector, Definition~\ref{def:fund:placelevel}.
+classification from a place embedding with next-category prediction from a check-in history. The final joint model
+reads a check-in history to predict both the next category and the next region of a visit. Whether the shared
+computation helps depends on the sharing topology and the training objective.
+
+\subsection{Sharing topologies}
+% [round9, register track] SPLIT for the register law (WRITING_LAW §1, hard-phrasing class (b);
+% gate src_utils/check_register.py, chained-qualification shape). The previous single sentence ran
+% 38 words with three qualifying connectives ("rather than", "though", "rather than") and three
+% commas, and held its main verb "is" until word 21. It is now two sentences, each with one idea and
+% its verb early. NOTHING ABOUT THE CLAIM CHANGED: the shared principle, the contrast with a single
+% common trunk, and the cross-attention-not-gating qualification all survive verbatim in substance.
+% One "rather than" was replaced by "instead of" to avoid raising the negative-parallelism density
+% that check_negative_parallelism.py holds under a ceiling; the second is kept because it scopes how
+% the principle is realized.
+
+The first design choice is where task-specific computation ends and shared
+computation begins.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9, 2026-07-30] TWO SENTENCES REWRITTEN, found independently by the style and the
+% AI-credibility personas as the same class the author caught in the gradient-cosine appendix
+% (apx_f_cosine.tex, which PRINTS as Appendix D): prose whose subject is the
+% document rather than the work.
+%   "each method named in the NEXT PARAGRAPH is a different answer" -- a forward pointer into the
+%     document's own layout. The methods differ from each other whatever order they are printed in.
+%   "CASTING IT THAT WAY OBLIGES ONE TO SAY what an optimum would be" -- announces that a statement is
+%     coming instead of making it. WRITING_LAW §1 sub-class 4 (self-reference to the writing).
+% A third instance the personas flagged, the caption clause explaining why a column exists, is already
+% gone: the 197-to-64-word caption cut removed it.
+
+\begin{definition}[Hard parameter sharing]\label{def:fund:hard}
+    Hard parameter sharing passes all inputs through a single shared trunk before
+    branching to task-specific output heads, so every task uses the same hidden
+    representations~\cite{ruder2017mtloverview}.
+\end{definition}
+
+\begin{definition}[Soft parameter sharing]\label{def:fund:soft}
+    Soft parameter sharing gives each task its own complete network and couples the
+    networks by penalizing differences between their
+    parameters~\cite{ruder2017mtloverview}.
+\end{definition}
+
+Definition~\ref{def:fund:hard} is the topology of the first joint model of this
+dissertation, and it runs the risk this section addresses. A shared trunk need not
+treat both tasks identically. Feature-wise Linear Modulation (FiLM) scales and shifts
+features according to an additional input~\cite{perez2018film}, and MTLnet uses it to
+condition its shared layers on task identity, so the two tasks read the same
+parameters through different scalings.
+% AUT-22 / GER-06 (see the removal note in §2.2.3.1): FiLM arrives here rather than among the
+% mobility representations, because it conditions a shared trunk and is therefore a property of the
+% sharing topology. The third sentence is new connective prose and states only what the CBIC
+% architecture does, which Ch.3 already describes; \cite{perez2018film} moved with the sentence and
+% no reference was added. Probe: R13-aut22.
+
+\begin{definition}[Negative transfer]\label{def:fund:negtransfer}
+    Negative transfer occurs when joint training leaves a task worse than its dedicated
+    single-task model.
+\end{definition}
+
+Because hard sharing is rigid and soft sharing requires many parameters, several
+architectures explore intermediate topologies. Cross-stitch units learn linear
+combinations of activations from different task networks~\cite{misra2016cross}.
+The multi-gate mixture-of-experts shares expert subnetworks but learns a
+separate routing gate for each task~\cite{ma2018mmoe}. Progressive layered
+extraction separates shared and task-specific experts across successive
+gates~\cite{tang2020ple}, while DSelect-k makes expert selection sparse and
+differentiable~\cite{hazimeh2021dselectk}. These methods selectively share
+computation instead of forcing every task through one fixed trunk.
+
+The joint model in Chapter~\ref{ch:mobiwac} builds a partial interaction
+subsystem based on this principle, using bidirectional cross-attention rather than
+routing gates. The tasks do not reuse the same weight matrices, but their streams
+cross within this jointly optimized module. Each stream queries the other to read its
+features, which couples their gradients without forcing their representations into a
+single bottleneck.
+
+% AUT-29 (PENDENCIAS §4, ruling: "Eu concordo com essa sugestão, mas ainda assim teremos que mudar o
+% inicio do 2.3.2, porque hoje o texto atual, já começa direto na formalização antes da problematica").
+% WHAT MOVED, AND WHY IT IS A PROMOTION RATHER THAN A REORDERING. "Gradient conflict" was a
+% SUBSUBSECTION of "Multi-objective optimization" and is now a SUBSECTION placed before it. The author's
+% original proposal was to move it ahead of its own parent while keeping it nested, which is not a
+% reordering: a child cannot precede its parent. Promoting it to a sibling gives the flow he wants
+% (problem, then formalism, then the literature, then the guarantees) with a hierarchy that still holds.
+% GER-09 and GER-10 asked for this same restructuring of §2.3. THEIR STATUS IS RECORDED IN TWO PLACES
+% THAT DISAGREE, and a reviewer was right that this comment reported only one side. The resolved archive
+% says they closed as a single piece of work with GER-08 and AUT-01; the live tracker's AUT-29 row still
+% describes them as open and says to decide them together. I acted on the archive, because a resolved
+% record is a decision and the tracker row is a note written before it. What that means concretely: if
+% the author reads GER-09/GER-10 as still live, this promotion is the change they asked for and should
+% be marked as satisfying them rather than reorganized a second time. Recording the conflict so this does not
+% reorganize the section a second time.
+% NOTHING BREAKS ON SECTION NUMBER: no \ref in the tree points at these headings by number. The one
+% cross-reference into this material is Definition~\ref{def:fund:conflict}, cited from the
+% loss-balancing subsection, and a \label travels with its block.
+% Probes: R13-aut29, R13-aut29b.
+
+\subsection{Gradient conflict}
+% [v2 review F-08, 2026-07-26] CAGrad description corrected (persona 10, who read arXiv:2110.14048).
+% The prior clause said CAGrad "seeks an update close to the average gradient while bounding
+% conflict". The constraint half was right; the objective half was not. The paper's problem is a
+% MAXIMIN, max_d min_i <g_i, d> subject to ||d - g_0|| <= c||g_0||: it maximizes the worst per-task
+% local improvement inside a ball around the average gradient, rather than bounding conflict. The
+% method's own authors describe it that way. No claim of this dissertation depends on the wording;
+% the correction is to describe a cited system as its own authors describe it (AGENT_GUARDRAILS
+% citation protocol).
+
+The second design choice depends on a quantity rather than on a preference: whether the
+tasks are asking for the same update at all. Gradient conflict describes one source of
+negative transfer, and it is a measured quantity rather than a figure of speech.
+% AUT-29. This sentence exists because promoting the subsection created an ORDINAL GAP: §2.3 walks the
+% reader through numbered design choices, and after the promotion the sequence read "The first design
+% choice" (sharing topologies) followed by "The third" (multi-objective optimization), with the newly
+% promoted subsection sitting between them announcing nothing. Measured across the live section, the
+% ordinals now run first, second, third with no gap and no repeat.
+% Conflict is called a design choice in the same series as the other two because deciding whether to
+% measure it, and what to do when it is present, is a choice the model builder makes. The subsection
+% keeps its own opening claim after this lead-in, so nothing was replaced.
+
+\begin{definition}[Gradient conflict]\label{def:fund:conflict}
+    Let $\mathbf{g}_i$ and $\mathbf{g}_j$ be the gradients of two task losses with respect
+    to the shared parameters, and let $\varphi_{ij}$ be the angle between them, so that
+    \begin{equation}\label{eq:fund:cosine}
+        \cos\varphi_{ij}
+        = \frac{\mathbf{g}_i^{\top}\mathbf{g}_j}
+        {\lVert \mathbf{g}_i\rVert\,\lVert \mathbf{g}_j\rVert}.
+    \end{equation}
+    The two tasks conflict at that point when $\cos\varphi_{ij}<0$~\cite{yu2020pcgrad}.
+\end{definition}
+
+The cosine between their gradients reads how the two requested updates are aligned and
+ignores how large they are: $+1$ means the tasks ask for the same update, $-1$ for
+opposite ones, and $0$ that the requests are orthogonal, each leaving the other's
+objective unchanged to first order. PCGrad changes a direction only when this cosine is
+negative. Other methods may still react to differences in gradient magnitude or task
+loss. In Chapter~\ref{ch:mobiwac}, none of nineteen such methods improves on a tuned fixed
+weighting across both tasks and both datasets screened. Appendix~\ref{apx:cosine} evaluates the final joint
+model and finds the task gradients equivalent to orthogonal within a margin of five
+hundredths at each of the four datasets measured there. A one-sample $t$ test separates the mean
+from zero at one of them, but that small departure remains within the equivalence margin.
+The combined result is that the deviations are detectable but too small to represent
+meaningful directional conflict at the scale considered by the balancers.
+
+\subsection{Multi-objective optimization}
+
+The third design choice is how several task losses determine one parameter update. A
+measured conflict has to be acted on somewhere, and the place where it acts is the step
+that turns two losses into one direction. Shared parameters can produce the negative
+transfer of Definition~\ref{def:fund:negtransfer}, so task relationships must be measured
+rather than assumed~\cite{standley2020tasks}. The training problem has
+multiple losses, and a standard scalar objective writes them as
+% AUT-29, second half of the ruling: "ainda assim teremos que mudar o inicio do 2.3.2, porque hoje o
+% texto atual, já começa direto na formalização antes da problematica". His reading was right: the old
+% opening announced the design choice and went straight into the scalar objective, so the equation
+% arrived before any statement of what problem it addresses.
+% The subsection now opens by naming the problem it inherits from the subsection that precedes it,
+% which is the one just promoted. That ordering IS the point of the promotion: conflict is defined and
+% measured first, then this subsection is where something is done about it.
+% ONE NUMBER CHANGED HERE AND IT IS NOT COSMETIC: "The second design choice" became "The third",
+% because promoting Gradient conflict inserted a subsection ahead of this one. The ordinal is prose
+% that counts the section's own structure, so it goes stale silently when the structure moves. Probe
+% R13-aut29b pins it.
+\begin{equation}\label{eq:fund:mtl-total}
+    \mathcal{L}_{\mathrm{total}}(\boldsymbol{\theta})
+    = \sum_{k=1}^{K} w_k\,\mathcal{L}_k(\boldsymbol{\theta}),
+\end{equation}
+% AUT-27 (PENDENCIAS §4): $\mathcal{L}_k$ was the ONE symbol in this equation with no gloss. The
+% prose already bound $K$, $\boldsymbol{\theta}$ and $w_k$; the per-task loss, which is what the
+% whole subsection is about, was left for the reader to infer. Measured before the edit: exactly one
+% live occurrence of the symbol in the chapter, inside this equation.
+% A note on how this was verified, because the first instrument lied: a normalized search for "L_k"
+% reduces to two characters and matches almost any text, so that reading was discarded as an
+% artifact and the symbol itself was located instead.
+% Probe: R13-aut27.
+over $K$ tasks and shared parameters $\boldsymbol{\theta}$, where $\mathcal{L}_k$ is the
+loss of task $k$. A balancing method changes the weights $w_k$ or the update direction
+that they induce. The scalar sum does not
+remove the multi-objective nature of the problem~\cite{sener2018mgda}. One parameter
+setting exhibits Pareto dominance over another when it is no worse on every task loss
+and better on at least one. A setting is Pareto optimal when no other setting dominates
+it, and the corresponding loss vectors form the Pareto front.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9c, PENDENCIAS_RESOLVIDOS 2.23 (arquivado 2026-08-02), readability report R-5, author decision "Aplique o
+% R-3,5,6 e o EX-6"]
+% SPLIT AT THE FIRST SEMICOLON, which is the fix the report prescribes. The sentence was 66 words with
+% one colon and two semicolons, the longest in the new block and the fourth longest in the chapter, and
+% its parallelism was false: the Nash-MTL clause carries two claims (what is proved, and what is not)
+% while the other two carry one each. Now: Nash-MTL alone with its two-part claim, then CAGrad and
+% Aligned-MTL, which are genuinely parallel and joined by "and". NO CONTENT MOVES and no citation
+% changes; the three guarantee statements are word-for-word what they were.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9, 2026-07-30] ATTRIBUTION CORRECTED (M2, MTL persona). It read "Two of these papers state the
+% residual limitation THEMSELVES", which reads as a self-criticism. Both papers make that criticism
+% about the methods they SUPERSEDE, as the motivation for their own contribution: CAGrad's abstract
+% says prior heuristics "could converge to any Pareto-stationary point" and offers its own convergence
+% to a minimum over the average loss; Aligned-MTL p.2 says such approaches "terminate once the Pareto
+% front is first reached ... might provide a suboptimal solution" and offers drift along the front to a
+% pre-defined weighting, naming Nash-MTL among its targets at p.5. The limitation is real and the
+% citation is correct for it; what was wrong was who the criticism was aimed at.
+
+\subsubsection{Guarantees and their limits}
+% [round9, 2026-07-30] EVERY GUARANTEE ABOVE WAS READ AT ITS SOURCE PDF THIS SESSION, downloaded
+% from arXiv and located by page. The point of the paragraph is that the five methods do NOT claim
+% the same thing, so each clause is anchored:
+%   nash                 arXiv:2202.01017v2, ICML 2022 per the arXiv comment field, 19 pp.
+%                        p2: "a point is called Pareto stationary if there exists a convex
+%                          combination of the gradients at this point that equals zero. Pareto
+%                          stationarity is a necessary condition for Pareto optimality."
+%                        p6 Theorem 5.4: the sequence "has a subsequence that converges to a Pareto
+%                          stationary point". p6 and p14 Theorem 5.5: "if we also assume that all the
+%                          loss functions are convex then the sequence ... converges to a Pareto
+%                          optimal point" -- hence "only under an added convexity assumption".
+%   liu2021cagrad        arXiv:2110.14048v2, NeurIPS 2021, 20 pp. Def. 3.1 p4 (dominance,
+%                        optimality, stationarity as min_w ||g_w(theta)|| = 0). Theorem 3.2(1) p5:
+%                        "all the fixed points of CAGrad are Pareto-stationary points". Its p1 states
+%                        the family criticism quoted in the last clause: prior methods "lack
+%                        convergence guarantee and/or could converge to any Pareto-stationary point".
+%   senushkin2023aligned arXiv:2305.19000v1, 16 pp. Def. 1 p5; theorems pp12-13, "converges linearly
+%                        to a Pareto-stationary point" with pre-defined task weights. p2 and p5 carry
+%                        the same criticism: methods converging to "an arbitrary Pareto-stationary
+%                        solution" tend to overfit a subset of tasks.
+%   yu2020pcgrad         arXiv:2001.06782v4, NeurIPS 2020, 27 pp. Theorem 2 p5 is the one-step
+%                        inequality L(theta_PCGrad) <= L(theta_MT) under its three stated conditions
+%                        (the angle and magnitude of the two gradients, a curvature lower bound, a
+%                        step-size bound); Theorem 1 p4 is the two-task convex convergence dichotomy.
+%                        MEASURED: the string "Pareto" occurs ZERO times in the paper. The instrument
+%                        was validated on the same extraction (27 pages, 90,294 characters, 185
+%                        "gradient", 25 "theorem", 14 "cosine similarity"), because a grep returning
+%                        zero is a broken instrument until proven otherwise. Hence "no Pareto claim
+%                        at all", which is a statement about the paper, not about the method's worth.
+%   sener2018mgda        arXiv:1810.04650v2, NeurIPS 2018, 15 pp. Def. 1 p3 carries dominance (a) and
+%                        Pareto optimality, the Pareto set and the Pareto front (b) -- the two
+%                        definitions this paragraph's predecessor attributes to it. p4: "Although
+%                        every Pareto optimal point is Pareto stationary, the reverse may not be
+%                        true."
+% DELIBERATELY NOT CITED: Desideri's original MGDA paper. It has no entry in references.bib, it was
+% reachable this session only as a secondary reference inside the two papers above, and no sentence
+% here needs it (AGENT_GUARDRAILS R1: a reference is usable only when its own source was opened).
+% GLOSSARY: Pareto dominance, Pareto optimality, Pareto-stationary point and gradient conflict were
+% registered in GLOSSARY.md §4 and §6 BEFORE this prose landed, per the fail-closed rule and the
+% author's decision in PENDENCIAS_RESOLVIDOS 2.12 (arquivado 2026-08-02) ("DESICAO: A."). Source ledger:
+% src_utils/_history/_round9/31_pareto.md.
+% NO NUMBER IS QUOTED in these three paragraphs, by design (CONSIDERATIONS work-list item 28: define
+% the conflict measure in Chapter 2, report its value only where it was measured).
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9, 2026-07-30] TERM NAMED (style persona, REQUIRED). The sentence defined the concept without
+% ever using its registered name: "gradient conflict" appears 2x in GLOSSARY.md §4 and appeared ZERO
+% times in this chapter's live prose, so the registry row that the gradient-cosine appendix's
+% orthogonality result (apx_f_cosine.tex, printed as Appendix D) points
+% back to had no anchor in the reader's text. The GLOSSARY is fail-closed in one direction (no unregistered
+% term in prose); this was the other direction, a registered term with no prose to anchor it, which no
+% gate checks. The fix is one word: the definition now carries the registered name (see GLOSSARY §4).
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9, 2026-07-30] SENTENCE CORRECTED, and it was a technical error, not a wording one. It read
+% "...which puts a limit on what any of these methods can contribute." FALSE for every method named
+% except PCGrad, and the MTL-expert persona proved it with a worked counter-example that I reproduced
+% numerically before accepting: for g1=[3,0], g2=[0,1] (cosine exactly 0), PCGrad's rule projects only
+% when the cosine is negative, so it is a no-op; MGDA's min-norm solution weights [0.10, 0.90] and
+% deviates 53.1 degrees from the equal-weight sum; Aligned-MTL sees a condition number of 3.0, a
+% system it exists to rescale. Uncertainty weighting and GradNorm never read the angle at all.
+% THE DISSERTATION ALSO CONTRADICTED ITSELF: Chapter 5 (5_mobiwac/02_related.tex) reports Nash-MTL
+% exceeding equal weighting on next-category at Alabama by 0.68 points. If orthogonality left a
+% balancer nothing to contribute, that number could not exist.
+% The replacement keeps the true half (the angular channel is empty, which is PCGrad's channel) and
+% states what the others still do, tied to the measurement this document actually has.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9, 2026-07-30] THREE CORRECTIONS IN ONE SENTENCE, all from the MTL persona, all verified here
+% before applying. The sentence read: "finds the two tasks' gradients statistically indistinguishable
+% from orthogonal on the datasets measured there; it reads that result as the reason no balancing
+% method improved on a fixed weighting in this work".
+%  (M4) "STATISTICALLY INDISTINGUISHABLE" IS FALSE AS STATED. Re-measured at the fold unit over
+%       _history/_round7/gradient_cosine_observations6.parquet: a one-sample t-test on the five fold means
+%       rejects zero at THREE of the seven datasets -- alabama p=0.0125, california p=0.0478,
+%       georgia p=0.0093. What the appendix actually establishes is EQUIVALENCE within +/-0.05 (TOST),
+%       which is a different and weaker claim, and it prints both. "Equivalent within a margin" is now
+%       stated with the margin, and the three departures are named rather than hidden.
+%  (M3) "THE REASON" DROPPED CHAPTER 5's QUALIFIERS. That chapter scopes the finding to nineteen loss
+%       and gradient methods on its own datasets; "the reason ... in this work" read as a general
+%       explanation. Now "one part of the reason", which is what the evidence carries.
+% The margin is written in words ("five hundredths") because §2.3 has not introduced the TOST notation
+% at this point in the chapter; the appendix states it as +/-0.05 where the test is defined and also
+% writes it as "five hundredths" in its own prose, so the two agree.
+% [CORRECTION 2026-07-30, found by review] THIS SENTENCE FIRST SAID "two hundredths", which is 0.02.
+% The margin tested is +/-0.05. Two hundredths is TIGHTER than anything that was run, so the sentence
+% asserted a stronger equivalence than the evidence supports -- and the provenance comment beside it
+% said +/-0.05 in the same cell, so the contradiction was visible on screen as I wrote it. No +/-0.02
+% TOST exists anywhere in this project. The wrong number reached the rendered PDF at p.23 and commit
+% 91e7956a before it was caught.
+
+% [2026-09-04, AUTHOR-APPROVED cuts, item 6] The method-by-method inventory is compressed around
+% "claims no Pareto property" (R9-pareto, kept verbatim). Each method keeps its OWN verb, so no
+% guarantee is strengthened or weakened: Nash-MTL "convergence of a subsequence" and the convexity
+% caveat; CAGrad "fixed points"; Aligned-MTL "converges ... when task weights are fixed in advance";
+% PCGrad "no Pareto claim" and the one-update bound with its three conditions. Nine sentences become
+% seven. The parent paragraph before the heading (the three Pareto pins) is untouched, and the
+% Aligned-MTL "condition number" sentence pinned by R11-aligned lives in §2.3.4, not here.
+The guarantees of balancing methods are usually weaker than Pareto optimality. A
+Pareto-stationary point is one at which a convex combination of the task gradients is
+zero, a condition that is necessary but not sufficient for Pareto
+optimality~\cite{nash}. Nash-MTL proves convergence of a subsequence to such a point,
+and reaches Pareto optimality only under a convexity assumption that does not hold for
+a deep network~\cite{nash}; CAGrad's fixed points are such points~\cite{liu2021cagrad},
+and Aligned-MTL converges to one when task weights are fixed in
+advance~\cite{senushkin2023aligned}. PCGrad makes no Pareto claim of its own and
+guarantees only that one projected update does not produce a higher multitask loss than
+the original gradient, under conditions on the two task gradients, the loss curvature,
+and the step size~\cite{yu2020pcgrad}. Reaching the Pareto front would still leave the balance
+between tasks unspecified~\cite{liu2021cagrad,senushkin2023aligned}. This
+dissertation therefore claims no Pareto property for its models. It judges each task
+against its dedicated single-task model under the tests defined in
+Section~\ref{sec:fund:eval}.
+% [NEEDS SIGN-OFF 11 | CLOSED] Author confirmed both scope points: the gradient-cosine appendix
+% bounds itself to one architecture family, so nothing here extends the reading to Chapter 3's model,
+% which was never measured.
+% [NEEDS SIGN-OFF 12 | CLOSED] The mechanism repetition this item objected to is already GONE from
+% the paragraph below: it now reports only the MEASUREMENT (gradients equivalent to orthogonal within
+% a five-hundredths margin, a paired test separating the mean from zero at three datasets). The
+% "reads that result as the reason" clause and the "part of the reason" hedge are no longer in live
+% prose, and the appendix no longer carries a sign-off of its own.
+%
+% TWO RULES THAT STILL BIND THIS PARAGRAPH:
+%  1. CITE THE APPENDIX BY \ref, NEVER BY DATASET COUNT. "at every dataset measured there" is the
+%     durable phrasing; a hardcoded count becomes a second place to correct and to disagree.
+%  2. DO NOT re-import the appendix's mechanism claim here. Restating it in the frame chapter widens
+%     its audience, and under AGENT_GUARDRAILS C2 a connective claim about what the arc shows is
+%     still a claim. The measurement may be reported; the mechanism explanation stays in the
+%     appendix, which bounds itself to models shaped like that one (apx_f_cosine.tex:587).
+% This paragraph answers advisor items G8.4 and G10 in src_utils/CONSIDERATIONS.md: it defines the
+% measure so the appendix's result has something to point back to.
+
+\subsection{Loss-balancing methods}
+% ---------------------------------------------------------------------------
+% CITATION / NUMBER LEDGER -- 2.3 (verbs bound to tests; no result upgraded)
+%  caruana1997multitask   MTL = inductive transfer via shared representation (defines MTL)
+%  ruder2017mtloverview   hard vs soft parameter sharing (frames design space) [new bib, @misc arXiv:1706.05098]
+%  misra2016cross         cross-stitch soft sharing [ERRATA DOI -> 10.1109/CVPR.2016.433]
+%  ma2018mmoe             MMoE: per-task gates over shared experts (routing)
+%  tang2020ple            PLE/CGC: shared vs task-specific experts (structured sharing) [new bib]
+%  hazimeh2021dselectk    DSelect-k: differentiable sparse expert selection [new bib]
+%  PLE lineage FIX (domain F6): joint model adopts the structured-sharing PRINCIPLE (shared+task-specific),
+%                        realized with cross-attention, NOT a PLE/MoE descendant. Reworded, no "descends from".
+%  standley2020tasks      negative transfer / which tasks to learn together; joint can hurt (VERIFIED arXiv abstract;
+%  existing CBIC key).
+%                        FIX (both gates F2): negative transfer DEFINED here, folded onto standley -- Zhang2020 REMOVED
+%                        (Zhang2020 = iMTL next-POI recommender, NOT negative-transfer literature; reserved for
+%mobility use if needed).
+%  sener2018mgda          MTL as multi-objective optimization; weighted sum valid only if no conflict (VERIFIED arXiv
+%  abstract; existing CBIC key)
+%  kendall2018uncertainty homoscedastic-uncertainty loss weighting [new bib; DOI 10.1109/CVPR.2018.00781 verified +
+%  arXiv:1705.07115]
+%  chen2018gradnorm       GradNorm: gradient-magnitude balancing
+%  liu2019dwa             Dynamic Weight Average (DWA): weights from the loss rate of change
+%                         [PDF opened round 12; name p.2 + Sec. 4.1.3 p.5, Eq. 7 p.5]
+%  yu2020pcgrad           PCGrad: gradient projection off conflict
+%  liu2021cagrad          CAGrad: conflict-averse update w/ convergence [new bib]
+%  navon2022nashmtl       Nash-MTL: bargaining-game gradient combination [ERRATA: consolidate nash double-key/slash]
+%  senushkin2023aligned   Aligned-MTL: condition number of the linear system of gradients as the
+%                         stability criterion, aligning that system's ORTHOGONAL components (the
+%                         paper's own word, abstract; "principal-component alignment" was this
+%                         ledger's earlier gloss and was wrong -- corrected round 11)
+%  liu2023famo            FAMO: O(1) loss-decrease balancing
+%  lin2022rlw             RLW: random weighting is competitive [new bib]
+%  xin2022domtl           controlled study: MTL optimizers often do not outperform tuned fixed weights
+%  kurin2022scalarization Kurin et al. NeurIPS 2022 "In Defense of the Unitary Scalarization": plain loss-sum + std
+%                        regularization matches/improves specialized optimizers (VERIFIED firsthand arXiv 2201.04122
+%abstract
+%                        + NeurIPS 2022 venue). Added per domain F4 (canonical scalarization-skeptic anchor). [new bib]
+%  vandenhende2022mtl     dense-prediction MTL survey (anchor)
+%  yu2024survey           recent comprehensive MTL survey (existing CBIC key)
+%  Liao2018               MCARNN: activity + next place (parallel MTL, mobility)
+%  huang2024cslsl         CSLSL: causal cascade time->activity->location (category intermediate)
+%  silva2025mtlnet        MTLnet null result: hard sharing on place embedding ~ single-task (TIME-INDEXED, "for that
+%  configuration")
+%  NUMBERS: none quoted. MTLnet null stated as configuration-specific
+%  ("does not outperform ... for that configuration"), no metric upgraded.
+%  HONESTY: banned "beat" REMOVED (domain/fact F7): all four instances -> "outperform"/reworded. Region-as-end-target
+%  claim
+%           SCOPED to the multi-task co-equal setting (domain/fact F3): single-task region prediction (zhu2022drrgnn,
+%   2.1) exists.
+%           Null result written plainly and time-indexed; no result verb upgraded.
+% ---------------------------------------------------------------------------
+
+% [round10, GER-09 lineage] THE ATTRIBUTIONS BELOW ARE THE ONLY NEW CLAIM IN THIS SUBSECTION, and
+% each first-author surname was read at the record of the work itself this session, not retyped from
+% another bibliography. arXiv API title query, first author and identifier returned:
+%   kendall2018uncertainty  arXiv:1705.07115  Alex Kendall        (Crossref 10.1109/CVPR.2018.00781,
+%                           author family names Cipolla/Gal/Kendall, CVPR 2018)
+%   chen2018gradnorm        arXiv:1711.02257  Zhao Chen           abstract: "We present a gradient
+%                           normalization (GradNorm) algorithm"
+%   liu2019dwa              arXiv:1803.10704  Shikun Liu          (Crossref 10.1109/CVPR.2019.00197,
+%                           Liu/Johns/Davison; author line read at p.1 of the PDF, round 12). The
+%                           paper's headline contribution is the MTAN attention architecture and
+%                           DWA is a separable weighting scheme introduced alongside it, hence
+%                           "alongside their attention architecture" rather than a bare
+%                           "introduce". Body evidence for the name, the definition and the
+%                           separability is in the round-12 block at the clause itself.
+%   liu2023famo             arXiv:2306.03792  Bo Liu              abstract: "we introduce Fast
+%                           Adaptive Multitask Optimization FAMO, a dynamic weighting method"
+%   sener2018mgda           arXiv:1810.04650  Ozan Sener          (two authors: Sener and Koltun)
+%   yu2020pcgrad            arXiv:2001.06782  Tianhe Yu           v4 PDF opened this session, p.3:
+%                           "We define the gradients as conflicting when cos phi_ij < 0."
+%   liu2021cagrad           arXiv:2110.14048  Bo Liu
+%   nash                    arXiv:2202.01017  Aviv Navon
+%   senushkin2023aligned    arXiv:2305.19000  Dmitry Senushkin
+% TWO DIFFERENT LIUS, which is why the initials are written: Shikun Liu (DWA) and Bo Liu (CAGrad,
+% FAMO) are different people, and a bare "Liu et al." three times would assert one research line
+% where there are two. The initial is the minimum that keeps the sentence true.
+% NO GUARANTEE CLAIM IS MADE HERE. What each method PROVES is stated once, in the guarantees
+% subsection above, whose per-clause page-level provenance block is unchanged and not contradicted:
+% this subsection says only who introduced what and what class it belongs to.
+
+Balancing methods differ in whether they modify loss weights or task-gradient
+directions.
+
+The first class sets the weights $w_k$ of Equation~\ref{eq:fund:mtl-total} from
+different signals. Kendall et al.\ weight each loss by the task's homoscedastic
+uncertainty~\cite{kendall2018uncertainty}. Chen et al.\ introduce GradNorm, which
+balances gradient magnitudes and training rates~\cite{chen2018gradnorm}.
+% [round12, 2026-08-03] PROVENANCE, and one CORRECTION, for the clause that follows. The PDF of
+% arXiv:1803.10704v2 (science/articles/1803.10704v2.pdf) was opened this session, so the claim is
+% now located in the source rather than inferred from the abstract, and the [VERIFY] this block
+% replaces is closed. What was checked, in the BODY, not the abstract:
+%   NAME (p.2, end of Sec. 1, and the heading of Sec. 4.1.3 on p.5): the authors' own name is
+%     "Dynamic Weight Average (DWA)", singular "Average". The sentence SAID "dynamic weight
+%     averaging", which is not the paper's name; corrected, an R2 fix of the same class as the
+%     Aligned-MTL one recorded below, not a style change. Chapter 3 is a version of record and
+%     keeps CBIC's own "Dynamic Weight Averaging" wording; that divergence is deliberate.
+%   DEFINITION (p.2: "adapts the task weighting over time by considering the rate of change of the
+%     loss for each task"; Eq. 7 and its text, p.5: w_k(t-1) = L_k(t-1) / L_k(t-2), and "the loss
+%     value Lk(t) is calculated as the average loss in each epoch"). The previous wording, "using
+%     recent changes in the task losses", was fair but vaguer than the paper; the clause now names
+%     the rate of change and the ratio of the two previous loss values.
+%   "ALONGSIDE" HOLDS, and this was the word at issue. DWA is presented as a SEPARABLE weighting
+%     scheme, not as part of MTAN: it is introduced in the experimental section (Sec. 4.1.3, p.5)
+%     as one of three weighting schemes, and Tables 2 and 3 (pp. 6-7) run it on the Split, Dense
+%     and Cross-Stitch baselines as well as on MTAN, so it is not tied to the architecture. The
+%     paper also distinguishes it from GradNorm on exactly that axis (p.5: GradNorm "requires
+%     access to the network's internal gradients", DWA "only requires the numerical task loss").
+%   ATTRIBUTION (p.1): Shikun Liu, Edward Johns, Andrew J. Davison. "S. Liu" is correct, and the
+%     initial stays load-bearing against B. Liu (CAGrad, FAMO) in this same paragraph.
+%
+% [round12] The blank line below is load-bearing for a GATE, not decoration. check_trapped_prose
+% flagged the line above as trapped prose, and it was a FALSE POSITIVE WITH A REAL CAUSE: that line
+% ends on a self-contained sentence carrying no file name, no line reference, no finding id and none
+% of the author-directed vocabulary the checker's ledger test looks for, and the next source line was
+% body prose. By those tests it is indistinguishable from a genuine tear, so the checker was right to
+% raise it. The fix is to match this file's own convention (29 of its 34 comment blocks are separated
+% from following prose by a blank line) rather than to widen the checker's exemption list, which would
+% cost real detection to buy silence on a cosmetic point.
+
+S. Liu et al.\ introduce Dynamic Weight Average alongside their attention
+architecture, deriving each weight from the rate of change of that task's loss,
+measured as the ratio of its two previous loss values~\cite{liu2019dwa}, and B. Liu et
+al.\ propose FAMO, which tracks loss changes without computing every task gradient at
+each step~\cite{liu2023famo}.
+
+The second class changes the update direction instead. The multi-objective reading
+begins with Sener and Koltun, who cast multitask learning as multi-objective
+optimization~\cite{sener2018mgda}. Yu et al.\ introduce PCGrad, which projects away a
+conflicting component in the sense of Definition~\ref{def:fund:conflict}~\cite{yu2020pcgrad}.
+B. Liu et al.\ introduce CAGrad, which protects the worst per-task improvement within a
+neighborhood of the average gradient~\cite{liu2021cagrad}. Navon et al.\ introduce
+Nash-MTL, which treats gradient combination as a bargaining problem~\cite{nash}, and
+% [round11, 2026-08-03] CORRECTED, and the correction is an R2 fix, not a style change. THIS SENTENCE
+% SAID "adjusts the principal components of the gradient system". The paper says it aligns the
+% ORTHOGONAL components: arXiv:2305.19000v1 abstract, opened this session, "eliminates instability in
+% the training process by aligning the orthogonal components of the linear system of gradients".
+% "Principal" is not a synonym for "orthogonal" here -- it invites a principal-component-analysis
+% reading the authors do not claim -- and the paper's own stated criterion is the CONDITION NUMBER of
+% the linear system of gradients, which is what the sentence now names. Found while clearing the last
+% debt of round 10: four of the nine lineage attributions had been verified only by the sub-agent that
+% wrote them, and I checked all four at their own records. Three were exact (kendall2018uncertainty,
+% "considering the homoscedastic uncertainty of each task"; sener2018mgda, "explicitly cast multi-task
+% learning as multi-objective optimization"; and Sener and Koltun is correctly two authors, not "et
+% al."). This one was not.
+% [round12] The liu2019dwa [VERIFY] that stood here is CLOSED: the PDF is now on disk and both halves
+% of the clause were located in the body. The page-level provenance sits with the clause itself,
+% above, and the caution the flag protected survived the check -- "alongside" is right.
+Senushkin et al.\ introduce Aligned-MTL, which uses the condition number of the linear
+system of task gradients as a stability criterion and aligns that system's orthogonal
+components~\cite{senushkin2023aligned}.
+
+These methods must be compared with
+simple alternatives. Random loss weighting can be competitive~\cite{lin2022rlw};
+specialized optimizers often fail to improve on a tuned fixed-weight
+baseline~\cite{xin2022domtl}; and plain loss summation with standard regularization
+can match or improve on them~\cite{kurin2022scalarization}. Surveys of general and
+dense-prediction MTL summarize the same design
+space~\cite{vandenhende2022mtl,yu2024survey}. For this dissertation, a balancing
+method is useful only if it improves on a tuned fixed weighting.
+
+\subsection{Multitask learning for mobility prediction}
+
+Prior mobility applications show several ways to connect auxiliary targets to an
+exact-place recommendation.
+
+In mobility, MTL has been used almost entirely in the service of next place. MCARNN jointly
+predicts activity and place through a context-aware recurrent
+unit~\cite{Liao2018}. CSLSL instead predicts time, then activity, and then location in
+a cascade~\cite{huang2024cslsl}. iMTL couples next-POI recommendation with the
+handling of uncertain check-ins~\cite{Zhang2020}. Halder et al.\ develop multitask
+next-POI recommenders that account for queue time and, in the journal extension, user
+interest~\cite{Halder2021,Halder2022}. TME instead applies tree-guided multitask
+embedding to static semantic POI annotation~\cite{Xu2023}. HAMTL sets location
+prediction as its main task and category prediction as an auxiliary task, and its
+hierarchical decoder predicts the category of the next destination first and then
+refines the prediction of the specific location using that predicted
+category~\cite{wang2025hamtl}. The same group had already published IeMTLF, an
+interaction-enhanced multitask framework for next location
+prediction~\cite{wang2024iemtlf}.
+
+These methods confirm that category information and auxiliary tasks can support
+mobility prediction, but they do not instantiate the pair studied in the final
+chapter. Among the works reviewed here, none treats next category and next region as
+co-equal end targets of one joint model.
+
+This dissertation addresses that gap starting with MTLnet, which evaluates hard
+parameter sharing over a static place embedding~\cite{silva2025mtlnet}. That initial
+configuration fails to outperform dedicated single-task models, motivating the
+representation and topology refinements developed in subsequent chapters.
+% Section 2.4 -- Datasets and evaluation
+
+
+\section{Datasets and evaluation}
+\label{sec:fund:eval}
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% relative clause ending on a stranded preposition is the sub-case where a non-native reader's parse
+% breaks: "reference points each result is read" scans as a clause until "against" arrives.
+
+This section defines the datasets, metrics, reference points, and validation protocol
+used to interpret the results. It also states which statistical tests support the
+comparison verbs used in the final study.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.21 (arquivado 2026-08-02), the advisor's flag, 2026-07-30] "the tests that
+% license the verbs used
+% to report a comparison" -> "the statistical tests that decide which verb a comparison may be
+% reported with". THE TERM IS LEGITIMATE and it is not banned: a test does license a verb, and
+% AGENT_GUARDRAILS section 4b and WRITING_LAW's honesty rules use exactly that framing. The advisor's
+% objection is about a READER, and it holds at THIS site: this is the FIRST occurrence in the
+% document (defense build p. 24, section 2.4's opening paragraph), where "license" arrives with no
+% antecedent, and the reader who has not read the glossary meets a verb-of-permission applied to
+% grammar. The replacement says the same thing in the sentence's own terms and costs three words.
+% MEASURED, all 13 occurrences of the license family in live prose, read one by one, not sampled, and
+% counted so the buckets sum to 13: EIGHT are the verb sense and FIVE are dataset licensing.
+% Of the eight verb-sense occurrences, two were opaque (this one and the section-2.4.4 opener at
+% p. 25); one is self-explaining because it names the verb in quotation marks ("either test licenses
+% the verb ``outperforms''", p. 26); two are in Chapter 6 and one in the AI-disclosure appendix, all
+% three ordinary English with a concrete object; and TWO are in the gradient-cosine appendix, which
+% uses the same statistical sense correctly ("A test that merely failed to reject zero would license
+% one statement", "An equivalence test licenses the positive claim instead", both p. 98).
+% The five dataset-licensing occurrences are all in the data-ethics appendix (Apache License 2.0 and
+% the like), an unrelated sense that this item does not touch.
+% APPENDICES ARE NAMED HERE, NOT LETTERED, AND THAT IS DELIBERATE -- keep it that way.
+% FILENAMES AND PRINTED LETTERS DO NOT CORRESPOND, so a letter written from a filename is wrong.
+% Re-measured in the rendered 116-page defense build, 2026-08-04:
+%   apx_a_contributions.tex          -> APPENDIX A  (p. 98)
+%   apx_c_ai_disclosure.tex          -> APPENDIX B
+%   apx_e_ethics.tex                 -> APPENDIX C  (p. 101)
+%   apx_f_cosine.tex                 -> APPENDIX D  (p. 103)
+%   apx_h_check2hgi_joint_model.tex  -> APPENDIX E  (p. 108)
+% The letters run A-E over files A, C, E, F, H because apx_b, apx_d and apx_g live in the
+% supplementary volume. Re-derive rather than trust this list if content.tex changes:
+%   grep '\include{chapters/apx' content.tex | grep -v '^ *%'
+% (An earlier version of this note said the build was 101 pages and listed only A, C, D -- it
+% predated the Check2HGI appendix and had the ethics appendix on the wrong page.)
+% Only the two opaque ones are rewritten. The p. 26 sentence is kept because it is where the usage
+% becomes concrete, and rewriting it would remove the definition rather than the opacity; Appendix D's
+% two are kept because each names what is licensed in the same sentence.
+
+\subsection{Datasets}
+
+The geographic scope combines five state-level datasets with one city outside the
+United States.
+% [NEEDS SIGN-OFF 13 | CLOSED] Author: "Esse parece ser uma opcao legada. Nao tem mais uso."
+% Two metric promises (MRR and the relative multi-task performance delta) were retired in round 8
+% because no chapter reported either. Re-verified 2026-08-04 with check_audit_claims.live_text over
+% every .tex outside build/: zero occurrences of either term in live prose, so the removal still holds.
+%
+% TWO CONSEQUENCES THAT MUST NOT BE UNDONE:
+%  1. The Acc@10 sentence now states its own limitation directly ("a model can rank the true region
+%     tenth as cheaply as first") instead of naming MRR as the fix. Do not reintroduce a second metric
+%     to patch it; the honest point survives without promising a figure.
+%  2. The checkpoint-selection clause STAYS. WRITING_LAW §5 requires the selection rule to be defined
+%     alongside the metrics, and it is measured, not assumed: 5_mobiwac/06_results.tex:86 and :363 both
+%     name the joint validation score as the geometric mean of the two task metrics. It is a SELECTION
+%     RULE, not a reported score -- an earlier draft got this wrong by claiming no aggregate is
+%     reported anywhere.
+% Dropping the delta sentence also dropped the only \cite of maninis2019attentive; that entry was
+% removed from src/references.bib in the same commit (100 entries -> 99) so BibTeX does not carry a
+% silently unprinted entry. Do not re-add it without a citing sentence.
+
+% [2026-10-03, AUTHOR-RULED D7 (cite, do not cut); frame, no errata row] Every clause checked against the
+% source it cites; the ones no source supports are gone. Census tract: U.S. Census Bureau Geography Program
+% Glossary ("small, relatively permanent statistical subdivisions of a county ... updated by local
+% participants prior to each decennial census"; "generally have a population size between 1,200 and
+% 8,000 people, with an optimum size of 4,000") and Federal Register 83 FR 56277 (2018-11-13, final
+% criteria: "nationally consistent small, statistical geographic units, with stable boundaries"; optimum
+% 4,000, minimum 1,200, maximum 8,000). Cut: "roughly stable population" (the sources give a size range
+% and stable BOUNDARIES) and "it has no government of its own" (no source sentence; "statistical" carries
+% it). Mahalle: Law 5393 (Belediye Kanunu, 2005) Art. 3(d) "Belediye sinirlari icinde ... idari birimi"
+% and Art. 9 "Mahalle, muhtar ve ihtiyar heyeti tarafindan yonetilir"; Law 2972 (1984) Art. 1(c) and
+% Arts. 30-31 govern the election of mahalle muhtars and councils of elders. Cut: "smallest unit of
+% Turkish local administration" and "one level below the district" (neither law says so). "unit of
+% government" -> "administrative one" (the law's own word, idari). Law 5442 (Il Idaresi Kanunu) was
+% considered and not used: the election of the mahalle head (muhtar) is Law 2972, not 5442. The Turkish
+% word for the head is kept out of the prose (GLOSSARY has no row; probe R13-mahterm, fail-closed):
+% "administered by an elected head and council of elders". Boundaries "can be updated", as the glossary
+% says, not "are updated". Probes R13-mahfull and R13-mahfull2 were re-pinned to this wording the same
+% day; verified.
+The experiments use two sources of check-ins. Gowalla is the main source, and the
+dissertation evaluates Alabama, Arizona, Florida, California, and
+Texas~\cite{cho2011gowalla}. Istanbul check-ins come from Massive-STEPS, which also
+draws attention to the field's continued dependence on old
+% [2026-08-03, the author's request: "we may explain it in the fundamentals>dataset as well, so in
+% there we can give more detail as necessary".] The one-clause gloss stays in the introduction; the
+% fuller account belongs here, in the dataset description that supplies the unit.
+% WHY BOTH UNITS AND NOT ONLY THE MAHALLE. Measured across the whole live tree: neither unit was ever
+% defined anywhere. "census tract" appears in six files and is never explained; the closest thing is
+% Chapter 5's "A census tract is a neighborhood, not a radio cell", which says what it is not.
+% Glossing only the Turkish term would have implied the American one needs no explanation, which is
+% the asymmetry a reader outside the United States would notice first.
+% WHAT I DELIBERATELY DID NOT WRITE. The word for the elected head of a mahalle is not in the
+% GLOSSARY, and §1's rule is fail-closed: an agent PROPOSES a registry entry and the author approves
+% it BEFORE the term reaches prose. So the sentence says "an elected local administrator" and the
+% term itself is proposed in the handoff instead of minted here. Sources for the two definitions are
+% recorded in the same handoff note; nothing in this paragraph is written from memory.
+datasets~\cite{wongso2025massivesteps}. The two sources supply different areal units
+for the region target: a census tract in the five United States datasets, and a
+\emph{mahalle} in Istanbul. The two are not the same kind of object. A census tract is a
+statistical subdivision of a county, generally drawn to hold between 1,200 and 8,000
+residents. Its boundaries are meant to stay stable, and they can be updated before each
+decennial census~\cite{census2026glossary,census2018tracts}. A \emph{mahalle} is an
+administrative unit within a municipality's boundaries, administered by an elected head
+and council of elders~\cite{turkey2005law5393,turkey1984law2972}. Both partition a city at
+neighborhood scale, which is what makes the region target comparable across the two
+collections, but one is a statistical unit and the other an administrative one.
+Chapter~\ref{ch:mobiwac} reports how many regions each dataset contributes.
+% [2026-09-04, AUTHOR-APPROVED cuts, item 2] Removed: "The Foursquare dataset for New York and Tokyo
+% is another common benchmark~\cite{yang2015tsmc}, but it provides context only and is not used in
+% the experiments reported here." A dataset the text itself said is not used; the "provides context
+% only" clause was the patch for a fact-gate finding, and deleting the sentence is the clean patch.
+% yang2015tsmc may now be uncited in this chapter; orphans are kept by the author's ERR-4 ruling.
+% AUT-18, second half (PENDENCIAS §4). The unit names arrive HERE, in the dataset description, and
+% this half is written FIRST so that the pointer added to the task definition in §2.1.1.3 is true at
+% the moment it is written.
+% WHY THE ORDER MATTERS, recorded because I got it wrong on the first attempt: I initially deleted the
+% names from the definition and pointed the reader at this subsection before adding them here. Measured
+% afterward, the chapter then carried NO unit name anywhere, so the new cross-reference pointed at a
+% subsection that did not name what it promised, and a provenance comment asserted the names "survive
+% in §2.4.1" when the only surviving occurrences were in Ch.1, Ch.5, and tables/mobiwac/datasets.tex.
+% A pointer whose target does not carry the referent is worse than the specificity it replaced.
+% Probe: R13-aut18b.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round6, N-2, fact gate persona 06/07] REPAIRED. This clause used to read "Chapter 3 reports
+% five-fold cross-validation without identifying the split axis", which was true of the PUBLISHED
+% paper and became FALSE earlier the same day: the COD-007 addition at 3_cbic/results.tex now states
+% "The folds are formed by a stratified splitter over the samples rather than over the users". The
+% frame was asserting an absence the chapter it describes no longer has. The protocol-recovery pass
+% predicted this exact contradiction in writing before it happened; the repair was drafted, and then
+% not applied because the two files sat in different tracks' remits. Recorded because a predicted,
+% drafted, unapplied repair is a process failure, not a writing one.
+% The paragraph's point is unchanged and now rests on the two facts that carry it: both published
+% studies split by sample, only Ch.5 splits by user. The split axis of Ch.3 is now stated in Ch.3,
+% so the frame does not need to characterize its absence.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [round9c, PENDENCIAS_RESOLVIDOS 2.21 (arquivado 2026-08-02), the advisor's flag, 2026-07-30] "license verbs in
+% Chapter 5 alone" ->
+% "govern the comparison verbs of Chapter 5 alone". Second of the two opaque sites (defense build
+% p. 25). "license verbs" is the most compressed form in the document: no quoted verb, no object,
+% and the reader has to already know the convention to parse it. The scope claim, that only Chapter 5
+% is covered, is unchanged, and the sentence two paragraphs below still shows the convention
+% concretely by naming ``outperforms'' in quotation marks.
+
+\subsection{Metrics and reference points}
+
+Each sequential target has its own metric, and the scores are not combined into one
+claim of task performance.
+% ---------------------------------------------------------------------------
+% CITATION / NUMBER LEDGER -- 2.4 (numbers quoted, not computed; conventions named)
+%  DATASETS FIX (fact F4): "two ... serve as the ground" = Gowalla + Massive-STEPS/Istanbul (the two USED).
+%                        Foursquare (yang2015tsmc) is named as CONTEXT ONLY, explicitly not evaluated on (was
+%mis-counted as a 3rd "ground").
+%  cho2011gowalla        Gowalla origin, 5 US states used (KDD 2011)
+%  wongso2025massivesteps Massive-STEPS Istanbul benchmark; over-reliance on old datasets [preprint arXiv:2505.11239]
+%  yang2015tsmc          Foursquare NYC/Tokyo (TSMC2014), most-cited (815), covers both cities. CONTEXT ONLY (not
+%  used). [new bib]
+%  sokolova2009measures  macro-F1 = mean of per-class F1 (VERIFIED PDF). Primary category metric. [new bib]
+%  maninis2019attentive  Delta_m = avg relative per-task change vs single-task (VERIFIED PDF, Sec.4 + Table 3). Sign
+%  convention defined in addendum. [new bib]
+%  gambs2012mmc          mobility Markov chain = non-learned floor (targets next PLACE) [new bib]
+%  song2010limits        93% = next-LOCATION predictability bound (VERIFIED firsthand PDF). FIX (both gates F5): NOT
+%  presented
+%                        as a ceiling on category macro-F1 or region Acc@10; the dedicated single-task model is the
+%operative ceiling.
+%  kohavi1995crossval    stratified k-fold CV (VERIFIED by author). [new bib; Zenodo DOI 10.5281/zenodo.19712698 for
+%  a resolvable id]
+%  pedregosa2011sklearn  scikit-learn + StratifiedGroupKFold user-disjoint splitter.
+%                        SINGLE cite (author ruling); splitter behavior stated
+%                        defensively (v1.0/2021 addition). [new bib]
+%  REV-006 SCOPING (2026-07-26, fixed in the common text per the author's instruction, NOT in the errata).
+%    The protocol paragraph and the chapter roadmap presented user-disjoint splitting and the inferential tests
+%    as governing the whole document; they govern Chapter 5 only, and both halves are now scoped. Verified
+%    firsthand: Ch.5 splits by user (5_mobiwac.tex, "a test user's visits never appear in training"); Ch.4
+%    explicitly does not (4_courb.tex, "stratified by sample, not by user", repeated in its preface); Ch.3 states
+%    5-fold cross-validation without naming the axis in the published text. Significance testing is Ch.5-only:
+%    a sweep for p-value/Wilcoxon/t-test/Holm/TOST returns nothing in either published chapter, and Ch.3's one
+%    adjacent line argues from overlapping standard deviations with no test. The closing sentence therefore reads
+%    "wherever this dissertation reports a test" rather than "throughout the document".
+%  CLASS-WEIGHTING CONTRADICTION (author pending item 3.6, 2026-07-26). The prose said "The training pipeline
+%    counters the same imbalance with class-weighted cross-entropy", contradicting 5_mobiwac/04_method.tex:37 (Eq. 5.1
+%    context): "$L_{cat}$ and $L_{reg}$ are plain unweighted cross-entropy losses ... Class-weighting, tested on
+%    both outputs, lowered both region accuracy and category macro-F1" (identical in the version of record,
+%    articles/[mobiwac]/src/sections/04_method.tex:39). Fixed in Ch.2, not Ch.5, and NOT scoped to an earlier
+%    study: neither published chapter describes a class-weighted training loss, and the only class weighting in
+%    the codebase is inside the DGI embedding pre-training (research/embeddings/dgi/model/GCNEncoder.py:41-48),
+%    not the prediction pipeline this sentence is about. The sentence now names the real remedy (macro-F1 as the
+%    reporting metric) and reports the Ch.5 finding.
+%  wilcoxon1945          paired signed-rank test ("outperforms" bound to it) (VERIFIED PDF). [new bib]
+%  holm1979              Holm step-down family-wise correction
+%  lakens2017tost        TOST equivalence within a margin ("matches" bound to it, two-point margin) [new bib]
+%  NUMBERS: 93% (song2010limits, verified, scope-corrected); "roughly a third" Food = a REPRESENTATIVE STATE (Alabama
+%           Next-Category CHECK-IN distribution, Food 34.2% per docs/context/TASKS.md; qualitative, NOT recomputed;
+%           fact F9: addendum provenance pointer to be corrected to the check-in table, not the 32.5% POI-count table);
+%           "10" in Acc@10 (metric definition); "two-point margin" (TOST convention, GLOSSARY).
+%  OOD FORESHADOW (domain F8): region metric foreshadowed as "unseen region counts as a miss"; full OOD-Acc@10
+%  definition in Ch.5.
+%  Acc@10 and the majority-class floor: conventions with no origin DOI -- defined defensively, cited
+%           conventionally. MRR was in this line too and its definition is REMOVED from the chapter
+%           (COD-015d, round 8): no chapter reported it. Rationale now sits with the metrics
+%           paragraph, in the closed sign-off 13 block.
+%  pedregosa2011sklearn: StratifiedGroupKFold is a scikit-learn v1.0/2021 feature; single-cite ruling (author) --
+%  2011 paper for the
+%           library, splitter behavior stated defensively in prose.
+%           kohavi1995crossval: claim PLAUSIBLE (Zenodo re-deposit id), author to
+%           confirm original IJCAI-95 text.
+%  Delta_m ("relative multi-task performance change", maninis2019attentive) is REMOVED from the chapter
+%           (COD-015d, round 8): no chapter reported it either. Rationale now sits with the
+%           metrics paragraph, in the closed sign-off 13 block.
+%  four-of-six + two-point margin (referenced in 2.5): confirm against Ch.5 RESULTS_BOARD.md / PAPER_PLAN §3 at
+%  adaptation (fact NOTE 10).
+% ---------------------------------------------------------------------------
+
+\subsubsection{Next category}
+
+Next-category prediction uses macro-F1 because the class distribution is imbalanced.
+Food accounts for a quarter to a third of the next-visit labels in the datasets of
+Chapter~\ref{ch:mobiwac}, so
+plain accuracy can hide poor performance on less frequent classes. For $C$ classes,
+macro-F1 is
+\begin{equation}\label{eq:fund:macro-f1}
+    \operatorname{MacroF1} = \frac{1}{C}\sum_{c=1}^{C}
+    \frac{2P_cR_c}{P_c+R_c},
+\end{equation}
+where $P_c$ and $R_c$ are precision and recall for class $c$. The unweighted mean
+gives every class equal importance~\cite{sokolova2009measures}. It does not show which
+individual classes improve, and it can be low even when overall accuracy is high.
+% [2026-09-04, AUTHOR-APPROVED §2.4 scoping, removal 1] Removed: "The models use unweighted
+% cross-entropy rather than a reweighted loss. In Chapter~\ref{ch:mobiwac}, class weighting lowered
+% both category macro-F1 and region accuracy." False as a generalization and false even for Chapter 5:
+% 5_mobiwac/04_method.tex trains the category output with cross-entropy WITH logit adjustment and only
+% the region output with plain unweighted cross-entropy, and Chapters 3 and 4 do not declare the loss
+% of their prediction outputs at all. The sentence had itself been the correction of an earlier false
+% one ("class-weighted cross-entropy") and over-corrected into another generalization. The macro-F1
+% justification ("gives every class equal importance") stays above; the loss belongs to Chapter 5,
+% which states it (04_method.tex:37-49). No probe pins "unweighted", "cross-entropy" or "class
+% weighting" in this chapter.
+
+\subsubsection{Next region}
+
+Next-region prediction uses accuracy at 10 (Acc@10):
+\begin{equation}\label{eq:fund:acc10}
+    \operatorname{Acc@10} = \frac{1}{N}\sum_{i=1}^{N}
+    \mathbb{I}\!\left[y_i \in \operatorname{Top10}(\hat{\mathbf{p}}_i)\right],
+\end{equation}
+where $y_i$ is the true region and $\operatorname{Top10}(\hat{\mathbf{p}}_i)$ contains
+the ten regions with the largest predicted scores. The metric is the fraction of test
+check-ins for which the correct region appears in this set. It does not distinguish
+first place from tenth and does not measure the probability assigned to the true
+% AUT-30 (PENDENCIAS §4). TWO defects, both fixed here.
+% (a) FIRST USE: "OOD" was used as a bare acronym and the expansion "out-of-distribution" arrived
+%     about eighty characters LATER, inside the sentence the author reported he could not follow.
+%     WRITING_LAW §1 and §7 require the expansion AT first use. The acronym is now expanded on its
+%     first appearance and the later sentence no longer carries the expansion redundantly.
+% (b) THE SENTENCE ITSELF: the author's complaint was not the acronym alone. The old sentence stated
+%     an arithmetic identity in words, opening with "Equivalently", which asks the reader to hold two
+%     formulations at once to learn what the metric IS. It is now a direct definition. No number and
+%     no convention changes; the identity is the same one, read forward instead of sideways.
+% A related record correction belongs with this edit: content.tex's own comment at :262-264 lists
+% OOD among acronyms that "never appear in prose", which stopped being true. Handled there.
+% Probe: R13-aut30.
+region.
+% [2026-09-03, PROPOSED BY THE WRITER at the author's release, cold-read wall B] The reader saw
+% "count as errors" and then a formula that EXCLUDES those check-ins and discounts, and could not
+% derive the "therefore". The two are one identity, now shown: an out-of-distribution check-in adds a
+% miss to the numerator of Equation acc10 and one check-in to its denominator, so the whole-set
+% accuracy equals the in-distribution accuracy times (1 - f). This was the only one of the three
+% metrics given in prose arithmetic; it now has a displayed equation like the other two, plus one
+% sentence on WHY the discount form is the reported one. The R13-aut30-pinned sentence ("The reported
+% out-of-distribution discounted, or OOD-discounted, Acc@10 is therefore ...") is byte-identical.
+A region that does not occur in the training partition cannot be predicted, because the
+model has no output for it, so a test check-in whose region is absent from training
+counts as an error. Counting those errors directly and applying a discount give the same
+number. With $f$ the fraction of test check-ins whose region is out of distribution and
+$\operatorname{Acc@10}_{\mathrm{ID}}$ the accuracy at 10 over the remaining check-ins,
+\begin{equation}\label{eq:fund:acc10-ood}
+    \operatorname{Acc@10}_{\mathrm{OOD}} = (1-f)\,\operatorname{Acc@10}_{\mathrm{ID}},
+\end{equation}
+because every out-of-distribution check-in adds a miss to the numerator of
+Equation~\ref{eq:fund:acc10} and one check-in to its denominator. The reported
+out-of-distribution discounted, or OOD-discounted, Acc@10 is therefore the Acc@10
+measured on the in-distribution check-ins, multiplied by one minus the fraction of
+check-ins whose region is out of distribution. The discount form is the one reported
+because it keeps apart the two quantities a reader needs: how well the model ranks the
+regions it can predict, and how much of the test set it cannot predict at all.
+Chapter~\ref{ch:mobiwac} gives the complete evaluation procedure.
+
+\subsubsection{Joint-model selection and floors}
+
+% [2026-09-04, AUTHOR-APPROVED §2.4 scoping, scoping 1] The joint-best convention was presented as
+% "the validation protocol" in general. It is Chapter 5's: in Chapters 3 and 4 the scalar is not even
+% computable (their pair is static category classification + next category, no Acc@10 to multiply),
+% and Chapter 3 says it reads each task at the epoch of its own highest validation macro-F1
+% (3_cbic/results.tex:36). NOT removed, because apx_a_contributions.tex:76 uses "joint-best
+% convention" and this is the document's only definition. Scoped to Chapter 5, with one sentence on
+% Chapter 3; nothing is asserted about Chapter 4, whose live text does not declare its convention.
+Dedicated single-task models evaluate each target independently using its respective
+metric. In Chapter~\ref{ch:mobiwac}, evaluating the joint model requires a single
+validation signal that considers the performance of both outputs simultaneously, and
+that chapter's protocol combines category macro-F1 and region Acc@10 into a scalar
+selection score:
+\begin{equation}\label{eq:fund:joint-selection}
+    S_{\mathrm{joint}} = \sqrt{\operatorname{MacroF1} \times \operatorname{Acc@10}}.
+\end{equation}
+Under this \emph{joint-best} convention, both reported task scores come from the same
+validation-selected checkpoint, reflecting the balanced performance of a single
+deployable system. Chapter~\ref{ch:cbic} pairs static category classification with
+next-category prediction and reads each task at the
+epoch of its own highest validation macro-F1.
+
+% [2026-09-04, AUTHOR-APPROVED §2.4 scoping, removal 2] Removed: "Basic baselines establish
+% performance floors: a majority-class predictor for category classification and a first-order Markov
+% model over training visits for sequential transitions~\cite{gambs2012mmc}." Measured: "majority-class"
+% and "Markov" occur only in this chapter and in Chapter 5, which declares its own floors in
+% 05_setup.tex; no other chapter or appendix depends on them. The lead sentence dropped "lower-bound
+% baselines" with them. The next sentence, the dedicated-model reference, is shared by Chapters 3 and
+% 5 and anchors the verdict ladder; it stays. gambs2012mmc becomes an orphan; kept (ERR-4 ruling),
+% marked as an archive entry in references.bib.
+To interpret these scores, model performance is evaluated against reference models.
+The primary reference for evaluating multitask gains is the dedicated single-task model
+for each output.
+% [2026-09-04, AUTHOR-APPROVED cuts, item 3] Removed the second statement of the 93-percent limit
+% and its caveat ("Theoretical limits from prior work, such as the 93~percent potential
+% predictability reported for coarse location prediction~\cite{song2010limits}, do not serve as
+% ceilings for seven-class macro-F1 or region ranking."). The §2.1 opening already states the number
+% and the same caveat (coarse next-location, not a reference point for these metrics), and
+% song2010limits stays cited there.
+
+% AUT-31 (PENDENCIAS §4, author ruling "OK"). §2.4's third subsection did two jobs: it described how
+% the data is divided AND which comparison each design supports. A reader after one had to read past
+% the other. The split material becomes its own subsection and the remainder is renamed for what it
+% now does alone.
+% THE LABEL WAS THE RISK AND IT IS NOT AFFECTED: \label{sec:fund:eval} sits on the SECTION
+% (\section{Datasets and evaluation}), not on either subsection, so no \ref target changes and no
+% subsection carries a label. Re-measured 2026-08-04 across every .tex with comments stripped: FIVE live
+% \ref{sec:fund:eval}, all in this file.
+% CORRECTION, and the reason it is recorded rather than silently overwritten: this comment previously
+% said SIX. That figure came from a grep run while my own first attempt at AUT-18 was still on disk, and
+% that attempt added a second reference in one paragraph. The attempt was reverted, the re-application
+% deliberately leaves one reference there, and the committed count is five. The lesson is the same one
+% AGENT_GUARDRAILS §4b records about measuring against a transient tree: a number measured mid-edit is
+% not a number about the document.
+
+% AUT-31, ORDER DEVIATION, recorded after a reviewer finding rather than corrected silently.
+% The plan the author approved enumerated four subsections in this order: Datasets (stays), NEW
+% "Preparation and data split", "Metrics and reference points" (stays), and the old §2.4.3 renamed
+% "Comparison and statistical decisions". The delivered order puts Preparation AFTER Metrics, because the
+% new subsection was carved out of the split material that lived at the end of §2.4.3 and was left where
+% that material already sat.
+% WHY IT IS LEFT THIS WAY AND FLAGGED INSTEAD OF MOVED: the plan marks both Datasets and Metrics as
+% "(fica)", stays, which reads as a list of the four subsections rather than a mandated sequence, and
+% moving a subsection is the class of change the author reserves to himself (AUT-29 is the precedent: he
+% ruled on the promotion explicitly). Either order is defensible on content: Metrics-then-Preparation
+% goes from what is measured to how the data is divided, Preparation-then-Metrics goes from the data to
+% the measurement. One line moves it if he wants the enumerated order.
+
+\subsection{Preparation and data split}
+% [2026-09-02, B-12] Label added so the Ch.3 preface can point at this subsection by number; no
+% existing \ref changes (sec:fund:eval stays on the section).
+\label{sec:fund:split}
+
+How the check-ins are divided determines which population a result covers.
+% The first draft of this line read "decides which population a result speaks for", which gate 25
+% flagged as a Class B shape: an abstract noun as the agent of a speech verb. A result does not speak.
+% WRITING_LAW §1 bans the shape, so the sentence names the relation instead of animating the result.
+
+% [2026-09-06, AUTHOR-APPROVED: "sao coisas universais sobre os 3 caps ... um conceito critico que
+% ja tem que ser discutido nesse primeiro momento"] The subsection is named "Preparation and data
+% split" and had no preparation: live count of "window" in this chapter was 0 (Chapter 5 uses it 34
+% times). One shared constant and two varying axes, every value quoted from delivered text:
+%   window length  Ch.3 "non-overlapping windows of length $L_h\!=\!9$" (3_cbic/method.tex:41);
+%                  Ch.4 "Non-overlapping windows of size $L_h = 9$" (4_courb/methodology.tex:38);
+%                  Ch.5 "overlapping sliding windows of nine visits" (5_mobiwac/05_setup.tex:28)
+%   stride         Ch.3/Ch.4 non-overlapping (same lines); Ch.5 "A new window starts at each visit"
+%   user filter    Ch.3 "users with fewer than five visits are discarded" (method.tex:40); Ch.4 same
+%                  wording (methodology.tex:38); Ch.5 "For each user with at least ten visits"
+%   short windows  Ch.3 "Histories shorter than nine are padded by a special POI whose embedding is
+%                  $\mathbf{0}$" (method.tex:45); Ch.4 "Shorter sequences are filled with padding of
+%                  zero vectors" (methodology.tex:96, fourth sentence of a long source line); Ch.5
+%                  keeps "only the full-length window that ends at this target" (05_setup.tex:28).
+%                  A first version of this comment said Ch.4 "states no rule". The sweep for
+%                  "pad|shorter than|zero vector" DID match methodology.tex:38, but the hit was
+%                  displayed truncated at 200 characters and the visible fragment ("fewer than five
+%                  visits ... windows of size $L_h = 9$") was read as the whole match; the padding
+%                  sentence sits later on the same source line. Caught by the registry. All three
+%                  axes split the same way, 2 vs 1.
+% The paragraph states the constant once, names the two axes that differ with their values, and reads
+% the difference as a protocol difference (objective 4's territory), not as a contradiction. No stride
+% or filter is asserted for the chapter itself. The author's own check corrected the registry's earlier
+% claim that the three values "do not coincide": the length coincides; the stride and filter do not.
+Before any split, each study turns a user's ordered check-ins into fixed-length
+examples. All three use the same window: a history of $\ell=9$ visits
+(Definition~\ref{def:fund:history}) and the visit that follows it as the target. Three
+details of the preparation differ across the studies, and all three are protocol
+differences rather than contradictions. The first is the stride: Chapters~\ref{ch:cbic}
+and~\ref{ch:courb} draw non-overlapping windows, so consecutive examples share no
+visits, whereas Chapter~\ref{ch:mobiwac} starts a new window at every visit, so
+consecutive examples overlap in eight of their nine visits and each user contributes
+many more examples. The second is the minimum history a user must have to enter the
+data: fewer than five visits excludes a user in the first two studies, fewer than ten
+in the third. The third is how a history shorter than the window is handled: the first two studies pad it with zeros, and the third keeps, for
+each target, only the full-length window that ends at it. Each article
+chapter states its own values, and
+the next subsection reads each result under the protocol that produced it.
+
+The studies use stratified cross-validation~\cite{kohavi1995crossval}, but the
+split changes across chapters.
+% [2026-09-02, B-11 + B-18, author-approved] The banca asked "por que?" twice, sixteen pages apart,
+% about the five folds (p.46) and the 80/20 split (p.62); they are one question, and no sentence in
+% the document answered it (measured: zero live occurrences of "bias-variance", "why five", "number
+% of folds"). Answered here, in the frame, not in the reproduced chapters. Kohavi is cited only for
+% what the bib comment verified at the source (Section 6, p.1143: "We recommend using stratified ten
+% fold cross-validation for model selection"); the five-fold choice is given its own reason, the
+% cost of the four-seed design, with the document's own numbers (twenty fitted models, :1750; 3.2
+% million check-ins, 5_mobiwac/05_setup.tex:22). Kohavi is NOT credited with recommending five.
+All three studies use five folds, so each fold holds one fifth of the data for
+validation and the remaining four fifths for training. Stratification follows
+Kohavi~\cite{kohavi1995crossval}, who recommends the stratified estimator and, for model
+selection, ten folds. In the final study, which repeats the whole experiment under four
+seeds, five folds keep that design at twenty fitted models per configuration on datasets
+of up to about 4.1 million check-ins.
+% [2026-09-08, AUTHOR-AUTHORIZED frame fix, no errata] "up to 3.2 million" -> "up to about 4.1
+% million". This is a COST argument for five folds over Kohavi's ten, and its number is the largest
+% dataset in the final study, which covers all six: Texas, 4,089,892 check-ins
+% (tables/mobiwac/datasets.tex), not California's 3,171,380. The correction strengthens the argument
+% (a larger dataset is more reason for five folds). Distinct from the Ch.5 range fix of the same day:
+% that sentence was a range wrongly ordered by region count; this one is a maximum. No probe pins it.
+% [2026-09-04, AUTHOR-APPROVED §2.4 scoping, scoping 2] "Five folds are used here because the final
+% study..." presented Chapter 5's reason as everyone's; Chapters 3 and 4 used five folds in papers
+% published before that design existed. Scoped with "In the final study"; the B-11/B-18 answer
+% (this sentence + the Kohavi sentence before it) stays, and the Kohavi sentence is untouched.
+Chapters~\ref{ch:cbic} and~\ref{ch:courb} stratify
+samples, so one user's check-ins may occur in both training and validation.
+Chapter~\ref{ch:mobiwac} instead uses a grouped, stratified splitter that keeps each
+user on one side of a fold~\cite{pedregosa2011sklearn}. In that chapter, each seed
+defines one complete repetition of the five-fold experiment. It determines the model's
+random initialization and how users are divided among the five folds. The study uses
+four seeds, and each seed produces five fitted models, for a total of twenty fitted configurations for each
+experiment.
+% WITHIN-SEED SHARING: WHAT IS ESTABLISHED AND WHAT IS NOT. Corrected 2026-08-05 after a reviewer found
+% this stated as a measured fact. It is a CODE-LEVEL property, not something measured on the artifacts:
+% src/data/folds.py builds the joint-model folds at :1247 and the dedicated next-task folds at :1159 with
+% the SAME call, StratifiedGroupKFold(n_splits, shuffle=True, random_state=self.seed) split on the next-task
+% rows grouped by user identifier. Given the same input rows and the same seed, both arms therefore receive
+% the same partition by construction. That conditional matters: LANE2_OVERLAP_VALIDATION.md:75 records
+% partitions NOT bit-identical across arms, and its own parenthetical gives the reason -- "(different
+% windowed rows)". That caveat is about the overlap-versus-non-overlap comparison, where the arms consume
+% different windowings, not about two models reading one windowing.
+% STATISTICAL_PROTOCOL.md:187-190 asserts the same-folds property for the headline family and warns that "If
+% a future re-run regenerates folds for one arm, the headline silently becomes unpaired". The reported runs
+% did generate on the fly (see fold_partition_and_seeds.md §6), so the guarantee rests on the arms consuming
+% identical rows rather than on a frozen cache. [VERIFY: a direct comparison of the saved fold indices of a
+% joint run against a dedicated run at the same seed and dataset would settle it by measurement. Not run;
+% no fold_indices*.pt survives under output/ in this checkout.]
+% CORRECTED 2026-08-04. This said "Four seeds over one fixed set of five folds" and "The fixed folds
+% isolate random-initialization variation", following the same false premise the author caught in
+% Appendix A. src/data/folds.py passes the run's seed into StratifiedGroupKFold(random_state=...), so the
+% partition moves with the seed. Measured on a SYNTHETIC 300-user frame (not on the study data), roughly
+% four users in five change fold between seeds, with a same-seed control reproducing the partition exactly;
+% the synthetic qualifier is load-bearing and was missing from this comment until 2026-08-05, because the
+% demonstration establishes that random_state changes the partition in sklearn's splitter, not a measured
+% churn rate for Gowalla or Istanbul. Evidence and the full code path:
+% science/fold_partition_and_seeds.md.
+% This is the DEFINITION of "seed" that the rest of the document depends on, which is why the sentence
+% now states both axes explicitly instead of naming only the initialization. GLOSSARY §1 registers seed
+% as "one full repetition of the five-fold experiment", which stays true and is now complete.
+% Probe: R13-foldseed6.
+
+\subsection{Comparison and statistical decisions}
+
+The validation design determines which generalization claim and comparison verb each
+result can support.
+
+Chapters~\ref{ch:cbic} and~\ref{ch:courb} report fold means and standard deviations
+without significance tests. The inferential rules therefore apply to
+Chapter~\ref{ch:mobiwac}. Its superiority verdict uses a paired $t$ test on the four
+per-seed means, with a 90\% confidence interval for the paired difference.
+% [2026-09-02, AUTHOR RULING: remove, do not compute] The sentence "A Wilcoxon signed-rank test on
+% the twenty paired fold results is reported alongside it and reaches the same decisions
+% ~\cite{wilcoxon1945}." is removed. No Wilcoxon result appears in the delivered text: the sentence
+% that reported it left 06_results.tex in commit wave ce5a7006, and this promise stayed. The paired
+% t on the four per-seed means (+ 90% CI + Holm) is what the text reports, so that is what this
+% sentence now says. Same removal in GLOSSARY.md §4 (paired superiority test row) and
+% wrapup/ESTUDOS_DEFESA.md §1.5. NOT touched, reproduced Ch.5 text needing its own ruling:
+% 5_mobiwac/05_setup.tex:127 ("We also report the registered Wilcoxon test ... as a sensitivity
+% analysis") and :129, and apx_a_contributions.tex:66/:92. This was the only live \cite{wilcoxon1945};
+% the bib entry is now uncited and is kept (author keeps orphan entries, ERR-4 ruling).
+Holm
+correction controls family-wise error across the six dataset
+comparisons~\cite{holm1979}. A superiority test cannot establish that a difference is
+small enough to accept. At the four datasets where the joint model does not outperform on next region, two one-sided tests
+establish that it is statistically non-inferior within a two-point margin~\cite{lakens2017tost}. Accordingly, \emph{outperforms} is reserved for paired
+superiority, and a difference that fails superiority is reported by the bound its interval
+supports rather than as an equality.
+% [2026-09-03, PROPOSED BY THE WRITER at the author's release, cold-read wall C] The rule "the bound
+% its interval/axis supports" governs how every result is worded (here, twice in this chapter, and
+% in Chapter 1), and a cold reader met it three times without learning which sentence it produces.
+% One worked example, two real cells, both from 5_mobiwac/06_results.tex:209-213 (Florida +0.19,
+% +0.14 to +0.25, corrected p 0.011; Alabama -0.19, -0.33 to -0.04) and the chapter's own half-point
+% bound. Licensed by the ladder (CLAUDE.md §0.3, WRITING_LAW §3): category outperforms at Florida
+% only; Alabama is unresolved, never "matches"; direction travels with the equivalence claim.
+As a worked example, take the next-category difference between the joint model and
+the dedicated model at two datasets of Chapter~\ref{ch:mobiwac}. At Alabama the
+difference is $-0.19$ macro-F1, with a 90\% interval from $-0.33$ to $-0.04$: the
+superiority test fails, so the rule does not let the text say that the two models match;
+it says that the difference is equivalent to zero within half a point, the bound the
+interval supports, and, because the interval lies entirely below zero, that the
+dedicated model has the larger number. At Florida the difference is $+0.19$, with an
+interval from $+0.14$ to $+0.25$ that survives Holm correction (corrected $p=0.011$),
+so the rule licenses the verb: there, the joint model outperforms the dedicated model.
+% Section 2.5 -- Relevance (synthesis; NO fresh citations; argument-only ledger at its end)
+
+
+\section{Relevance}
+\label{sec:fund:relevance}
+
+The preceding sections introduce the prediction targets, the representations, multitask
+learning, and the evaluation protocol one at a time. They are parts of a
+single problem. This section states how they combine, before the three studies put
+them to work.
+
+\subsection{The parts of one problem}
+The argument begins with the targets: Next place, next category, and next region have
+different output spaces and different meanings for a correct answer. This dissertation
+treats next category and next region as final outputs rather than as intermediate
+steps toward next-place prediction.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.23 (arquivado 2026-08-02), readability report R-3, author decision "Aplique o
+% R-3,5,6 e o EX-6"]
+% ONE CLAUSE ADDED, as the report prescribes, "after \"fixed-weight baseline\"". Section 2.3 ends by
+% handing the reader a live question (orthogonality bounds what any balancer can contribute) that
+% section 2.5, the chapter's summing-up and the last thing before Chapter 3, did not close: the report
+% measured zero occurrences of "Pareto", "orthogonal", "cosine" and "conflict" in its 532 words, so
+% the summary carried only the pre-Pareto argument and a banca member would read the new block as a
+% digression.
+% NO NEW CLAIM. This restates section 2.3 in the section built to restate, and the measurement it
+% points at is Appendix D's, which is cited from section 2.3. The report offered a replace-rather-than-add
+% option on the strength of a prior pass's SF-10 (section 2.5 stating its gap three times); ADD was
+% chosen because the sentences SF-10 names carry the "measured against the dedicated model" convention
+% that the chapter's honesty rules require, and cutting one to fit a clause would trade a rule for a
+% rhythm. Length cost: three lines of a 532-word section.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [GATE FIX B-3, 2026-07-24] "unlocks for" -> "enables in": "unlock" is on the inherited
+% WRITING_LAW/GLOSSARY §4 ban list; claim unchanged (persona 14 APPROVE-WITH-EDIT). Author may reword.
+
+Although this dissertation reports on those two targets, its three studies do not all
+train the same pair. Chapters~\ref{ch:cbic}
+and~\ref{ch:courb} pair next-category prediction with category classification, the
+static task that labels a place from its own representation.
+Chapter~\ref{ch:mobiwac} keeps next category but replaces that static task with next
+region. The replacement follows from the representation rather than from a change of
+interest: a place embedding gives a static classifier one fixed vector per place,
+whereas a check-in-level representation describes a single visit, and the static task
+is a less natural fit for that input than a second sequential target.
+
+Two choices increase what the input representation must encode: treating next category
+and next region as final outputs, and replacing the static task. A place embedding
+can encode semantic and geographic relationships, but it assigns the same vector to
+every visit to a place, so it carries nothing about the visit being predicted.
+Check2HGI answers that limit by adding the visit as a level of its own.
+% ---------------------------------------------------------------------------
+% ARGUMENT LEDGER -- 2.5 (SYNTHESIS: no new citations; all claims trace to 2.1-2.4)
+%  Clause 1 -> Ch.3 (CBIC): does naive MTL help, place embedding + hard sharing? (honest null)
+%  Clause 2 -> Ch.4 (CoUrb): is the representation the lever, not the architecture? (decompose/enrich input)
+%  Clause 3 -> Ch.5 (MobiWac, SUBMITTED/UNDER REVIEW): what does a check-in representation unlock?
+%  RESULT WORDING (bound to tests, from NORTH_STAR + GLOSSARY, NOT upgraded):
+%    FIX (fact F6): win verb now EXPLICITLY bound -- "by paired superiority tests, outperforms ... on the next category
+%    everywhere ... and on the next region at four of six datasets"; "matches ... by non-inferiority testing" at the
+%other two.
+%    AZ/AL pair never upgraded to a win. Forward-points to Ch.5 ("Chapter 5 reports these tests in full").
+%    FIX (fact F7): banned "beat" -> "do not outperform" (was "fail to beat" in the MTL synthesis sentence).
+%  four-of-six + two-point margin: confirm against Ch.5 RESULTS_BOARD.md / PAPER_PLAN §3 at adaptation (fact NOTE 10).
+%  NO fresh literature; NO frontier material; NO repo codenames. Section does not restate 2.1-2.4 (no "in summary").
+% ---------------------------------------------------------------------------
+
+Multitask learning is the mechanism that would let two tasks use what they have in
+common, and it is not a free gain. Hard sharing can leave a task below its dedicated
+single-task model. The balancing methods proposed to prevent that outcome often do not
+improve on a tuned fixed-weight baseline. For the pair of tasks studied here, the
+gradients are close to orthogonal on the shared parameters, which leaves such a method
+little to correct. Whether joint training helps therefore cannot be assumed. It has to be
+measured against the dedicated single-task model for each output, under a protocol
+that does not favor the joint model.
+
+Section~\ref{sec:fund:eval} defines that protocol, and the final study applies it in
+full. Chapters~\ref{ch:cbic} and~\ref{ch:courb} instead use sample-stratified splits
+and report fold means without significance tests. In the final study, user-disjoint
+cross-validation limits leakage between a user's training and test visits. Macro-F1 and OOD-discounted
+Acc@10 describe different outputs and are read against explicit reference points.
+Paired superiority tests support the verb \emph{outperforms}, while non-inferiority
+tests within a two-point margin support the statement that a region difference stays inside that
+margin, and the category differences are reported by the bound their intervals support. These rules prevent an
+observed mean difference from being reported as a conclusion that its test does not
+support.
+
+\subsection{Gaps, questions, and answers}
+
+Whether joint training helps this task pair is still open, and two gaps in the
+literature explain why. The field has a place-level representation, but not a
+check-in-level one built for these targets. It studies multitask learning, but it has
+mostly treated the region as an intermediate signal on the way to a place rather than
+as an end target.
+
+Each study addresses one question. Chapter~\ref{ch:cbic} asks whether a
+place-level representation and hard parameter sharing are sufficient for a joint
+model. For that configuration, the joint model does not outperform the dedicated
+single-task models. Chapter~\ref{ch:courb} keeps the model fixed, asks whether the
+input representation, rather than the sharing topology, is the bottleneck, and finds
+that it is. Chapter~\ref{ch:mobiwac} asks what a check-in-level representation and a
+different sharing topology enable for two sequential targets.
+% [2026-08-12] A summary sentence stood here that duplicated the region-axis sentence below almost
+% verbatim, including the clause naming the two datasets with the largest region vocabularies. The two
+% axis sentences carry the partition on their own, each bound to the test its axis registered, so the
+% summary was removed rather than reworded. It read: "There, one joint model outperforms the dedicated
+% models on next region at the two datasets with the largest region vocabularies, and elsewhere stays
+% inside the bound each axis supports."
+On next region, where the analysis plan registered a
+two-point equivalence margin in advance, it outperforms the dedicated model at the two datasets
+with the largest region vocabularies and stays inside that margin at the other four. On next
+category, where the plan registered a superiority test and no margin, it outperforms at one
+dataset, and every one of the six differences is equivalent to zero within half a point, a bound
+read off the intervals rather than chosen in advance. Chapter~\ref{ch:mobiwac} reports which datasets fall on each
+side, and with which test.
+
+Those answers also decide something practical. Anticipating what kind of place a
+person will visit, and where that visit will occur, can support recommendation,
+navigation, transit planning, and the allocation of resources by area. A service that
+needs both predictions can now take them from a single model to maintain and one
+forward pass, instead of two dedicated single-task models. The gain is operational,
+not computational. Chapter~\ref{ch:mobiwac} reports the joint model as the larger
+artifact, and a forward pass through it costs more than running the two dedicated
+models, so the reduction is in the number of models to train and maintain.

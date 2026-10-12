@@ -1,0 +1,3 @@
+STL cat next_gru hidden=256 (ceiling config): 644359
+STL cat next_gru hidden=672 (capacity-matched): 4207399
+joint v17 target (Alabama): 4197621

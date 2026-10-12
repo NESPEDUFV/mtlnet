@@ -1,0 +1,8 @@
+name: equal_weight
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: equal_weight
+runtime_class: losses.equal_weight.loss.EqualWeightLoss
+runtime_file: src/losses/equal_weight/loss.py
+source_doc: ""

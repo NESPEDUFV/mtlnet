@@ -1,0 +1,5 @@
+start 2026-10-01 19:56:21 swap_used_MB=2673
+check2hgi_v18 rc=0 wall=3082s peakRSS_bytes=6890749952
+hgi_dk_ovl rc=0 wall=3046s peakRSS_bytes=6362431488
+end 2026-10-01 21:38:29
+DONE

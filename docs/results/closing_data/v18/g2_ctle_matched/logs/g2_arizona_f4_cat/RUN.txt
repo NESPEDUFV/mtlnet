@@ -1,0 +1,8 @@
+start 2026-10-02 07:35:26 commit d01cd2a8 swap_used_MB=3064
+cmd: env RESULTS_ROOT=/Volumes/Vitor's SSD/ingred_g1/results/g2_ctle/arizona_f4/run OMP_NUM_THREADS=4 .venv/bin/python scripts/train.py --task next --engine check2hgi_ctle --state arizona --seed 0 --only-fold 4 --cat-head next_gru --epochs 50 --batch-size 2048
+waiting for heavy lock 07:35:26
+heavy lock acquired 07:35:26
+rc=0 wall=347s peakRSS_bytes=5467635712
+repo-write-guard OK
+end 2026-10-02 07:41:13
+DONE

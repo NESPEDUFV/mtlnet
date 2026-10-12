@@ -1,0 +1,1 @@
+results/hgi_dk_ovl/istanbul/next_lr1.0e-04_bs8192_ep50_20261001_194529_8556

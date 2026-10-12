@@ -1,0 +1,163 @@
+--- a/scripts/baselines/b3_hmt_grn.py
++++ b/scripts/baselines/b3_hmt_grn.py
+@@ -342,7 +342,14 @@
+ # TRAIN / EVAL one fold
+ # ============================================================
+ def run_fold(data, train_idx, val_idx, seed, epochs, device, alpha_prior=1.0,
+-             batch_size=2048, lr=1e-3):
++             batch_size=2048, lr=1e-3, epoch_select="none"):
++    """epoch_select='none' (default) keeps the June behaviour: train all epochs, evaluate once at the
++    last one. 'per_task' evaluates after EVERY epoch and reports each head at its own val-best epoch
++    (cat macro-F1 at the cat-f1-best epoch, reg Acc@10-indist at the reg-best epoch), the 'diag-best'
++    convention of the printed dedicated cells. Evaluation draws no randomness (fixed order, no_grad,
++    eval mode), so it should not change the training trajectory: the last-epoch entry of the history
++    should equal what 'none' returns. That is NOT asserted in code; verify it once by running one fold
++    both ways and comparing the 'last_epoch' block against the 'none' result."""
+     torch.manual_seed(seed)
+     np.random.seed(seed)
+ 
+@@ -374,6 +381,41 @@
+         for s in range(0, len(idx_tensor), batch_size):
+             yield idx_tensor[order[s:s + batch_size]]
+ 
++    def _evaluate():
++        model.eval()
++        va = torch.from_numpy(np.asarray(val_idx)).long()
++        cat_logits_all, yc_all = [], []
++        reg_acc = StreamingClsMetrics(n_regions, top_k=(1, 5, 10), move_logits_to="cpu",
++                                      diagnose_ties=True)
++        with torch.no_grad():
++            for b in batches(va, shuffle=False):
++                xb = poi_t[b].to(device)
++                lrb = last_region_t[b].to(device)
++                cl, rl = model(xb, lrb)
++                cat_logits_all.append(cl.cpu())
++                yc_all.append(y_cat_t[b])
++                reg_acc.update(rl, y_reg_t[b])          # [B, n_regions] reduced on CPU, then freed
++        cat_logits = torch.cat(cat_logits_all)
++        yc = torch.cat(yc_all)
++
++        cat_metrics = compute_classification_metrics(cat_logits, yc, num_classes=N_CAT)
++        _, _rt, _rr, _rh = reg_acc.concat()
++        reg_ood = _ood_from_streamed(_rt, _rr, _rh, train_label_set_b)
++
++        cat_f1 = float(cat_metrics["f1"])
++        reg_top10 = float(reg_ood["top10_acc_indist"])
++        geom = float(np.sqrt(max(cat_f1, 0.0) * max(reg_top10, 0.0)))
++        return {
++            "cat_f1": cat_f1,
++            "reg_top10_acc_indist": reg_top10,
++            "reg_top1_acc_indist": float(reg_ood["top1_acc_indist"]),
++            "reg_top5_acc_indist": float(reg_ood["top5_acc_indist"]),
++            "geom_simple": geom,
++            "n_train": int(len(train_idx)),
++            "n_val": int(len(val_idx)),
++            "n_train_vocab": int(len(vocab)),
++        }
++    history = []
+     for ep in range(epochs):
+         model.train()
+         running = 0.0
+@@ -390,6 +432,9 @@
+             running += float(loss.detach()) * len(b)
+         logger.info("  epoch %d/%d  train_loss=%.4f", ep + 1, epochs,
+                     running / max(len(tr), 1))
++        if epoch_select != "none":
++            m = _evaluate(); m["epoch"] = ep + 1; history.append(m)
++            model.train()
+ 
+     # --- eval (matched metrics, MEMORY-SAFE chunked) ---
+     # Accumulating the full [n_val, n_regions] reg-logit matrix OOMs wide-region states
+@@ -404,41 +449,22 @@
+     # realistic (N, rate) pairs, ~43x under the 1e-6 reporting quantum.
+     # Masking after the fact is equivalent to masking first: top-k of row i does not depend on
+     # any other row, which is what made the hand-rolled version correct too.
+-    model.eval()
+-    va = torch.from_numpy(np.asarray(val_idx)).long()
+-    cat_logits_all, yc_all = [], []
+-    reg_acc = StreamingClsMetrics(n_regions, top_k=(1, 5, 10), move_logits_to="cpu",
+-                                  diagnose_ties=True)
+-    with torch.no_grad():
+-        for b in batches(va, shuffle=False):
+-            xb = poi_t[b].to(device)
+-            lrb = last_region_t[b].to(device)
+-            cl, rl = model(xb, lrb)
+-            cat_logits_all.append(cl.cpu())
+-            yc_all.append(y_cat_t[b])
+-            reg_acc.update(rl, y_reg_t[b])          # [B, n_regions] reduced on CPU, then freed
+-    cat_logits = torch.cat(cat_logits_all)
+-    yc = torch.cat(yc_all)
++    if epoch_select == "none":
++        return _evaluate()
++    last = history[-1]
++    bc = max(history, key=lambda h: h["cat_f1"]); br = max(history, key=lambda h: h["reg_top10_acc_indist"])
++    out = dict(last)
++    out.update({"epoch_select": "per_task",
++                "cat_f1": bc["cat_f1"], "cat_best_epoch": bc["epoch"],
++                "reg_top10_acc_indist": br["reg_top10_acc_indist"], "reg_best_epoch": br["epoch"],
++                "reg_top1_acc_indist": br["reg_top1_acc_indist"], "reg_top5_acc_indist": br["reg_top5_acc_indist"],
++                "last_epoch": {k: last[k] for k in ("cat_f1", "reg_top10_acc_indist", "geom_simple")},
++                "history": [{k: h[k] for k in ("epoch", "cat_f1", "reg_top10_acc_indist")} for h in history]})
++    out["geom_simple"] = float(np.sqrt(max(out["cat_f1"], 0.0) * max(out["reg_top10_acc_indist"], 0.0)))
++    out.pop("epoch", None)
++    return out
+ 
+-    cat_metrics = compute_classification_metrics(cat_logits, yc, num_classes=N_CAT)
+-    _, _rt, _rr, _rh = reg_acc.concat()
+-    reg_ood = _ood_from_streamed(_rt, _rr, _rh, train_label_set_b)
+ 
+-    cat_f1 = float(cat_metrics["f1"])
+-    reg_top10 = float(reg_ood["top10_acc_indist"])
+-    geom = float(np.sqrt(max(cat_f1, 0.0) * max(reg_top10, 0.0)))
+-    return {
+-        "cat_f1": cat_f1,
+-        "reg_top10_acc_indist": reg_top10,
+-        "reg_top1_acc_indist": float(reg_ood["top1_acc_indist"]),
+-        "reg_top5_acc_indist": float(reg_ood["top5_acc_indist"]),
+-        "geom_simple": geom,
+-        "n_train": int(len(train_idx)),
+-        "n_val": int(len(val_idx)),
+-        "n_train_vocab": int(len(vocab)),
+-    }
+-
+-
+ # ============================================================
+ # DRIVER
+ # ============================================================
+@@ -448,6 +474,10 @@
+     ap.add_argument("--seed", type=int, default=0)
+     ap.add_argument("--folds", type=int, default=5)
+     ap.add_argument("--epochs", type=int, default=50)
++    ap.add_argument("--epoch-select", choices=("none", "per_task"), default="none",
++                    help="none (default): evaluate once at the last epoch, as the June runs did. "
++                         "per_task: evaluate every epoch, report each head at its own val-best epoch, "
++                         "keep the per-epoch history, and write to a separate *_bestepoch.json.")
+     ap.add_argument("--alpha-prior", type=float, default=1.0,
+                     help="weight on the train-only region transition prior")
+     ap.add_argument("--batch-size", type=int, default=2048)
+@@ -503,6 +533,7 @@
+         res = run_fold(
+             data, train_idx, val_idx, args.seed, args.epochs, device,
+             alpha_prior=args.alpha_prior, batch_size=args.batch_size, lr=args.lr,
++            epoch_select=args.epoch_select,
+         )
+         res["fold_idx"] = fold_idx
+         res["elapsed_s"] = round(time.time() - t0, 1)
+@@ -544,6 +575,7 @@
+         "seed": args.seed,
+         "folds": args.folds,
+         "epochs": args.epochs,
++        "epoch_select": args.epoch_select,
+         "alpha_prior": args.alpha_prior,
+         "fold_results": fold_results,
+         "aggregate": agg,
+@@ -556,7 +588,8 @@
+     if not args.no_write:
+         out_dir = OUTPUT_DIR.parent / "results" / BASELINE_TAG / args.state.lower()
+         out_dir.mkdir(parents=True, exist_ok=True)
+-        out_path = out_dir / f"b3_seed{args.seed}_folds{args.folds}.json"
++        _sfx = "" if args.epoch_select == "none" else "_bestepoch"
++        out_path = out_dir / f"b3_seed{args.seed}_folds{args.folds}{_sfx}.json"
+         with open(out_path, "w") as f:
+             json.dump(summary, f, indent=2)
+         logger.info("wrote %s", out_path)

@@ -1,0 +1,491 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[margin=15mm,top=13mm,bottom=13mm]{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[brazilian]{babel}
+\tcbuselibrary{breakable}
+\definecolor{teal}{HTML}{1C7A72}
+\definecolor{crim}{HTML}{A83455}
+\definecolor{ink}{HTML}{131C1A}
+\definecolor{soft}{HTML}{5B6B68}
+\definecolor{band}{HTML}{EAF2F0}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\color{soft}SPEECH — defesa 28/08/2026}
+\fancyhead[R]{\small\color{soft}\thepage}
+\begin{document}
+\begin{center}
+{\Huge\bfseries\color{teal} O que dizer, slide a slide}\\[3mm]
+{\large Defesa de Mestrado \textbf{28/08/2026, 10:00} --- remota (Google Meet)}
+\end{center}
+\vspace{3mm}
+\begin{tcolorbox}[colback=band,colframe=teal,boxrule=0.8pt,arc=2pt]
+\textbf{Como usar.} Cada cartão tem quatro camadas, em ordem de urgência:
+\textbf{\textcolor{teal}{ABRE}} (a primeira oração, para pegar o fio sem ler),
+\textbf{\textcolor{teal}{DIZER}} (as superfícies de lei e os números que não podem sair errado),
+\textbf{\textcolor{crim}{NUNCA}} (o que anula o slide se escapar), e a fala completa embaixo.
+\textbf{Nada aqui é novo} --- é o texto do \texttt{SLIDES.md}, reorganizado para ser lido de relance.
+\smallskip
+
+\textbf{\textcolor{crim}{O relógio.}} A fala escrita tem \textbf{6.963 palavras},
+que a 140 palavras/minuto dão \textbf{49:44}, contra o teto de \textbf{50 min} do Art.~23.
+Os campos \texttt{Tempo:} somam 52:54 e são orçamento, não medição: se discordarem, o medido vale.
+\textbf{Cronometre o fim de cada seção} e anote na tabela abaixo.
+\end{tcolorbox}
+\vspace{4mm}
+
+{\large\bfseries\color{teal} Marcas de tempo --- leve estas seis}
+\vspace{2mm}
+
+\begin{tabular}{@{}p{62mm} p{22mm} r p{34mm}@{}}
+\hline
+\textbf{seção} & \textbf{slides} & \textbf{previsto} & \textbf{seu tempo real} \\
+\hline
+
+\textbf{ABERTURA --- a pergunta e o escopo} & S1--S6 & 3:21 & \rule{32mm}{0.4pt} \\
+\textbf{FUNDAMENTOS --- dito uma vez} & S5b--S19 & 10:54 & \rule{32mm}{0.4pt} \\
+\textbf{MTLnet --- Cap. 3 (CBIC)} & S18--S25 & 16:11 & \rule{32mm}{0.4pt} \\
+\textbf{ST-MTLNet --- Cap. 4 (CoUrb)} & S26--S32 & 23:33 & \rule{32mm}{0.4pt} \\
+\textbf{Check2HGI --- Cap. 5 (MobiWac)} & S33--S48 & 46:21 & \rule{32mm}{0.4pt} \\
+\textbf{CONCLUSÃO --- a resposta condicional} & S49--S55 & 52:54 & \rule{32mm}{0.4pt} \\
+\hline
+\end{tabular}
+\clearpage
+
+\vspace{2mm}{\LARGE\bfseries\color{teal} ABERTURA --- a pergunta e o escopo}\par\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S1} $\cdot$ PDF p.1 $\cdot$ 20 s $\cdot$ fim previsto \textbf{0:20}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Multitask Learning for POI Classification and Prediction Tasks}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Bom dia. Meu nome é Vitor Hugo, e vou apresentar minha dissertação de mestrado, orientada pelo professor Fabrício Silva, no PPGCC da Universidade Federal de Viçosa.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ nada (capa)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum resultado na capa. $\cdot$ Nunca usar o título de um dos artigos como título da dissertação.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Bom dia. Meu nome é Vitor Hugo, e vou apresentar minha dissertação de mestrado, orientada pelo professor Fabrício Silva, no PPGCC da Universidade Federal de Viçosa. Um aviso de forma antes de começar: os slides estão em inglês e a fala é em português. Os números na tela são os do documento que a banca recebeu, sem conversão.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S2} $\cdot$ slide \textbf{1} $\cdot$ PDF p.3 $\cdot$ 45 s $\cdot$ fim previsto \textbf{1:05}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Human Mobility}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O ponto de partida é uma regularidade. Os rastros de mobilidade são ruidosos, mas o movimento humano é bastante regular: as pessoas voltam a um conjunto pequeno de lugares, e fazem viagens longas com menos frequência.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o gancho: a regularidade da mobilidade e as aplicações}\par\vspace{1mm}
+\vspace{0.5mm}{\small\textbf{N\'UMEROS} --- pessoa em cerca de 93 por cento. Faço}\par
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "pioneiro", "o primeiro". $\cdot$ Nunca apresentar os 93 por cento como teto de nada. $\cdot$ Nenhum particular do corpus. $\cdot$ Nenhum número nosso.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O ponto de partida é uma regularidade. Os rastros de mobilidade são ruidosos, mas o movimento humano é bastante regular: as pessoas voltam a um conjunto pequeno de lugares, e fazem viagens longas com menos frequência. E isso é mensurável: uma análise de entropia sobre rastros em larga escala estimou a previsibilidade potencial da próxima localização de uma pessoa em cerca de 93 por cento. Faço a ressalva na mesma frase, porque ela importa. Essa estimativa é sobre a próxima localização em resolução grossa, e ela não é teto para nenhuma métrica que eu vou reportar aqui. O que ela mostra é que existe regularidade aprendível. E antecipar o que e o onde da próxima visita é o que sustenta recomendação, navegação, planejamento de transporte e alocação de recursos por área.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S3} $\cdot$ slide \textbf{2} $\cdot$ PDF p.4 $\cdot$ 55 s $\cdot$ fim previsto \textbf{2:00}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The ground: check-ins and what joint training promises}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Duas palavras e um risco, antes da pergunta. Uma rede social baseada em localização é uma plataforma em que as pessoas registram os lugares por onde passam.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ LBSN e check-in (chão didático) $\cdot$ INTRODUZ a promessa operacional do aprendizado multitarefa $\cdot$ gloss de transferência negativa (a definição, Def. 2.12, é INTRODUZ em S9)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum particular do corpus. $\cdot$ Não definir formalmente transferência negativa aqui; $\cdot$ a Def. $\cdot$ 2.12 é de S9.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Duas palavras e um risco, antes da pergunta. Uma rede social baseada em localização é uma plataforma em que as pessoas registram os lugares por onde passam. O registro é o check-in, e ele liga um usuário, um ponto de interesse e um instante. É esse detalhe geográfico e temporal que sustenta o estudo de cidades a partir de dados, e a área que estuda como as pessoas se movem pela cidade é mobilidade humana. Agora o aprendizado multitarefa: treinar tarefas relacionadas juntas, para que compartilhem informação. Aqui o apelo é operacional. Um modelo para manter, uma passagem, as duas predições, em vez de dois modelos dedicados. Mas treino conjunto não garante predição melhor. Parâmetros compartilhados podem prejudicar uma tarefa, e essa falha tem nome: transferência negativa. A definição formal dela fica para a próxima seção. Por ora basta o nome, porque é ele que a pergunta seguinte carrega.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S4} $\cdot$ slide \textbf{3} $\cdot$ PDF p.5 $\cdot$ 41 s *(medido)* $\cdot$ fim previsto \textbf{2:41}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The question}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A pergunta da dissertacao, literalmente: o aprendizado multitarefa ajuda a predicao da proxima categoria e da proxima regiao, e de que depende a resposta?}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a pergunta de pesquisa $\cdot$ INTRODUZ a restrição de modelo único $\cdot$ gloss do veredito nas superfícies registradas (o ladder de veredito é INTRODUZ em 5.5; macro-F1 e Acc@10 aparecem aqui como rótulo do número, e as definições}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "empata", "matches", "ties", "semelhante", "a par", "em todos". $\cdot$ Nunca aplicar a margem de dois pontos ao eixo de categoria, nem o meio ponto ao eixo de região. $\cdot$ Nunca chamar as quatro células dentro da margem de empates. $\cdot$ Nunca ler a frase do Resumo entregue.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A pergunta da dissertacao, literalmente: o aprendizado multitarefa ajuda a predicao da proxima categoria e da proxima regiao, e de que depende a resposta? Ela vem com uma restricao que vale para tudo o que vem depois: um artefato treinado tem de produzir as duas saidas numa passagem so. E uma delimitacao, para ninguem esperar o que nao vem: o proximo lugar exato eu nao predigo, e nenhum capitulo reporta resultado para ele. A resposta eu dou na Secao cinco, com intervalo e com teste, depois de voces terem visto como ela foi obtida.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S6} $\cdot$ slide \textbf{4} $\cdot$ PDF p.6 $\cdot$ 40 s $\cdot$ fim previsto \textbf{3:21}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Three studies, in sequence}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A dissertação é uma coletânea de três artigos, e a ordem deles é o argumento.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o arco e os três capítulos (título de capítulo, veículo, ano, autoria) $\cdot$ INTRODUZ a armadilha de nomenclatura *"Next-POI Prediction" = próxima categoria*}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- ampliar o crédito de autoria no Cap. $\cdot$ 4 além do que o texto entregue declara. $\cdot$ Nenhum resultado dos três estudos aqui.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A dissertação é uma coletânea de três artigos, e a ordem deles é o argumento. O texto diz assim: o primeiro reporta um resultado negativo, o segundo identifica o gargalo principal, e o terceiro testa a solução que sai daí. Cada estudo estreita a explicação que a evidência sustenta, e é por isso que a progressão é ela própria parte da contribuição. Veículo, ano e autoria estão na tela. E um aviso de nome antes de seguir, porque ele evita confusão nas duas seções seguintes: o título do Capítulo 3 diz *Next-POI Prediction*, e nos Capítulos 3 e 4 essa expressão quer dizer próxima categoria, não próximo lugar.\par}
+\end{tcolorbox}\vspace{2mm}
+\vspace{2mm}{\LARGE\bfseries\color{teal} FUNDAMENTOS --- dito uma vez}\par\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S5b} $\cdot$ slide \textbf{5} $\cdot$ PDF p.8 $\cdot$ 45 s *(os dois blocos que ele funde somavam 70 s)* $\cdot$ fim previsto \textbf{4:06}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The tasks}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape As tarefas, todas de uma vez, para não voltar a elas depois.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ as quatro tarefas (Defs. 2.6, 2.7, 2.8, 2.9) $\cdot$ INTRODUZ a mudança de par de tarefas entre os capítulos *(herdada do bloco Two traps, que deixa de existir)*}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "prediz o próximo POI".}\par
+\vspace{1.5mm}{\footnotesize\color{soft} As tarefas, todas de uma vez, para não voltar a elas depois. Classificação de categoria é estática: lê a representação de um lugar e diz o tipo dele. Próxima categoria e próxima região são sequenciais: leem um histórico de visitas e dizem, respectivamente, o tipo do próximo lugar e a unidade em escala de bairro onde a próxima visita acontece. E o próximo lugar exato está aqui para ser excluído: ele é definido no Capítulo 2 justamente para delimitar o escopo, e nenhum capítulo reporta resultado para ele. Uma coisa muda ao longo da dissertação, e é melhor dizer agora do que surpreender depois: o par de tarefas. Os dois primeiros estudos juntam a estática com a próxima categoria. O terceiro junta duas sequenciais, próxima categoria e próxima região.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S13} $\cdot$ slide \textbf{6} $\cdot$ PDF p.9 $\cdot$ 60 s *(medido)* $\cdot$ fim previsto \textbf{5:06}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Related work: POI prediction}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Duas telas de trabalho relacionado, e elas são o chão comum dos dois primeiros estudos.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o contexto de POI e MTL, o chão comum dos Caps. 3 e 4}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum resultado, nenhum número. $\cdot$ Nenhuma afirmação de ineditismo aqui: ela é de S14, e vem escopada.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Duas telas de trabalho relacionado, e elas são o chão comum dos dois primeiros estudos. A tarefa dominante da área é o próximo lugar exato. A linha vai dos recorrentes, ST-RNN, DeepMove, Flashback, para os de atenção, STAN, GeoSAN, GETNext. Todos eles predizem o lugar exato, e por isso nenhum é linha de base direta para os alvos que eu estudo. O par que os dois primeiros estudos atacam é outro: classificação de categoria e previsão da próxima categoria. E, em mobilidade, o multitarefa foi usado quase inteiramente a serviço do próximo lugar. O MCARNN prevê atividade e lugar juntos; o CSLSL prevê em cascata quando, o quê e onde; o iMTL e o HAMTL seguem a mesma direção. O TME é a exceção que puxa para o outro lado, com anotação semântica estática de ponto de interesse.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S14} $\cdot$ slide \textbf{7} $\cdot$ PDF p.10 $\cdot$ 54 s *(medido)* $\cdot$ fim previsto \textbf{6:00}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Category and region: means or end}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O eixo que separa este trabalho da literatura não é a tarefa, é o papel dela.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o eixo meio × fim $\cdot$ INTRODUZ o mapa de onde saem os métodos externos}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- afirmação de ineditismo mais forte do que a do texto. $\cdot$ A redação entregue é escopada a "entre os trabalhos revisados nesta dissertação", e a fala mantém o escopo. $\cdot$ Nenhum resultado, nenhum número.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O eixo que separa este trabalho da literatura não é a tarefa, é o papel dela. De um lado, categoria e região como \textbf{meio} para chegar ao próximo lugar: o HMT-GRN usa a região prevista para estreitar a busca pelo lugar, o CatDM usa a categoria prevista para reduzir o conjunto de candidatos. Do outro lado, como \textbf{fim}: o DRRGNN prevê região de atividade, o POI-RGNN prevê a próxima categoria. E a frase do texto, escopada como ela está escrita: entre os trabalhos revisados nesta dissertação, nenhum trata próxima categoria e próxima região como alvos finais de igual estatuto num modelo conjunto que não prediz também o próximo lugar. O rodapé é o mapa de onde saem os métodos externos que vão aparecer nas tabelas.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S9} $\cdot$ slide \textbf{8} $\cdot$ PDF p.11 $\cdot$ 40 s $\cdot$ fim previsto \textbf{6:40}}\par\vspace{1mm}
+{\large\bfseries\color{ink} MTL Fundamentals}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Três definições e um critério.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ compartilhamento rígido (Def. 2.10) $\cdot$ INTRODUZ transferência negativa (Def. 2.12) $\cdot$ INTRODUZ o critério declarado para um balanceador $\cdot$ RETOMA a promessa operacional de 1.2}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhuma afirmação de otimalidade de Pareto sobre os nossos modelos: o Cap. $\cdot$ 2 recusa a afirmação explicitamente. $\cdot$ Nenhum resultado, nenhum número.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Três definições e um critério. Compartilhamento rígido é a topologia em que todas as tarefas atravessam um mesmo tronco e só se separam na saída de cada uma; o flexível é o extremo oposto --- cada tarefa tem a sua própria rede, e elas são acopladas por uma penalidade. Transferência negativa é o desfecho que se teme: o treino conjunto deixa uma tarefa pior do que o modelo dedicado dela deixaria. O critério está declarado no Capítulo 2, e eu vou cobrá-lo mais adiante: um método de balanceamento só é útil se superar uma ponderação fixa bem ajustada. Guardem essa frase. É ela que decide o que eu posso e o que eu não posso afirmar sobre o balanceador na Seção 3.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S15} $\cdot$ slide \textbf{9} $\cdot$ PDF p.12 $\cdot$ 45 s $\cdot$ fim previsto \textbf{7:25}}\par\vspace{1mm}
+{\large\bfseries\color{ink} How places are represented}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Esta é a base mais importante da dissertação, e ela é uma escada.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a linhagem de representações, no nível de o que cada degrau resolve $\cdot$ INTRODUZ o grafo de Delaunay como substrato comum aos três $\cdot$ *(os nomes DGI, HGI e Check2HGI aparecem como o último degrau, sem mecanismo; os artefatos}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- o mecanismo do DGI ou do HGI aqui --- eles pertencem a 3.2A e 4.1A. $\cdot$ Nunca afirmar que os três grafos de Delaunay são o mesmo objeto: a construção é comum, os pesos não (decaimento geodésico no Cap. $\cdot$ Haversine com penalidade de GEOID no Cap. $\cdot$ Nunca bilinear: o discriminador do DGI no Cap.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Esta é a base mais importante da dissertação, e ela é uma escada. Começa no identificador one-hot, que marca um lugar por posição e não codifica relação nenhuma. Sobe para as representações distribuídas, skip-gram, DeepWalk, node2vec, em que a geometria do vetor reflete a relação que está nos dados. Sobe de novo para as redes de grafo, GCN, GAT, GraphSAGE, que aprendem essa relação por agregação de vizinhança. E o último degrau é o infomax contrastivo: o modelo aprende vetores úteis sendo obrigado a distinguir um pareamento verdadeiro de um pareamento corrompido, e não precisa de rótulo nenhum para isso. É a ideia que sustenta os três métodos desta dissertação, e cada um tem o capítulo dele.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S10} $\cdot$ slide \textbf{10} $\cdot$ PDF p.13 $\cdot$ 55 s $\cdot$ fim previsto \textbf{8:20}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The evidence base: six datasets}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Esta é a base de evidência inteira, dita uma vez só.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a base de evidência (Tab. 8): Gowalla e Istanbul $\cdot$ INTRODUZ as sete categorias $\cdot$ INTRODUZ a região como unidade nomeada (census tract, *mahalle*)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "superconjunto" para a Flórida. $\cdot$ Não há evidência de contenção entre as duas extrações. $\cdot$ Nenhum resultado de nenhum capítulo.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Esta é a base de evidência inteira, dita uma vez só. Cinco estados do Gowalla e Istambul, do Massive-STEPS, e a ordem da tabela é a do documento, por número de regiões. As sete categorias são as mesmas nos três estudos: Community, Entertainment, Food, Nightlife, Outdoors, Shopping e Travel. Região é o setor censitário nos cinco conjuntos americanos e o *mahalle* em Istambul. Os dois particionam a cidade em escala de bairro, e não são o mesmo tipo de objeto: um é unidade de medida, o outro é unidade de governo. A última coluna diz qual capítulo usou qual conjunto.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S11} $\cdot$ slide \textbf{11} $\cdot$ PDF p.14 $\cdot$ 59 s *(medido)* $\cdot$ fim previsto \textbf{9:19}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The metric all three studies share}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A métrica de categoria dos três estudos é a macro-F1: a média das F1 por categoria, com cada categoria pesando igual.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ macro-F1 $\cdot$ INTRODUZ o piso de classe majoritária}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- chamar de "macro-F1" os valores impressos dos Caps. $\cdot$ 3 e 4 (são uma F1 por categoria). $\cdot$ Nunca ler a coluna Majority da Tab. $\cdot$ 8 como se fosse a macro-F1 do preditor de classe majoritária: uma é a fração de rótulos na classe mais comum, a outra é o resultado de um preditor.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A métrica de categoria dos três estudos é a macro-F1: a média das F1 por categoria, com cada categoria pesando igual. A razão é a distribuição. Food é cerca de um terço dos check-ins num estado representativo, e uma acurácia simples esconderia o desempenho nas classes menores. Ela também tem um custo, e eu digo qual: a macro-F1 não mostra que classe melhorou, e pode ficar baixa mesmo com acurácia alta. E toda métrica que eu disser vem com ponto de referência. São dois, e nenhum é concorrente: o piso de classe majoritária, que sempre responde a categoria mais comum; e o piso de Markov, uma tabela de transição sobre as visitas de treino, que responde com o que mais costuma vir depois do quê --- primeira ordem para região, melhor ordem de cada conjunto para categoria.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S12} $\cdot$ slide \textbf{12} $\cdot$ PDF p.15 $\cdot$ 50 s $\cdot$ fim previsto \textbf{10:09}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The protocol of the first two studies}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O protocolo dos dois primeiros estudos, e ele é diferente do terceiro.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o protocolo dos dois primeiros estudos $\cdot$ INTRODUZ a lei dos verbos $\cdot$ INTRODUZ a armadilha do par de tarefas e a armadilha da convenção métrica $\cdot$ RETOMA a armadilha de nomenclatura de 1.5}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "as mesmas janelas". $\cdot$ O Cap. $\cdot$ 5 usa janelas deslizantes sobrepostas, com passo 1, e os Caps. $\cdot$ 3 e 4 usaram janelas não sobrepostas.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O protocolo dos dois primeiros estudos, e ele é diferente do terceiro. Validação cruzada de cinco partições, estratificada por amostra: os check-ins de um mesmo usuário podem cair dos dois lados da divisão. Orçamento cheio de épocas, sem parada antecipada, e cada tarefa lida na época de melhor validação dela. Médias e desvios entre as cinco partições, sem teste de significância. Daí sai a lei dos verbos que eu obedeço a fala inteira: *supera* fica reservado para teste pareado de superioridade, e os Capítulos 3 e 4 não têm teste, então eles reportam diferenças, não veredito. E uma convenção que eu digo agora e não repito: os Capítulos 3 e 4 imprimem uma F1 por categoria, e o Capítulo 5 reporta macro-F1, um número só. Não são a mesma escala, e eu volto a lembrar disso quando as tabelas aparecerem.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S19} $\cdot$ slide \textbf{13} $\cdot$ PDF p.17 $\cdot$ 45 s $\cdot$ fim previsto \textbf{10:54}}\par\vspace{1mm}
+{\large\bfseries\color{ink} DGI}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O primeiro mecanismo, e o desenho conta a história: parte-se do grafo real, faz-se uma cópia corrompida embaralhando as features entre os nós, as duas passam pela MESMA r…}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o mecanismo do DGI $\cdot$ RETOMA a ideia infomax de 2.1 e o degrau do DGI em 2.7}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "one-hot da própria categoria" como atributo de nó. $\cdot$ Nunca "coocorrência": este canal não existe no Cap. $\cdot$ Nunca "o DGI não vaza" (a formulação correta está no slide B4-LEAK).}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O primeiro mecanismo, e o desenho conta a história: parte-se do grafo real, faz-se uma cópia corrompida embaralhando as features entre os nós, as duas passam pela MESMA rede, e um discriminador julga se cada nó combina com o resumo global do grafo verdadeiro. É disso que sai o vetor, sem rótulo nenhum. Duas coisas que o desenho não diz e que importam. A primeira: a feature de entrada de um lugar é a média dos vizinhos dele com o próprio vetor excluído -- ou seja, a entrada descreve uma vizinhança, e não a lembrança do próprio rótulo. A segunda: o que sai é um vetor por lugar, e toda visita àquele lugar entra no modelo com o mesmo vetor. Guardem essa segunda, porque é ela que o Capítulo 5 desfaz.\par}
+\end{tcolorbox}\vspace{2mm}
+\vspace{2mm}{\LARGE\bfseries\color{teal} MTLnet --- Cap. 3 (CBIC)}\par\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S18} $\cdot$ slide \textbf{14} $\cdot$ PDF p.18 $\cdot$ 45 s $\cdot$ fim previsto \textbf{11:39}}\par\vspace{1mm}
+{\large\bfseries\color{ink} MTLnet}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Esta é a arquitetura, o MTLnet. Vale guardar a figura, porque o Capítulo 4 não vai alterar uma linha dela.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ MTLnet $\cdot$ INTRODUZ FiLM}\par\vspace{1mm}
+\vspace{0.5mm}{\small\textbf{N\'UMEROS} --- compartilhamento rígido da Definição 2.10. E no fim}\par
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum número do Cap. $\cdot$ 3 ao lado de um do Cap. $\cdot$ Nunca "backbone": o nome é tronco compartilhado.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Esta é a arquitetura, o MTLnet. Vale guardar a figura, porque o Capítulo 4 não vai alterar uma linha dela. Cada tarefa entra por um encoder próprio, um MLP. Vem então a modulação FiLM, e ela cabe numa cláusula: um vetor de identidade de tarefa gera uma escala e um deslocamento, aplicados às features antes da parte compartilhada, de modo que as duas tarefas leiam os mesmos parâmetros sob escalas diferentes. Depois vem o tronco de blocos residuais, que é o compartilhamento rígido da Definição 2.10. E no fim duas saídas, uma por tarefa. O segundo item é o detalhe que vai importar no próximo slide: o capítulo declara os parâmetros em dois conjuntos disjuntos, os compartilhados e os específicos de tarefa. É sobre o primeiro conjunto que um balanceador de gradientes age.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S21} $\cdot$ sem página $\cdot$ 70 s *(medido)* $\cdot$ fim previsto \textbf{12:49}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Two losses, one set of parameters}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Antes de eu nomear o otimizador, o problema que ele existe para resolver.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o problema multiobjetivo, a dominância e a fronteira de Pareto, e as duas classes de método de balanceamento}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhuma afirmação de Pareto sobre os nossos modelos. $\cdot$ Nenhum formalismo do zoo de balanceadores na tela (§8 regra 16): os nomes entram como lista, sem equação.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Antes de eu nomear o otimizador, o problema que ele existe para resolver. São duas perdas e um único conjunto de parâmetros compartilhados, e entre duas soluções não há ordem total: uma pode ser melhor numa tarefa e pior na outra, e as duas ficam incomparáveis. Escrever a soma ponderada das perdas não remove essa natureza multiobjetivo. Daí vem o vocabulário: uma configuração domina outra no sentido de Pareto quando não é pior em nenhuma perda e é melhor em pelo menos uma; ela é Pareto-ótima quando nenhuma outra a domina; e o conjunto dos vetores de perda dessas configurações é a fronteira de Pareto. A área respondeu a isso com uma família inteira de métodos, e a família se divide em duas classes: os que fixam os pesos das perdas e os que mudam a direção da atualização. Uma ressalva que é do Capítulo 2 e que eu repito de propósito: esta dissertação não reivindica nenhuma propriedade de Pareto para os modelos dela.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S22} $\cdot$ sem página $\cdot$ 72 s *(medido)* $\cdot$ fim previsto \textbf{14:01}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Nash-MTL, and what the chapter may claim about it}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O Nash-MTL cai na segunda classe.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ Nash-MTL $\cdot$ RETOMA o critério de 2.2 e as duas classes de S21}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhuma afirmação de Pareto sobre os nossos modelos. $\cdot$ Nunca apresentar a adoção do Nash como posição atual da dissertação.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O Nash-MTL cai na segunda classe. Ele muda a direção da atualização, tratando a combinação dos gradientes como uma barganha cooperativa entre as tarefas: cada tarefa tem uma utilidade, que é a redução da perda dela, e a direção escolhida é a que maximiza o produto dessas utilidades, o que evita que uma domine a outra. A garantia é convergência para um ponto Pareto-estacionário, que é condição necessária e não suficiente para otimalidade de Pareto; a otimalidade exigiria uma hipótese de convexidade que uma rede profunda não satisfaz. Agora a parte que eu preciso dizer com cuidado. O Capítulo 3 adotou o Nash porque, na comparação dele, contra o PCGrad e contra não usar balanceador nenhum, ele deu a menor perda multitarefa combinada. Isso é conclusão do tempo dele, enfraquecida depois por um achado sobre a implementação do otimizador. O critério da Seção 2 continua de pé: um balanceador só é útil se melhorar sobre uma ponderação fixa bem ajustada.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S23} $\cdot$ slide \textbf{16} $\cdot$ PDF p.20 $\cdot$ 70 s *(medido)* $\cdot$ fim previsto \textbf{15:11}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The null result}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O resultado. Eu prefiro mostrá-lo a afirmá-lo, então são as duas tabelas do capítulo, reduzidas ao bloco de F1.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o resultado nulo do Cap. 3 $\cdot$ RETOMA o mapa de métodos externos de 2.6}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "ambas as baselines externas batidas em absoluto" (vale só na tarefa estática; $\cdot$ na sequencial o MHA+PE lidera Community, Food e Shopping). $\cdot$ Nunca "supera": não há teste pareado neste capítulo. $\cdot$ Nenhum número do Cap.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O resultado. Eu prefiro mostrá-lo a afirmá-lo, então são as duas tabelas do capítulo, reduzidas ao bloco de F1. À esquerda, a tarefa estática: os nossos dois modelos ficam acima da HMRM em todas as categorias. À direita, a tarefa sequencial, e é aqui que está o ponto: as lideranças se dividem. O MHA+PE fica com a melhor F1 em Community, Food e Shopping; o nosso multitarefa, em Nightlife e Travel; o de tarefa única, em Entertainment e Outdoors. E a comparação que interessa é entre as nossas duas colunas, que é a comparação entre multitarefa e dedicado. A conclusão é a do próprio capítulo, e está na tela: largamente comparáveis, sem vantagem clara ou consistente para o arranjo multitarefa nestes experimentos. Boa parte dessas diferenças cai dentro do desvio padrão entre partições. E uma precisão que evita a comparação errada mais tarde: isto é F1 por categoria, a convenção dos Capítulos 3 e 4, e não é a macro-F1 do Capítulo 5.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S24} $\cdot$ slide \textbf{17} $\cdot$ PDF p.21 $\cdot$ 40 s *(medido)* $\cdot$ fim previsto \textbf{15:51}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The null result: three possible causes}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape É aqui que o capítulo deixa de ser um resultado negativo e vira um programa de trabalho, porque ele nomeia três suspeitos, e não um.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a bifurcação de três hipóteses}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- transferência negativa como algo observado. $\cdot$ Nunca dar a um dos três suspeitos precedência que o capítulo não dá.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} É aqui que o capítulo deixa de ser um resultado negativo e vira um programa de trabalho, porque ele nomeia três suspeitos, e não um. Dissimilaridade das tarefas: o tronco compartilhado teria sido forçado a uma representação de compromisso, não especializada para nenhuma das duas. Insuficiência da representação: ela não seria rica o bastante para codificar propriedade semântica e dinâmica sequencial ao mesmo tempo. Rigidez da topologia: um único bloco compartilhado seria restritivo demais. Uma precisão sobre o rodapé, que eu faço questão de dizer: a transferência negativa foi hipotetizada aqui, não foi observada.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S25} $\cdot$ slide \textbf{18} $\cdot$ PDF p.22 $\cdot$ 20 s $\cdot$ fim previsto \textbf{16:11}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Three possible causes do not close the investigation}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Três causas possíveis não encerram a investigação: elas desenham o próximo experimento.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- RETOMA a bifurcação de 3.5 - ⚠ \textbackslash\{\}specialframe sem \textbackslash\{\}frametitle --- o extrator do SPEECH não alcança este bloco e nunca vai alcançar. O cartão é emitido com sem página, e o texto só se confere lendo o corpo do frame. Foi assim que este}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- que o próximo capítulo responde os três suspeitos. $\cdot$ Ele condena um.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Três causas possíveis não encerram a investigação: elas desenham o próximo experimento. Congelar a arquitetura e mover apenas a entrada.\par}
+\end{tcolorbox}\vspace{2mm}
+\vspace{2mm}{\LARGE\bfseries\color{teal} ST-MTLNet --- Cap. 4 (CoUrb)}\par\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S26} $\cdot$ slide \textbf{19} $\cdot$ PDF p.24 $\cdot$ 60 s *(medido)* $\cdot$ fim previsto \textbf{17:11}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Architecture or representation?}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O segundo estudo pega a pergunta herdada e a transforma em experimento controlado.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o desenho controlado do Cap. 4 $\cdot$ RETOMA MTLnet e FiLM de 3.2, e Nash-MTL de 3.3B}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- ampliar crédito de autoria. $\cdot$ A linha do divisor é a redação da própria Introdução entregue, e não se acrescenta nada a ela.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O segundo estudo pega a pergunta herdada e a transforma em experimento controlado. O gargalo é a representação, ou é a topologia de compartilhamento? Para separar as duas, ele mantém o MTLnet sem alterar uma linha: o mesmo tronco, a mesma modulação FiLM, o mesmo balanceador de gradientes, os mesmos hiperparâmetros. Só a entrada se move. A entrada antiga é o embedding monolítico de 64 dimensões do DGI; a nova é a concatenação de três codificadores, de 64 dimensões cada, o que dá 192. Vou por partes.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S27} $\cdot$ slide \textbf{20} $\cdot$ PDF p.25 $\cdot$ 55 s $\cdot$ fim previsto \textbf{18:06}}\par\vspace{1mm}
+{\large\bfseries\color{ink} HGI}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O segundo mecanismo, e ele é o mesmo objetivo subindo uma hierarquia.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o mecanismo do HGI $\cdot$ RETOMA a ideia infomax de 2.1 e o degrau do HGI em 2.7}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- introduzir o Check2HGI aqui, que é do Cap. $\cdot$ Nunca Space2Vec nem POI2Vec como componentes deste trabalho.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O segundo mecanismo, e ele é o mesmo objetivo subindo uma hierarquia. Um codificador de categoria dá as features iniciais, uma convolução sobre o grafo de Delaunay acrescenta vizinhança, a atenção junta os lugares de uma região, as regiões conversam entre si, e uma soma ponderada pela área fecha na cidade. As comparações contrastivas acontecem em duas fronteiras: lugar contra região, e região contra cidade. E duas consequências, sendo que a segunda está na tela. A primeira é a que explica o resultado do próximo capítulo: o vetor de um lugar já carrega a região a que ele pertence. A segunda é a ressalva: o HGI foi construído para representar regiões urbanas, e eu uso aqui a saída de nível de lugar dele para predição sequencial -- um uso que a avaliação original não cobre.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S28} $\cdot$ slide \textbf{21} $\cdot$ PDF p.26 $\cdot$ 90 s *(medido)* $\cdot$ fim previsto \textbf{19:36}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Why these encoders}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Por que estes codificadores, e não outros quaisquer.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ SIREN, Sphere2Vec-M, Time2Vec e o canal categórico em duas fases}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- Space2Vec ou POI2Vec como componentes deste trabalho. $\cdot$ Eles são arte prévia, e não estão no registro de termos.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Por que estes codificadores, e não outros quaisquer. O canal espacial existe porque o MTLnet codificava espaço só implicitamente, pela topologia do grafo, e nunca como coordenada contínua. O estudo compara dois com hipóteses diferentes: o SIREN, que modela uma função contínua das coordenadas normalizadas com ativações senoidais, e o Sphere2Vec-M, que é multiescala e opera direto em coordenadas esféricas, preservando propriedades de distância geodésica. Os dois são treinados com a mesma perda contrastiva sobre distância geográfica, com par abaixo de dez quilômetros como positivo e acima de setenta como negativo, e é isso que faz a comparação isolar a arquitetura. O canal temporal existe porque o MTLnet não tinha representação temporal nenhuma, e o Time2Vec combina um termo linear, de tendência global, com termos senoidais, para os padrões cíclicos de hora do dia e dia da semana. O canal categórico existe porque o DGI codificava categoria pela estrutura do grafo, sem capturar relação hierárquica ou regional entre elas, e ele vem em duas fases. Primeiro um codificador de lugar, que aprende coocorrência entre categorias a partir de caminhadas aleatórias sobre o grafo espacial, com amostragem negativa e um termo que amarra cada classe fina à categoria de topo dela. Depois o HGI, que acrescenta a hierarquia regional sobre esse resultado.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S26b} $\cdot$ slide \textbf{22} $\cdot$ PDF p.27 $\cdot$ 18 s *(medido)* $\cdot$ ⚠ \textbf{deixou de ser 0 s} $\cdot$ fim previsto \textbf{19:54}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Architecture or representation? (a arte)}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape E aqui está tudo junto, dentro do modelo que não mudou.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- RETOMA a Fig. 2 do Cap. 4 (arte reproduzida). INTRODUZ nada.}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nada de novo aqui. $\cdot$ O Task stamp é mandato da regra §8.5 (arte reproduzida dos Caps. $\cdot$ 3/4).}\par
+\vspace{1.5mm}{\footnotesize\color{soft} E aqui está tudo junto, dentro do modelo que não mudou. Os encoders de tarefa projetam qualquer entrada para a mesma largura latente de 256 nos dois braços, e é esse congelamento que faz o resultado ser diagnóstico, e não apenas melhor.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S30} $\cdot$ slide \textbf{23} $\cdot$ PDF p.28 $\cdot$ 100 s *(medido)* $\cdot$ fim previsto \textbf{21:34}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The diagnostic result is the sequential task}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Antes dos números, a ressalva, porque ela decide como ler a tabela da esquerda: depois da publicação nós estabelecemos que a entrada da tarefa estática contém o rótulo qu…}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o resultado sequencial do Cap. 4}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "macro-F1". $\cdot$ Nunca "supera": este capítulo não tem teste pareado. $\cdot$ Nenhum número do Cap. $\cdot$ 5 nesta tela.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Antes dos números, a ressalva, porque ela decide como ler a tabela da esquerda: depois da publicação nós estabelecemos que a entrada da tarefa estática contém o rótulo que ela prediz. A feature de tipo de local mapeia um-para-um nas sete categorias. Então os números da esquerda medem uma consulta, não inferência semântica aprendida. O resultado diagnóstico é o da direita, a tarefa sequencial, cujo alvo nunca está na entrada. Na tela está a Flórida, com os três modelos lado a lado; Califórnia e Texas eu tenho prontos se a banca quiser. O cenário aqui é mais heterogêneo do que na tarefa estática, e continua favorável à entrada decomposta. Contando o melhor dos dois codificadores espaciais por combinação, os modelos espaço-temporais ficam com a média mais alta em quinze das vinte e uma combinações de categoria e estado, e o MTLnet, com a entrada original, retém seis. Uma dessas seis o capítulo chama, nas palavras dele, de um empate técnico adicional: é Outdoors na Flórida, onde a média do MTLnet fica dois centésimos de ponto percentual acima da melhor variante, dentro de um desvio padrão. Os maiores ganhos estão em Food, em que as duas variantes ficam acima nos três estados. E de novo a precisão: isto é F1 por categoria, não é macro-F1.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S31} $\cdot$ slide \textbf{24} $\cdot$ PDF p.29 $\cdot$ 84 s *(medido)* $\cdot$ fim previsto \textbf{22:58}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Three limits of the decomposition}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Três limites, e eu ofereço os três antes que me peçam.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ os três limites declarados do Cap. 4}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "pareado em largura". $\cdot$ Deixar o ganho estático falar pela sequencial. $\cdot$ Ampliar crédito de autoria.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Três limites, e eu ofereço os três antes que me peçam. O primeiro é o Travel, e ele precisa de rótulo de tarefa, senão a sala se confunde: Travel na classificação de categoria melhora, Travel na próxima categoria não. Na tarefa sequencial o MTLnet mantém a liderança na Flórida, e a razão está escrita no capítulo: movimento de longa distância é esparso, e a topologia de grafo preserva relação entre lugares geograficamente distantes melhor do que um codificador baseado em coordenada. O segundo limite é que não existe codificador espacial universalmente melhor. O SIREN se destaca mais na Flórida e na Califórnia, o Sphere2Vec-M no Texas, e a adequação depende de como os lugares se distribuem em cada território. O terceiro é o que eu esperaria que a banca perguntasse, então eu digo primeiro: a comparação não é pareada em largura. São 192 dimensões contra 64. O capítulo declara isso como limite e pede um controle de dimensão equalizada, e esse controle nunca foi executado. Eu não vou defender o ponto: parte do ganho pode vir da largura. Junto com isso, os três componentes entram sempre juntos, então este capítulo não isola a contribuição de cada codificador.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S32} $\cdot$ slide \textbf{25} $\cdot$ PDF p.30 $\cdot$ 35 s $\cdot$ fim previsto \textbf{23:33}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Freeze the architecture, move only the input}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Com a arquitetura fixa, a entrada moveu o resultado: a representação é o gargalo.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- RETOMA o gargalo $\cdot$ INTRODUZ as três camadas que o Cap. 5 reconstrói (representação $\cdot$ topologia $\cdot$ protocolo)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- que a correção de um vazamento foi o pivô. $\cdot$ A direcionalidade das arestas entra em S37, como princípio de projeto, na redação do próprio Cap.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Com a arquitetura fixa, a entrada moveu o resultado: a representação é o gargalo. Mas o diagnóstico ainda é em nível de lugar, sob um protocolo que deixa o mesmo usuário dos dois lados da divisão. O terceiro estudo reconstrói as três camadas: representação, topologia e protocolo.\par}
+\end{tcolorbox}\vspace{2mm}
+\vspace{2mm}{\LARGE\bfseries\color{teal} Check2HGI --- Cap. 5 (MobiWac)}\par\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S33} $\cdot$ slide \textbf{26} $\cdot$ PDF p.32 $\cdot$ 60 s $\cdot$ fim previsto \textbf{24:33}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Three changes, each a consequence of the diagnosis}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape As três mudanças do último estudo, e nenhuma delas é preferência minha: as três são consequência do diagnóstico do capítulo anterior.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{DIZER EXATO}}
+\begin{itemize}[leftmargin=6mm,itemsep=0.4mm,topsep=0.8mm]
+\item usuários disjuntos
+\item o par de tarefas muda
+\end{itemize}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- creditar qualquer uma das três mudanças a uma correção de vazamento. $\cdot$ "Prevê o próximo lugar".}\par
+\vspace{1.5mm}{\footnotesize\color{soft} As três mudanças do último estudo, e nenhuma delas é preferência minha: as três são consequência do diagnóstico do capítulo anterior. A representação sai do nível de lugar para o nível de check-in, porque um vetor por lugar não distingue um almoço de quarta-feira de uma noite de sábado no mesmo lugar. A topologia sai do compartilhamento rígido para atenção cruzada entre as duas tarefas, com um caminho espacial privado na saída de região. E o protocolo sai do estratificado por amostra para validação cruzada com \textbf{usuários disjuntos}, quatro sementes, e testes fixados antes de qualquer resultado ser lido. Aqui eu cumpro o aviso que dei na Seção 2: \textbf{o par de tarefas muda}. Com uma entrada por visita, a classificação estática vira um par pouco natural, e o par passa a ser próxima categoria mais próxima região, dois alvos finais sequenciais. A restrição da abertura continua valendo: um artefato, uma passagem, duas respostas.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S34} $\cdot$ slide \textbf{27} $\cdot$ PDF p.33 $\cdot$ 52 s *(medido)* $\cdot$ fim previsto \textbf{25:25}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Next region: the task, and why it is worth predicting}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Trabalho relacionado deste estudo, que os dois primeiros não têm, e a primeira metade é a tarefa nova.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a tarefa de próxima região e as suas motivações $\cdot$ RETOMA o eixo meio × fim de 2.6 e as contagens de região da Tab. 8 (2.3)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\textbf{N\'UMEROS} --- 520 em Istambul a 8.501 na Califórnia. Ela}\par
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- especulação sobre erro geográfico ou desempenho de serviço (§8 regra 16). $\cdot$ Afirmação de ineditismo mais forte que a entregue, que é escopada a "to our knowledge" e "underexplored".}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Trabalho relacionado deste estudo, que os dois primeiros não têm, e a primeira metade é a tarefa nova. O alvo é a região --- de 520 em Istambul a 8.501 na Califórnia. Ela cobre uma área maior que um lugar, então é um alvo mais fácil do que o lugar exato. Mas a tarefa não é fácil. Prever sobre uma partição do mapa é a formulação padrão em mobilidade, com célula de grade como alvo; aqui entra no lugar dela a unidade administrativa de bairro. E onde a área já modela várias granularidades, categoria e região aparecem como sinais auxiliares de um alvo principal de próximo lugar. Eu estudo o par como objeto. O escopo vai junto com a motivação: preparação em nível de bairro, e nenhum serviço construído ou avaliado aqui.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S35} $\cdot$ slide \textbf{28} $\cdot$ PDF p.34 $\cdot$ 49 s *(medido)* $\cdot$ fim previsto \textbf{26:14}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Why a per-visit representation is new in this line}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Segunda metade: por que uma representação por visita é nova nesta linha.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ CTLE como a arte prévia mais próxima $\cdot$ RETOMA a escada de representações de 2.7}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- que o CTLE foi superado aqui. $\cdot$ O número do CTLE fica em S45, e o que ele estabelece é uma ordenação entre famílias de representação.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Segunda metade: por que uma representação por visita é nova nesta linha. A arte prévia mais próxima é o CTLE, que também dá um vetor por visita, aprendido mascarando e reconstruindo partes da sequência de check-ins do usuário. A diferença é de construção. O CTLE é um modelo de sequência, um Transformer que lê a própria sequência; o Check2HGI continua um modelo de grafo, com a mesma hierarquia de lugar, região e cidade e o mesmo objetivo infomax, agora um nível mais fundo. E o CTLE pré-treina só sobre identificador de lugar e marca de tempo, então o vocabulário de categoria nunca entra no treino dele. A novidade que eu reivindico é a combinação.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S36} $\cdot$ slide \textbf{29} $\cdot$ PDF p.35 $\cdot$ 80 s $\cdot$ fim previsto \textbf{27:34}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Check2HGI: a fourth level below the place}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O Check2HGI, e ele se apoia direto no HGI do capítulo anterior.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{DIZER EXATO}}
+\begin{itemize}[leftmargin=6mm,itemsep=0.4mm,topsep=0.8mm]
+\item um quarto nível abaixo do lugar
+\item o grafo nunca vê a próxima categoria nem a próxima região
+\end{itemize}
+\vspace{0.5mm}{\small\textbf{N\'UMEROS} --- auxiliares pequenos, de pesos 0,3 e 0,1, e}\par
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum p-valor nesta subseção. $\cdot$ "Substrate" (palavra de repositório).}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O Check2HGI, e ele se apoia direto no HGI do capítulo anterior. O HGI tinha três níveis: lugar, região e cidade. O Check2HGI acrescenta \textbf{um quarto nível abaixo do lugar}, que é o próprio check-in. As arestas ligam cada nível ao de cima, ligam lugares próximos no nível de lugar, e ligam os check-ins consecutivos de um mesmo usuário, com um peso que decai conforme o intervalo entre as visitas cresce. Duas visitas ao mesmo lugar se encontram pelo nó de lugar, um nível acima. O treino é o objetivo infomax da Seção 2, agora um nível mais fundo: cada vetor aprende a reconhecer a vizinhança verdadeira e a rejeitar uma embaralhada. Junto com ele vão dois termos auxiliares pequenos, de pesos 0,3 e 0,1, e nenhum dos dois usa rótulo. Este é o ponto que eu quero deixar assentado antes de qualquer resultado: \textbf{o grafo nunca vê a próxima categoria nem a próxima região}. E do grafo treinado saem duas tabelas: um vetor de 64 dimensões por visita, do nível de check-in, e um vetor de 64 dimensões por região, do nível de região. São essas duas tabelas que o modelo da próxima tela vai ler.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S37} $\cdot$ slide \textbf{30} $\cdot$ PDF p.36 $\cdot$ 70 s $\cdot$ fim previsto \textbf{28:44}}\par\vspace{1mm}
+{\large\bfseries\color{ink} What each visit contributes}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O que cada visita contribui na entrada, e é aqui que está a informação que um vetor por lugar não consegue carregar.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ as features de nó por visita $\cdot$ INTRODUZ a aresta só para frente, como princípio de projeto}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- a aresta só para frente como conserto, correção ou descoberta. $\cdot$ Ela é decisão de projeto que o documento explica. $\cdot$ Se perguntarem por que a direcionalidade importa, a resposta é o princípio; $\cdot$ se alguém perguntar por um episódio de correção no repositório, é o slide B2, com a proveniência primeiro.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O que cada visita contribui na entrada, e é aqui que está a informação que um vetor por lugar não consegue carregar. Três grupos. O semântico: a categoria do lugar visitado, como indicador sobre as classes. O tempo cíclico: hora do dia e dia da semana pelo seno e pelo cosseno, para que o fim e o começo de cada ciclo fiquem vizinhos, e não em pontas opostas de uma escala. E os tempos decorridos: o intervalo desde a visita anterior e o intervalo desde a primeira visita daquele usuário, os dois comprimidos por logaritmo, mais o intervalo dentro do mesmo dia e um indicador de primeira visita. É isso que dá ritmo à representação: distinguir a visita que vem minutos depois da anterior daquela que abre um passeio novo. E aqui um princípio de projeto, na redação do próprio capítulo: as arestas entre visitas consecutivas correm numa direção só, da visita anterior para a posterior. A razão está na mesma frase: o alvo é predito do passado do usuário, então a representação é construída só do passado. Todo valor é medido até a própria visita.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S39} $\cdot$ slide \textbf{31} $\cdot$ PDF p.37 $\cdot$ 74 s *(medido)* $\cdot$ fim previsto \textbf{29:58}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The architecture: sharing by exchange}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A arquitetura, e o que mudou no multitarefa. Cada tarefa tem a sua entrada.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{DIZER EXATO}}
+\begin{itemize}[leftmargin=6mm,itemsep=0.4mm,topsep=0.8mm]
+\item por troca de informação entre as duas tarefas
+\end{itemize}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- creditar transferência entre tarefas a partir desta tela. $\cdot$ "Backbone", "dual-tower", o identificador de repositório do modelo.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A arquitetura, e o que mudou no multitarefa. Cada tarefa tem a sua entrada. A de categoria lê a janela de vetores por visita, que é o fluxo semântico. A de região lê a mesma janela de visitas, só que cada visita agora representada pelo vetor treinado do nó de região dela, que é o fluxo espacial. As duas passam por encoders privados, sem peso nenhum compartilhado. E o tronco compartilhado é uma pilha de dois blocos de atenção cruzada: em cada bloco a atenção deixa um fluxo ler as features do outro, enquanto cada um mantém os próprios pesos feed-forward. É esta a frase que eu quero que fique da tela: as tarefas compartilham \textbf{por troca de informação entre as duas tarefas}, e não por possuírem camadas ocultas em comum. Comparem com o Capítulo 3, onde tudo atravessava um tronco único e as tarefas só se separavam nas saídas. É a mesma família de modelos, com a topologia de compartilhamento trocada, e a topologia era um dos três suspeitos do nulo.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S40} $\cdot$ slide \textbf{32} $\cdot$ PDF p.38 $\cdot$ 90 s $\cdot$ fim previsto \textbf{31:28}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The private spatial path}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Duas coisas fecham a arquitetura, e depois uma posição que eu preciso enunciar com precisão.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{DIZER EXATO}}
+\begin{itemize}[leftmargin=6mm,itemsep=0.4mm,topsep=0.8mm]
+\item dentro do mesmo modelo
+\item modelo dedicado de categoria recebe o mesmo ajuste
+\end{itemize}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "não podemos provar que não contribuiu, portanto provavelmente contribuiu". $\cdot$ Creditar Texas e Califórnia a transferência entre tarefas. $\cdot$ Nenhuma afirmação de Pareto sobre estes modelos.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Duas coisas fecham a arquitetura, e depois uma posição que eu preciso enunciar com precisão. A primeira é o caminho espacial privado: a saída de região tem, além do tronco, um ramo pequeno \textbf{dentro do mesmo modelo}, e não um segundo modelo, que lê a janela espacial e contorna o tronco. A tarefa de categoria não toca nesse ramo. A segunda é a perda: uma soma de peso fixo, meio a meio entre as duas tarefas, e o peso é fixo \textbf{de propósito}, para que qualquer melhora sobre os dedicados venha da representação compartilhada e não de um esquema adaptativo de ponderação. A saída de categoria treina com ajuste de logit, que empurra a fronteira de decisão para o posterior balanceado que a macro-F1 premia, e o \textbf{modelo dedicado de categoria recebe o mesmo ajuste}, então a comparação entre os dois não é afetada por ele. Agora a posição. A evidência aqui \textbf{não separa} as contribuições do tronco compartilhado e do caminho espacial privado. Ela não estabelece que o compartilhamento ajuda, e não o descarta. A afirmação que eu faço é sobre o desenho: esta combinação produz uma saída de região acima de dois modelos dedicados, nos dois conjuntos com os maiores números de regiões. Não é uma afirmação sobre transferência entre tarefas.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S41} $\cdot$ slide \textbf{33} $\cdot$ PDF p.39 $\cdot$ 75 s *(medido)* $\cdot$ fim previsto \textbf{32:43}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Protocol, step 1 of 4: the unit of data}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape O protocolo, em quatro passos, e de cada um eu digo a razão.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o split disjunto por usuário e as janelas sobrepostas de passo 1 $\cdot$ RETOMA o protocolo estratificado por amostra de 2.5}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "as mesmas janelas" para os três estudos. $\cdot$ "Fold" como palavra solta na fala: a superfície em português é partição.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} O protocolo, em quatro passos, e de cada um eu digo a razão. Primeiro, a unidade de dado. Validação cruzada de cinco partições, disjunta por usuário: todas as janelas de uma pessoa ficam do mesmo lado da divisão. Isso é o reparo direto da limitação que o Capítulo 3 declarou, em que os check-ins de um mesmo usuário caíam dos dois lados. E uma ressalva que eu dou antes de alguém pedir: a partição retida é a que serve de validação, e eu não reservo uma terceira divisão. É dela que sai o segundo limite que eu apresento no fim desta seção.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S42} $\cdot$ slide \textbf{34} $\cdot$ PDF p.40 $\cdot$ 101 s *(medido)* $\cdot$ fim previsto \textbf{34:24}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Protocol, step 2 of 4: what is measured}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Segundo, o que se mede.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ Acc@10, o desconto OOD e o piso de Markov-1 $\cdot$ RETOMA macro-F1 e o piso de classe majoritária de 2.4}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- Acc@10 sem o desconto OOD. $\cdot$ Nenhum número sem o seu ponto de referência.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Segundo, o que se mede. Em categoria, macro-F1, e a razão é a distribuição: na Flórida, um preditor que sempre responde a categoria mais comum acerta vinte e quatro vírgula sete por cento das visitas e ainda assim marca cinco vírgula sete de macro-F1. É por isso que acurácia simples não é a métrica aqui: ela premiaria exatamente esse preditor. Em região, acurácia em dez, a fração de visitas cuja região verdadeira está entre as dez mais pontuadas. E eu digo o que ela não faz: não separa o primeiro lugar do décimo. Região ausente do treino conta como erro. Os pontos de referência são o modelo dedicado e o piso de Markov.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S43} $\cdot$ slide \textbf{35} $\cdot$ PDF p.41 $\cdot$ 99 s *(medido)* $\cdot$ fim previsto \textbf{36:03}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Protocol, step 3 of 4: what is compared}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Terceiro, o que se compara. O modelo conjunto contra os dedicados, com a mesma representação, as mesmas janelas e as mesmas partições.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a semente como unidade de repetição, os vinte modelos ajustados, a unidade inferencial n = 4 e a convenção joint-best}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "n = 20 repetições pareadas". $\cdot$ Misturar joint-best com a leitura por tarefa dos Caps. $\cdot$ 3 e 4 sem declarar. $\cdot$ "As mesmas partições" entre sementes: vale dentro de uma semente.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Terceiro, o que se compara. O modelo conjunto contra os dedicados, com a mesma representação, as mesmas janelas e as mesmas partições. E a convenção que decide qual número eu reporto: os dois resultados saem de um único modelo salvo por partição, escolhido pela média geométrica das duas métricas. Eu digo isso com todas as letras porque ela me custa caro: a convenção alternativa, ler cada tarefa na melhor época dela, é mais favorável ao modelo conjunto, e transformaria mais quatro células de categoria e mais duas de região em melhorias que sobrevivem à mesma correção. Eu escolhi a que produz menos vitórias, porque é a única que um sistema implantado consegue servir.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S44} $\cdot$ slide \textbf{36} $\cdot$ PDF p.42 $\cdot$ 135 s *(medido)* $\cdot$ fim previsto \textbf{38:18}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Protocol, step 4 of 4: how it is decided}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Quarto, como se decide, e o ponto é que um ganho afirmado e uma paridade afirmada exigem testes diferentes.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o teste pareado de superioridade, o TOST na margem registrada, a correção de Holm e o desvio declarado do Wilcoxon}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- apresentar o desvio como confissão. $\cdot$ Aplicar a margem de dois pontos ao eixo de categoria. $\cdot$ "Significativo" sem nomear o teste.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Quarto, como se decide, e o ponto é que um ganho afirmado e uma paridade afirmada exigem testes diferentes. Para próxima categoria, superioridade: eu pergunto se o conjunto é melhor. Para próxima região, não-inferioridade, com margem de dois pontos registrada antes de qualquer resultado ser lido: eu pergunto se ele não é pior. Isso importa porque ausência de significância não é evidência de igualdade --- dizer 'não deu diferença, logo empatou' é formalmente inválido, e é a prática corrente na literatura de multitarefa. O plano foi escrito antes. Teste t pareado, intervalo de noventa por cento, correção de Holm sobre os seis conjuntos. E um desvio declarado: o plano registrava Wilcoxon, e com quatro sementes o Wilcoxon exato não desce abaixo de zero vírgula zero seiscentos e vinte e cinco. Ele não podia decidir nada. Continua reportado ao lado, como sensibilidade, com os dois testes no código publicado. E o asterisco que está na tela: o protocolo estatístico foi refinado depois, com base na literatura. É posterior ao que a banca recebeu, e não muda nenhum veredito.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S45} $\cdot$ sem página $\cdot$ 48 s *(medido)* $\cdot$ fim previsto \textbf{39:06}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Result 2: the representation, at every dataset}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Segundo resultado, e é o mais controlado da dissertação: só a entrada muda.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ o resultado de representação (Tab. 9) e os dois controles $\cdot$ RETOMA CTLE de 5.2A}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "o nível de check-in bate o de lugar nos seis" no sentido de teste: o teste separa em cinco. $\cdot$ Nunca generalizar a cláusula do capítulo "under a tenth of the place-to-check-in gap": ela é dita por estado, e generalizá-la é aritmeticamente falso contra a própria Tabela 9, na mesma página. $\cdot$ Nunca chamar a diferença de representação de "margem".}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Segundo resultado, e é o mais controlado da dissertação: só a entrada muda. Mesmo alvo, mesmo modelo, mesma configuração de treino, mesmas partições, mesmas janelas. A coluna da esquerda é a representação em nível de check-in, a do meio é o embedding por lugar, e a da direita é a diferença. Ela é positiva nos seis conjuntos, de mais zero vírgula vinte e três na Flórida a mais seis vírgula vinte e nove em Istambul. O desvio ao lado é entre as cinco partições, com semente zero. Um teste pareado separa as duas colunas em cinco dos seis conjuntos; a Flórida é a exceção, com p igual a zero vírgula zero sete.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S46} $\cdot$ sem página $\cdot$ 195 s *(medido)* $\cdot$ fim previsto \textbf{42:21}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Result 3: one model, two tasks}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Segundo resultado, e é o que decide a tese. Duas tabelas, uma por tarefa: à esquerda a categoria, à direita a região, com três sistemas externos.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a Tab. 10 e os resultados dos métodos externos do Cap. 5 $\cdot$ RETOMA o mapa de métodos de referência de 2.6}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "empata", "matches", "ties", "em todos os conjuntos supera". $\cdot$ "Beats" ou "wins" para os métodos externos: o verbo é excede. $\cdot$ Nunca um número do Cap. $\cdot$ 3 nesta tela.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Segundo resultado, e é o que decide a tese. Duas tabelas, uma por tarefa: à esquerda a categoria, à direita a região, com três sistemas externos. Primeiro a comparação limpa. Em categoria, o conjunto fica pelo menos três vírgula zero seis pontos acima do POI-RGNN nos seis conjuntos, e o POI-RGNN é nativo da tarefa. Em região, fica acima do melhor externo de cada conjunto, também nos seis. Agora a ressalva de protocolo, porque os três não chegam em pé de igualdade. Só o HMT-GRN roda nos nossos dados, nas nossas partições e nas nossas inicializações. O STAN roda nas nossas partições mas constrói as próprias representações e as próprias sequências, e em dois conjuntos com partições incompletas. O ReHDM roda sob o protocolo publicado dele. E agora a coisa mais interessante do capítulo, e ela é contra eles, não a meu favor: o piso de Markov de primeira ordem, uma tabela de transição sem aprendizado nenhum, fica acima desses três sistemas na maioria dos conjuntos --- acima do HMT-GRN nos seis. É por isso que eu trato o piso, e não os externos, como a referência que a próxima região tem de exceder. O conjunto excede o piso por quatro vírgula um a dez pontos. Os números vêm de quatro sementes por cinco partições; a dispersão e os intervalos estão no próximo slide, que é onde o veredito é decidido.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S47} $\cdot$ slide \textbf{39} $\cdot$ PDF p.45 $\cdot$ 121 s *(medido)* $\cdot$ fim previsto \textbf{44:22}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The verdict, dataset by dataset}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape E este é o veredito, com o intervalo de cada diferença.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{DIZER EXATO}}
+\begin{itemize}[leftmargin=6mm,itemsep=0.4mm,topsep=0.8mm]
+\item próxima região
+\item permanece dentro da margem de dois pontos
+\item déficits, não empates
+\item próxima categoria
+\item supera na Flórida
+\item não resolvidas
+\end{itemize}
+\vspace{0.5mm}{\small\textbf{N\'UMEROS} --- dedicado no Texas, mais 1,21, e na Califórnia $\cdot$ e na Califórnia, mais 1,06; nos dois, as $\cdot$ os p corrigidos são 0,00013 e menos de $\cdot$ quero evitar: Alabama menos 0,87; Arizona menos 0,44}\par
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "empata", "matches", "ties", "em todos". $\cdot$ Aplicar a margem de dois pontos ao eixo de categoria, ou meio ponto ao eixo de região. $\cdot$ Chamar as quatro diferenças dentro da margem de empates. $\cdot$ Dizer que uma diferença "exclui zero" sem dizer para que lado.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} E este é o veredito, com o intervalo de cada diferença. Na \textbf{próxima região}, o modelo conjunto \textbf{supera} o dedicado no Texas, mais 1,21, e na Califórnia, mais 1,06; nos dois, as vinte partições favorecem o conjunto, e os p corrigidos são 0,00013 e menos de dez elevado a menos quatro. Nos outros quatro conjuntos ele \textbf{permanece dentro da margem de dois pontos}, registrada antes de qualquer resultado ser lido. E eu enuncio os quatro, porque citar três e omitir Istambul seria justamente o erro que eu quero evitar: Alabama menos 0,87; Arizona menos 0,44; Flórida menos 0,16; Istambul menos 0,08. Os quatro são \textbf{déficits, não empates}, e os quatro intervalos ficam inteiramente abaixo de zero. A direção é declarada, não arredondada. Na \textbf{próxima categoria}, ele \textbf{supera na Flórida}, mais 0,19, com p corrigido de 0,011 e dezenove das vinte partições a favor. As outras cinco são \textbf{não resolvidas}, e elas não apontam para o mesmo lado: Istambul, mais 0,08, exclui zero a favor do conjunto; Texas, menos 0,13, e Alabama, menos 0,19, excluem zero a favor do dedicado; Arizona e Califórnia ficam sobre o zero. Nenhuma das cinco sobrevive a Holm. O que se pode dizer sobre magnitude vem dos intervalos: o mais largo alcança 0,34 de ponto a partir de zero, no Alabama, e isso limita as seis diferenças de categoria a \textbf{meio ponto de zero de uma vez só}. Duas últimas coisas, ditas por mim antes de serem pedidas. Os dois ganhos de região são \textbf{resultados secundários, fora do plano registrado}. E Istambul, o único conjunto fora dos Estados Unidos, fica a menos de um décimo de ponto nos dois eixos, que é o teste de validade externa deste capítulo.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S48} $\cdot$ slide \textbf{40} $\cdot$ PDF p.46 $\cdot$ 119 s *(medido)* $\cdot$ fim previsto \textbf{46:21}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Limitations and trade-offs}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A troca, medida, e depois quatro limites que eu ofereço antes de alguém pedir.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{DIZER EXATO}}
+\begin{itemize}[leftmargin=6mm,itemsep=0.4mm,topsep=0.8mm]
+\item operacional, não aritmético
+\item todo escore absoluto que eu reportei é otimista
+\end{itemize}
+\vspace{0.5mm}{\small\textbf{N\'UMEROS} --- capítulo reporta cerca de 4,2 milhões no Alabama $\cdot$ milhões no Alabama contra 1,85 milhão dos dois $\cdot$ dois dedicados somados, e 5,2 contra 2,8 na $\cdot$ 2,8 na Califórnia. São 2,3 vezes e 1,8}\par
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- repetir a razão de parâmetros como se tivesse sido re-medida, e nunca citar uma recontagem. $\cdot$ Se a pergunta vier, a resposta é que a razão de parâmetros não foi re-medida. $\cdot$ Nunca citar as duas porcentagens de parâmetros impressas no Apêndice G do suplemento: elas estão erradas, e o assunto é do slide B3.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A troca, medida, e depois quatro limites que eu ofereço antes de alguém pedir. A troca primeiro: o modelo conjunto é \textbf{maior}. O capítulo reporta cerca de 4,2 milhões no Alabama contra 1,85 milhão dos dois dedicados somados, e 5,2 contra 2,8 na Califórnia. São 2,3 vezes e 1,8 vezes; uma passagem custa mais computação do que rodar os dois modelos pequenos. O que o modelo único entrega é \textbf{operacional, não aritmético}: um artefato para treinar, versionar e implantar, e uma passagem cujas entradas produzem as duas respostas de uma vez. E os quatro resultados de região dentro da margem são déficits pequenos, o maior deles 0,87 no Alabama: é uma troca medida, não uma substituição de graça. Os quatro limites. Primeiro: a representação é treinada uma vez sobre todos os lugares; uma reconstrução por partição, só com usuários de treino, mudou os resultados em no máximo 0,33 de acurácia em dez e 0,29 de macro-F1, em três conjuntos e numa semente, e a metade de categoria dessa verificação cobre de 67 a 87 por cento dos dados de validação. Segundo: a seleção de época consulta a mesma partição em que a nota é depois lida, então \textbf{todo escore absoluto que eu reportei é otimista}; a comparação entre conjunto e dedicado é bem menos afetada, porque a regra é a mesma para os dois nas mesmas partições e porque o dedicado de categoria recebe a busca mais ampla, mas daí não segue que o viés se cancele exatamente. Terceiro: eu não construo nem avalio serviço nenhum. Quarto: cada nó de visita se apoia só nas visitas que o precedem, e o grafo não passa informação de uma visita posterior para uma anterior, nem no treino nem na leitura.\par}
+\end{tcolorbox}\vspace{2mm}
+\vspace{2mm}{\LARGE\bfseries\color{teal} CONCLUSÃO --- a resposta condicional}\par\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S49} $\cdot$ slide \textbf{41} $\cdot$ PDF p.48 $\cdot$ 30 s $\cdot$ fim previsto \textbf{46:51}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Three studies, three layers}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Uma tela em que a coletânea inteira cabe. Três linhas, os três estudos.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ a leitura conjunta dos três estudos lado a lado | RETOMA a linhagem de 2.1 e as três camadas de 5.1}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum número nesta tela, em nenhuma célula. $\cdot$ Nenhum "fomos de X para Y" atravessando protocolos (§8 regra 7). $\cdot$ Nunca "supera" nesta tela: a licença é por célula de resultado, e aqui não há resultado.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Uma tela em que a coletânea inteira cabe. Três linhas, os três estudos. Três colunas, as três camadas. Mais uma quarta coluna: o que moveu. O Capítulo 3 não separou nada, e é isso que ele entrega, um nulo com três suspeitos. O Capítulo 4 manteve a arquitetura fixa de propósito, e é esse congelamento que faz a troca de entrada valer como diagnóstico. O Capítulo 5 mexeu nas três camadas. Um veredito condicional, medido sob o protocolo mais estrito dos três. O que os três estudos, juntos, estabelecem, e o que não estabelecem?\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S50} $\cdot$ slide \textbf{42} $\cdot$ PDF p.49 $\cdot$ 55 s $\cdot$ fim previsto \textbf{47:46}}\par\vspace{1mm}
+{\large\bfseries\color{ink} The conditional answer}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A resposta consolidada, e ela é condicional de propósito.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- RETOMA o veredito de 5.5, a pergunta de 1.3 e o protocolo disjunto por usuário de 5.4 ("o protocolo mais estrito dos três")}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- "MTL funciona" sem condição. $\cdot$ Re-caminhar a cadeia dos três estudos, que acabou de estar na tela em S49. $\cdot$ Creditar os ganhos de região a transferência entre tarefas. $\cdot$ Nenhum número novo.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A resposta consolidada, e ela é condicional de propósito. O aprendizado multitarefa ajuda a previsão da próxima categoria e da próxima região sob o desenho final e o protocolo de avaliação desenvolvidos nesta dissertação. O que isso não autoriza é dizer que o multitarefa sempre ajuda: ao longo dos três estudos, relação entre tarefas e treino conjunto não bastaram por si sós. Uma condição está estabelecida por comparação controlada, e é a representação de entrada. Duas outras a evidência sugere sem isolar: a arquitetura, e a escala do conjunto de dados. Sobre escala eu sou explícito. Ela continua sendo condição possível, não causa estabelecida, por duas razões que estão no próprio texto: a ordenação não se mantém dentro do par Texas e Califórnia, e estados com mais regiões também tendem a ter mais check-ins. Identificar essas condições é o achado principal desta dissertação.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S51} $\cdot$ slide \textbf{43} $\cdot$ PDF p.50 $\cdot$ 45 s $\cdot$ fim previsto \textbf{48:31}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Contributions}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape A contribuição, em duas metades. A prática: um modelo, uma passagem, duas predições --- um artefato para treinar, versionar e implantar, no lugar de dois.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- RETOMA a contribuição de 1.5 (§8 regra 13: segunda das duas aparições, redação idêntica)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- redação diferente da de S7, mesmo que melhor. $\cdot$ Nenhum número novo. $\cdot$ Nunca a razão de parâmetros como verificada: o slide diz "maior", que é o que a página imprime, e nada além.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} A contribuição, em duas metades. A prática: um modelo, uma passagem, duas predições --- um artefato para treinar, versionar e implantar, no lugar de dois. O ganho é operacional, não computacional: o conjunto é o artefato maior. Mais o Check2HGI publicado, que é a parte reutilizável, e o protocolo de avaliação, liberado com o código. A científica: acima de todo sistema externo que eu rodei, nas duas tarefas; resultados de referência para a próxima região, uma tarefa que não tinha protocolo fixado; e três condições sobre quando o multitarefa ajuda --- a representação de entrada, estabelecida por comparação controlada, e a arquitetura e a escala, sugeridas e não isoladas.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S52} $\cdot$ slide \textbf{44} $\cdot$ PDF p.51 $\cdot$ 105 s *(estimado --- as falas dos dois slides antigos fundiram-se aqui)* $\cdot$ fim previsto \textbf{50:16}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Limitations}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape As limitações, cada uma amarrada ao passo que ela pede.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ as SEIS limitações}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- que o confundimento de par de tarefas foi removido; $\cdot$ ele é limitado pelo controle de par fixo. $\cdot$ ablation --- o termo não está no GLOSSARY; $\cdot$ a superfície é "teste controlado".}\par
+\vspace{1.5mm}{\footnotesize\color{soft} As limitações, cada uma amarrada ao passo que ela pede. Eu prefiro dizê-las antes de serem perguntadas. Não são desculpas: são experimentos que alguém pode rodar. Primeira, a idade dos dados. Os cinco estados vão de janeiro de 2009 a agosto de 2011, e Istambul tem check-ins em dois blocos, 2012 a 2013 e 2017 a 2018, com cerca de sete em cada dez no bloco mais antigo. E vale dizer de quem é a limitação: a antiguidade dos dados não é só deste trabalho. Nenhum conjunto público de check-ins com trajetória de usuário passa de 2018 --- nem o Massive-STEPS, de 2025, que foi publicado para resolver exatamente isso. Segunda, a taxonomia é grossa. Sete classes de topo, e uma divisão mais fina pode mudar o efeito do treino conjunto. Terceira, e esta é a que eu mais gostaria de ver feita: a representação é transdutiva. Treinada sobre o grafo de check-ins de cada conjunto, ela não representa lugar nem usuário novo sem retreinar. O passo é uma variante indutiva, que sustentaria uso numa cidade que cresce. E, na mesma representação, dois testes controlados: variar o acoplamento com a tabela de vetores de lugar pré-treinada, e uma formulação em hipergrafo, em que uma aresta junta as várias visitas de uma sessão. ele virou "Future work". Palavras inalteradas: so mudaram de frame, porque o slide passou a carregar os seis limites. A do limite 6 e a fala do Future work ficam DEVIDAS ao gate. Quarta: eu não predigo o próximo lugar exato, então as conclusões valem para próxima categoria e próxima região. Quinta: fora dos Estados Unidos, a evidência se apoia numa cidade só. Mais cidades ampliam a base.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S53} $\cdot$ slide \textbf{45} $\cdot$ PDF p.52 $\cdot$ 78 s *(estimado)* $\cdot$ fim previsto \textbf{51:34}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Future work}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Três frentes, e são as mesmas três de que a resposta depende: a representação, a topologia e a escala.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ os trabalhos futuros, agrupados por eixo}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- GSM++ --- o deck nunca introduziu a sigla e o §8.11 é fail-closed; $\cdot$ a intenção entra como attention-based graph encoders.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Três frentes, e são as mesmas três de que a resposta depende: a representação, a topologia e a escala. Duas delas o próprio trabalho classifica como apenas sugeridas --- é aí que está o espaço. Na representação, a que eu mais gostaria de ver feita: torná-la indutiva. Hoje ela não representa lugar nem usuário novo sem retreinar, e uma cidade que cresce precisa disso. Na topologia, o próximo lugar exato: a tarefa mais visível da literatura está a uma cabeça de distância da representação que já existe. E treinar os dois estágios num só --- hoje a representação é aprendida sem rótulo e depois congelada; unificar é descobrir se ela continua agnóstica quando os gradientes das tarefas chegam nela. Na escala, a que eu devo: Texas e Califórnia são os dois que ganham, os dois com mais regiões, e os dois com mais dados. Separar as duas explicações exige um experimento controlado. E há mais três que não estão na tela: uma ablação da âncora da tabela de lugares, um alvo estático que a representação não carregue como entrada, e o Check2HGI dentro de outras arquiteturas de mobilidade.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S54} $\cdot$ slide \textbf{46} $\cdot$ PDF p.53 $\cdot$ 50 s *(medido)* $\cdot$ fim previsto \textbf{52:24}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Closing}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape Eu abri esta apresentação dizendo que antecipar o quê e o onde da próxima visita sustenta recomendação, navegação, planejamento de transporte e alocação de recursos por área.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- RETOMA as aplicações de 1.1 e a restrição de modelo único de 1.3 | fecho}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nenhum número novo. $\cdot$ Nenhum "MTL funciona" sem condição. $\cdot$ Nunca ler a lista de agradecimentos da tela: ela não está na tela.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} Eu abri esta apresentação dizendo que antecipar o quê e o onde da próxima visita sustenta recomendação, navegação, planejamento de transporte e alocação de recursos por área. Fecho no mesmo lugar, um nível acima. O produto prático desta dissertação é um modelo único que prediz duas propriedades da próxima visita numa passagem: que tipo de lugar a pessoa vai visitar, e em que parte da cidade. E a contribuição metodológica é a sequência de evidência que levou até ele: um resultado negativo publicado, o diagnóstico que identificou a representação de entrada como o gargalo, e uma solução desenhada a partir desse diagnóstico. O resultado negativo não foi obstáculo à contribuição. Ele foi a primeira metade dela.\par}
+\end{tcolorbox}\vspace{2mm}
+\begin{tcolorbox}[breakable,colback=white,colframe=teal!55,boxrule=0.6pt,arc=2pt,left=3mm,right=3mm,top=2mm,bottom=2mm]
+{\small\color{soft}\textbf{S55} $\cdot$ slide \textbf{47} $\cdot$ PDF p.54 $\cdot$ 30 s $\cdot$ fim previsto \textbf{52:54}}\par\vspace{1mm}
+{\large\bfseries\color{ink} Obrigado}\par\vspace{2mm}
+{\color{teal}\textbf{\textrightarrow}}\ \textbf{\itshape E antes de encerrar, os agradecimentos. Ao meu orientador, o professor Fabrício Silva, pela liberdade de explorar as minhas ideias e pela confiança para levá-las adiante.}\par\vspace{1.5mm}
+{\small\color{teal}\textbf{COBRE} --- INTRODUZ nada (fecho social)}\par\vspace{1mm}
+\vspace{0.5mm}{\small\color{crim}\textbf{NUNCA} --- nada de resultado aqui. $\cdot$ É fecho social, e é o slide que fica na tela durante a arguição.}\par
+\vspace{1.5mm}{\footnotesize\color{soft} E antes de encerrar, os agradecimentos. Ao meu orientador, o professor Fabrício Silva, pela liberdade de explorar as minhas ideias e pela confiança para levá-las adiante. Ao Germano Santos, que trabalhou ao meu lado em todos os artigos deste mestrado. Ao Tarik Paiva, à Ingred Almeida e ao Pedro Augusto, pela parceria de pesquisa ao longo do caminho. À Universidade Federal de Viçosa e aos professores que fizeram parte desta formação. À minha família, que sustentou tudo isto. E, por fim, aos senhores da banca: obrigado por lerem o trabalho e por estarem aqui. Fico à disposição para as perguntas.\par}
+\end{tcolorbox}\vspace{2mm}
+\end{document}

@@ -1,0 +1,24 @@
+[split] alabama seed=0 fold=1: train 77062 rows / 883 users, val 19264 rows / 218 users -> results/g1/splits/alabama_split_seed0_fold1.json
+A5 OK alabama f1: n_val_rows=19264 n_val_users=218
+A1/A2 OK alabama f1: excluded=218 kept_checkins=92620 best_epoch=491
+[materialize] alabama: wrote /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_to_f1/alabama/input/next.parquet (96326 of 96326 source windows, dim=64)
+A4 OK alabama f1: n_windows=96326
+region record OK alabama f1: remap={'full_regions': 1109, 'trainonly_regions': 1084, 'absent_from_train': 25}
+[split] alabama seed=0 fold=2: train 77061 rows / 880 users, val 19265 rows / 221 users -> results/g1/splits/alabama_split_seed0_fold2.json
+A5 OK alabama f2: n_val_rows=19265 n_val_users=221
+A1/A2 OK alabama f2: excluded=221 kept_checkins=92592 best_epoch=499
+[materialize] alabama: wrote /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_to_f2/alabama/input/next.parquet (96326 of 96326 source windows, dim=64)
+A4 OK alabama f2: n_windows=96326
+region record OK alabama f2: remap={'full_regions': 1109, 'trainonly_regions': 1083, 'absent_from_train': 26}
+[split] alabama seed=0 fold=3: train 77059 rows / 883 users, val 19267 rows / 218 users -> results/g1/splits/alabama_split_seed0_fold3.json
+A5 OK alabama f3: n_val_rows=19267 n_val_users=218
+A1/A2 OK alabama f3: excluded=218 kept_checkins=92617 best_epoch=493
+[materialize] alabama: wrote /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_to_f3/alabama/input/next.parquet (96326 of 96326 source windows, dim=64)
+A4 OK alabama f3: n_windows=96326
+region record OK alabama f3: remap={'full_regions': 1109, 'trainonly_regions': 1080, 'absent_from_train': 29}
+[split] alabama seed=0 fold=4: train 77061 rows / 879 users, val 19265 rows / 222 users -> results/g1/splits/alabama_split_seed0_fold4.json
+A5 OK alabama f4: n_val_rows=19265 n_val_users=222
+A1/A2 OK alabama f4: excluded=222 kept_checkins=92583 best_epoch=500
+[materialize] alabama: wrote /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_to_f4/alabama/input/next.parquet (96326 of 96326 source windows, dim=64)
+A4 OK alabama f4: n_windows=96326
+region record OK alabama f4: remap={'full_regions': 1109, 'trainonly_regions': 1080, 'absent_from_train': 29}

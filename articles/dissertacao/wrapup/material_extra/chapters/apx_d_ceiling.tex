@@ -1,0 +1,124 @@
+% !TeX root = ../main.tex
+% Appendix D -- the label-history benchmark.
+% [2026-07-27] Rewritten to stand alone: the screening procedure is now defined here rather than
+% only in Ch.5, the two look-alike quantities are named once side by side, and "ceiling" is
+% replaced by "label-history benchmark" throughout the prose.
+% Numbers READ from docs/results/embedding_eval/rescreen_cat/autocorrelation_ceiling.json
+% (table, sd, floors, window counts, Istanbul strict variant, Texas skip reason). Encoder scores
+% quoted from leak_sniff_fl.csv (perstep, delta_std) and leak_sniff_resln_fl.csv; margin 0.03 from
+% scripts/embedding_eval/leak_sniff.py:63. "Four to six points" quoted from 5_mobiwac/05_setup.tex:34.
+% [NEEDS SIGN-OFF: raised round 5, 2026-07-27 | whole appendix -- new frame prose. Alternative offered to the author: fold it
+% into Ch.5 as one paragraph and drop the chapter, which would need the Ch.5 cross-reference
+% (5_mobiwac/05_setup.tex:34) removed.]
+
+\chapter{A Label-History Benchmark for the Next-Category Task}
+\label{apx:ceiling}
+
+This appendix answers one question. How much of the next category can be predicted from the
+category history of the input window alone, without reading any representation at all? The answer
+fixes how strong a screening argument in Chapter~\ref{ch:mobiwac} can honestly be.
+
+The screening procedure works as follows. For each candidate representation, a linear model is
+trained to predict the next category from the vector of the last visit in the window alone, and the
+macro-F1 it reaches is compared against the score a reference encoder reaches on the same task. A
+candidate scoring far above that reference encoder is suspected of carrying the label it is supposed
+to predict, and is discarded. The probe is run twice, once on standardized features and
+once on raw ones, and either run can disqualify a candidate.
+
+All scores in this appendix are macro-F1 on a zero-to-one scale, and differences between them are
+quoted in points, where one point is $0.01$ on that scale.
+
+Two quantities are involved in that comparison. Both have served as the screen's reference level
+at different times, and both have been called the ceiling, which is the confusion this appendix
+exists to remove. Each is given one name here and keeps it.
+
+\begin{description}
+  \item[The label-history benchmark.] The best macro-F1 obtained from the recorded category
+        history of the input window alone. No representation is read and no encoder is involved,
+        so this is a property of the sequence of category labels. It is what this appendix
+        measures.
+  \item[The clean reference encoder.] The encoder that a screened candidate is actually compared
+        against, and the score the screening margin is applied to. Two encoders play this role at
+        Florida, both from the lineage the representation of Chapter~\ref{ch:mobiwac} descends
+        from: one at $0.4090$ macro-F1 on standardized features and $0.4074$ on raw ones, and a
+        residual variant at $0.4197$ and $0.4182$. Where the two are discussed together below,
+        they are named in the plural for that reason.
+\end{description}
+
+The benchmark is measured under four predictors that see category labels and nothing else. The
+first is persistence, which repeats the last visited category and fits no parameters. The second is
+a multinomial logistic model on a one-hot encoding of that same last category. The third is the
+same model on the counts of each category over the nine visits of the window. The fourth is the
+same model on positional one-hot encodings of all nine slots, and it is the only one of the four
+that can use the order in which the categories occurred. The benchmark is the best score of the
+four. All of them run under the protocol the screen itself uses: five-fold cross-validation grouped
+by user, so that no user's windows fall on both sides of a
+split~\cite{kohavi1995crossval,pedregosa2011sklearn}, with macro-F1 averaged over the five folds.
+Macro-F1 counts the seven categories equally~\cite{sokolova2009measures}, which is also why the
+three logistic models are fitted with balanced class weights: an unweighted fit optimizes a
+different objective and would understate the benchmark.
+
+Across the five datasets where the inputs were available the benchmark ranges from $0.2800$ to
+$0.3617$, well above the majority-class floor in every case.
+Table~\ref{tab:apx:ceiling} gives the four predictors, the benchmark, and the floor for each
+dataset.
+
+\input{tables/frame/ceiling}
+
+Two readings follow from the table, and they point in different directions.
+
+The screening comparison is unaffected. Its verdicts are relative, since a candidate is discarded
+when it clears the clean reference encoder by more than the screening margin of three points, and
+the benchmark enters that arithmetic nowhere. The attention-based encoder that was discarded at
+Florida clears the clean reference encoder by $8.9$ points, so its verdict does not depend on where
+the benchmark lies.
+
+The absolute reading is the weaker one. At Florida the two clean reference encoders score above
+the benchmark, $0.4090$ and $0.4197$ against $0.3617$, which Chapter~\ref{ch:mobiwac} reports as a
+gap of four to six points, and so does every candidate screened beside them on the raw run of the
+probe. One candidate falls below the benchmark on the standardized run, a relation-typed graph
+encoder at $0.3328$ that rises to $0.4142$ on the raw one. It is not an example of a clean encoder
+sitting below the benchmark, because it is the candidate that passed this screen and then leaked
+under a downstream sequence model, which Chapter~\ref{ch:mobiwac} reports as the reason the linear
+form is a screen rather than a proof. What the screen bounds is therefore the candidates against
+each other, not any of them against an absolute standard. That is the weaker of the two claims, and
+it is the one Chapter~\ref{ch:mobiwac} makes.
+% [2026-07-27] Exception traced to leak_sniff_fl.csv rgcn: perstep=0.3328 (below 0.3617),
+% perstep_raw=0.4142 (above). Disqualified on other evidence: RESCREEN.md:47-52, :92; the
+% "passed the screen, leaked under a sequence model" framing is Ch.5's own (5_mobiwac/05_setup.tex:38).
+% Named by architecture, not by the model acronym, which is not in the GLOSSARY registry.
+% The Ch.5 universal ("Every encoder screened ... lies above") that this once contradicted was
+% narrowed at 5_mobiwac.tex on 2026-07-27; the two now agree. Resolved, not open.
+
+The gap is not by itself evidence of a leak. A per-visit vector legitimately carries more than the
+previous category. It also carries the place, the neighborhood of that place in the graph, and the
+hour of the visit, and any of those can predict the next category with no information flowing
+backward in time.
+
+The benchmark is also not an upper bound. It is the best score of four named predictors, so a
+different model reading the same category history could score above it. Calling it a ceiling, as
+the internal screening record does, would assert more than the measurement supports.
+
+Two coverage limits apply. Texas is absent because the check-in graph the computation reads was not
+retained for that dataset under the shipped representation. Only its embedding outputs remain, and
+measuring the benchmark there would require re-running the preprocessing. For Istanbul, 196 of the 29,816 places carry more than one category across the
+record. The reason is not recorded in the data, so none is claimed here.
+% [round5, persona 16] The previous clause said "because those places were re-categorized over
+% time", asserting a mechanism the artifact does not contain: autocorrelation_ceiling.json records
+% places_multi_category 196 of places 29816 and nothing about why. Claim removed, count kept.
+%
+% [round7, 2026-07-29] The line below lost its leading space-joined sentence to the comment above:
+% a comment whose last line ends without terminal punctuation, followed by a prose line that
+% starts with a space, reads as one continued comment and the prose never reaches the PDF. This
+% file only entered check_trapped_prose.py's scope when it moved into the extra volume, which is
+% why it survived five rounds. Blank line inserted; nothing else changed.
+
+The table maps each place to its most frequent category. A strict variant
+that instead drops every window ending at one of those places keeps 55,946 of the 58,075 windows
+and gives $0.3009$, against the $0.3016$ of the table.
+
+The computation is released with the code as
+\path{scripts/embedding_eval/autocorrelation_ceiling.py}. Its outputs are
+\path{autocorrelation_ceiling.json} and two accompanying comma-separated files, all three under
+\path{docs/results/embedding_eval/rescreen_cat/}. Those file names keep the older word, since they
+predate the naming settled here.

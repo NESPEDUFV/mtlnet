@@ -1,0 +1,6 @@
+start 2026-10-02 05:32:07 commit d01cd2a8 swap_used_MB=3168
+cmd: .venv/bin/python scripts/pre_freeze_gates/a4_build.py --state arizona --seed 0 --fold 4 --split-json results/g1/splits/arizona_split_seed0_fold4.json --device cpu
+rc=0 wall=283s peakRSS_bytes=2462466048
+repo-write-guard OK
+end 2026-10-02 05:36:50
+DONE

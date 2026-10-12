@@ -1,0 +1,45 @@
+# A escada do §2a em miniatura — 2 épocas, para ver o LAÇO e não os números.
+#
+# O que se testa aqui é a escalada: medir a dispersão interna, decidir o degrau, gerar o manifesto
+# de P=3 e reaproveitar o piso pelo resume. Nada disso depende de quantas épocas o modelo treinou.
+#
+# ⚠ `study = "scratch_ladder_mini"` e `epochs` sobreposto: o segundo entra no `science_fingerprint`,
+# então estas células não colidem com as reais nem no identificador nem no diretório. Apague o
+# estudo depois.
+#
+# ⚠ NÃO sobreponha `folds` aqui. A primeira versão o fazia e rodou 5 folds em silêncio: quem governa
+# a validação cruzada é `n_splits`, e `train.folds` não tem leitor no código -- só entra no
+# fingerprint. Desde 25-08 divergir levanta (`config.py`); sobreponha `n_splits` se um dia precisar.
+
+[wave]
+study = "scratch_ladder_mini"
+confirmatory = false
+
+# Declarado de propósito: exercita a conferência de identidade de substrato no caminho FELIZ, que a
+# recusa fail-closed de 25-08 tornou capaz de barrar uma campanha inteira se estiver errada.
+[substrate.identity.alabama]
+checkin = "696ac00419d287d3"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { epochs = 2, inner_validation = true, retain_checkpoints = "none" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { epochs = 2, inner_validation = true, retain_checkpoints = "none" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["alabama"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { epochs = 2, inner_validation = true, retain_checkpoints = "none" }

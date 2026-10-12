@@ -1,0 +1,110 @@
+# ── ABLAÇÃO p2r_hard_neg_size_gate = 50 000 ──────────────────────────────────────────────────────
+# Idêntica à v19 em tudo, menos UMA coisa: o negativo duro POI↔região DESLIGA acima de 50 000
+# lugares, que é a divisão da referência (R15/S17).
+#
+# POR QUE ESTA ABLAÇÃO EXISTE. A v19 mantém o negativo duro ligado em todo estado — melhoria
+# deliberada, porque o gate da referência existia por custo (laço Python com um sync por sorteio,
+# 3,1 s/época na Califórnia) e aqui o amostrador é vetorizado. Mas isso significa que em FL
+# (76 544 lugares), TX (160 938) e CA (169 145) o nosso substrato treina sob objetivo DIFERENTE do
+# que construiu os números da dissertação. Em AL/AZ/IST os dois coincidem — todos abaixo do corte —
+# e é por isso que a divergência nunca apareceu.
+#
+# O QUE ELA RESPONDE. Quanto o gate muda o objetivo, medido na FLÓRIDA — que está acima do corte
+# como CA/TX, mas é estado de DESENVOLVIMENTO e não a reserva confirmatória. Sem este número a
+# decisão sobre CA/TX é no escuro; com ele, pode ser trivial.
+#
+# ENGINE PRÓPRIO, pela mesma razão do mae7: é um substrato diferente e tem de ocupar um diretório
+# diferente, para o artefato ser autodescritivo em vez de depender de qual ARTIFACTS_ROOT estava
+# exportado.
+# ────────────────────────────────────────────────────────────────────────────────────────────────
+
+# ── v19 ─────────────────────────────────────────────────────────────────────────────────────────
+# v19 = v18 com UMA mudança: a torre de região lê o MESMO substrato que a torre de check-in, em vez
+# de um substrato bidirecional separado (o v14). Check2HGI é hierárquico sobre quatro níveis, então
+# uma execução já emite os embeddings de região — o substrato separado era herança, não desenho.
+#
+# As receitas v18 continuam no repo porque células bancadas as citam e receitas são imutáveis uma
+# vez citadas. Elas não são uma alternativa viva; v19 é o único conjunto vivo.
+#
+# Medido em Alabama antes da troca (mesma partição, mesma semente, protocolo aninhado):
+#   efeito do grafo       +0,122 pp (erro-padrão 0,108) — indistinguível de zero
+#   efeito do construtor  -0,927 pp (erro-padrão 0,151) — o déficit é nosso, não do grafo
+# Ver studies/porting_validation/SUBSTRATE_FROM_SCRATCH.md.
+# ────────────────────────────────────────────────────────────────────────────────────────────────
+
+# v18 — the check-in substrate.
+#
+# v18 = the v17 recipe on a forward-only check-in graph, plus elapsed-time node features. It is not
+# an architecture change.
+#
+# Source: docs/studies/closing_data/v18/METHODOLOGY.md §1 and
+# scripts/integrity_v2/build_study_repr.py --forward-only --add-continuous-time.
+
+# ⚠ NEGATIVOS DUROS POI↔REGIÃO — ligados em TODO estado, e isso diverge da dissertação nos grandes.
+#
+# `p2r_hard_neg_size_gate` não aparece abaixo, e a omissão é a escolha: o default é `None`, que
+# significa SEMPRE LIGADO. A referência fixa 50 000 lugares e desliga o ramo acima disso (R15/S17).
+#
+# Em AL (11 848 lugares), AZ (20 666) e IST (29 816) os dois coincidem — todos abaixo do corte.
+# Em **FL (76 544), TX (160 938) e CA (169 145)** NÃO coincidem: a dissertação construiu esses três
+# substratos com o negativo duro DESLIGADO, e este arquivo os constrói com ele LIGADO.
+#
+# Isso é uma melhoria deliberada, não um descuido — o gate existia por custo (o ramo duro da
+# referência é um laço Python com um sync por sorteio: 3,1 s/época na Califórnia, meia hora num
+# build de 500 épocas), e aqui o amostrador é vetorizado, então o motivo do gate deixou de existir.
+#
+# Mas pelo `docs/DIVERGENCE_REGISTER.md` uma melhoria real torna o número **não comparável sem
+# declarar a mudança**. Então: ao comparar FL/CA/TX contra a tabela da dissertação, o objetivo do
+# pretexto é uma variável a mais, e qualquer leitura de "estados grandes têm região pior" já era
+# confundida com o tamanho na dissertação (R15). Para reproduzir a divisão dela, adicione
+# `p2r_hard_neg_size_gate = 50000` abaixo.
+
+[substrate]
+engine = "check2hgi_gate50k"
+
+# The canonical preprocessor emits BOTH directions of every consecutive-visit edge, so a visit's
+# vector is convolved over a neighbourhood containing the visit AFTER it — the category head sees a
+# feature of the target it is asked to predict. Keeping only src < tgt removes that.
+#
+# Measured cost of the leak at alabama: retaining the target visit is worth 28.63 macro-F1 points
+# (28.23 -> 56.86). Expect v18 category numbers to fall by that order. A v18 category number near
+# its v17 value means the forward-only path is broken.
+#
+# Scope, so nobody over-reads it: this makes the CHECK-IN AXIS causal. The pretext training signal
+# still sees the future by other routes (Checkin2POI pools future visits, the MAE target is a
+# corpus-wide category distribution, edge-weight normalisation is fit on the whole corpus), and the
+# region tower consumes fully bidirectional v14 embeddings.
+forward_only = true
+
+# Four columns appended to the canonical eleven -> in_channels = 15. All measured UP TO the visit
+# itself; the gap to the target is never added, which would reintroduce the leak in a new form.
+#   log1p(hours since previous visit) / 10
+#   log1p(hours since the user's first visit) / 10
+#   clip(gap, 0, 24) / 24
+#   gap == 0                                  <- the build metadata calls this "is_first_visit", but
+#                                                the code computes gap == 0, so timestamp ties also
+#                                                get 1.0. Reproduce the behaviour, not the name.
+continuous_time = true
+
+encoder = "resln"
+dim = 64            # fixed: the encoder, the Delaunay place-table distillation target and the
+                    # downstream head all assume 64
+num_layers = 2      # width sweeps at 32/64/128 and depth sweeps at 1/2/3/4 found 64 and 2 at or
+                    # near optimum; one layer equalled three within 0.014 points. Settled.
+epochs = 500
+repr_seed = 42
+
+# A ÚNICA diferença para a v19.
+p2r_hard_neg_size_gate = 50000      # one representation per state, shared by all four downstream seeds
+
+# Deliberately NOT enabled — measured at alabama against the forward-only baseline of 27.5127, and
+# every one hurt:
+#   place identity, standardized, projected to 8   27.1047  (-0.41)
+#   place identity, standardized, full 64          25.7683  (-1.74)
+#   place identity, raw 64                         25.6506  (-1.86)
+#   region identity, standardized, projected to 8  26.9601  (-0.55)
+# Mechanism: the pretext discriminator's negatives are row-permuted node features, so a spatial
+# block the graph can already anticipate from a neighbourhood becomes a shortcut — "real or
+# shuffled?" becomes answerable from that block alone, the pretext loss collapses, and downstream
+# accuracy falls. Elapsed time is the one tested feature barely above chance in neighbourhood
+# predictability, which is the working explanation for why it is the only one that helps.

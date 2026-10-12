@@ -1,0 +1,26 @@
+{
+  "study": "integrity_v18_region_half",
+  "generated_utc": "2026-10-02T02:19:41.067277+00:00",
+  "command": "scripts/pre_freeze_gates/a4_build.py --state alabama --seed 0 --fold 1 --split-json results/g1/splits/alabama_split_seed0_fold1.json --device cpu",
+  "state": "alabama",
+  "seed": 0,
+  "fold": 1,
+  "split_json": "results/g1/splits/alabama_split_seed0_fold1.json",
+  "split_engine": "check2hgi_dk_ovl",
+  "split_val_idx_sha256": "60ddc94e2bc340193aeb2f9a9620c156cd9f56734ca03b354f999bcc82dc6ac8",
+  "n_excluded_users": 218,
+  "val_users_sha256": "04da416d4b6531da22a68fd94f3fa564f5212c6db5fb43c4f39a12ea8a7d918a",
+  "val_users_in_training_checkins": 0,
+  "n_train_checkins": 92620,
+  "n_checkins_full": 113846,
+  "builder": "build_design_k_delaunay.py",
+  "epochs": 500,
+  "device": "cpu",
+  "base_engine": "check2hgi_design_k_resln_mae_l0_1",
+  "pseudo_state": "alabama_a4dk_s0_f1",
+  "remap": {
+    "full_regions": 1109,
+    "trainonly_regions": 1084,
+    "absent_from_train": 25
+  }
+}

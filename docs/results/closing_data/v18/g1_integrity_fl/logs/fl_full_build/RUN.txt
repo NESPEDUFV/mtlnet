@@ -1,0 +1,13 @@
+start 2026-10-02 01:11:36 commit d01cd2a8 swap_used_MB=2952
+cmd: .venv/bin/python scripts/integrity_v2/build_study_repr.py --state florida --cell FULL_CPU --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --study-root results/integ18_repr
+rc=0 wall=1823s peakRSS_bytes=10256416768
+repo-write-guard FAIL:
+/Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_fullcpu
+/Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_fullcpu/arizona
+/Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_fullcpu/arizona/temp
+/Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_fullcpu/arizona/temp/sequences_next.parquet
+/Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_fullcpu/arizona/region_embeddings.parquet
+end 2026-10-02 01:42:00
+DONE
+fl_full_build: rc=0; guard FAIL was a false positive (AZ writing in the AL clone); rechecked with the florida-scoped guard: clean 2026-10-02 01:42:39
+repo-write-guard OK (re-verified 2026-10-02 02:0x with the florida-scoped guard; the FAIL above listed only arizona paths written by the concurrent AZ job in the AL clone)

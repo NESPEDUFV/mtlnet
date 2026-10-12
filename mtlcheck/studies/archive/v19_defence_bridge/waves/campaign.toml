@@ -1,0 +1,132 @@
+# Campanha v19_defence — os seis conjuntos da dissertação sob o protocolo novo.
+#
+# ⚠ ESTA WAVE PRODUZ O MATERIAL DE UMA LEITURA CONFIRMATÓRIA. Ela não lê o teste — o `compare` lê —
+# mas é o material dele, e depois desse compare os seis conjuntos estão gastos para a v19.
+#
+# ── AS ESCOLHAS DE TELEMETRIA, DECLARADAS E NÃO IMPLÍCITAS ──────────────────────────────────────
+#
+# `retain_checkpoints = "selected"` — um checkpoint por fold, ~4,9 GB no total. É a base que permite
+# re-pontuar sem re-treinar; a referência não pôde conferir o champion G por falta de um `.pt`.
+#
+# NÃO é `"every"`. O `"every"` serve ao §8a e a receita dele é reter → pontuar → conferir → APAGAR,
+# um estado por vez (~42 GB de pico, saída permanente de alguns KB). Reter sem apagar não é o §8a
+# caro; é metade dele, com todo o custo e nenhum benefício.
+#
+# **Consequência, dita aqui para ninguém descobrir depois:** sem o `"every"`, a decomposição
+# a1/b1/b2 do §8a NÃO roda nesta campanha. A leitura permanece não-decomponível, e a frase
+# defensável é "o checkpoint joint único entrega X pp a menos que dois dedicados, cada um no seu
+# melhor" — não "a MTL custa X pp". Recuperável depois num estado, não nesta campanha.
+#
+# `grad_geometry` fica LIGADO (é o default). Custa 5–14 % de wall, e é a pergunta que ficou
+# permanentemente sem resposta na referência porque medi-la exigia re-executar tudo. Os tempos
+# medidos em `STUDY.md` são SEM sonda, então a campanha real fica em ~33–35 h, não 31.
+#
+# `keep_top_k = 20` (default): a distribuição das 20 melhores por linha do teste externo, para
+# calibração e ECE pós-hoc sem re-executar.
+#
+# ── SEMENTES: PRÉ-REGISTRADAS, NÃO ESCOLHIDAS AQUI ──────────────────────────────────────────────
+#
+# `docs/plans/EVALUATION_PROTOCOL.md:75` fixa 4 réplicas nos estados-ponte e 2 (`{0,7}`) nos
+# grandes, travado pela calibração da ponte. A justificativa é medida: nos grandes o desvio entre
+# sementes é 20–50× menor que a componente de fold/usuário, então ir a 4 encolheria a meia-largura
+# em ≤ 0,06 pp e dobraria o wall-clock dominante.
+#
+# `split_seed = 0` em toda parte: as sementes indexam RÉPLICAS sobre uma partição congelada, não
+# repetições. Ver `NOMENCLATURE.md` §1 — confundir os dois foi o que este projeto pagou caro.
+#
+# ── PREDIÇÕES ───────────────────────────────────────────────────────────────────────────────────
+#
+# ⚠ CADA célula declara `save_predictions = true` EXPLICITAMENTE, e isso não é redundância.
+#
+# O default de `Cell` é `false`, e está CERTO: o resume re-executa uma célula que declara predições e
+# não as tem em disco, então inverter o default invalidaria toda célula bancada cujo manifesto omite
+# o campo — inclusive as SELADAS, gastando uma segunda leitura do teste. O `wave.py` diz isso e
+# manda manifestos novos declararem.
+#
+# A primeira versão deste arquivo OMITIU o campo, confiando no comportamento do `mtlcheck train`
+# (onde é ligado por `--split-seed`). O caminho da wave não tem esse resolvedor. As 54 células
+# teriam rodado ~34 h sem gravar uma linha do fold externo, e o `compare` exigiria re-treinar tudo —
+# o cenário exato que o bloco de aviso do `STUDY.md` descreve. Pego ao verificar a resolução dos
+# overrides antes de lançar.
+#
+# ── SUBSTRATO ───────────────────────────────────────────────────────────────────────────────────
+#
+# Declaração POR ESTADO: cada um tem o seu substrato, e uma identidade só não os cobre. Estado sem
+# declaração AVISA e roda sem conferência — é o que permite lançar incrementalmente conforme os
+# builds fecham, sem que a wave finja ter conferido o que não conferiu.
+
+[substrate.identity.alabama]
+checkin = "696ac00419d287d3"
+[substrate.identity.arizona]
+checkin = "ba148afce8edeaca"
+[substrate.identity.florida]
+checkin = "5e29bdf925027e34"
+[substrate.identity.texas]
+checkin = "4c02019abe146d75"
+# Os dois últimos builds fecharam em 21 e 22-08 e foram lançados pelas fatias incrementais; as
+# identidades vêm de lá, conferidas contra o `lineage.substrate.checkin.identity` das células.
+[substrate.identity.istanbul]
+checkin = "1a32d3dfa16e67d1"
+# `source: "read"` no manifesto: reaproveita pois/edges/poi2vec do build que morreu de OOM em 21-08,
+# fase CPU intacta. Identidade sobre os digests dos artefatos, comparável às outras cinco.
+[substrate.identity.california]
+checkin = "85ad0a5bc82dd23a"
+
+[wave]
+study = "v19_defence"
+# A marca que diz "esta wave produz material de leitura confirmatória". Ela liga a guarda de
+# `test_campaign_manifests.py`, que exige `save_predictions = true` em toda célula — sem isso a
+# campanha roda sem gravar o fold externo e o `compare` exige re-treinar tudo.
+confirmatory = true
+
+# ── estados-ponte: 4 réplicas ───────────────────────────────────────────────────────────────────
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+# ── estados grandes: 2 réplicas, {0,7} ──────────────────────────────────────────────────────────
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["florida", "california", "texas"]
+seeds = [0, 7]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["florida", "california", "texas"]
+seeds = [0, 7]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["florida", "california", "texas"]
+seeds = [0, 7]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

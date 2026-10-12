@@ -1,0 +1,34 @@
+# Gate: does a 20-epoch category schedule beat 50 at Alabama?
+#
+# The claim under test (Fable review, 2026-08-17): 20 epochs beats 50 on 10/10 folds across 2 seeds,
+# +0.30/+0.34 pp macro-F1. Mechanism visible in the baseline — AL peaks at epoch 13 of 50, so the
+# 50-epoch anneal banks a mid-ramp checkpoint. If it holds, the CURRENT banked AL numbers are worse
+# than they should be, which makes this a quality fix and not a speed one.
+#
+# THIS CHANGES RESULTS. It runs as a gate, not as a default.
+#
+# Compiled, no diagnostics: the confirmation arms in the review were eager, and production is
+# compiled. A schedule decision taken in the wrong execution mode is not a decision.
+#
+# Both arms run here even though 50 is the incumbent, because the incumbent was never banked at AL
+# compiled over 4 seeds — comparing a fresh 20 against an old 50 measured under other conditions is
+# the confound this project keeps finding in the reference.
+
+[wave]
+study = "gate_al_cat_schedule"
+
+[[cell]]
+recipe = "recipes/v18/cat.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["alabama"]
+seeds = [0, 1, 7, 100]
+arm = "ep50"
+set = { epochs = 50 }
+
+[[cell]]
+recipe = "recipes/v18/cat.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["alabama"]
+seeds = [0, 1, 7, 100]
+arm = "ep20"
+set = { epochs = 20 }

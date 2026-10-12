@@ -1,0 +1,105 @@
+% !TeX root = ../../main.tex
+% ============================================================================
+% [2026-08-12] EVIDENCE BASE REPLACED. Read this before any comment below it.
+%
+% Every live value in this file comes from the v18 board:
+%   docs/results/closing_data/v18/joint_best_perfold.json   (24 joint cells, per fold)
+%   docs/studies/closing_data/v18/data/v18_results.json     (dedicated arms, per fold)
+%   docs/results/closing_data/v18_cosine/                   (Appendix F evidence)
+%
+% COMMENTS BELOW THIS BLOCK MAY DESCRIBE THE SUPERSEDED BOARD. They are kept because they
+% record real editorial decisions, and a decision does not stop being a decision when its
+% numbers change. Do NOT read their CELLS, COUNTS, or VERDICTS as current, and do not
+% restore a sentence from them without re-deriving it from the sources named above.
+% In particular, any "honesty rule" phrased as an invariant of the old ladder (category
+% beating at every dataset, region at four) is a record of what was once true, not a rule.
+% ============================================================================
+% [round9, 2026-07-30] CAPTION CUT FROM 197 WORDS TO 64, at the author's standing instruction to be
+% direct. Measured before cutting: 197 words was the LONGEST caption in the document against a MEDIAN
+% of 39 across all 25 captions, five times the norm, and it was reprinted whole in the List of Tables
+% on p.7. Found by the readability persona, round 9.
+% WHAT WAS DROPPED AND WHERE EACH FACT LIVES, checked in the appendix's live prose before deleting:
+%   the +/-0.05 TOST margin           -> stated 4x in apx_f_cosine.tex
+%   the 0.0625 sign-test floor        -> stated there, and KEPT here because the dagger needs it
+%   Texas's negative mean vs 4 of 5 positive folds -> stated 2x there, with the -0.0032 fold
+%   Georgia not otherwise used        -> stated 5x there
+%   Florida's twelve configurations   -> stated 4x there
+%   "the fold is the unit, not the observation" -> ALSO in the prose. My first probe returned 0 and I
+%     wrote that absence into this comment as a fact. THE PROBE WAS THE DEFECT: I searched for
+%     "unit of analysis|on the fold|fold level|fold as the unit" and the appendix says "The unit of
+%     INDEPENDENCE is the fold. Every test below therefore runs on five fold means..." (p.98), which
+%     none of those four patterns can match. Caught by review 2026-07-30. A zero from a pattern that
+%     cannot express the target wording is a broken instrument, not an absence (GUARDRAILS §4b V13).
+% So EVERY fact in the old caption was already in the prose, and the caption's job is to identify the
+% table and name the test, not to re-teach the unit of analysis. The retained sentence therefore keeps
+% the reading rule a reader needs AT THE TABLE (the numbers in the rows are fold-level), which is a
+% pointer, not a duplicate paragraph.
+% Table for Appendix F (apx_f_cosine.tex): the gradient-cosine equivalence result.
+%
+% EVERY CELL RE-DERIVED from src_utils/_history/_round7/gradient_cosine_observations6.parquet by
+% src_utils/_history/_round7/cosine_stats6.py (RC=0, 2026-07-30); its printed output is quoted in
+% src_utils/_history/_round9/30_cosine_six.md. No cell is copied from a README or a brief.
+%
+% [round9, 2026-07-30] SEVEN ROWS, NOT FOUR. California, Texas and Istanbul were measured on
+% 2026-07-30 (jobs 67585dff, 6faa6e22, 9f3da11f, each rc=0 from its own _status.json), so this
+% table now covers the dissertation's SIX datasets plus Georgia. The parquet moved 3,900 -> 4,650
+% rows; the four pre-existing datasets are unchanged, verified by a positional comparison of the
+% two parquets giving max |old - new| = 0.0 over all 3,900 rows. Note a key-merge on
+% (state, fold, epoch, config) returns 4,200 rows rather than 3,900 because 300 Florida rows sit
+% on duplicated keys (its two partial-re-run configurations); that is arithmetic, not drift.
+%
+% THE UNIT COLUMN IS NOT DECORATION. It names what n counts, because the 50 per-epoch cosines
+% within a fold are one training trajectory and are not independent. THE UNIT IS THE FOLD for
+% every row: Florida's 60 fold series are its 12 configurations x 5 folds, everything else is 5
+% fold means. A p-value in this table without its unit is meaningless, which is why the unit
+% and n sit in the same column group as the tests. Florida's more conservative
+% configuration-mean reading (n=12, mean +0.0003, TOST 1.28e-16) is in the footnote rather than
+% the body, because the fold is the unit the protocol defines and the one every other row uses.
+%
+% ALABAMA'S t-TEST COLUMN IS DELIBERATELY ACCOMPANIED BY THE SIGN TEST AND ITS FLOOR. At n=5
+% the exact sign test cannot return below 0.0625 even when all five values agree, so the
+% t-test's 0.013 rests entirely on normality at n=5. Reporting the t-test alone would present
+% a suggestive pattern as an established effect; the floor column is what stops that reading.
+% CALIFORNIA IS THE NEW CASE THAT PROVES THE COLUMN EARNS ITS SPACE: its t-test returns 0.048,
+% under the conventional threshold, while its sign test returns 0.375 on 4 of 5 positive folds.
+% A reader given only the t-test would read a significant positive alignment where the
+% distribution-free test does not even lean. It carries no dagger because 0.375 is not the floor.
+%
+% TEXAS: mean -0.0003 with 4 of 5 fold means POSITIVE. Not a contradiction and not a typo -- one
+% fold at -0.0032 outweighs four small positive ones. The sign column is what makes that visible,
+% and it is why the positive-fold count is reported rather than inferred from the mean's sign.
+\begin{table}[htbp]
+    \centering
+    \caption{The cosine between the next-region and next-category gradients on the shared trunk, at the four datasets measured under the reported joint configuration. The rows are fold-level: every test takes the fold as its unit. Equivalence to zero holds at every dataset (TOST, $\pm 0.05$); $\dagger$ marks a dataset where the exact sign test sits at its floor of $0.0625$, which five folds cannot go below.}
+% [round7, 2026-07-29] 152 words -> 118, on the same standard applied to the figure caption: the
+% caption says what the reader is looking at and what to conclude, and the body carries the
+% argument. What went: the clause re-explaining WHY fifty per-epoch values are one trajectory
+% (Section apx:cosine:setup makes that case in full, twice). What stayed, deliberately: the unit
+% column's justification, the observation-count disclaimer and the dagger's meaning. Those three
+% are the table's honesty devices -- a p-value here without its unit is meaningless, which is the
+% whole reason the unit shares a column group with the tests.
+    \label{tab:apx:cosine}
+% WIDTH. Nine columns overflowed the text block by 132.49 pt in every build variant (measured:
+% build.sh reported overfull_hbox=2 for DEFENSE and ACADEMICO, the first at "lines 33--45", which
+% is this tabular). The header is now two-deep so the interval and the two floored tests fit in
+% narrower columns, and the confidence interval is set as a single \makecell-free pair of short
+% numbers. Re-measure after any column change; do not assume it still fits.
+    {\small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{llrrlrrrr}
+        \toprule
+        & & \multicolumn{2}{c}{Sample} & \multicolumn{2}{c}{Mean cosine} & \multicolumn{2}{c}{$p$ against zero} & \\
+        \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+        Dataset & Unit & $n$ & obs. & 95\% CI & mean & TOST & $t$ / sign & pos. \\
+        \midrule
+        Istanbul   & fold & 5 & 250 & $[+0.0002, +0.0025]$ & $+0.0014$ & $10^{-8}$ & $0.028$ / $0.062^{\dagger}$ & 5/5 \\
+        Alabama    & fold & 5 & 250 & $[-0.0005, +0.0043]$ & $+0.0019$ & $10^{-7}$ & $0.095$ / $0.375$ & 4/5 \\
+        Arizona    & fold & 5 & 250 & $[-0.0023, +0.0015]$ & $-0.0004$ & $10^{-7}$ & $0.561$ / $1.000$ & 3/5 \\
+        Florida    & fold & 5 & 250 & $[-0.0004, +0.0016]$ & $+0.0006$ & $10^{-9}$ & $0.188$ / $0.375$ & 4/5 \\
+        \bottomrule
+        \multicolumn{9}{l}{\footnotesize $^{\dagger}$ $0.0625$ is the smallest value the exact sign test can return at $n = 5$; no five-fold} \\
+        \multicolumn{9}{l}{\footnotesize row can reach $0.05$ by that test. Texas and California are not measured here, so the} \\
+        \multicolumn{9}{l}{\footnotesize table covers four of the six datasets of Chapter~\ref{ch:mobiwac}.} \\
+    \end{tabular}
+    }
+\end{table}

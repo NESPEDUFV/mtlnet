@@ -1,0 +1,718 @@
+% NESPeD-Lab beamer template
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nesped}
+    [2024/09/25 NESPeD-Lab beamer template]
+
+\RequirePackage{etoolbox}
+\RequirePackage{tikz}
+\RequirePackage{geometry}
+\RequirePackage{amsfonts, amsmath, bm, cabin}
+\RequirePackage{verbatim}
+\RequirePackage{animate}
+\RequirePackage{xcolor}
+\RequirePackage{hyperref}
+\RequirePackage{fontspec}
+\RequirePackage{url}
+\RequirePackage[export]{adjustbox}
+\RequirePackage{listings}
+\RequirePackage{caption}
+\RequirePackage[ruled,linesnumbered,portuguese]{algorithm2e}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{shadows}
+
+% --- palette ---
+
+\definecolor{primary}{rgb}{0.22, 0.69, 0.61}
+\definecolor{primarysuper}{rgb}{0.13, 1.00, 0.73}
+\definecolor{primaryshade}{rgb}{0.18, 0.61, 0.58}
+\definecolor{primarytint}{rgb}{0.90, 0.95, 0.94}
+\definecolor{secondary}{rgb}{0.04, 0.27, 0.47}
+\definecolor{secondaryshade}{rgb}{0.04, 0.27, 0.47}
+\definecolor{secondarytint}{rgb}{0.88, 0.92, 0.96}
+\definecolor{alert}{rgb}{0.74, 0.07, 0.43}
+\definecolor{alertshade}{rgb}{0.48, 0.19, 0.40}
+\definecolor{alerttint}{rgb}{0.98, 0.93, 0.99}
+\definecolor{offwhite}{rgb}{0.9, 0.9, 0.9}
+
+% --- theme setting ---
+
+\newcommand{\usetitledecoration}{}
+\newcommand{\usetocdecoration}{}
+
+\newcommand{\titledecoration}[1]{
+    \renewcommand{\usetitledecoration}{#1}
+}
+\newcommand{\tocdecoration}[1]{
+    \renewcommand{\usetocdecoration}{#1}
+}
+
+% --- typeset & elements settings ---
+
+% force 16:9 aspect ratio
+\geometry{paperwidth=16cm,paperheight=9cm}
+
+\usefonttheme{structurebold}
+\usefonttheme[onlymath]{serif}
+
+\setbeamersize{text margin left=10mm,text margin right=10mm}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamerfont{framesubtitle}{series=\mdseries, size=\small}
+\setbeamerfont{page number in head/foot}{series=\bfseries, size=\small}
+\setbeamerfont{caption}{size=\scriptsize}
+\setbeamerfont{bibliography entry author}{size=\scriptsize}
+\setbeamerfont{bibliography entry title}{size=\scriptsize}
+\setbeamerfont{bibliography entry location}{size=\scriptsize}
+\setbeamerfont{bibliography entry note}{size=\scriptsize}
+\setbeamercolor{structure}{fg=primaryshade}
+\setbeamercolor{local structure}{fg=primaryshade}
+\setbeamercolor{alerted text}{fg=alert}
+
+\tikzset{
+    dot/.style = {circle, fill, minimum size=#1,
+                  inner sep=0pt, outer sep=0pt},
+    dot/.default = 6pt % size of the circle diameter 
+}
+
+% --- specialframe ---
+
+\newcommand{\backgradient}[0]{
+    \path [left color=primary, right color=secondary, shading=axis, shading angle=45]
+        (current page.south west)
+        rectangle
+        (current page.north east);
+}
+
+\newcommand{\specialframe}[0]{
+    \setbeamercolor{normal text}{fg=white}
+    \setbeamercolor{local structure}{fg=white}
+    \setbeamercolor{frametitle}{fg=white,bg=}
+    % \setbeamercolor{block title}{bg=white,fg=primaryshade}
+    \setbeamertemplate{headline}{
+        \begin{beamercolorbox}[wd=\paperwidth]{headline}
+            \vskip1mm
+            \insertnavigation{\paperwidth}
+            \vskip1mm
+        \end{beamercolorbox}
+        \vskip0.6mm
+    }
+    \setbeamercolor{footline}{fg=white,bg=}
+    \setbeamertemplate{background canvas}{
+        \tikz{
+            \backgradient
+        }
+    }
+    \usebeamercolor[fg]{normal text}
+}
+
+% --- title ---
+
+\setbeamerfont{title}{series=\scshape, size=\Large, series=\bfseries}
+\setbeamerfont{subtitle}{series=\mdseries, size=\normalsize, series=\bfseries}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{date}{size=\normalsize}
+
+\newcommand{\titlelogo}[1]{
+    \hspace{2mm}
+    \begin{tikzpicture}[every shadow/.style={opacity=.2,fill=black}]
+        \node[
+            rectangle,rounded corners=1mm,draw=white,
+            drop shadow,fill=white,ultra thin,
+            minimum width=0.15\paperwidth,minimum height=1.6cm,
+        ] (b) {};
+        \node[anchor=south] at ($(b.south)+(0,1mm)$) {
+            \includegraphics[width=0.1\paperwidth,max height=1cm]{#1}
+        };
+    \end{tikzpicture}
+}
+
+
+\setbeamertemplate{title page}{
+    \hspace{-12mm}
+    \begin{beamercolorbox}[wd=0.9\textwidth, sep=8mm, leftskip=2mm]{title}
+        \vskip12pt{\usebeamerfont{title}\inserttitle}\\
+        \vskip5pt{\usebeamerfont{subtitle}\insertsubtitle}\\
+        \vskip10pt{}
+        \vskip5pt{\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\\
+        \vskip5pt{\usebeamerfont{institute}\usebeamercolor[fg]{author}\insertinstitute}\\
+        \vskip5pt{\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}
+    \end{beamercolorbox}
+}
+
+
+\newcommand{\titleframe}[1]{
+    \begingroup
+        \setbeamercolor{normal text}{fg=white,bg=}
+        \setbeamercolor{structure}{fg=white,bg=}
+        \setbeamercolor{author}{fg=white,bg=}
+        \setbeamercolor{institute}{fg=white,bg=}
+        \setbeamercolor{date}{fg=white,bg=}
+        \setbeamertemplate{background}{}
+        \setbeamertemplate{headline}{
+            \vskip-2mm
+            \hspace{6mm}
+            #1
+        }
+        \setbeamertemplate{background canvas}{
+            \tikz[remember picture,overlay]{
+                \backgradient
+                \usetitledecoration
+            }
+        }
+        \setbeamertemplate{footline}{}
+        \begin{frame}[noframenumbering]
+            \titlepage
+        \end{frame}
+    \endgroup
+}
+
+% --- table of contents ---
+
+\setbeamertemplate{section in toc}[circle]
+\setbeamertemplate{subsection in toc}[circle]
+
+\addtobeamertemplate{section in toc shaded}{\pgfsetfillopacity{0.5}}{\pgfsetfillopacity{1}}
+\addtobeamertemplate{subsection in toc shaded}{\pgfsetfillopacity{0.5}}{\pgfsetfillopacity{1}}
+
+\setbeamercolor{section in toc}{fg=white,bg=}
+\setbeamercolor{section number projected}{fg=primaryshade,bg=white}
+\setbeamercolor{subsection in toc}{fg=white,bg=}
+\setbeamercolor{subsubsection in toc}{fg=white,bg=}
+
+\newcommand{\tableofcontentsheadline}[0]{
+    \setbeamertemplate{headline}{
+        \pgfsetstrokeopacity{0}
+        \pgfsetfillopacity{0}
+        \vskip1mm
+        \insertnavigation{\paperwidth}
+        \vskip2mm
+        \pgfsetstrokeopacity{1}
+        \pgfsetfillopacity{1}
+    }
+    \setbeamercolor{frametitle}{fg=white,bg=}
+    \setbeamertemplate{background canvas}{
+        \tikz[remember picture,overlay]{
+            \backgradient
+            \usetitledecoration
+        }
+    }
+}
+
+\newcommand{\tableofcontentsfootline}[0]{
+    \setbeamertemplate{footline}{}
+}
+
+\newcommand{\tocframe}[1][sectionstyle=show,subsectionstyle=show]{
+    {
+        \miniframesoff
+        \tableofcontentsheadline
+        \tableofcontentsfootline
+        \begin{frame}[noframenumbering]{Sumário}
+            \tableofcontents[#1]
+        \end{frame}
+        \miniframeson
+    }
+}
+
+\newcommand{\autotocframe}[1]{\AtBeginSection[]{\ifstrempty{#1}{\tocframe}{\tocframe[#1]}}}
+
+% --- headline ---
+
+\setbeamercolor{headline}{fg=white,bg=black}
+\setbeamercolor{section in head/foot}{fg=white,bg=gray}
+\setbeamercolor{mini frame}{fg=white,bg=gray}
+\setbeamercolor{frametitle}{fg=white,bg=primaryshade}
+
+\pgfdeclarehorizontalshading[primary,secondary]
+    {beamer@frametitleshade}{\paperheight}{
+    color(0pt)=(primary);
+    color(\paperwidth)=(secondary)
+}
+
+\makeatletter
+\beamer@compresstrue
+\setbeamertemplate{headline}{
+    \begin{beamercolorbox}[wd=\paperwidth]{headline}
+        \vskip1mm
+        \insertnavigation{\paperwidth}
+        \vskip1mm
+    \end{beamercolorbox}
+    \tikz{
+        \path [left color=primary, right color = secondary, shading=axis, shading angle=45]
+            (0pt, 0pt)
+            rectangle
+            (\paperwidth, 1mm);
+    }
+}
+
+\setbeamertemplate{frametitle}{
+    \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+    \begin{beamercolorbox}[wd=\paperwidth]{frametitle}
+        \vskip0mm
+        \leftskip10mm
+        \rightskip10mm
+        \usebeamerfont{frametitle}\insertframetitle\\
+        \usebeamerfont{framesubtitle}\insertframesubtitle
+        \vskip2mm
+    \end{beamercolorbox}
+}
+\makeatother
+
+% --- footline ---
+
+\setbeamercolor{footline}{fg=primaryshade,bg=}
+\setbeamercolor{page number in head/foot}{fg=primaryshade}
+\setbeamertemplate{footline}{
+    \begin{beamercolorbox}[wd=\paperwidth,right]{footline}
+        \usebeamerfont{page number in head/foot} \insertframenumber
+        \hspace{1mm}
+        \vspace{2mm}
+    \end{beamercolorbox}
+}
+
+% --- blocks ---
+
+\makeatletter
+\newcommand\beamerboxesframed[2][]{%
+  \global\let\beamer@firstlineitemizeunskip=\relax%
+  \vbox\bgroup%
+  \setkeys{beamerboxes}{upper=block title,lower=block body,width=\textwidth,shadow=false}%
+  \setkeys{beamerboxes}{#1}%
+  {%
+    \usebeamercolor{\bmb@lower}%
+    \globalcolorstrue%
+    \colorlet{lower.bg}{bg}%
+  }%
+  {%
+    \usebeamercolor{\bmb@upper}%
+    \globalcolorstrue%
+    \colorlet{upper.bg}{bg}%
+  }%
+  %
+  % Typeset head
+  %
+  \vskip4bp
+  \setbox\bmb@box=\hbox{%
+    \begin{minipage}[b]{\bmb@width}%
+      \usebeamercolor[fg]{\bmb@upper}%
+      #2%
+    \end{minipage}}%
+  \ifdim\wd\bmb@box=0pt%
+    \setbox\bmb@box=\hbox{}%
+    \ht\bmb@box=0pt%
+    \bmb@prevheight=-4.5pt%
+  \else%
+    \wd\bmb@box=\bmb@width%
+    \bmb@temp=\dp\bmb@box%
+    \ifdim\bmb@temp<1.5pt%
+      \bmb@temp=1.5pt%
+    \fi%
+    \setbox\bmb@box=\hbox{\raise\bmb@temp\hbox{\box\bmb@box}}%
+    \dp\bmb@box=0pt%
+    \bmb@prevheight=\ht\bmb@box%
+  \fi%
+  \bmb@temp=\bmb@width\advance\bmb@temp by 10bp%
+  \bmb@dima=\bmb@temp\advance\bmb@dima by 2.2bp% influences right end of title box
+  \bmb@dimb=\bmb@temp\advance\bmb@dimb by 4bp% influences right end of title box
+  \hbox{%
+    \begin{pgfpicture}{5bp}{+-\ht\bmb@box}{5bp}{+-\ht\bmb@box}
+      \ifdim\wd\bmb@box=0pt%
+        \color{lower.bg}%
+      \else%
+        \color{upper.bg}%
+      \fi%
+      \pgfpathqmoveto{-4bp}{\bmb@dima}
+      \pgfpathlineto{\pgfpoint{-4bp}{-1bp}}
+      \pgfpathqcurveto{-4bp}{1.2bp}{-2.2bp}{3bp}{0bp}{3bp}
+      \pgfpathlineto{\pgfpoint{\bmb@temp}{3bp}}
+      \pgfpathcurveto%
+      {\pgfpoint{\bmb@dima}{3bp}}%
+      {\pgfpoint{\bmb@dimb}{1.2bp}}%
+      {\pgfpoint{\bmb@dimb}{-1bp}}%
+      \bmb@dima=-\ht\bmb@box%
+      \advance\bmb@dima by-2pt%
+      \pgfpathlineto{\pgfpoint{\bmb@dimb}{\bmb@dima}}
+      \pgfsetstrokecolor{offwhite}
+      \pgfusepath{stroke,fill}
+    \end{pgfpicture}%
+    \copy\bmb@box%
+  }%
+  \nointerlineskip%
+  \ifdim\wd\bmb@box=0pt
+  \else
+    \vskip1.8pt%
+  \fi%
+  \nointerlineskip%
+  \setbox\bmb@colorbox=\hbox{{\pgfpicturetrue\pgfsetcolor{lower.bg}}}%
+  \setbox\bmb@box=\hbox\bgroup\begin{minipage}[b]{\bmb@width}%
+    \vskip5bp%
+    \ifdim\wd\bmb@box=0pt
+    \else
+      \vskip5bp%
+    \fi%
+    \usebeamercolor[fg]{\bmb@lower}%
+    \colorlet{beamerstructure}{upper.bg}%
+    \colorlet{structure}{upper.bg}%
+    %\color{.}%
+}
+
+\def\endbeamerboxesframed{%
+  \vspace{5bp}
+  \end{minipage}\egroup%
+  \wd\bmb@box=\bmb@width%
+  \bmb@temp=\dp\bmb@box%
+  \advance\bmb@temp by.5pt%
+  \setbox\bmb@box=\hbox{\raise\bmb@temp\hbox{\box\bmb@box}}%
+  \dp\bmb@box=0pt%
+  \bmb@temp=\wd\bmb@box\advance\bmb@temp by 10bp%
+  \bmb@dima=\bmb@temp\advance\bmb@dima by2.2bp%
+  \bmb@dimb=\bmb@temp\advance\bmb@dimb by4bp%
+
+  \bmb@boxwidth=\bmb@width%
+  \advance\bmb@boxwidth by 10bp%
+  \bmb@boxheight=\ht\bmb@box%
+  \advance\bmb@boxheight by4bp%
+  \advance\bmb@boxheight by\bmb@prevheight%
+  \ifbmb@shadow%
+    \xdef\beamer@storecolorhook{\beamer@colorhook}
+    \xdef\beamer@colorhook{}
+    \pgfdeclareradialshading{bmb@shadowball}{\pgfpointorigin}
+    {%
+      color(0bp)=(pgftransparent!75);
+      color(4bp)=(pgftransparent!100)
+    }%
+    \pgfdeclareradialshading{bmb@shadowballlarge}{\pgfpointorigin}
+    {%
+      color(0bp)=(pgftransparent!50);
+      color(8bp)=(pgftransparent!100)
+    }%
+    \pgfdeclarehorizontalshading{bmb@shadowhorz\the\bmb@boxheight}{\bmb@boxheight-5.5bp}
+    {%
+      color(0bp)=(pgftransparent!50);
+      color(8bp)=(pgftransparent!100)
+    }%
+    \pgfdeclareverticalshading{bmb@shadowvert\the\bmb@boxwidth}{\bmb@boxwidth-4bp}
+    {%
+      color(0bp)=(pgftransparent!100);
+      color(8bp)=(pgftransparent!50)
+    }%
+    \begingroup%
+      \selectcolormodel{gray}
+      \pgfdeclarefading{bmb@shadowmask\the\bmb@boxwidth\the\bmb@boxheight}
+      {%
+        \begin{pgfpicture}
+          \pgftext[at=\pgfpoint{4bp}{4bp}]{\pgfuseshading{bmb@shadowball}}% bottom left shadow
+          \ifdim\bmb@boxheight>9.5bp%
+            \pgftext[at=\pgfpoint{\bmb@boxwidth}{8bp}]{\pgfuseshading{bmb@shadowballlarge}}% bottom right shadow
+            \pgftext[at=\pgfpoint{\bmb@boxwidth+4bp}{\bmb@boxheight+2bp}]{\pgfuseshading{bmb@shadowball}}% top right shadow
+            \pgftext[base, at=\pgfpoint{\bmb@boxwidth+4bp}{7.5bp}]{\pgfuseshading{bmb@shadowhorz\the\bmb@boxheight}}% right edge shadow
+          \else%
+            \pgftext[at=\pgfpoint{\bmb@boxwidth}{4bp}]{\pgfuseshading{bmb@shadowball}}% right shadow
+          \fi%
+          \pgftext[left, at=\pgfpoint{4bp}{4bp}]{\pgfuseshading{bmb@shadowvert\the\bmb@boxwidth}}% bottom edge
+          %
+          % clipping is needed because shadow is typeset on top of box
+          \begin{pgfscope}
+            \pgfsetcolor{beamer@safeblack}
+            \pgfpathrectangle{\pgfpoint{4bp}{8.1bp}}{\pgfpoint{\bmb@boxwidth}{\bmb@boxheight-2bp}}
+            \pgfusepath{fill}
+          \end{pgfscope}
+        \end{pgfpicture}%
+        \hskip4bp%      
+      }%
+    \endgroup%
+  \fi%
+
+  \hbox{%
+    \begin{pgfpicture}{5bp}{0bp}{5bp}{0bp}
+      \ifbmb@shadow%
+        \begin{pgfscope}
+          \pgfsetfillcolor{beamer@safeblack}%
+          \pgfpathrectangle{\pgfpoint{0bp}{-7bp}}
+            {\pgfpoint{\bmb@boxwidth+8bp}{\bmb@boxheight+6bp}}
+          \pgfsetfading{bmb@shadowmask\the\bmb@boxwidth\the\bmb@boxheight}{%
+            \pgftransformshift{\pgfpoint{0.5\bmb@boxwidth+6bp}{0.5\bmb@boxheight-4bp}}}
+          \pgfusepath{fill}
+        \end{pgfscope}
+      \fi%
+      \unhbox\bmb@colorbox%
+      \pgfpathmoveto{\pgfpoint{-4bp}{\ht\bmb@box}}
+      \pgfpathlineto{\pgfpoint{-4bp}{1bp}}
+      \pgfpathqcurveto{-4bp}{-1.2bp}{-2.2bp}{-3bp}{0bp}{-3bp}
+      \pgfpathlineto{\pgfpoint{\the\bmb@temp}{-3bp}}
+      \pgfpathcurveto%
+      {\pgfpoint{\the\bmb@dima}{-3bp}}%
+      {\pgfpoint{\the\bmb@dimb}{-1.2bp}}%
+      {\pgfpoint{\the\bmb@dimb}{1bp}}%
+      {
+      \bmb@dima=\ht\bmb@box%
+      \pgfpathlineto{\pgfpoint{\bmb@dimb}{\bmb@dima}}
+      \pgfsetstrokecolor{offwhite}
+      \pgfusepath{stroke,fill}
+      }
+    \end{pgfpicture}%
+    \box\bmb@box%
+  }%
+  \ifbmb@shadow%
+    \vskip4bp minus 2bp%
+  \else%
+    \vskip2bp%
+  \fi%
+  \egroup% of \vbox\bgroup
+  \ifbmb@shadow%
+    \xdef\beamer@colorhook{\beamer@storecolorhook}
+  \fi
+}
+\makeatother
+
+\defbeamertemplateparent{blocks}[framed]{block begin,block end,%
+  block alerted begin,block alerted end,%
+  block example begin,block example end}[1][]
+{[#1]}
+
+\defbeamertemplate{block begin}{framed}[1][]
+{
+  \par\vskip\medskipamount%
+  \begin{beamerboxesframed}[upper=block title,lower=block body,#1]%
+    {\raggedright\usebeamerfont*{block title}\insertblocktitle}%
+    \raggedright%
+    \usebeamerfont{block body}%
+}
+\defbeamertemplate{block end}{framed}[1][]
+{\end{beamerboxesframed}\vskip\smallskipamount}
+
+\defbeamertemplate{block alerted begin}{framed}[1][]
+{
+  \par\vskip\medskipamount%
+  \begin{beamerboxesframed}[upper=block title alerted,lower=block body alerted,#1]%
+    {\raggedright\usebeamerfont*{block title alerted}\insertblocktitle}%
+    \raggedright%
+    \usebeamerfont{block body alerted}%
+}%
+\defbeamertemplate{block alerted end}{framed}[1][]
+{\end{beamerboxesframed}\vskip\smallskipamount}
+
+\defbeamertemplate{block example begin}{framed}[1][]
+{
+  \par\vskip\medskipamount%
+  \begin{beamerboxesframed}[upper=block title example,lower=block body example,#1]
+    {\raggedright\usebeamerfont*{block title example}\insertblocktitle}%
+    \raggedright%
+    \usebeamerfont{block body alerted}%
+}%
+\defbeamertemplate{block example end}{framed}[1][]
+{\end{beamerboxesframed}\vskip\smallskipamount}
+
+\setbeamertemplate{blocks}[framed][shadow=true]
+\setbeamercolor{block title}{bg=primaryshade,fg=white}
+\setbeamercolor{block body}{bg=white}
+\setbeamercolor{block title alerted}{bg=alertshade,fg=white}
+\setbeamercolor{block body alerted}{bg=alerttint,fg=black}
+\setbeamercolor{block title example}{bg=secondaryshade,fg=white}
+\setbeamercolor{block body example}{bg=secondarytint,fg=black}
+
+\AtBeginEnvironment{block}{
+    \setbeamercolor{local structure}{fg=primaryshade}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+}
+\AtBeginEnvironment{alertblock}{
+    \setbeamercolor{local structure}{fg=alertshade}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+}
+\AtBeginEnvironment{exampleblock}{
+    \setbeamercolor{local structure}{fg=secondaryshade}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+}
+
+% --- code block setting ---
+
+\renewcommand{\lstlistingname}{Listagem}
+
+\SetKwInput{KwIn}{Entrada}
+\SetKwInput{KwOut}{Saída}
+\SetKwComment{Comment}{//}{}
+\SetAlFnt{\scriptsize}
+\SetAlCapFnt{\usebeamerfont{caption}\usebeamercolor[fg]{local structure}}
+\SetAlCapNameFnt{\usebeamerfont{caption}\usebeamercolor[fg]{normal text}}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{white},
+    commentstyle=\color{gray},
+    keywordstyle=\usebeamercolor[fg]{local structure},
+    numberstyle=\tiny\usebeamercolor[fg]{local structure},
+    stringstyle=\color{secondary},
+    basicstyle=\ttfamily\scriptsize\usebeamercolor[fg]{normal text},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    xleftmargin=10pt,
+    xrightmargin=10pt,
+}
+
+\lstset{style=mystyle}
+\newcommand{\lstcaption}[1]{#1\vspace{0mm}}
+
+% --- misc ---
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{frametitle continuation}{}
+\setbeamertemplate{caption}[numbered]
+
+\AtEndEnvironment{table}{\vspace{-5mm}}
+
+\makeatletter
+\let\beamer@writeslidentry@miniframeson=\beamer@writeslidentry%
+\def\beamer@writeslidentry@miniframesoff{%
+  \expandafter\beamer@ifempty\expandafter{\beamer@framestartpage}{}% does not happen normally
+  {%else
+    % removed \addtocontents commands
+    \clearpage\beamer@notesactions%
+  }
+}
+\newcommand*{\miniframeson}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframeson}
+\newcommand*{\miniframesoff}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframesoff}
+\makeatother
+
+
+% --- themes ---
+
+% >>> net-green
+
+\newcommand{\decorationnet}{
+    \def\nodes{p1/-8/0, p2/-7.5/1, p3/-6.5/0.5, p4/-5.5/1.5, p5/-6/0, p6/-5/-0.5, p7/-4.5/0.5, p8/-4/2, p9/-5/2.5, p10/-4/3, p11/-2.5/1.5, p12/-2.5/-0.5, p13/-0.5/0.5, p14/0.5/-0.5, p15/1/1.5, p16/-1/2.5, p17/-3/3, p18/-3.5/4, p19/-1.5/4, p20/0/3.5, p21/-4/5, p22/-3/4.5, p23/-2/5, p24/-0.5/5, p25/0.5/5.5, p26/-4/6, p27/-3/5.5, p28/-1.5/6.5, p29/0/6.5, p30/-3.5/7, p31/-0.5/7.5, p32/0.5/8.5, p33/-1/9, p34/-2/8, p35/-2/9.5, p36/-3/8.5, p37/-4/8, p38/-4.5/9, p39/-5/7.5, p40/-5.5/8.5, p41/-6/9, p42/-6.5/8, p43/-7/8.5, p44/-8/9}
+    \foreach \key / \x / \y in \nodes {
+        \node[fill=primarysuper,dot=6pt] (\key) at ($(current page.south east)+(\x cm,\y cm)$) {};
+    }
+
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p2, p1, p3, p2, p4, p3, p5, p6, p7, p5, p4, p7, p8, p4, p9, p10, p4} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p10, p8, p11, p7, p12, p11, p13, p12, p14, p13, p15, p14} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p13, p16, p15, p20, p16, p11, p17, p8} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p17, p10, p18, p17, p22, p18, p21} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p20, p19, p16, p17, p19, p22, p21, p26, p22, p27, p26} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p20, p24, p19, p23, p22} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p25, p24, p29, p28, p24, p23, p28, p27, p23} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p27, p30, p26, p39, p30, p40, p37, p30, p36, p34, p30, p28, p34, p31, p28} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p29, p31, p32, p33, p31} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p33, p34, p35, p36, p37, p38, p36} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p38, p40, p39, p42, p40, p41} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+    \draw[primarysuper]
+        \foreach \node [count=\i] in {p44, p43, p41, p42, p43} {
+            \ifnum \i>1 -- \fi
+            (\node.center)
+        };
+}
+
+
+% --- package options ---
+
+\DeclareOption{accel}{
+    \titledecoration{}
+    \tocdecoration{}
+}
+
+\DeclareOption{net}{
+    \titledecoration{\decorationnet}
+    \tocdecoration{\decorationnet}
+}
+
+\DeclareOption{data}{
+    \titledecoration{}
+    \tocdecoration{}
+}
+
+\DeclareOption{red}{
+
+}
+
+\DeclareOption{green}{
+    \definecolor{primary}{rgb}{0.22, 0.69, 0.61}
+    \definecolor{primarysuper}{rgb}{0.13, 1.00, 0.73}
+    \definecolor{primaryshade}{rgb}{0.18, 0.61, 0.58}
+    \definecolor{primarytint}{rgb}{0.90, 0.95, 0.94}
+    \definecolor{secondary}{rgb}{0.04, 0.27, 0.47}
+    \definecolor{secondaryshade}{rgb}{0.04, 0.27, 0.47}
+    \definecolor{secondarytint}{rgb}{0.88, 0.92, 0.96}
+    \definecolor{alert}{rgb}{0.74, 0.07, 0.43}
+    \definecolor{alertshade}{rgb}{0.48, 0.19, 0.40}
+    \definecolor{alerttint}{rgb}{0.98, 0.93, 0.99}
+}
+
+\DeclareOption{blue}{
+    \definecolor{primary}{HTML}{087bd8}
+    \definecolor{primarysuper}{HTML}{29B2F2}
+    \definecolor{primaryshade}{HTML}{085bd8}
+    \definecolor{primarytint}{HTML}{D9E9F4}
+    \definecolor{secondary}{HTML}{441CA0}
+    \definecolor{secondaryshade}{HTML}{39077F}
+    \definecolor{secondarytint}{HTML}{DDD9F4}
+    \definecolor{alert}{HTML}{D6085A}
+    \definecolor{alertshade}{HTML}{93023C}
+    \definecolor{alerttint}{HTML}{EDDCE3}
+}
+\ProcessOptions\relax
+
+% TODO: title/toc/special background "image"

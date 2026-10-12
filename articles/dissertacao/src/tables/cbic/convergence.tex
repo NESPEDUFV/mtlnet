@@ -1,0 +1,23 @@
+% !TeX root = ../../main.tex
+% cbic/convergence.tex -- one table. Extraction provenance and verification: tables/README.md
+\begin{table}[htbp]
+% [2026-09-02, B-14/B-15, banca annotation "so testa para um deles?", author ruling: "corrigir com o
+% que temos e deixar isso para tras". The joint model has two targets (47 for category, 32.2 for
+% next) and the record keeps one epoch count for it (3.2); which target stopped the clock is not
+% recorded and the author does not recall. The caption now declares that, together with the reason
+% the text's comparison survives it: 80.88 s of one joint run against the summed 34.97 s of two
+% dedicated runs (results.tex:179), a ratio that holds whichever criterion the joint run used.
+% Reproduced CBIC table -> errata row for Ch.3 (registry). Digits unchanged.]
+\caption{Convergence metrics to reach the target F1-score for each model (wall time in seconds, number of epochs, and MFLOPs; 5-fold cross-validation). The MTL model has two targets, one per task, and the record keeps a single epoch count for it; which of the two targets stopped its clock is not recorded. The wall-time comparison in the text does not depend on that, because it sets one MTL run against the sum of two dedicated runs.}
+\label{tab:cbic:convergence}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Model}    & \textbf{Time (s)} & \textbf{Epochs} & \textbf{MFLOPs} \\
+\midrule
+Category & 16.26 & 3.8 & 2.315 \\
+Next     & 18.71 & 3.2 & 0.012 \\
+MTL      & 80.88 & 3.2 & 0.234 \\
+\bottomrule
+\end{tabular}
+\end{table}

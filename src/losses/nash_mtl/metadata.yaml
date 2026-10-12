@@ -1,0 +1,8 @@
+name: nash_mtl
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: nash_mtl
+runtime_class: losses.nash_mtl.NashMTL
+runtime_file: src/losses/nash_mtl/loss.py
+source_doc: ""

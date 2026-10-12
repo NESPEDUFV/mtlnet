@@ -1,0 +1,650 @@
+% !TeX root = ../main.tex
+% Appendix B -- Errata to the reproduced articles
+% Compiled 2026-07-23 from: articles/CBIC___MTL/ERRATA.md, articles/CoUrb_2026/ERRATA.md,
+% articles/[mobiwac]/ERRATA.md, the three chapter ADAPTATION_LEDGER.md files (same
+% folder), and BIB_MERGE_REPORT.md §3. Cites nothing new (bib keys shown as typewriter
+% text, no \cite). Errata policy: NORTH_STAR §5.7 (fix silently in the re-typeset
+% chapters + global bib; list every departure here).
+%
+% RECONCILIATION (fixes applied == fixes listed), cross-checked line by line:
+%   CBIC ledger  B1-B7 -> rows 1-6 of Table B.1 (B1 = the dataset-counts row; row 6 is the
+%                round-4 Nash scale-invariance correction, REV-020a) + the two
+%                preservation notes after it (B6 Nash-MTL, B7 bolding convention);
+%                C1-C8 -> the first 8 rows of Table B.2 (C7 marked subsumed by row 2 of
+%                B.1); round-4 adds 5 more rows to B.2 (four REV-027 inferential-verb
+%                substitutions + the REV-010 footnote).
+%   CoUrb ledger A1-A4 -> rows 1-3 of Table B.3 + the preservation note (A4);
+%                B4 (table lead sentences + the Figure 4.2 reading instruction, reclassified
+%                to C4-C7) and C1-C3, C8 (frame additions) -> the additions paragraph, which
+%                enumerates all eight; REV-021 (inline-math re-typeset) -> the mechanical
+%                paragraph before it.
+%   MobiWac ledger: one content correction (B.1 CBIC misattribution, round 2); additions
+%                A1-A3 -> covering sentence. B/C/D items are mechanical re-typeset, declared
+%                in §1.5.
+%   Front matter (CBIC ledger A1 + CoUrb B7 + MobiWac E1-E2) -> ONE paragraph in the appendix
+%                opening, covering all three chapters, rather than repeated per section.
+%   BIB_MERGE_REPORT §3 items 1-11 -> 11 of the 12 rows of Table B.4; §1 key
+%                consolidations -> covering sentence. The 12th row (the CoUrb Gowalla
+%                mis-source, liu2014geographical) traces to the §1 key-rename table of the
+%                same report, not to §3; the header previously said "11 rows", which
+%                undercounted the table by one. That row belongs to the references track.
+%                Table B.4 gained 2 further rows in the references pass of 2026-07-25
+%                (Kohavi DOI dropped; Rußwurm re-typed to ICLR 2024), for 14 total at that stage.
+%   Itemized rows, RE-MEASURED 2026-07-30 (round 9c) by parsing each table's own body rather than
+%                carrying the current arithmetic forward: B.1 CBIC content 15, B.2 CBIC wording 19,
+%                B.3 CoUrb content 13, B.4 bibliography 19. Total 66.
+%                [2026-10-10] this line read B.1 14, B.3 10, Total 62 until the four method-description
+%                errata (DGI edge weights in B.1; spatial pairs, Sphere2Vec, census tracts in B.3).
+%                [2026-10-02] B.1 13 -> 14 (the MTPR sparsity row), Total 61 -> 62.
+%                [2026-09-02, third update of the day] B.1 12 -> 13 and B.3 8 -> 10, with the four
+%                rows the banca's own annotations produced once the author ruled on them: the
+%                convergence caption's undeclared stopping criterion (B-14/B-15), the CoUrb
+%                "consistently" against its own 15-of-21 (B-20), and the single-dataset limitation
+%                that never said what ages with the dataset (B-22). B.5 also moves, 7 -> 8, with
+%                the Chapter 5 antecedent row (B-23). Measured before written, as always.
+%                [2026-09-02, second update of the day] B.1 11 -> 12 and B.3 7 -> 8, with the two
+%                emphasis rows: the author ruled one convention for every results table (bold the
+%                row maximum, underline the second), which departs from the published bolding in
+%                both articles. Measured before being written, as always: count_errata_rows.py
+%                reported 12 / 8 / 58 against the stale 11 / 7 / 56 and only then were these
+%                numbers changed. B.5 also moves, 5 -> 6, with the Chapter 5 caption row. Table B.5 (MobiWac claim-scope)
+%                holds 8 as of 2026-09-02 (was 3; the withdrawn Wilcoxon promise, the
+%                corrected parameter sums and the concatenation-control correction were added)
+%                and is counted separately, since that
+%                chapter's own errata record carries most of its corrections instead.
+%                [2026-09-02] B.1 went 10 -> 11 and the total 55 -> 56 with the B-13 row: the CBIC
+%                prose claimed superiority over HMRM in every category on all three measures, and
+%                the published table has HMRM highest in one of the twenty-one cells (Recall /
+%                Nightlife). Counted, not incremented on faith: count_errata_rows.py measured 11
+%                and 56 before these two numbers were changed, which is the only reason to trust
+%                them. Table B.2 keeps 19 -- that row was re-quoted, not added.
+%                THE PREVIOUS CLAIM HERE WAS "6 + 13 + 3 + 14 = 36", and two of its four terms were
+%                already stale before this round, which is why the count is now measured and not
+%                incremented: B.1 went 6 -> 7 in round 5 when the Nash-MTL cost claim moved out of the
+%                preservation prose and into the table (author decision 1b.3), and B.4 went 14 -> 16 in
+%                the 6d780b58 table reorganization and 16 -> 18 in this round's citation pass (the
+%                UberNet and Sphere2Vec version-of-record upgrades). Neither movement was reflected
+%                here. Round 6 then added one row to B.1 (the Standley claim narrowing) and one to B.3
+%                (the Nash-MTL guarantee narrowing), which is what takes the two tables to 8 and 4.
+%                ROUND 9c ADDED SIX ROWS, on the author's rulings PENDENCIAS_RESOLVIDOS 2.12 (arquivado 2026-08-02), 2.14 and 2.15, and
+%                the count above is re-measured rather than incremented. B.1 8 -> 10: the MGDA
+%                Pareto-optimality narrowing (2.12, his words "pode adicionar essa linha no appendix B,
+%                para termos conhecimento desse detalhe menor") and the hard-sharing regularization
+%                re-attribution (2.15). B.3 4 -> 7: the temporal-semantics claim split, the
+%                hierarchical-regularizer re-attribution, and the `fclass` term replacement (all 2.15).
+%                B.4 18 -> 19: the Nash-MTL entry brought to the author's PMLR paste (2.14). The gate
+%                that reads this claim, src_utils/count_errata_rows.py, was run before and after: rc=0
+%                at 44 before the rows, rc=1 reporting "measured 50 claimed 44" with the rows and the
+%                stale claim, rc=0 again once this line was updated. That failure is the gate working.
+%                Measured by counting two-column data rows between \midrule and \bottomrule, and
+%                between \endlastfoot and \end{longtable} for B.4, with LaTeX comments stripped.
+%                ROUND 8 (2026-07-30): B.2 goes 13 -> 14 and the total 43 -> 44, with the COD-016a
+%                readability rewrite of the "unbalanced result" sentence. The command that produces
+%                these counts (AGENT_GUARDRAILS 4b V1, a count carries the command that produced it),
+%                runnable from articles/dissertacao:
+%                    python3 src_utils/count_errata_rows.py     # rc 0 when claim == tables
+%                It measures all four tables and reconciles them against THIS sentence, so the claim
+%                above is a checked expectation rather than an annotation: change a table without
+%                changing the sentence, or the reverse, and it exits 1 naming the table.
+%                A CAVEAT IT ENCODES AS A SELF-TEST, because it produced a wrong reading here first:
+%                splitting a LONGTABLE on \midrule lands inside its repeated per-page header instead
+%                of the body and reports B.1 as 4, so the body of a longtable starts at \endlastfoot.
+%                B.1 and B.4 are the two longtables.
+%                WHY A SCRIPT AND NOT A PASTED SNIPPET, which is what stood here until it was checked:
+%                the snippet wrote LaTeX control words as ordinary Python literals, where "\begin" is
+%                a backspace plus "egin" and "\addlinespace" is a bell plus "ddlinespace". Its
+%                longtable branch could therefore never fire. Run verbatim it printed B.1 12, B.2 15,
+%                B.3 5, B.4 22, TOTAL 54, contradicting the correct counts two lines above it. A
+%                command pasted into a LaTeX comment crosses two escaping layers before anyone runs
+%                it; a committed script crosses one and can test itself.
+%   Round 6 also gave Article 1 its first additions paragraph, the counterpart of the CoUrb section's
+%                eight-addition paragraph, covering the preface, the convergence lead sentence, and the
+%                four protocol facts recovered for COD-007. The CoUrb additions paragraph rises from
+%                eight to nine with the checkpoint sentence added at the same protocol site.
+%
+% ROUND 4 (this pass) -- what changed and why:
+%   Table B.1 gained the Nash scale-invariance row (REV-020a) and its dataset-counts row
+%   was corrected: it had claimed the CBIC figures come "from the current data pipeline",
+%   which is false (the current pipeline yields the Chapter 5 counts). New Section
+%   "Two extractions of the same Gowalla corpus" (apx:errata:corpus) explains the two
+%   figure sets to the reader (REV-016), with the mechanism quoted from
+%   src_utils/evidence/cbic_recompute_result.md section 3 (category-mapping drift; the earlier
+%   check-in set is a strict subset of the current one). Table B.2 gained 5 rows.
+%   The Chapter 4 "three marked additions" claim was an undercount: eight exist, all verified
+%   present in Chapter 4 and absent from articles/CoUrb_2026/src_en/ at the time. They are the
+%   preface, the recap subsection, the split sentence, the seed sentence, the dataset-table lead,
+%   the Figure 4.2 reading instruction, the category-table lead and the next-POI-table lead.
+%   The line coordinates this list carried were taken before the chapter was split into
+%   chapters/4_courb/ on 2026-07-28 and pointed into a file that is now 45 lines long; find each
+%   addition by its phrase instead. Chapter 5's "three marked additions" claim was
+%   re-checked against 5_mobiwac_ADAPTATION_LEDGER.md A1-A3 and against the chapter, by
+%   8-gram diff against articles/[mobiwac]/src/: it is CORRECT, the chapter writes no
+%   table lead sentences of its own. Chapter 3's ledger (A4 = preface, A7 = convergence
+%   lead sentence) was checked for the same pattern: Appendix B makes no count claim for
+%   Chapter 3, so there is nothing to correct there; A7 is a mechanical lead sentence of
+%   the same class as Chapter 4's three, and A4 is the preface.
+%
+% REFERENCES TRACK (2026-07-25) -- three changes to Table B.4, all verified this session:
+%   (1) The row that printed a raw bibliography key for the CoUrb Gowalla mis-source now
+%       names the work instead (Liu et al. 2014, "Exploiting Geographical Neighborhood
+%       Characteristics for Location Recommendation", ACM CIKM), because that key is the
+%       one bib entry with no \cite in the document, so the printed bibliography drops it
+%       and the raw key resolved to nothing for the reader. Authors, title, venue and year
+%       copied from Crossref, DOI 10.1145/2661829.2662002. The entry stays in
+%       references.bib; only the way the table names the work changed.
+%   (2) New row: Kohavi (1995) carried doi = 10.5281/zenodo.19712698, a 2026 third-party
+%       Zenodo re-deposit (DataCite: publisher "Zenodo", registered 2026-04-23), not the
+%       IJCAI-95 record. DOI dropped; attributes confirmed against the IJCAI proceedings
+%       PDF (www.ijcai.org/Proceedings/95-2/Papers/016.pdf).
+%   (3) New row: the Rußwurm et al. spherical-harmonics encoder was typed @misc/arXiv with
+%       year=2024; re-typed to the ICLR 2024 record (arXiv journal_ref "Published as a
+%       conference paper at ICLR 2024"; OpenReview submission 3806, venue "ICLR 2024
+%       spotlight"). Same class as the GAT erratum already in the table. The citation key
+%       was also ASCII-renamed and its four citing sites updated; a key rename alters no
+%       reference content and is covered by the existing key-consolidation sentence, so it
+%       is not itemized as a defect row.
+% [NEEDS SIGN-OFF 41 | CLOSED] Author reviewed and approved the appendix's frame prose.
+
+\chapter{Errata to the Reproduced Articles}
+\label{apx:errata}
+
+Chapters~\ref{ch:cbic} to~\ref{ch:mobiwac} reproduce the three articles of this
+collection in a unified format. Purely structural changes of the re-typeset, such as
+renumbered sections and labels, tables re-set without vertical rules, captions placed
+above tables, one-column figure sizes, and the substitution of each article's textual
+self-references by chapter self-references, are declared in
+Section~\ref{sec:intro:organization} and are
+not listed individually. This appendix lists every \emph{content} departure from the
+published or submitted texts: corrections of defects known in the article records,
+wording substitutions required by the dissertation's writing rules, and the
+corrections applied in the global bibliography. Each article folder in the research
+repository keeps the corresponding errata registry; the published records themselves
+are not edited.
+
+None of the three chapters reproduces the front matter of its article. The abstract and
+the keyword list are omitted in all three, the Portuguese resumo of the CoUrb article is
+omitted with them, and the acknowledgments sections of the CBIC and CoUrb articles are
+omitted as well; the MobiWac manuscript carries none. Venue, pages, identifier, status,
+and authorship are stated in each chapter's preface instead, and the acknowledgments
+belong to the article records rather than to the chapter bodies.
+
+\section{Article 1 (Chapter~\ref{ch:cbic}, CBIC 2025)}
+\label{apx:errata:cbic}
+
+% [2026-10-10] B.1 14 -> 15 (DGI edge weights, a method-description correction of fact); the sentence
+% below names the two last rows.
+Table~\ref{tab:apx:cbic-errata} lists the content corrections applied in the chapter
+text; its last two rows correct the concern the cited MTPR model addresses, sparsity rather
+than uncertainty, and state that the edge weights defined for the DGI graph never enter its
+encoding.
+
+\input{tables/cbic/errata}
+% [round5, author decision 1b.3] The Nash-MTL cost claim moved OUT of this section and INTO the
+% errata table above: one standard for factual errors, per the author. "Three elements" -> "Two".
+
+% [2026-10-02, PROPOSAL pending the author's ruling] "Two elements ... deliberately preserved" -> one: the
+% emphasis sentence that followed ("never bolds the HMRM baseline ... preserved exactly") contradicted
+% B.1's Nightlife-recall row and the live table, where the baseline is now in bold; removed.
+One element of the published article was preserved rather than
+corrected. The sentence stating that Nash-MTL ``consistently yielded a better
+overall performance'' is reproduced verbatim; it predates a later finding about the
+optimizer implementation, and the chapter preface carries the of-the-time caution
+instead of an edit.
+% [v2 review F-06, 2026-07-26] Added on persona 10's finding (10_mtl_expert_report.md). The
+% reviewer extracted arXiv:2202.01017 and confirmed "matrix-vector" does not occur in it, while
+% "agnostic to the architecture used" does, so only the cost half is defective. The chapter's own
+% comment at 3_cbic/results.tex:135 had already REPORTED it and left it as the author's call; the
+% reviewer's added point is the ASYMMETRY -- Appendix B corrects the neighbouring clause of the very
+% same sentence, so silence on this half invites the question. Implementation evidence quoted from
+% that comment, itself sourced to tarik-new nash_mtl.py:99,:126-141 and src/losses/nash_mtl/
+% loss.py:105,:158-200 (optim_niter = 20 default, each pass a cvxpy/ECOS solve). No published text
+% is edited; this is a disclosure in dissertation-authored appendix prose, which the errata policy
+% permits without an errata row.
+% [NEEDS SIGN-OFF 42 | CLOSED] Author confirmed: ruling stands as REPORTED, NOT CORRECTED.
+
+The chapter also carries marked additions that are not part of the published text, each
+declared as an addition in the chapter source. Two are frame devices required by the
+dissertation: the italic preface, which states the venue, the identifier, and the
+of-the-time framing, and the lead sentence that introduces the convergence table, written
+because the dissertation's presentation rules require a table to be introduced by a
+takeaway sentence. The others state protocol facts the published paper left implicit: that
+the folds are stratified by sample rather than by user, so the check-ins of one user may
+appear in both training and validation; that the sample unit of the category task is the
+place, so no place spans two folds; that the code of record pins a single random seed, so
+the five folds are one repetition of the experiment and the reported standard deviations
+are the spread across those folds at that seed; and that training runs for the full
+configured number of epochs without early stopping, with each task read at the epoch of
+its own highest validation macro-F1 on the fold the score is reported on. All four are
+recovered from the code released with the article and none is a claim about a result. The
+number of model configurations examined during the study is not recoverable from
+the released material, and no sentence of the chapter asserts one.
+% [round6, COD-007] NEW paragraph. Article 1 had no additions paragraph; this is the counterpart of
+% the eight-addition paragraph in the CoUrb section below, in the same register. The four protocol
+% facts are the COD-007 cells: split axis, sample unit, seed count, checkpoint rule. Evidence for
+% each, with file and line in the CBIC-era codebase at commit 9b06053f, is in the comment block at
+% the citing site (3_cbic.tex, "Evaluation protocol"); it is not repeated here.
+% The last sentence is deliberate and is the one thing this paragraph asserts about what the study did
+% NOT record: no tuning harness ever existed in either codebase and the losing configurations were
+% never committed (.gitignore was /results/*), so a configuration count cannot be recovered. Written
+% as a statement about the RECORD rather than about the conduct of the study, which is the strongest
+% form the evidence supports. Preface and convergence lead sentence: 3_cbic ledger A4 and A7,
+% re-verified this session (the lead sentence "The convergence measurements show a clear wall-time
+% disadvantage" is absent from articles/CBIC___MTL/sections/results.tex).
+% [NEEDS SIGN-OFF 43 | CLOSED] Author validated the appendix prose describing additions to the
+% published chapter.
+
+Table~\ref{tab:apx:cbic-wording} lists the wording substitutions applied to the
+preserved prose under the dissertation's writing rules. Most are grammatical or
+terminological corrections that change neither the strength nor the scope of a claim.
+Four remove the words
+\emph{significant}, \emph{significantly}, and \emph{statistically} from statements
+about the chapter's own measured comparisons: the chapter reports no inferential test of
+any kind, so these words claimed more than the study established, and the replacements
+state the same findings descriptively. Four further uses of the word were left in place.
+Two report claims of cited work, one states the study's own hypothesis, and one names a
+chosen target level. Two more remain that do read against this chapter's own results:
+one describes the multitask model as incurring a significantly higher overhead in wall
+time, and one refers to the lack of significant improvement from that model. Both are
+left as published, because both understate rather than overstate what the chapter shows:
+they qualify results the chapter reports as negative, so removing the word would make the
+chapter's own conclusion sound stronger than it was. A reader should nevertheless read
+them descriptively, since no inferential test supports either. Another row records a
+sentence rewritten for readability: the published clause about an ``unbalanced result'' between
+the two models had no grammatical referent for what it said this could make worse, and the
+chapter now states the same possibility in the terms the surrounding paragraph establishes,
+with its hedge preserved. A further row records a footnote added to a definition rather than
+a substitution. The table also corrects the reversed names of the two tasks and removes an
+untested robustness claim about data-sparse environments. No edit in this table raises the
+strength of a claim.
+
+\input{tables/cbic/errata_wording}
+
+\section{Article 2 (Chapter~\ref{ch:courb}, CoUrb 2026)}
+\label{apx:errata:courb}
+
+% [2026-10-02, PROPOSAL pending the author's ruling] the enumeration covered seven rows of a ten-row
+% table; rows eight to ten (emphasis rule, "consistently", single-dataset limitation) added in one
+% sentence; "The last three" -> "Three" for rows five to seven; verified against tables/courb/errata.tex.
+The first two corrections in Table~\ref{tab:apx:courb-errata} replace the published
+numbers by the values of an internal audit of the same results, performed after
+publication; the audited values are the ones the chapter reports. The third substitutes a
+verdict verb without changing the strength of the claim, and the fourth narrows one claim
+about a cited method to the guarantee that method's own paper states. Three correct
+attribution and vocabulary: two claims are returned to works that state them, and one data
+column is named for the reader rather than by its identifier in the source files. Three
+concern presentation and scope: the two results tables state their emphasis rule and
+underline the second largest value, \emph{consistently} gives way to the scope the counts
+support, and the single-dataset limitation names the period and the country the results
+depend on. The last three correct the description of a method against the code of record:
+the spatial encoders' contrastive pairs are formed by perturbation and random draw, not by
+distance thresholds; the Sphere2Vec sentence states only what both implementations share;
+and the POI Encoder's regions are census tracts, not counties.
+% [2026-10-10] B.3 10 -> 13, the three method-description rows above; the enumeration covers them.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.15 (arquivado 2026-08-02), 2026-07-30] The banner enumerates this table ordinally and the table
+% grew from four rows to seven, so one sentence covers rows five to seven as a group rather than a
+% clause per row, the same treatment the CBIC banner gives its own tail. This file's header already
+% records this exact defect twice, the second time as a banner that "was still wrong by one row", so
+% the count was read from the table body rather than carried forward.
+% [round6, COD-005 sub-claim 4] The banner said the table replaces "the published numbers", which
+% the fourth row is not: it is a wording narrowing of a claim about Nash-MTL, not a number. One
+% clause widened rather than giving the CoUrb section a second table as the CBIC section has, which
+% is more structure than one row justifies. Row and evidence: tables/courb/errata.tex, and the
+% source trail is in the comment at the citing site (4_courb.tex, the Nash-MTL paragraph).
+% [round6, second pass] The first widening said "the first three ... replace the published numbers"
+% and that was still wrong by one row. MEASURED against tables/courb/errata.tex: rows 1 and 2 carry
+% audited decimal values (15 of 21 combinations; 20.2 to 22.0 percentage points), row 3 is the
+% "wins" -> "outperforms the baseline" verdict-verb substitution with no number in it, and row 4 is
+% the Nash-MTL narrowing. So the banner now describes four rows in three groups, which is what the
+% table contains. Counted by parsing the table body, not by reading down the column.
+
+\input{tables/courb/errata}
+
+One element was preserved rather than corrected: the published bolding of the Florida
+\emph{Outdoors} baseline cell in the sequential-task table is kept exactly as
+published; the technical-tie reading lives in the prose only.
+
+% [NEEDS SIGN-OFF 44 | CLOSED] Author: the errata should cover content/logic points only, not
+% spelling or typography. The MTLNet -> MTLnet normalization paragraph (a purely typographical
+% change, out of scope under this ruling) was removed rather than kept.
+
+One sentence of the methodology was re-typeset without a change of content. The
+published sentence introducing the category embedding of the POI Encoder placed a long
+inline expression at the end of its first line, where the one-column measure of this
+format cannot break it and the line runs past the margin. The clause order is reversed
+so that the expression falls earlier in the sentence. Every content word of the
+published sentence is kept and no quantity, symbol, or claim changes, so this is
+recorded among the mechanical changes of the re-typeset rather than as a content
+departure.
+
+The chapter carries marked additions that are not part of the published text, each
+declared as an addition in the chapter source. Three are frame devices required by the
+dissertation: the italic preface, a recap subsection on the MTLnet framework of
+Chapter~\ref{ch:cbic}, and the reading instruction appended to the caption of
+Figure~\ref{fig:courb:distribuicao}, which names the axes and the pattern the panels show
+so that the figure can be read on its own. The chapter states no protocol fact beyond
+those the published paper itself reports. The number of model
+configurations examined during the study is not recoverable from the released material, and no
+sentence of this chapter asserts one. The evaluation protocol of this study, which
+stratifies the cross-validation split by sample rather than by user, is stated in the
+chapter preface, where it frames the study alongside Chapter~\ref{ch:cbic}.
+% [round9c, PENDENCIAS_RESOLVIDOS 5.6b (arquivado 2026-08-02) second half, 2026-07-30] SIGN-OFF MARKER REMOVED, question settled. Item
+% 2.7 is archived as closed ("FECHADO como nao-recuperavel"), and the sentence below was added on the
+% author's own instruction, quoted in the next line. The marker was recording an executed decision
+% rather than asking one, which is exactly the class he asked to clear from the LaTeX.
+% [round8, 2026-07-30] ONE SENTENCE ADDED, on the author's decision
+% "Documentar no letf_out.md e adcionar esse ponto no appendix B". Half of that was already done and
+% half was not, which is why it needed measuring rather than re-reading a report: LEFT_OUT.md LO-1
+% carries the finding, and Article 1 of this appendix already printed the identical sentence for
+% Chapter 3 -- but Article 2 did not, and the finding is about BOTH studies.
+% Measured before writing, on the comment-stripped source of the Article 2 section (chars 5504 to
+% the Article 3 heading): 'configuration' 0, 'tuning' 0, 'recoverable' 0, 'harness' 0,
+% 'hyperparameter' 0. And in the rendered extra volume, "not recoverable" appeared on p.8 only,
+% inside Article 1.
+% THE SOURCE OF RECORD IS _history/_round6/10_protocol_recovery.md section 1.4, whose verdict table gives
+% "NOT RECOVERABLE as a budget" for Ch.3 AND for Ch.4, same reason: no search harness ever existed in
+% either codebase and the losing configurations were not committed. The author's recollection ("we
+% did not change much") is consistent with the code and is deliberately NOT printed, because a
+% recollection is not a record (GUARDRAILS N1).
+% Wording is copied from the Article 1 sentence rather than re-drafted, so the two chapters state the
+% same limitation identically; "As in that chapter" carries the parallel without repeating the whole
+% claim. No quantity is asserted -- the sentence's entire content is that no quantity is available.
+The remaining three are the lead sentences that introduce the three tables,
+one each for Tables~\ref{tab:courb:dataset},~\ref{tab:courb:category},
+and~\ref{tab:courb:next}, written because the dissertation's presentation rules require a
+table to be introduced by a takeaway sentence. Each of the three reads its table and states
+no quantity that the table does not already show.
+
+\section{Article 3 (Chapter~\ref{ch:mobiwac}, MobiWac 2026)}
+\label{apx:errata:mobiwac}
+
+One content correction was applied. The submitted manuscript describes the prior work
+of Chapter~\ref{ch:cbic} (\cite{silva2025mtlnet}) as having studied the next-category
+and next-region tasks and as having observed negative transfer between them. Both
+statements are inaccurate against that work: Chapter~\ref{ch:cbic} pairs static category
+classification with next-category prediction and contains no region task, and it
+hypothesizes negative transfer to explain a parity null rather than observing it. The
+two sentences (in the introduction and the related-work recap) were corrected to state
+that the earlier work found no consistent multitask advantage for the paired category
+tasks, and that the present study is the one that introduces the region task. The
+correction removes an internal contradiction with the chapter's own novelty claim and
+does not alter any experimental result; it was applied both here and in the version of
+record, and is recorded in that article's errata. Beyond it, every number and claim in
+Chapter~\ref{ch:mobiwac} reproduces the submitted text. The chapter also carries three
+marked additions declared in the chapter source: the italic preface, a recap subsection
+covering the artifacts of Chapters~\ref{ch:cbic} and~\ref{ch:courb}, and the restoration
+of one figure that the submitted eight-page build had cut for space, whose four values
+are stated in the reproduced prose in both versions. This chapter writes no new lead
+sentences for its tables, since the submitted text already introduces each of them.
+
+% [2026-08-12] COUNT CORRECTED, three -> two, against the built table: it has exactly two rows
+% between \midrule and \bottomrule (the "passes no usable information" row and the gradient-cosine
+% row). The following sentence had split those two across three roles, describing the second row's
+% added cross-reference as if it were a third departure.
+% [2026-09-04, third COUNT CORRECTION of this banner, two -> eight, and the enumeration with it.
+% The two-item frame ("Neither ... The first ... the second") described a table that now holds eight
+% rows, and the two it named are no longer the first two. Rows, in table order: (a) the universal
+% negative narrowed to named channels; (b) the gradient-cosine cross-reference; (c) the Wilcoxon
+% promise withdrawn; (d) the parameter sums corrected; (e) bold/underline split from the verdict
+% marks; (f) the concatenation control restated against Table 9; (g) the introduction naming its
+% referent; (h) the logit-adjustment citation. "None alters an experimental result" is true of all
+% eight and is kept as a claim about the set. The count is SPELLED, as count_errata_rows.py reads it.]
+% [2026-09-06] eight -> nine, six -> seven; ninth row (last in table order): the scoped
+% superlative in the non-inferiority paragraph. Count spelled, as count_errata_rows.py reads it.
+% [2026-09-08] nine -> eighteen, seven -> sixteen. The post-acceptance group is no longer one clause
+% per row: sixteen clauses in one sentence would not read, so the rows are grouped by kind, each
+% group naming its rows so a reader can match prose to table. Counts spelled, as
+% count_errata_rows.py reads them.
+% [2026-09-09] eighteen -> nineteen, sixteen -> seventeen, "four narrow a claim" -> five: the
+% auxiliary-signal mechanism clause (results section and conclusion, one row).
+% [2026-09-29] nineteen -> twenty, seventeen -> eighteen, corrections of fact seven -> eight: the
+% simultaneous (Bonferroni) bound on the category differences.
+% [2026-09-30] Regrouped with the registry's row rewrites: one pre-acceptance row (the cosine row
+% now describes its post-acceptance form); nineteen after, in FIVE kinds; new kind "state the
+% delivered method in place of development history" (cosine, region vectors); "scope to the
+% build" drops to two. The integrity-check clause is stale BY DESIGN with its row: the chapter's
+% numbers are pre-v18 until the /dados re-run lands, and both are rewritten with the new numbers.
+% 1 + 8 + 2 + 2 + 5 + 2 = 20.
+% [2026-09-30] Geometry row rewritten by the registry (re-measured on the delivered build): it leaves
+% "scope to the build" (now ONE, the integrity check, still stale by design) and joins the
+% delivered-method kind (now THREE). "None alters an experimental result" qualified: no results-table
+% value changes, but one printed diagnostic (0.57 -> 0.51) does. 1 + 8 + 3 + 1 + 5 + 2 = 20.
+% [2026-09-30] twenty -> twenty-one; corrections of fact eight -> nine (the Markov floor's folds).
+% 1 + 9 + 3 + 1 + 5 + 2 = 21.
+% [2026-10-01] twenty-one -> twenty-two; corrections of fact nine -> ten (the POI-RGNN column).
+% 1 + 10 + 3 + 1 + 5 + 2 = 22.
+% [2026-10-01, A5 batch] twenty-two -> twenty-six; corrections of fact ten -> twelve (CTLE 3.7, purity
+% gloss); narrowings five -> seven (externals' own splits + ReHDM + Markov order; the named paired test +
+% the Florida fold); the Markov-floor clause now covers three sentences. 1 + 12 + 3 + 1 + 7 + 2 = 26.
+% [2026-10-01, A4 + A2] twenty-six -> twenty-seven; narrowings seven -> eight (A4: no shared-folds claim
+% for HMT-GRN/STAN, per-system floor count removed). 1 + 12 + 3 + 1 + 8 + 2 = 27. Opener corrected: it
+% said no row alters a result in the two results tables, which the POI-RGNN row (three cells re-sourced)
+% already contradicted; and the concatenation control is now a second re-measurement, named.
+% [2026-10-01, G3] twenty-seven -> twenty-eight; corrections of fact twelve -> thirteen (Istanbul place
+% cell re-run paired). 1 + 13 + 3 + 1 + 8 + 2 = 28. Opener widened by one clause: the representation
+% table's Istanbul place cell is a dedicated-model value, so "none alters a value of the joint or
+% dedicated models" had to except it.
+% [2026-10-02] twenty-eight -> thirty-one: row 1 rewritten (universal negative removed, not narrowed), ERR-6/7
+% search grading and the Table 8 caption counts (corrections of fact 13 -> 15), arm/recipe wording
+% (presentation 2 -> 3). 1 + 15 + 3 + 1 + 8 + 3 = 31; the registry's rows, verified by me against the table.
+% [2026-10-03, G5] thirty-one -> thirty-two; corrections of fact fifteen -> sixteen (HMT-GRN column at its best
+% epoch, floor paragraph restated). 1 + 16 + 3 + 1 + 8 + 3 = 32.
+% [2026-10-04, D2] The kind "One scopes a measurement to the build on which it was taken" becomes "One
+% re-runs a check under the reported protocol" (the integrity row, rewritten to its final state); the
+% opener names the third re-measurement. Counts unchanged: 1 + 16 + 4 + 1 + 8 + 3 = 33.
+% [2026-10-04, D3] thirty-two -> thirty-three; "state the delivered method" three -> four (the CTLE training
+% regime). 1 + 16 + 4 + 1 + 8 + 3 = 33.
+% [2026-10-05, D2] thirty-three -> thirty-two; corrections of fact sixteen -> fifteen: the 2026-09-08 row on
+% the half an integrity qualification was attributed to is folded into the integrity row, the chapter
+% no longer carrying that qualification. 1 + 15 + 4 + 1 + 8 + 3 = 32.
+% [2026-10-10, STAN CA/TX] thirty-two -> thirty-three; corrections of fact fifteen -> sixteen (the two STAN
+% cells completed from partial folds); the opener names it among the re-measurements. 1 + 16 + 4 + 1 + 8 + 3 = 33.
+Table~\ref{tab:apx:mobiwac-scope} lists thirty-three further departures in the reproduced prose.
+None alters a value of the joint model, or of a dedicated model on the check-in representation,
+in the two results tables; one place-level cell is re-run paired, three external-baseline cells
+change source, two STAN cells are completed from partial folds, and a diagnostic constant, a
+control, and the integrity check are re-measured. One predates the article's acceptance: it removes a
+universal negative. The
+% [2026-09-08, second pass] "one adds a cross-reference to the appendix that measures the same
+% quantity on the final model" described a pointer that was added and then REVERTED in 2bb82234
+% (round 14, article chapters stopped pointing at dissertation appendices): zero \ref{apx:...} in
+% the eight Ch.5 files today. My restructure had re-authored the stale row's claim; the row is now
+% corrected by the registry and this clause follows it. Lesson recorded: a restructure is the time
+% to check the rows, not only to count them.
+other thirty-two were applied after the article was accepted, and they fall into five kinds. Sixteen
+are corrections of fact: the promise of a Wilcoxon result that the text never reports is
+withdrawn; the two dedicated-model parameter sums are corrected against the measured counts;
+the concatenation control is restated against the table it cites, with the paired re-run's $+1.73$,
+$+1.70$, and $+1.02$ in place of $+2.0$, $+1.7$, and $+0.8$; the logit-adjustment method
+receives its citation; the widest confidence interval on the category axis is
+printed at the same precision as the interval it summarizes; the claim that all six category
+differences lie within half a point at once rests on a Bonferroni adjustment across the six
+comparisons rather than on six separate intervals; the check-in range across the
+U.S. datasets ends at Texas, the state with the most check-ins, rather than at California; the
+Markov floor is described, in the setup and results sections, as sharing the sliding windows and the
+user-grouped fold construction of the reported models, but not their partition of users, which is
+what the text now claims; the three POI-RGNN cells at Florida, California, and Texas now come from the same user-disjoint
+reimplementation as the other three, so the smallest margin of the joint model over POI-RGNN is
+4.11 macro-F1 points, at Texas, rather than 3.06; the gap between CTLE and the place embedding at
+Florida is printed as the 3.7 points the two numbers give, not two; the nearest-neighbor purity is
+glossed as the share of vectors whose ten nearest neighbors vote for their own category, which is
+what the measurement computes; the Istanbul place-level cell, which had been run on a different set
+of rows from its check-in counterpart, is re-run paired, moving it from 29.07 to 32.54, the difference
+from 6.29 to 2.81, and the derived range and ratio with it; the batch-size and learning-rate
+searches are graded by the folds each dataset actually received; the dataset table's caption
+states which counts precede the ten-visit filter; the HMT-GRN region cells are read at their
+best validation epoch, the convention of the dedicated cells, after which the floor paragraph states
+that the external systems fall on both sides of the floor; and the STAN cells at California and
+Texas, printed from two and four of five folds, are completed to five. Four
+state the delivered method in place of development history: the gradient-cosine paragraph rests
+on the measurement taken on the reported joint model; the region vectors read by the
+spatial stream are described as a fixed region table shared by the joint and dedicated models;
+and the class-separability constants are re-measured on the delivered representation, which
+moves the silhouette score from about 0.57 to about 0.51 and leaves the purity at about 0.98. The fourth states how the CTLE control is pre-trained, per fold on
+the training users, against the representations it is compared with, pre-trained once on all users
+without the prediction targets.
+One re-runs a check under the reported protocol: the
+whole-dataset integrity check, whose differences are replaced by those of the re-run and whose
+coverage qualification no longer applies. Eight narrow a claim to what its evidence
+carries: the introduction names the model its two enhancements improve upon; the priority claim
+on fine-grained region as an end target is stated as the hedged form the related-work section
+already uses; the characterization of sharing on the check-in-level representation is replaced
+by the delivered verdicts; a pointer to a mechanism test that no longer exists in the
+results section is removed; and the explanation of the two region gains as the datasets where
+an auxiliary signal has the most to add, given in the results section and in the conclusion, is
+replaced by the property it rested on, the number of classes to rank, because the chapter's
+discussion states that the evidence does not separate the contributions of the shared
+representation and the private spatial path; the external baselines other than HMT-GRN are stated to run on their
+own embeddings and splits, ReHDM under its own chronological split, and the Markov order to be chosen
+on the evaluation folds; and the test behind the representation table is named as a two-sided paired
+$t$-test over the five folds of one seed, with the one Florida fold that differs by 0.001 stated; and STAN is no longer said to run on our
+folds, while HMT-GRN is, after its re-run on them, with the count of datasets at which each falls
+below the Markov floor removed. Three
+concern presentation: the emphasis in the results table is
+split into a magnitude channel and a statistical channel; the sentence on the
+non-inferiority intervals scopes its superlative to the four datasets it discusses, since the
+cross-reference beside it leads to a section where a larger difference appears; and the compared
+models are no longer called arms, nor a training configuration a recipe.
+
+% [2026-09-04, AUT-35 sixth site] "It is under review rather than published" and the present-tense
+% mechanism that rested on it: the article was accepted on 2026-08-26. Restated in the past tense,
+% as what happened while it was under review; no claim is made about a camera-ready window.
+This article differs from the other two in a way that changes what this section has to record.
+While it was under review, a correction to a minor factual or scope claim did not have to be
+declared here at all: it was applied to the submitted source as well, and the two texts stayed
+identical. Three corrections were handled that way and are named in the
+article's own errata record rather than in this table. % [2026-08-12] COUNT CORRECTED, three -> two, and the enumeration with it. The table has exactly two
+% rows, and its own header names them: the integrity paragraph whose added ground cites the
+% gradient-cosine appendix, and the freeze-control restatement that cites this chapter's results
+% table. The dropped item cited the label-history benchmark; that correction now lives in both texts,
+% which is why the table's header records it as removed rather than kept.
+What remains here from that period are the two that could
+not be folded into a paper under review, because each depends on material the article has no
+room for: one cites this chapter's own results table, and one cites the gradient-cosine appendix of the
+% [round9c, 2026-08-02, R15-01] WAS \ref{apx:cosine}, which labels an appendix of the MAIN volume.
+% This file builds in the SUPPLEMENTARY volume, where that label does not exist, so the reference
+% rendered as "Appendix ??" on p. 11 of main_extra.pdf -- measured in the PDF, and the build log
+% carried the warning ("Reference `apx:cosine' on page 11 undefined") that nothing was reading.
+% A cross-volume \ref cannot resolve: the two documents have separate .aux files by construction.
+% Named in prose instead, which is what the reader needs and what survives the volume split.
+dissertation. After the article was accepted, every later correction is declared here, whether
+or not it also reaches a revised version of the article.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.11 (arquivado 2026-08-02) and 2.9, 2026-07-30] TWO COUNTS UPDATED, both measured rather than
+% incremented. The corrections applied identically in both texts went from two to three: the region
+% partition in the results subsection lead is the third, and the paper's ERRATA.md carries it under a
+% 2026-07-30 heading. The rows that cannot be folded went from two to three: the gradient-cosine
+% pointer cites a dissertation appendix, so the referent does not exist in the submitted paper.
+% This paragraph's own arithmetic is the thing to keep true; the file header records two earlier rounds
+% in which a banner count went stale against its table.
+% [2026-07-27, author instruction] "estamos no periodo de revisao do artigo, entao nao precisa
+% haver erratas, para ele a nao ser que essa errata nao cabe entrar na revisao se for algum
+% conceito muito elaborado, como e o caso do appendix D". Count corrected from four to two.
+% [round4] Claim-scope corrections from the Ch.5 track. Source ledger with every quoted
+% value and its file:line: src_utils/_history/handoff/ch5_errata_rows.md. Banner deliberately
+% differs from Table B.2's ("writing-rule conformance"): three of these change claim
+% SCOPE and one changes a comparison BASIS, so they are not wording substitutions.
+
+\input{tables/mobiwac/errata_scope}
+
+\section{Two extractions of the same Gowalla corpus}
+\label{apx:errata:corpus}
+
+Chapters~\ref{ch:cbic} and~\ref{ch:courb} report the Florida subset of Gowalla as
+20{,}301 users, 65{,}009 POIs, and 990{,}518 check-ins, while Chapter~\ref{ch:mobiwac}
+reports 21{,}052 users, 76{,}544 POIs, and 1{,}407{,}034 check-ins for the same state
+of the same public dataset. The two are different extractions of that state, not
+different datasets and not a discrepancy between them: the first two chapters report the
+corpus as the extraction pipeline of their time produced it, and
+Chapter~\ref{ch:mobiwac} reports the current extraction.
+
+The mechanism is the category mapping, not the raw data and not a different filtering
+rule. The extraction assigns a category to each check-in from a mapping table and
+discards the rows whose category does not map, so widening that table keeps rows that an
+earlier run had dropped. The mapping files were extended about eleven months after the
+earlier Florida extraction, and the places they added fall mostly in
+\emph{Entertainment}, \emph{Outdoors}, and \emph{Travel}. A controlled comparison against
+the working extraction of the earlier period confirms the direction: each of its POIs,
+users, and check-ins reappears in the current extraction, which adds further ones. The
+current pipeline therefore cannot reproduce the earlier counts, and the two sets of
+figures are kept as each chapter reported them rather than retrofitted to one another.
+The comparison is recorded in the research repository, in
+\texttt{src\_utils/cbic\_recompute\_result.md}.
+% [round4, REV-016] Reader-facing explanation of the two Florida figure sets. Mechanism
+% quoted from src_utils/evidence/cbic_recompute_result.md section 3 ("Root cause: category-mapping
+% drift"; mapping files data/gowalla/callback_categories.json and extra_categories.json
+% last modified 2026-04-14, ~11 months after the CBIC-era extraction of 2025-05-06;
+% stage_1 drops rows whose category does not map; the extra POIs skew to Entertainment
+% 21.1% vs 5.2%, Outdoors, and Travel). Numbers: Ch.3/Ch.4 triple from 4_courb/results.tex:14
+% (the published CoUrb dataset table); Ch.5 triple from 5_mobiwac/05_setup.tex:32. No number here
+% was computed by an agent.
+% PRECISION NOTE, deliberate: the strict-subset result in section 3 of that document was
+% measured for the CBIC-era WORKING extraction (filtrado.csv: 10,460 / 64,454 / 960,520)
+% against the fresh ETL, NOT for the published CoUrb triple that Chapters 3 and 4 actually
+% report. The prose above therefore says "the working extraction of the earlier period"
+% and claims direction, not identity. It does not assert that the mapping drift accounts
+% for the whole of the specific gap between the two reported triples.
+% [VERIFY, open and inherited] Section 5 of the same document records one unresolved
+% question: the CBIC-era working extraction counts 10,460 Florida users against the
+% published CoUrb row's 20,301, a factor of about two that could not be reconstructed from
+% committed artifacts, and the author's 2026-07-24 ruling (NORTH_STAR section 4, Ch.3)
+% settled which figure the chapters report without settling why the two differ. The
+% paragraph above is written so that it stays true either way, but if the author ever
+% resolves that question the sentence about the controlled comparison should be revisited.
+
+% =====================================================================================
+% [round6, author decision 2026-07-27, PENDENCIAS 2.4, was 2.2 before the 2026-07-29 renumber] The Ch.4 static-task scope section.
+% The author's ruling, verbatim: "Isso ja esta de acordo com ele, podemos adicionar isso no
+% appendix B, mas deixe isso facil de ser comentado, vide que eu ainda vou discutir com meu
+% orientador sobre se argumentamos ou nao quanto a isso."
+% So: (a) courtesy notice to the co-author is GIVEN, (b) Appendix B is the sanctioned place,
+% (c) THIS SECTION MUST BE EASY TO COMMENT OUT pending his conversation with the advisor.
+% TO SUPPRESS IT: comment the single \input line below. Nothing else references this section
+% except the Ch.4 preface pointer, which is written to degrade gracefully (it names the
+% appendix, not a \ref to this label), so commenting the input leaves no dangling reference.
+% The section body lives in chapters/apx_b_static_scope.tex for exactly that reason.
+%
+% EVERY NUMBER IN THAT FILE WAS MEASURED THIS ROUND, not quoted from a prior report:
+%   data/checkins_by_state/{Alabama,Arizona,Florida,California,Texas}.parquet, POI-level table
+%   (drop_duplicates on placeid, matching research/embeddings/hgi/preprocess.py:75-80 which
+%   dedups by placeid with mode_or_first), grouping the `spot` column -- which
+%   preprocess.py:62 renames to `fclass` -- by nunique of `category`:
+%     Alabama     11,848 POIs   284 spot values   7 categories   0 spanning >1 category
+%     Arizona     20,666        305               7              0
+%     Florida     76,544        324               7              0
+%     California 169,145        333               7              0
+%     Texas      160,938        365               7              0
+%   Agrees with persona 11's independent re-derivation (284 to 365, none ambiguous).
+% MECHANISM, read in code, not inferred:
+%   research/embeddings/hgi/poi2vec.py:487  poi_embeddings[valid] = fclass_embeddings[fclass_values[valid]]
+%     -> the place vector is a pure function of the fine class.
+%   research/embeddings/dgi/preprocess.py:114-130  the DGI node feature is the MEAN OF THE
+%     NEIGHBORS' one-hots, EXCLUDING the node itself (embedding_array.iloc[neighbors].mean).
+%   research/embeddings/hgi/preprocess.py:41-45 documents the ablation arm that permutes the
+%     encoded fclass column to break exactly this determinism, which is independent evidence
+%     that the team identified the mechanism before this round.
+% [CORRECTED rodada 16, 2026-08-05] The line this replaces claimed the input-feature exclusion
+% above means "the node's own label never enters its own representation" and that the defect is
+% CoUrb's alone, not CBIC's. A code-level audit (NEEDS SIGN-OFF 46, apx_b_static_scope.tex)
+% refuted this: excluding a node's own label from its own INPUT FEATURE does not exclude it from
+% its own EMBEDDING, and the audit measured a real, quantified reentry (mean weight 0.10) via the
+% undirected neighbor-mean construction. See apx_b_static_scope.tex for the current, corrected
+% text and NEEDS_SIGN_OFF.md item 46 for the open question this leaves for the author.
+%
+% [NEEDS SIGN-OFF 45 | CLOSED] Author confirmed this appendix section is deactivated (the ADVISOR
+% conversation on the public co-authored statement was not concluded). The \input line below is
+% commented out per this file's own suppression convention (see apx_b_static_scope.tex's header:
+% "kept in its own file so that a SINGLE commented \input line ... suppresses it").
+% \input{chapters/apx_b_static_scope}
+
+\section{Bibliography errata}
+\label{apx:errata:bib}
+
+The dissertation uses a single global bibliography. During its consolidation, the
+entries inherited from the three articles' reference lists were re-verified against
+the sources of record (Crossref, OpenAlex, arXiv, publisher pages), and the defects in
+Table~\ref{tab:apx:bib-errata} were corrected. In addition, duplicate keys naming the
+same work across the three donor lists (among them three spellings for the Deep Graph
+Infomax paper and two for the Nash-MTL paper and for the Gowalla reference) were
+consolidated to one entry each; key consolidation does not alter any reference's
+content and is not itemized.
+
+\input{tables/frame/bib_errata}

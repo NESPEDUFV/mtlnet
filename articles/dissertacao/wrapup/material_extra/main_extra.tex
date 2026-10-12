@@ -1,0 +1,329 @@
+% !TeX root = main_extra.tex
+% ============================================================================
+% main_extra.tex -- the SUPPLEMENTARY VOLUME. A separate document, not a fourth variant of the
+% dissertation: its own preamble, front matter, table of contents and bibliography. It does not
+% read main.tex, and it is deliberately absent from `make all3` and `make fast3`.
+%
+% WHAT IT CARRIES, and why. The advisor ruled (2026-07-28) that the errata appendix is not needed
+% in the dissertation, because each chapter preface already explains the relationship to the
+% published article. Rather than delete that work, it moved here, together with Appendix D (the
+% label-history ceiling benchmark), plus anything else whose place in the main text is undecided.
+% The dissertation is complete without this volume; that is stated in its opening section too.
+%
+% APPENDIX LETTERS B AND D ARE PRESERVED here even though the main document's appendices now read
+% A, C, E, F with gaps. Reason, measured: GLOSSARY.md lines 41 and 73 name "Appendix B" and line 51
+% names "Appendix D", and the two published articles' errata trails refer to them by letter. A
+% renumber would silently break every one of those references.
+%
+% CROSS-VOLUME REFERENCES. 46 \ref sites in these appendices point at labels defined in the MAIN
+% document, which this volume does not read. They resolve through nine frozen \newlabel
+% declarations in the "cross-volume labels" block below -- not by editing the appendix prose, so
+% the text is identical to what it was in the dissertation. src_utils/check_extra_xrefs.py checks
+% all three failure directions (a frozen number that has drifted, a reference with no target, a
+% frozen label nothing uses) against the main build's aux, and is wired into `make check`.
+%
+% BUILDING IT ON OVERLEAF. This volume must build with no `make` and no format dump. This exact
+% sequence was RUN on 2026-07-29 in a copy of src/ with build/ excluded, and these are the numbers
+% it printed: rc=0 on all four commands, 19 pages, 0 TeX errors, 0 undefined references, 0
+% undefined citations, 0 overfull boxes, 4 \bibitem in the .bbl, 0 BibTeX warnings.
+%
+%     pdflatex main_extra && bibtex main_extra && pdflatex main_extra && pdflatex main_extra
+%
+% The bibtex ARGUMENT differs from the one in `make extra` and the difference is not cosmetic:
+% plain `bibtex main_extra` here, `bibtex build/main_extra-aux/main_extra` there. The wrong form
+% exits 1 with "I couldn't open file name", which stops an && chain and, in a GUI editor, leaves
+% every citation silently unresolved.
+%
+% MERGED 2026-07-30 (author): this file and the former 0_extra.tex were one \input apart -- 68 lines of which
+% two were live -- for no benefit. The dissertation splits preamble.tex/content.tex because that
+% boundary is load-bearing for the format dump; this volume has no format dump and one entry point,
+% so one file is the honest shape.
+% ============================================================================
+
+\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    sumario=tradicional,
+    brazil,
+    english,
+]{abntex2}
+
+\usepackage{abntex2-UFV}
+% The four-line layout unit from the dissertation's preamble.tex, kept verbatim and for the same reason: the
+% [fixed] option is what makes the bottom margin come out at the 2 cm the UFV manual
+% specifies, because the default `classic` rounds the text block to a whole number of lines
+% and takes the difference out of the bottom margin. The derivation is in preamble.tex; it is
+% not repeated here, and the order of these four lines is load-bearing.
+\OnehalfSpacing
+\setlrmarginsandblock{3cm}{2cm}{*}
+\setulmarginsandblock{3cm}{2cm}{*}
+\checkandfixthelayout[fixed]
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{booktabs}
+% [2026-08-12] float is required by the relocated parameter-count control, whose tables use [H].
+% The main volume loads it in preamble.tex; this volume has its own inline preamble and did not.
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{xurl}
+\DisemulatePackage{setspace}
+\usepackage{setspace}
+\usepackage{longtable}
+
+\usepackage[num,abnt-emphasize=bf]{abntex2cite}
+\citebrackets{[}{]}
+\makeatletter
+\AtBeginDocument{\renewcommand{\@biblabel}[1]{%
+    \ifthenelse{\equal{#1}{}}{}{{\citenumstyle[#1]\hspace{\biblabelsep}}}}}
+\makeatother
+
+\addto\captionsbrazil{%
+    \def\bibname{References}%
+    \renewcommand{\figurename}{Figure}
+    \renewcommand{\tablename}{Table}
+    \renewcommand{\contentsname}{Contents}
+    \renewcommand\chaptername{Chapter}
+}
+\selectlanguage{english}
+
+\renewcommand{\ABNTEXchapterfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsectionfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsubsectionfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsubsubsectionfont}{\rmfamily\bfseries}
+
+\titulo{\normalsize{\textbf{Supplementary Material to the dissertation ``Multitask Learning for Point-of-Interest Classification and Prediction Tasks: The Role of the Check-in-Level Representation''}}}
+\autor{\normalsize{\textbf{Vitor Hugo De Oliveira Silva}}}
+\local{\normalsize{\textbf{Florestal - Minas Gerais}}}
+\data{\normalsize{\textbf{2026}}}
+\orientador{Fabrício Aguiar Silva}
+\instituicao{Universidade Federal de Viçosa}
+\campus{Campus Florestal}
+\curso{Pós-graduação em Ciência da Computação}
+
+\makeatletter
+\hypersetup{
+    pdftitle={\@title},
+    pdfauthor={\@author},
+    pdfcreator={LaTeX with abnTeX2},
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    bookmarksdepth=4,
+}
+\makeatother
+
+% ---------------------------------------------------------------------------------------
+% CROSS-VOLUME REFERENCES -- the one mechanism in this file that needs explaining.
+%
+% THE PROBLEM. Both appendices below discuss chapters of the DISSERTATION, which is a
+% different document. `\ref{ch:cbic}` therefore has no target here: compiled alone, every
+% one of them renders as `??` and the build reports undefined references. There are 46 such
+% call sites (measured: see the count in the gate named below), and rewriting all 46 by hand
+% into literal numbers would put 46 unguarded numbers in prose, which is exactly the drift
+% AGENT_HANDOFF §2.6 describes -- a chapter reorder would silently falsify every one.
+%
+% THE MECHANISM. \dissertationlabel declares one frozen (label -> number) pair, in the
+% internal form \ref reads, so the existing `\ref{...}` call sites keep working unchanged and
+% no appendix prose is edited. The number is FROZEN, so it must be guarded, and it is:
+%   src_utils/check_extra_xrefs.py  reads the number the MAIN build actually printed for
+%   each label out of build/main-aux/**/*.aux and fails if a frozen value here disagrees.
+% It runs in src_utils/check.sh, so `make check` catches a stale value. It also fails when a
+% \ref target used by this volume is not declared here at all, and when a declared label is
+% no longer referenced -- the third direction matters, because a dead declaration is what
+% makes the other two look green.
+%
+% THE VALUES BELOW WERE READ, NOT REMEMBERED. Each comes from the \newlabel line the
+% defense build wrote, at commit 3bd47d5d:
+%   grep -rh 'newlabel{ch:cbic}' build/main-aux/    ->  \newlabel{ch:cbic}{{3}{26}{...}}
+% and likewise for the other eight. The first braced group is the printed number.
+%
+% THE LINK TARGET. A frozen label has no destination inside this volume, and pointing one at
+% a destination that does not exist reproduces the dead-link defect this project has already
+% had once (preamble.tex's hyperfootnotes note: ten footnote marks that all jumped to physical
+% page 1). So every frozen reference is anchored at ext:dissertation, a real destination
+% created in the opening statement below, where the sentence explaining that the dissertation
+% is a separate document lives. A reader who clicks "Chapter 5" lands on that explanation
+% rather than on nothing.
+% ---------------------------------------------------------------------------------------
+\makeatletter
+\newcommand{\dissertationlabel}[2]{\@namedef{r@#1}{{#2}{1}{}{ext:dissertation}{}}}
+\makeatother
+
+\dissertationlabel{ch:cbic}{3}
+\dissertationlabel{ch:courb}{4}
+\dissertationlabel{ch:mobiwac}{5}
+\dissertationlabel{sec:intro:organization}{1.5}
+\dissertationlabel{fig:courb:distribuicao}{3}
+\dissertationlabel{tab:courb:dataset}{5}
+\dissertationlabel{tab:courb:category}{6}
+\dissertationlabel{tab:courb:next}{7}
+\dissertationlabel{tab:mobiwac:results}{10}
+
+\begin{document}
+    \frenchspacing
+    \OnehalfSpacing
+
+    \pretextual
+    {
+        \singlespacing
+        \imprimirfolhaderosto
+        \clearpage
+    }
+
+    \pdfbookmark[0]{\contentsname}{toc}
+    \tableofcontents*
+    \cleardoublepage
+
+    \textual
+
+
+% ---------------------------------------------------------------------------------------
+% THE OPENING STATEMENT. What this volume is, why it is separate, and that the dissertation
+% is complete without it. The third clause is the load-bearing one: a supplementary volume
+% that reads as a missing piece of the dissertation would undo the advisor's ruling instead
+% of implementing it.
+% [NEEDS SIGN-OFF 55 | CLOSED] Author confirmed the opening statement as written.
+% ---------------------------------------------------------------------------------------
+    \chapter*{About this volume}
+    \addcontentsline{toc}{chapter}{About this volume}
+    \hypertarget{ext:dissertation}{}
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text. Kept, unrelocated in meaning, for review.]
+% [round9c, 2026-08-02, R15-02] WAS a quoted title, ``From Representations to a Single Joint Model:
+% Multi-Task Learning for Point-of-Interest Category and Region Prediction'', which is NOT the title
+% of the dissertation. This file's own \titulo field, one hundred lines above, and the folha de rosto,
+% Resumo and Abstract of the main document all read ``Multi-Task Learning for Point-of-Interest
+% Classification and Prediction Tasks: The Role of the Check-in-Level Representation''. A reader
+% holding both volumes met two titles for one work within three pages, on the page whose job is to say
+% what this volume belongs to. Naming the cover instead of quoting a string, so it cannot go stale a
+% second time -- the reviewer's own stronger proposal (_history/_round9/48_readability_final.md, R15-02).
+
+    This volume holds five appendices that were
+    written for the dissertation named on the
+    cover of this volume and that are published beside it rather than inside it. The first
+    records every departure of the three reproduced article chapters from their published or
+    submitted originals. The second measures how much of the next category can be predicted from
+    the category history of the input window alone, which is the reference level that one screening
+    argument in the dissertation is read against. The third states the author's position on
+    whether review by a research ethics committee was required for this work. The fourth records how
+    one hyperparameter of the place-embedding baseline was selected before that baseline was applied
+    to the datasets studied here. The fifth widens the dedicated next-category model until it carries
+    the joint model's parameter budget, holding the representation, the folds, and the training
+    protocol fixed, and finds the wider model scoring below the narrower one it replaces at the
+    dataset where it ran the full four-seed protocol.
+
+    The first two were part of the main document until July of 2026. They were moved here on the
+    advisor's assessment that a reproduced chapter need not be an identical copy of the article
+    it reproduces, and that the short preface opening each of those chapters already tells the
+    reader what was changed and why. That assessment settles the question the errata appendix
+    was written to answer, at least for the reader of the dissertation. It leaves the underlying
+    record worth keeping, because a departure from a published text should be documented
+    somewhere a reader can reach, and this volume is where it is documented.
+
+    The last three left the main document in August of 2026, on the author's judgment that each
+    answers a question a reader may bring to the work without being needed to follow its argument.
+    They are published here for the same reason the first two are. A record that a reader can reach
+    is worth more than a record that is left out because it did not fit the shape of the chapter it
+    would have interrupted.
+
+    \textbf{The dissertation is complete without this volume.} Nothing here is required to
+    follow its argument, to read any of its results, or to judge the work: every claim the
+    dissertation makes is stated and supported in the dissertation itself. What this volume adds
+    is auditability. A reader comparing a reproduced chapter against the article it came from
+    will find the differences enumerated here instead of having to reconstruct them, and a
+    reader who wants the fuller treatment of the label-history benchmark will find it here
+    rather than in the paragraph that summarizes it. A reader who asks how the human-subjects
+    question was handled, or how the baseline was adapted before it
+    was used will find each of those answered here as well.
+
+    Two conventions follow from the split. The first two appendices keep the letters they carried
+    when they were part of the dissertation, B and D, so that the records and correspondence that
+    name them by letter still point at the same material, while the two that arrived later carry
+    E and F, letters of this volume alone; the dissertation letters its own appendices
+    independently, so an appendix letter should always be read together with the volume it belongs
+    to. And a reference in
+    these pages to a numbered chapter, section, table or figure is a reference into the
+    dissertation, not into this volume: this volume numbers only its own five appendices and
+    their tables.
+% [NEEDS SIGN-OFF 56 | CLOSED] Author confirmed the paragraph above (appendix-letter convention),
+% reviewed together with item 55 (the opening statement it sits inside).
+
+% ---------------------------------------------------------------------------------------
+% THE APPENDICES. \setcounter{chapter}{N} before each \chapter is what preserves the
+% letters B and D: \appendix (entered by apendicesenv) sets \thechapter to \Alph{chapter},
+% so the counter must arrive at 2 and 4 rather than at 1 and 2. Without these two lines the
+% two appendices print as A and B, and every "Appendix B" and "Appendix D" written outside
+% this document -- GLOSSARY.md:51, the author's notes, the advisor's own words -- would name
+% the wrong one.
+% ---------------------------------------------------------------------------------------
+    \begin{apendicesenv}
+        \partapendices
+        \setcounter{chapter}{1}
+        \include{chapters/apx_b_errata}
+        \setcounter{chapter}{3}
+        \include{chapters/apx_d_ceiling}
+% ---------------------------------------------------------------------------------------
+% ARRIVED ROUND 12, 2026-08-03, on the author's instruction: "APENDICES -- remover A.1, C.3 e E,
+% mandando esse conteudo para o material extra." Three pieces left the defense volume and landed
+% here in the order he named them (E platform, F human subjects, G HGI tuning). The platform
+% piece (chapters/apx_extra_platform.tex, was Section A.1 of the defense volume's Appendix A) was
+% removed entirely on the author's later instruction (rodada 16, 2026-08-05, NEEDS SIGN-OFF 50-53:
+% "Podemos apagar e remove a as refs ao apx_extra_platform") rather than kept as dead reference
+% material; its label (apx:contributions:platform) was never \ref'd outside its own file's
+% historical comments, so nothing else in either volume needed updating for its removal beyond
+% this block and the "About this volume" preface above. The remaining two pieces below now carry
+% the letters E and F of this volume; nothing outside this document names them by letter and
+% nothing is owed to a frozen letter, but the \setcounter lines stay because they are the
+% mechanism a reader checks.
+% The letter mapping of the defense volume, which is what made "A.1, C.3, E" resolvable at all, was
+% read from that volume's aux table and is written up in src_utils/_history/_round12/40_appendix_letters.md.
+% ---------------------------------------------------------------------------------------
+        \setcounter{chapter}{4}
+        \include{chapters/apx_extra_human_subjects}
+        \setcounter{chapter}{5}
+        \include{chapters/apx_g_hgi_tuning}
+% [2026-08-12, AUTHOR RULING] The parameter-count control, relocated from the main volume. The
+% reasoning is recorded at its former include site in content.tex. It prints as Appendix G here.
+        \setcounter{chapter}{6}
+        \include{chapters/apx_i_parameter_count_control}
+% ---------------------------------------------------------------------------------------
+% SLOT FOR UNDECIDED MATERIAL. The author's design for this volume includes "anything else
+% whose place in the main text is undecided". Add it here, after Appendix D, with its own
+% \setcounter{chapter}{N} if it is meant to carry a specific letter. Anything added here
+% needs: a \chapter, a \label, and an entry in the source ledger of the report that
+% introduced it (src_utils/_history/_round7/24_extra_and_cosine.md for this volume's first version).
+% ---------------------------------------------------------------------------------------
+    \end{apendicesenv}
+
+% Bibliography LAST, after the appendices. It is a real bibliography built by BibTeX from the
+% same references.bib the dissertation uses, so an entry cannot drift between the two volumes.
+%
+% BOTH APPENDICES CITE, and an earlier version of this comment said only Appendix D did.
+% MEASURED, from src/ (the command, per AGENT_GUARDRAILS §4b V1):
+%   grep -v '^[[:space:]]*%' chapters/apx_b_errata.tex chapters/apx_d_ceiling.tex \
+%       tables/frame/*.tex tables/cbic/*.tex tables/courb/*.tex tables/mobiwac/errata_scope.tex \
+%     | grep -o '\\cite[a-z]*{[^}]*}' | sort -u
+%   -> \cite{kohavi1995crossval}, \cite{pedregosa2011sklearn}, \cite{sokolova2009measures}
+%      from Appendix D, and \cite{silva2025mtlnet} from Appendix B (its Article-3 section, on
+%      the misattribution of the CBIC paper). Four keys, four \bibitem in main_extra.bbl.
+% This matters if either appendix is ever removed from this volume: dropping Appendix D does
+% NOT make the bibliography unnecessary, because Appendix B still cites.
+    \postextual
+    \bibliography{references}
+
+\end{document}

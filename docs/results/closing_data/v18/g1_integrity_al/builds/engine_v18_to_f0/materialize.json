@@ -1,0 +1,13 @@
+{
+  "study": "check2hgi_integrity_v2",
+  "state": "alabama",
+  "arm_npz": "results/integ18_repr/alabama/TO_F0/win_matched.npz",
+  "source_engine": "check2hgi_dk_ovl",
+  "dest_engine": "check2hgi_v18_to_f0",
+  "n_windows": 96326,
+  "n_windows_source": 96326,
+  "window": 9,
+  "embedding_dim": 64,
+  "purpose": "lets scripts/train.py run the REPORTED dedicated model on this arm, so the resulting macro-F1 is comparable to the dissertation's dedicated column instead of to a head written inside the study",
+  "region_labels": "copied from the source engine, subset to the same rows and order"
+}

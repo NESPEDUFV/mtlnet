@@ -1,0 +1,80 @@
+# Braço a2a3 do fatorial A2×A3 — ver substrate_a2a3.toml
+
+# ── v19 ─────────────────────────────────────────────────────────────────────────────────────────
+# v19 = v18 com UMA mudança: a torre de região lê o MESMO substrato que a torre de check-in, em vez
+# de um substrato bidirecional separado (o v14). Check2HGI é hierárquico sobre quatro níveis, então
+# uma execução já emite os embeddings de região — o substrato separado era herança, não desenho.
+#
+# As receitas v18 continuam no repo porque células bancadas as citam e receitas são imutáveis uma
+# vez citadas. Elas não são uma alternativa viva; v19 é o único conjunto vivo.
+#
+# Medido em Alabama antes da troca (mesma partição, mesma semente, protocolo aninhado):
+#   efeito do grafo       +0,122 pp (erro-padrão 0,108) — indistinguível de zero
+#   efeito do construtor  -0,927 pp (erro-padrão 0,151) — o déficit é nosso, não do grafo
+# Ver studies/porting_validation/SUBSTRATE_FROM_SCRATCH.md.
+# ────────────────────────────────────────────────────────────────────────────────────────────────
+
+# v18 — dedicated next-category.
+#
+# Frozen. A run that cites this file must be able to cite it forever; a new setting is a new file.
+#
+# Source of truth: docs/studies/closing_data/v18/FINAL_SETTINGS.md (author-approved 2026-08-09) and
+# the driver that produced the banked cells, docs/studies/closing_data/v18/run_wave.sh:110-135.
+#
+# NOTE — the study's own METHODOLOGY.md §4 documents a DIFFERENT recipe (two tiers, AL/IST at
+# bs 2048). That table predates the 2026-08-09 retune and was never updated. The driver is
+# authoritative. Logged as divergence D1.
+
+[data]
+# Nomeado mesmo sem a torre de região existir nesta família: v19 não depende do default do
+# DataConfig, que é compatibilidade para receitas v18 arquivadas e não pode mudar.
+region_engine = "check2hgi_a2a3"
+window = 9
+min_sequence_length = 10
+stride = 1
+n_splits = 5
+
+[train]
+family = "cat"
+engine = "check2hgi_a2a3"
+epochs = 50
+folds = 5
+batch_size = 8192          # retuned 2026-08-09; was 2048 at alabama/istanbul
+precision = "fp32"
+compile = true
+tf32 = true
+train_metrics = false      # the driver sets MTL_NO_TRAIN_DIAGNOSTICS=1
+
+# Per-state learning rate. The small states overfit hard (train-val gap ~+42 pp) and want a lower
+# LR; the large states are capacity-limited and do not.
+[train.max_lr_by_state]
+alabama = 0.0025
+arizona = 0.0005
+istanbul = 0.0005
+florida = 0.005
+california = 0.005
+texas = 0.005
+
+# The head, with the shape the RUN uses — which is NOT the head module's own defaults.
+#
+# The reference CLI's `--model next_gru` swaps only the CLASS; the hyperparameters keep coming from
+# the task factory's model_params, which carry num_layers=4 and dropout=0.1. The module itself
+# defaults to 2 layers and dropout 0.3. Building from the module defaults gives 644 359 parameters
+# where the run reports 1 433 863 — a model less than half the size, with nothing to indicate it.
+[train.cat_head]
+name = "next_gru"
+hidden_dim = 256      # the module default, and what the factory leaves untouched
+num_layers = 4        # from the task factory, NOT the module's 2
+dropout = 0.1         # from the task factory, NOT the module's 0.3
+
+[train.optim]
+lr = 1e-4
+weight_decay = 0.01
+max_grad_norm = 1.0
+scheduler = "onecycle"
+
+# Logit adjustment REPLACES class weighting — it does not stack with it. Measured +2.86 pp on the
+# category axis across AL/AZ/IST at 5 folds, all p <= 0.0014.
+[train.cat_loss]
+logit_adjust_tau = 0.5
+class_weights = false

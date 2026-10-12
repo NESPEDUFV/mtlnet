@@ -1,0 +1,6 @@
+start 2026-10-02 03:16:10 commit d01cd2a8 swap_used_MB=5766
+cmd: .venv/bin/python scripts/integrity_v2/build_study_repr.py --state arizona --cell TO_F1 --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --exclude-users-file results/g1/splits/arizona_split_seed0_fold1.json --study-root results/integ18_repr
+rc=0 wall=248s peakRSS_bytes=2365063168
+repo-write-guard OK
+end 2026-10-02 03:20:18
+DONE

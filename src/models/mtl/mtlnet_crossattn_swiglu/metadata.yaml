@@ -1,0 +1,15 @@
+name: mtlnet_crossattn_swiglu
+domain: mtl
+status: implemented
+evidence_status: experimental
+registry_key: mtlnet_crossattn_swiglu
+runtime_class: models.mtl.mtlnet_crossattn_swiglu.model.MTLnetCrossAttnSwiGLU
+runtime_file: src/models/mtl/mtlnet_crossattn_swiglu/model.py
+source_doc: docs/studies/mtl_improvement/HANDOFF.md
+notes: >
+  T2.4 LOW-risk hybrid. Subclass of mtlnet_crossattn that swaps the post-norm +
+  GELU-FFN cross-attn block for a pre-norm + SwiGLU-FFN block (parallel
+  bidirectional attention; SwiGLU hidden = round(2/3 * ffn_dim) for param
+  parity). Only _build_shared_backbone is overridden; forward / partial-forwards
+  / parameter-partition accessors are inherited. Tests whether modern-transformer
+  backbone ingredients push reg above the STL ceiling under the C25 unweighted fix.

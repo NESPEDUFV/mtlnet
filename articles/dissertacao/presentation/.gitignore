@@ -1,0 +1,32 @@
+# Saida de compilacao dos slides. O template versionado sao os fontes:
+# main.tex, nesped.sty, references.bib e img/.
+# O Makefile da raiz builda em <projeto>/build/ (nunca solto ao lado das fontes) e copia
+# o main.pdf resultante para <projeto>/main.pdf -- por isso build/ inteiro e ignorado, e as
+# extensoes abaixo cobrem o caso de alguem rodar xelatex direto, sem -output-directory.
+build/
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.pdf
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+
+# EXCECAO: o PDF de referencia oficial do template (o build do NESPeD, feito com LuaTeX)
+# NAO e saida de build nossa -- e a fonte de verdade contra a qual o rebuild foi validado.
+# Em 2026-08-21 ele foi apagado por engano justamente porque a regra *.pdf acima o tornava
+# invisivel ao `git status`. Se voltar a existir, ele fica rastreado.
+!nesped_slides_template/nesped_slides_template.pdf
+
+# Quando o deck final existir, rastreie-o explicitamente, como o src/ faz com o
+# dissertacao.pdf e o wrapup/material_extra com o main_extra.pdf:
+#   git add -f presentation/<nome-do-deck>.pdf
+
+# As chapas tikz sao ARTEFATO versionado, nao subproduto de build (regra *.pdf da linha 19).
+!figures/plates/*.pdf

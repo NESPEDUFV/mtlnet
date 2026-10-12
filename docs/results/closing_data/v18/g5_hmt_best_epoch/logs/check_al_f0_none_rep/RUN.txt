@@ -1,0 +1,4 @@
+start 2026-10-01 21:58:05 commit 82dbe843 swap_used_MB=2489 state=alabama folds=1 epoch_select=none
+b3 rc=0 wall=31s peakRSS_bytes=761053184
+end 2026-10-01 21:58:36
+DONE

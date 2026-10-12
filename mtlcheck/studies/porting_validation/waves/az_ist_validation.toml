@@ -1,0 +1,36 @@
+# Validation wave: Arizona and Istanbul, the two states after Alabama that are cheap enough to run
+# at full seed depth.
+#
+# Why these two, and why now. Alabama closed end to end but at n=1 seed, and the round-2 audit showed
+# what an n=1 comparison is worth: it sustained a systematic-defect suspicion for two days that five
+# builds a side then refuted. AZ and IST give four seeds each across three families — enough for the
+# paired band to mean something.
+#
+# The acceptance criterion is the PAIRED delta over seeds (`mtlcheck score --compare`), not the
+# between-fold spread. That distinction is the reason this wave can detect a ~1 pp regression at all;
+# judged the old way it could not.
+#
+# Substrates: the banked check2hgi_v18 tables, and the v14 engine for the region tower. This wave
+# validates the TRAINING layer, so the substrate is held fixed on purpose — varying both at once
+# would confound a training defect with a substrate rebuild.
+
+[wave]
+study = "az_ist_validation"
+
+[[cell]]
+recipe = "recipes/v18/cat.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+
+[[cell]]
+recipe = "recipes/v18/reg.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["arizona", "istanbul"]
+seeds = [0, 1, 7, 100]

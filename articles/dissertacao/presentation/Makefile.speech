@@ -1,0 +1,10 @@
+# SPEECH.pdf — o roteiro de fala, gerado do SLIDES.md
+# Reconstruir:  make -f Makefile.speech
+# O motor e xelatex (o mesmo do deck). Dois passes por causa do fancyhdr.
+SPEECH.pdf: SPEECH.tex
+	xelatex -interaction=nonstopmode -halt-on-error SPEECH.tex
+	xelatex -interaction=nonstopmode -halt-on-error SPEECH.tex
+	@rm -f SPEECH.aux SPEECH.log SPEECH.out
+	@echo "OK -- SPEECH.pdf ($$(pdfinfo SPEECH.pdf | awk '/Pages/{print $$2}') paginas)"
+clean:
+	rm -f SPEECH.aux SPEECH.log SPEECH.out

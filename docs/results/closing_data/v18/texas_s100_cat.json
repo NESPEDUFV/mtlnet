@@ -1,0 +1,40 @@
+{
+  "state": "texas",
+  "seed": 100,
+  "family": "cat",
+  "wall_seconds": 1430,
+  "rundir": "results/check2hgi_v18/texas/next_lr1.0e-04_bs8192_ep50_20260810_215955_76",
+  "cat": 36.3445,
+  "reg": null,
+  "commit_sha": "unknown",
+  "v18_config": {
+    "engine": "check2hgi_v18",
+    "forward_only": true,
+    "in_channels": 15,
+    "node_layout": [
+      "canonical_11",
+      "continuous_time_4"
+    ],
+    "repr_seed": 42
+  },
+  "protocol": {
+    "precision": "fp32 (MTL_DISABLE_AMP=1, pinned per-command)",
+    "compile": true,
+    "tf32": true,
+    "folds": 5,
+    "epochs": 50,
+    "cat_metric": "macro-F1 at f1-best epoch (diag-best)",
+    "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch"
+  },
+  "recipe": "bs8192 lr0.005 logit_adjust_tau=0.5 (replaces class weighting)",
+  "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+  "lane_host": "modal:NVIDIA H100 80GB HBM3",
+  "train_pid": "76",
+  "corrected": {
+    "on": "2026-08-10",
+    "was": 36.4189,
+    "why": "the lane's rundir_for() matched by PID alone; both texas containers gave the trainer pid 76, so this cell scored texas s7's rundir -- and through a stale volume snapshot that showed only 1 of its 5 folds. The banked 36.4189 was fold 1 of texas s7.",
+    "recovery": "training was complete and correct all along at ..._215955_76 (5 folds); re-scored with score_stl_cat_ceiling.py, no GPU re-run needed",
+    "now": "n_folds=5, 36.3445 +/- 0.5229, per-fold [36.6391, 36.9649, 36.6353, 35.9461, 35.5370]"
+  }
+}

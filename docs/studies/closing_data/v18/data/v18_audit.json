@@ -1,0 +1,571 @@
+{
+ "generated_utc": "2026-08-07T20:31:55.596270+00:00",
+ "states": [
+  {
+   "state": "istanbul",
+   "checks": [
+    {
+     "check": "engine has input/next.parquet",
+     "ok": true,
+     "measured": "906 MiB"
+    },
+    {
+     "check": "engine has input/next_region.parquet",
+     "ok": true,
+     "measured": "855 MiB"
+    },
+    {
+     "check": "engine has temp/sequences_next.parquet",
+     "ok": true,
+     "measured": "6 MiB"
+    },
+    {
+     "check": "engine has region_embeddings.parquet",
+     "ok": true,
+     "measured": "symlink -> check2hgi_design_k_resln_mae_l0_1"
+    },
+    {
+     "check": "node layout",
+     "ok": true,
+     "measured": "['canonical_11', 'continuous_time_4']"
+    },
+    {
+     "check": "in_channels == 15",
+     "ok": true,
+     "measured": "15"
+    },
+    {
+     "check": "causal_graph.forward_only",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "backward edges dropped",
+     "ok": true,
+     "measured": "881336 -> 440668 (dropped 440668)"
+    },
+    {
+     "check": "repr seed / epochs / encoder",
+     "ok": true,
+     "measured": "seed=42 epochs=500 encoder=resln best_epoch=499"
+    },
+    {
+     "check": "materialization method",
+     "ok": true,
+     "measured": "per-window npz via materialize_engine.py (win_matched.npz)"
+    },
+    {
+     "check": "readout equivalence vs per-window npz",
+     "ok": true,
+     "measured": "max 3.099e-06 (slot8 2.861e-06, mean 1.474e-07) over 271666 windows"
+    },
+    {
+     "check": "readout matches training graph",
+     "ok": true,
+     "measured": "prefix_forward_only"
+    },
+    {
+     "check": "held-out user encodability (--self-test)",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "retention >= 95% of source windows",
+     "ok": true,
+     "measured": "271666/271666 = 1.0000"
+    },
+    {
+     "check": "feature width 9 x 64",
+     "ok": true,
+     "measured": "576 = 9 x 64"
+    },
+    {
+     "check": "next/next_region userid alignment",
+     "ok": true,
+     "measured": "271666 vs 271666 rows"
+    },
+    {
+     "check": "labels match the source row space",
+     "ok": true,
+     "measured": "identical"
+    },
+    {
+     "check": "userids match the source row space",
+     "ok": true,
+     "measured": "identical"
+    }
+   ],
+   "ok": true
+  },
+  {
+   "state": "alabama",
+   "checks": [
+    {
+     "check": "engine has input/next.parquet",
+     "ok": true,
+     "measured": "319 MiB"
+    },
+    {
+     "check": "engine has input/next_region.parquet",
+     "ok": true,
+     "measured": "285 MiB"
+    },
+    {
+     "check": "engine has temp/sequences_next.parquet",
+     "ok": true,
+     "measured": "2 MiB"
+    },
+    {
+     "check": "engine has region_embeddings.parquet",
+     "ok": true,
+     "measured": "symlink -> check2hgi_design_k_resln_mae_l0_1"
+    },
+    {
+     "check": "node layout",
+     "ok": true,
+     "measured": "['canonical_11', 'continuous_time_4']"
+    },
+    {
+     "check": "in_channels == 15",
+     "ok": true,
+     "measured": "15"
+    },
+    {
+     "check": "causal_graph.forward_only",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "backward edges dropped",
+     "ok": true,
+     "measured": "219976 -> 109988 (dropped 109988)"
+    },
+    {
+     "check": "repr seed / epochs / encoder",
+     "ok": true,
+     "measured": "seed=42 epochs=500 encoder=resln best_epoch=499"
+    },
+    {
+     "check": "materialization method",
+     "ok": true,
+     "measured": "per-window npz via materialize_engine.py (win_matched.npz)"
+    },
+    {
+     "check": "readout equivalence vs per-window npz",
+     "ok": true,
+     "measured": "max 2.384e-06 (slot8 2.384e-06, mean 1.407e-07) over 96326 windows"
+    },
+    {
+     "check": "readout matches training graph",
+     "ok": true,
+     "measured": "prefix_forward_only"
+    },
+    {
+     "check": "held-out user encodability (--self-test)",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "retention >= 95% of source windows",
+     "ok": true,
+     "measured": "96326/96326 = 1.0000"
+    },
+    {
+     "check": "feature width 9 x 64",
+     "ok": true,
+     "measured": "576 = 9 x 64"
+    },
+    {
+     "check": "next/next_region userid alignment",
+     "ok": true,
+     "measured": "96326 vs 96326 rows"
+    },
+    {
+     "check": "labels match the source row space",
+     "ok": true,
+     "measured": "identical"
+    },
+    {
+     "check": "userids match the source row space",
+     "ok": true,
+     "measured": "identical"
+    }
+   ],
+   "ok": true
+  },
+  {
+   "state": "arizona",
+   "checks": [
+    {
+     "check": "engine has input/next.parquet",
+     "ok": true,
+     "measured": "676 MiB"
+    },
+    {
+     "check": "engine has input/next_region.parquet",
+     "ok": true,
+     "measured": "609 MiB"
+    },
+    {
+     "check": "engine has temp/sequences_next.parquet",
+     "ok": true,
+     "measured": "5 MiB"
+    },
+    {
+     "check": "engine has region_embeddings.parquet",
+     "ok": true,
+     "measured": "symlink -> check2hgi_design_k_resln_mae_l0_1"
+    },
+    {
+     "check": "node layout",
+     "ok": true,
+     "measured": "['canonical_11', 'continuous_time_4']"
+    },
+    {
+     "check": "in_channels == 15",
+     "ok": true,
+     "measured": "15"
+    },
+    {
+     "check": "causal_graph.forward_only",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "backward edges dropped",
+     "ok": true,
+     "measured": "457162 -> 228581 (dropped 228581)"
+    },
+    {
+     "check": "repr seed / epochs / encoder",
+     "ok": true,
+     "measured": "seed=42 epochs=500 encoder=resln best_epoch=498"
+    },
+    {
+     "check": "materialization method",
+     "ok": true,
+     "measured": "per-window npz via materialize_engine.py (win_matched.npz)"
+    },
+    {
+     "check": "readout equivalence vs per-window npz",
+     "ok": true,
+     "measured": "max 2.861e-06 (slot8 2.861e-06, mean 1.463e-07) over 200895 windows"
+    },
+    {
+     "check": "readout matches training graph",
+     "ok": true,
+     "measured": "prefix_forward_only"
+    },
+    {
+     "check": "held-out user encodability (--self-test)",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "retention >= 95% of source windows",
+     "ok": true,
+     "measured": "200895/200895 = 1.0000"
+    },
+    {
+     "check": "feature width 9 x 64",
+     "ok": true,
+     "measured": "576 = 9 x 64"
+    },
+    {
+     "check": "next/next_region userid alignment",
+     "ok": true,
+     "measured": "200895 vs 200895 rows"
+    },
+    {
+     "check": "labels match the source row space",
+     "ok": true,
+     "measured": "identical"
+    },
+    {
+     "check": "userids match the source row space",
+     "ok": true,
+     "measured": "identical"
+    }
+   ],
+   "ok": true
+  },
+  {
+   "state": "florida",
+   "checks": [
+    {
+     "check": "engine has input/next.parquet",
+     "ok": true,
+     "measured": "3378 MiB"
+    },
+    {
+     "check": "engine has input/next_region.parquet",
+     "ok": true,
+     "measured": "3312 MiB"
+    },
+    {
+     "check": "engine has temp/sequences_next.parquet",
+     "ok": true,
+     "measured": "37 MiB"
+    },
+    {
+     "check": "engine has region_embeddings.parquet",
+     "ok": true,
+     "measured": "symlink -> check2hgi_design_k_resln_mae_l0_1"
+    },
+    {
+     "check": "node layout",
+     "ok": true,
+     "measured": "['canonical_11', 'continuous_time_4']"
+    },
+    {
+     "check": "in_channels == 15",
+     "ok": true,
+     "measured": "15"
+    },
+    {
+     "check": "causal_graph.forward_only",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "backward edges dropped",
+     "ok": true,
+     "measured": "2771964 -> 1385982 (dropped 1385982)"
+    },
+    {
+     "check": "repr seed / epochs / encoder",
+     "ok": true,
+     "measured": "seed=42 epochs=500 encoder=resln best_epoch=500"
+    },
+    {
+     "check": "materialization method",
+     "ok": true,
+     "measured": "one-shot full-graph forward-only export (embeddings_insample.parquet), wind"
+    },
+    {
+     "check": "readout equivalence vs per-window npz",
+     "ok": true,
+     "measured": "max 3.099e-06 (slot8 3.099e-06, mean 1.457e-07) over 1274418 windows"
+    },
+    {
+     "check": "readout matches training graph",
+     "ok": true,
+     "measured": "prefix_forward_only"
+    },
+    {
+     "check": "held-out user encodability (--self-test)",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "retention >= 95% of source windows",
+     "ok": true,
+     "measured": "1274418/1274418 = 1.0000"
+    },
+    {
+     "check": "feature width 9 x 64",
+     "ok": true,
+     "measured": "576 = 9 x 64"
+    },
+    {
+     "check": "next/next_region userid alignment",
+     "ok": true,
+     "measured": "1274418 vs 1274418 rows"
+    },
+    {
+     "check": "labels match the source row space",
+     "ok": true,
+     "measured": "identical"
+    },
+    {
+     "check": "userids match the source row space",
+     "ok": true,
+     "measured": "identical"
+    }
+   ],
+   "ok": true
+  },
+  {
+   "state": "texas",
+   "checks": [
+    {
+     "check": "engine has input/next.parquet",
+     "ok": true,
+     "measured": "9668 MiB"
+    },
+    {
+     "check": "engine has input/next_region.parquet",
+     "ok": true,
+     "measured": "9526 MiB"
+    },
+    {
+     "check": "engine has temp/sequences_next.parquet",
+     "ok": true,
+     "measured": "128 MiB"
+    },
+    {
+     "check": "engine has region_embeddings.parquet",
+     "ok": true,
+     "measured": "symlink -> check2hgi_design_k_resln_mae_l0_1"
+    },
+    {
+     "check": "node layout",
+     "ok": true,
+     "measured": "['canonical_11', 'continuous_time_4']"
+    },
+    {
+     "check": "in_channels == 15",
+     "ok": true,
+     "measured": "15"
+    },
+    {
+     "check": "causal_graph.forward_only",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "backward edges dropped",
+     "ok": true,
+     "measured": "8102496 -> 4051248 (dropped 4051248)"
+    },
+    {
+     "check": "repr seed / epochs / encoder",
+     "ok": true,
+     "measured": "seed=42 epochs=500 encoder=resln best_epoch=500"
+    },
+    {
+     "check": "materialization method",
+     "ok": true,
+     "measured": "one-shot full-graph forward-only export (embeddings_insample.parquet), wind"
+    },
+    {
+     "check": "readout equivalence vs per-window npz",
+     "ok": null,
+     "measured": "not measured for this state (identity established at alabama/arizona/istanbul over every window; forward_only guard enforced in code)"
+    },
+    {
+     "check": "held-out user encodability (--self-test)",
+     "ok": null,
+     "measured": "no per-window npz for this state; F2 verified at the states that ran the readout"
+    },
+    {
+     "check": "retention >= 95% of source windows",
+     "ok": true,
+     "measured": "3830414/3830414 = 1.0000"
+    },
+    {
+     "check": "feature width 9 x 64",
+     "ok": true,
+     "measured": "576 = 9 x 64"
+    },
+    {
+     "check": "next/next_region userid alignment",
+     "ok": true,
+     "measured": "3830414 vs 3830414 rows"
+    },
+    {
+     "check": "labels match the source row space",
+     "ok": true,
+     "measured": "identical"
+    },
+    {
+     "check": "userids match the source row space",
+     "ok": true,
+     "measured": "identical"
+    }
+   ],
+   "ok": true
+  },
+  {
+   "state": "california",
+   "checks": [
+    {
+     "check": "engine has input/next.parquet",
+     "ok": true,
+     "measured": "7367 MiB"
+    },
+    {
+     "check": "engine has input/next_region.parquet",
+     "ok": true,
+     "measured": "7276 MiB"
+    },
+    {
+     "check": "engine has temp/sequences_next.parquet",
+     "ok": true,
+     "measured": "102 MiB"
+    },
+    {
+     "check": "engine has region_embeddings.parquet",
+     "ok": true,
+     "measured": "symlink -> check2hgi_design_k_resln_mae_l0_1"
+    },
+    {
+     "check": "node layout",
+     "ok": true,
+     "measured": "['canonical_11', 'continuous_time_4']"
+    },
+    {
+     "check": "in_channels == 15",
+     "ok": true,
+     "measured": "15"
+    },
+    {
+     "check": "causal_graph.forward_only",
+     "ok": true,
+     "measured": "True"
+    },
+    {
+     "check": "backward edges dropped",
+     "ok": true,
+     "measured": "6268580 -> 3134290 (dropped 3134290)"
+    },
+    {
+     "check": "repr seed / epochs / encoder",
+     "ok": true,
+     "measured": "seed=42 epochs=500 encoder=resln best_epoch=500"
+    },
+    {
+     "check": "materialization method",
+     "ok": true,
+     "measured": "one-shot full-graph forward-only export (embeddings_insample.parquet), wind"
+    },
+    {
+     "check": "readout equivalence vs per-window npz",
+     "ok": null,
+     "measured": "not measured for this state (identity established at alabama/arizona/istanbul over every window; forward_only guard enforced in code)"
+    },
+    {
+     "check": "held-out user encodability (--self-test)",
+     "ok": null,
+     "measured": "no per-window npz for this state; F2 verified at the states that ran the readout"
+    },
+    {
+     "check": "retention >= 95% of source windows",
+     "ok": true,
+     "measured": "2925466/2925466 = 1.0000"
+    },
+    {
+     "check": "feature width 9 x 64",
+     "ok": true,
+     "measured": "576 = 9 x 64"
+    },
+    {
+     "check": "next/next_region userid alignment",
+     "ok": true,
+     "measured": "2925466 vs 2925466 rows"
+    },
+    {
+     "check": "labels match the source row space",
+     "ok": true,
+     "measured": "identical"
+    },
+    {
+     "check": "userids match the source row space",
+     "ok": true,
+     "measured": "identical"
+    }
+   ],
+   "ok": true
+  }
+ ]
+}

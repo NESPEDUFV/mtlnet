@@ -1,0 +1,8 @@
+name: excess_mtl
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: excess_mtl
+runtime_class: losses.excess_mtl.loss.ExcessMTLLoss
+runtime_file: src/losses/excess_mtl/loss.py
+source_doc: docs/mtl_optimizers/excess_mtl/README.md

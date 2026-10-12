@@ -1,0 +1,26 @@
+# Fatorial A2 × A3 — braço a2. Alabama, uma réplica, protocolo aninhado.
+#
+# A base é `final_al` (A2=off, A3=off), mesmo estado, mesma partição, mesma semente.
+# Piso de ruído entre sorteios de substrato: 0,034 pp.
+#
+# ⚠ Validação INTERNA. Não gasta leitura de teste e não produz número citável; produz a resposta
+# para "estas duas correções entram na v20?".
+
+[wave]
+study = "factorial_a2"
+
+[[cell]]
+recipe = "recipes/ablations/factorial/reg_a2.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+save_predictions = false
+set = { inner_validation = true }
+
+[[cell]]
+recipe = "recipes/ablations/factorial/cat_a2.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+save_predictions = false
+set = { inner_validation = true }

@@ -1,0 +1,1 @@
+results/g1_cat_f2/delivered/check2hgi_v18/alabama/next_lr1.0e-04_bs8192_ep50_20261001_233817_68004

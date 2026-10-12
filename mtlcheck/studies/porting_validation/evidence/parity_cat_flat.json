@@ -1,0 +1,91 @@
+{
+ "_": "Paridade de CATEGORIA contra a referencia, protocolo PLANO. Wave prospectiva, manifesto commitado ANTES da execucao. Comparador: os rundirs que o PROVENANCE.md do v18 lista, valores por fold lidos de folds/fold{k}_next_report.json em 2026-08-19.",
+ "_data": "2026-08-20",
+ "protocolo": "plano (inner_validation=false)",
+ "estados": {
+  "alabama": {
+   "mtlcheck": {
+    "por_fold": [
+     31.9609,
+     30.4478,
+     29.5809,
+     29.5098,
+     32.1869
+    ],
+    "media": 30.7373,
+    "desvio": 1.2773,
+    "epocas": [
+     13,
+     17,
+     20,
+     18,
+     20
+    ]
+   },
+   "referencia": {
+    "por_fold": [
+     32.19,
+     30.54,
+     29.44,
+     29.62,
+     31.74
+    ],
+    "media": 30.706,
+    "desvio": 1.233
+   },
+   "delta_pareado": 0.0313,
+   "erro_padrao": 0.12,
+   "delta_por_fold": [
+    -0.2291,
+    -0.0922,
+    0.1409,
+    -0.1102,
+    0.4469
+   ],
+   "substrato": "696ac00419d287d3",
+   "science_fingerprint": "189e46942680e620"
+  },
+  "arizona": {
+   "mtlcheck": {
+    "por_fold": [
+     34.3518,
+     35.5527,
+     33.1926,
+     33.7267,
+     35.9573
+    ],
+    "media": 34.5562,
+    "desvio": 1.1774,
+    "epocas": [
+     37,
+     33,
+     47,
+     37,
+     29
+    ]
+   },
+   "referencia": {
+    "por_fold": [
+     34.4,
+     35.47,
+     33.27,
+     33.55,
+     35.8
+    ],
+    "media": 34.498,
+    "desvio": 1.1243
+   },
+   "delta_pareado": 0.0582,
+   "erro_padrao": 0.052,
+   "delta_por_fold": [
+    -0.0482,
+    0.0827,
+    -0.0774,
+    0.1767,
+    0.1573
+   ],
+   "substrato": "ba148afce8edeaca",
+   "science_fingerprint": "4e4b99481296c72e"
+  }
+ }
+}

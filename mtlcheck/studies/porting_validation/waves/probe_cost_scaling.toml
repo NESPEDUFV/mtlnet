@@ -1,0 +1,30 @@
+# Does the probe's cost shrink with the state, as claimed? — measured, not extrapolated.
+#
+# probe_cost.toml settled the design at Alabama: the eager sidecar costs 14.0% against 35.2% for the
+# in-graph probe. But Alabama is the WORST case — ~9 training batches per epoch, so one probe batch
+# is a large slice of the epoch. Arizona has ~17, Istanbul ~23, and FL/CA/TX far more.
+#
+# The predicted scaling is ~9/23 x 14% ~= 5.5% at Istanbul. That prediction is exactly the kind I
+# already got wrong once on this same measurement (I inferred from two banked cells that compile
+# bought this model nothing; a controlled A/B said 24.4%). So it gets measured.
+#
+# Two arms per state, the decision arms only: A is the no-probe baseline, D is the shipped design.
+
+[wave]
+study = "probe_cost_scaling"
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["arizona", "istanbul"]
+seeds = [0]
+split_seed = 0
+arm = "a-compiled-noprobe"
+set = { inner_validation = true, diagnostics = true, compile = true, grad_geometry = false }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["arizona", "istanbul"]
+seeds = [0]
+split_seed = 0
+arm = "d-compiled-sidecar"
+set = { inner_validation = true, diagnostics = true, compile = true, grad_geometry = true }

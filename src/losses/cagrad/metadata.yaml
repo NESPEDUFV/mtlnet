@@ -1,0 +1,8 @@
+name: cagrad
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: cagrad
+runtime_class: losses.cagrad.loss.CAGradLoss
+runtime_file: src/losses/cagrad/loss.py
+source_doc: ""

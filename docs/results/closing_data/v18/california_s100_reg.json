@@ -1,0 +1,59 @@
+{
+ "state": "california",
+ "seed": 100,
+ "family": "reg",
+ "wall_seconds": 2809,
+ "rundir": "docs/results/P1/region_head_california_region_5f_50ep_v18_california_reg_s100.json",
+ "cat": null,
+ "reg": 63.4981,
+ "commit_sha": "85bcc58877c9245e9ed59a6a9bc1aeeba9faef5f",
+ "v18_config": {
+  "engine": "check2hgi_v18",
+  "forward_only": true,
+  "in_channels": 15,
+  "node_layout": [
+   "canonical_11",
+   "continuous_time_4"
+  ],
+  "repr_seed": 42
+ },
+ "protocol": {
+  "precision": "fp32 (MTL_DISABLE_AMP=1, pinned per-command)",
+  "compile": true,
+  "tf32": true,
+  "folds": 5,
+  "epochs": 50,
+  "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch",
+  "scoring": "streamed + rank-derived hits on GPU (2026-08-10 default). Banked siblings at seeds 0/1 used the legacy CPU full-logit topk path. Measured equivalence (run_reg_scoring_parity.sh, AZ+IST seed 0): the scoring path contributes 1e-6 Acc@10. MTL_SKIP_INERT_PRIOR=0 is pinned so this cell matches its pre-aab23985 s0/s1 siblings exactly. See ambiguous_rows for the tie certificate on this cell."
+ },
+ "ambiguous_rows": [
+  {
+   "top5": 1,
+   "top10": 1
+  },
+  {
+   "top5": 1,
+   "top10": 1
+  },
+  {
+   "top5": 0,
+   "top10": 1
+  },
+  {
+   "top5": 1,
+   "top10": 1
+  },
+  {
+   "top5": 1,
+   "top10": 1
+  }
+ ],
+ "recipe": "max_lr 3e-3 freeze_alpha logit_adjust_tau=0 (OFF: hurts Acc@10, AL -1.84 / IST -2.75); MTL_SKIP_INERT_PRIOR=0",
+ "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+ "lane_host": "local:NVIDIA A40",
+ "post_hoc_fields": {
+  "lane_host": "added post-hoc 2026-08-11 by the session that ran the cell; not written by the driver. Basis: this session launched and watched the run on nespedgpu (local A40).",
+  "scoring_path": "added post-hoc 2026-08-11: derived from whether the cell's own p1 result JSON carries an ambiguous-row count. 4 of 24 do (new path), 20 do not (legacy). This is the field GAPS.md section 4 asks for, so the two populations can be told apart without archaeology."
+ },
+ "scoring_path": "post-2026-08-10 tie-aware topk (emits ambiguous_rows)"
+}

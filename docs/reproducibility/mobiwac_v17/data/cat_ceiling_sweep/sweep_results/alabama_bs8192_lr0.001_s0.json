@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/alabama/next_lr1.0e-04_bs8192_ep50_20260702_144551_2006678",
+  "tag": "alabama_s0_stl_cat_ceiling_v17",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 53.6672,
+  "cat_macro_f1_std": 1.8569,
+  "cat_per_fold": [
+    53.6553,
+    55.4764,
+    55.1638,
+    53.7958,
+    50.245
+  ],
+  "cat_best_epochs": [
+    28,
+    38,
+    29,
+    32,
+    30
+  ]
+}

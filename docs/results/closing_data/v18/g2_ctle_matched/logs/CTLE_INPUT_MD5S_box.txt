@@ -1,0 +1,6 @@
+4f027e938ed552c65d8f2e7ec56f595c  output/check2hgi/alabama/embeddings.parquet
+75da35db49f98018414653a90b672649  output/check2hgi/alabama/poi_embeddings.parquet
+53d11b6e5b4ddf0ff9a3c529919ff596  output/check2hgi/alabama/region_embeddings.parquet
+d5de89db701ef74f3021c5cb53eb8a62  output/check2hgi/arizona/embeddings.parquet
+239cd00eac62eb42bbbcba27277e760c  output/check2hgi/arizona/poi_embeddings.parquet
+cc174e921fa8f24795fbe49ec5a3f2a6  output/check2hgi/arizona/region_embeddings.parquet

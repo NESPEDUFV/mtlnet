@@ -1,0 +1,22 @@
+{
+  "rundir": "results/check2hgi_dk_ovl/texas/next_lr1.0e-04_bs8192_ep50_20260703_025132_2162426",
+  "tag": "texas_bs8192_lr0.005_s0",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 5,
+  "cat_macro_f1_mean": 69.9142,
+  "cat_macro_f1_std": 0.3742,
+  "cat_per_fold": [
+    70.1091,
+    69.5606,
+    70.5601,
+    69.6952,
+    69.6462
+  ],
+  "cat_best_epochs": [
+    47,
+    47,
+    12,
+    49,
+    47
+  ]
+}

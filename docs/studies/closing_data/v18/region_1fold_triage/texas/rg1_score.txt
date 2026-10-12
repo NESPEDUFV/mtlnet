@@ -1,0 +1,5 @@
+=== A40 matched-metric score: mtlnet_lr1.0e-04_bs8192_ep50_20260805_234326_3510788 ===
+  seed=0  tag=rg1_texas_s0_f0
+  cat macro-F1 (diag-best)      = 77.2976 ± 0.0000  (n=1)  per-fold=[77.2976]  epochs=[50]
+  reg FULL top10_acc (indist-best) = 66.8600 ± 0.0000  (n=1)  per-fold=[66.86]  epochs=[48]
+  wrote /home/vitor.oliveira/PoiMtlNet/results/check2hgi_dk_ovl/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260805_234326_3510788/a40_matched_score.json

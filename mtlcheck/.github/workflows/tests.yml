@@ -1,0 +1,32 @@
+# O job mínimo que torna verdadeira uma afirmação que o ARCHITECTURE.md fazia em quatro lugares.
+#
+# Até 2026-08-19 o documento dizia "enforcement por CI" e não existia workflow nenhum. Não era só
+# imprecisão: neste projeto a suíte ficou VERMELHA por um dia sem ninguém notar (oito falhas), e um
+# commit gravou seis mutações de auditoria em `src/` sem o gate mover um número. As duas coisas que
+# um CI pega de graça.
+#
+# `-m "not gpu"` porque os marcadores já existem no pyproject; os testes de equivalência que importam
+# o repo antigo PULAM sozinhos quando ele não está presente, que é o caso aqui.
+
+name: tests
+
+on:
+  push:
+    branches: [main, "rewrite/**"]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mtlcheck
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      # `--frozen`: falha se o lock não bate com o pyproject, em vez de re-resolver em silêncio.
+      # Foi exatamente assim que um bump de pandas entrou sem ninguém rodar a suíte contra ele.
+      - run: uv sync --frozen --dev
+      - run: uv run --frozen pytest tests/ -q -m "not gpu"

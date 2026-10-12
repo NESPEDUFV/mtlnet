@@ -1,0 +1,294 @@
+% !TeX root = main.tex
+%% Skeleton derived from a prior UFV/PPGCC abnTeX2 dissertation tree (TEMPLATE.md §0
+%% decision), machinery kept, content stripped. What was changed rather than inherited:
+%% lmodern -> newtxtext/newtxmath (Times; manual §8); abntex2cite [alf] -> [num] (settled
+%% decision #5, one numeric global list); the two build modes (TEMPLATE.md §2 item 4); the
+%% chapterpreface environment (time-capsule device, NORTH_STAR §3); \OnehalfSpacing (manual §7).
+%% Packages the source tree carried and this one does not need are simply absent (listings,
+%% algorithm2e, lipsum, svg, pdfpages, dsfont, lscape); re-add per need.
+%% Never compile this file directly -- it has no \begin{document}.
+%%
+%% ONE THING TO KNOW BEFORE YOU EDIT THE PREAMBLE. A precompiled pdflatex FORMAT DUMP of it
+%% exists, built by src_utils/mkformat.py into build/fmt/mainpre.fmt for the `make fast` /
+%% `make fast3` targets. A format dump is a frozen snapshot: loaded after the preamble has
+%% changed, pdflatex uses the OLD preamble, the build succeeds, and the PDF is silently wrong,
+%% with no warning and nothing in the log that names the cause -- the worst failure shape this
+%% repository has (science/AGENT_HANDOFF.md §2.3b, §2.4b: a clean report over a wrong artifact).
+%% YOU DO NOT HAVE TO REMEMBER TO REBUILD IT: mkformat.py keys the dump to a checksum of this
+%% preamble plus main.tex and the files they load, rebuilds when the key moves, and
+%% src_utils/fastbuild.sh REFUSES a stale key rather than building from it. The plain targets
+%% never load the dump at all, which is what Overleaf uses. If a `fast` build ever disagrees
+%% with a plain build, the plain build is the document: report it, do not work around it.
+%% `make format-status` says whether the dump is fresh and why.
+%%==============================================================
+
+% [round6, E-5] hyperfootnotes=false must reach hyperref AT LOAD TIME. abntex2 loads hyperref
+% itself, and \hypersetup after the fact does not undo the footnote-anchor mechanism -- setting
+% it there left all ten "name{Hfootnote.N} has been referenced but does not exist" warnings in
+% place, measured. \PassOptionsToPackage before \documentclass is the only hook that reaches it.
+% See the fuller note at the \hypersetup block below for what the defect was.
+\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    sumario=tradicional,
+    brazil,
+    english,
+]{abntex2}
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text. Kept, unrelocated in meaning, for review.]
+% -- Machinery (from the source tree, kept) --
+
+\usepackage{abntex2-UFV}
+% Gate D-1 fix: abntex2-UFV runs \checkandfixthelayout under single spacing, leaving a
+% text block ~11pt taller than the 3cm/2cm margins dictate (bottom margin measured
+% 1.5-1.6 cm vs the 2 cm spec). Re-derive the block from the margins under the 1.5 line
+% spacing the manual mandates, then fix WITHOUT line-rounding.
+%
+% THE FOUR LINES BELOW ARE ONE UNIT AND THEIR ORDER IS LOAD-BEARING. \OnehalfSpacing FIRST,
+% because \checkandfixthelayout derives the text block from the CURRENT \baselineskip; the
+% two \set...marginsandblock lines declare the margins UFV manual §7 specifies; and the
+% [fixed] option on the last line is not decoration -- it is the reason the bottom margin
+% comes out at the specified 2 cm.
+%
+% WHY [fixed] IS LOAD-BEARING, MEASURED 2026-07-29 on this preamble's own package stack
+% (a minimal document with these five lines, compiled from src/ with only the option
+% changed; both variants tex_errors=0):
+%   \checkandfixthelayout[fixed]   \textheight 702.78308pt   \lowermargin 56.9055pt = 2.0000 cm
+%   \checkandfixthelayout          \textheight 713.78398pt   \lowermargin 45.9046pt = 1.6134 cm
+% The default option is `classic`, and it does NOT keep the height the margins dictate. It
+% REPLACES it with a whole number of lines plus \topskip: memoir.cls:1039 \m@mclassicht
+% computes floor(\textheight / \baselineskip) * \baselineskip + \topskip. Here that is
+% floor(702.78308 / 17.99446) = 39 lines, so 39 * 17.99446 + 12pt = 713.78394pt -- 11.00pt
+% TALLER than the margins asked for. A taller block with the top margin held fixed can only
+% grow downward, so the whole 11.00pt is taken out of the bottom margin: 2.0000 cm becomes
+% 1.6134 cm, against a specification of 2 cm. [fixed] is the one option value that performs
+% no line-rounding at all (memoir.cls:1096-1137: `classic`, `lines` and `nearest` each call
+% a rounding macro; `fixed` calls none), which is why it is the option here.
+% AND IT BREAKS SILENTLY: no warning, no overfull box, no error, every gate green, the text
+% looking entirely normal, and a bottom margin about 4 mm short of the specification on every
+% page. If you touch these four lines, re-derive \lowermargin the way the numbers above were
+% obtained rather than trusting that the build stayed clean.
+\OnehalfSpacing
+\setlrmarginsandblock{3cm}{2cm}{*}
+\setulmarginsandblock{3cm}{2cm}{*}
+\checkandfixthelayout[fixed]
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+% Vector architecture diagrams in Appendix E. TikZ keeps labels in the document font,
+% remains sharp in print, and avoids an external bitmap asset for model-flow figures.
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,backgrounds,calc,fit,positioning}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{xurl}
+\DisemulatePackage{setspace}
+\usepackage{setspace}
+\usepackage{bm}
+\usepackage{longtable}
+
+% -- Numbered definition blocks (Chapter 2) ------------------------------------------------
+% WHY THE PACKAGE AT ALL. memoir already provides \newtheorem, and it works here: a plain
+% \newtheorem{definition}{Definition}[chapter] compiles under this class with rc=0 and renders
+% "Definition 2.1". What it does NOT provide is an upright body font. memoir's own styling hooks
+% (\theoremstyle, \theorembodyfont, \theoremseparator) belong to the ntheorem interface and are
+% UNDEFINED under this class; each one was tried in a minimal document with this package stack and
+% each failed with "Undefined control sequence". Chapter 2 carries nine definition blocks, several
+% of them holding display mathematics, and nine italic paragraphs would read as emphasis rather
+% than as definitions. amsthm's `definition' style gives the upright body with a bold run-in head.
+%
+% WHY THE \let LINE, WHICH IS LOAD-BEARING AND NOT DECORATION. abntex2 pulls in a package that
+% already defines \openbox, so loading amsthm after it dies with "LaTeX Error: Command \openbox
+% already defined" (measured on this exact stack: rc=1 on both passes, the definition still
+% rendering, so the failure is visible only in the exit code). \let\openbox\relax before the load
+% clears the name amsthm re-declares. Measured after the fix: rc=0 on both passes, body upright.
+% \openbox is amsthm's end-of-proof square and this document declares no proof environment, so
+% nothing downstream reads it.
+\let\openbox\relax
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+
+% -- Citations: single global NUMERIC scheme (decision #5) --
+\usepackage[num,abnt-emphasize=bf]{abntex2cite}
+% [round5, advisor request 2026-07-27] Citation brackets: square, not round.
+% His words: "sugiro mudar a notacao das citacoes tambem. Esta com (NUMERO) e na listagem esta com o
+% numero sem []. Acho melhor usar o [NUMERO] e quando necessario, colocar o nome dos autores com et al."
+% abntex2cite exposes \citebrackets{open}{close}; the num style calls \setcitebrackets which defaults
+% to (). Overriding it AFTER the package is loaded is the supported hook (abntex2cite.sty:212-213).
+% Precedent: the Viegas dissertation, whose structure this document follows, renders 193 [N] citations
+% against 15 (N); Germano, canesche, passe and lapsusvgi all use (N). So both are attested in the
+% program and this is a style choice, which the advisor has now made.
+\citebrackets{[}{]}
+% The reference LIST label is built separately, by \@biblabel via \citenumstyle
+% (abntex2cite.sty:834-848). \citenumstyle is a zero-argument FONT SWITCH, not a formatter, so
+% redefining it to take the number renders [0]; \@biblabel is the right hook. Redefined AFTER
+% \begin{document} would be too late, and the package sets it inside its own \AtBeginDocument, so
+% this hooks in at the same point and wins by ordering.
+\makeatletter
+\AtBeginDocument{\renewcommand{\@biblabel}[1]{%
+    \ifthenelse{\equal{#1}{}}{}{{\citenumstyle[#1]\hspace{\biblabelsep}}}}}
+\makeatother
+
+% -- Babel caption plumbing (from the source tree, kept: brazil loaded via class option,
+%    caption names anglicized, then english selected as the running language) --
+\addto\captionsbrazil{%
+    \def\bibname{References}%
+    \renewcommand{\figurename}{Figure}
+    \renewcommand{\tablename}{Table}
+    \renewcommand{\listfigurename}{List of Figures}
+    \renewcommand{\listtablename}{List of Tables}
+    \renewcommand{\contentsname}{Contents}
+    \renewcommand\chaptername{Chapter}
+}
+\selectlanguage{english}
+
+% Headings in Times bold (manual §8: Arial or Times everywhere). Without this,
+% abnTeX2 requests TeX Gyre Heros (qhv) and falls back to Computer Modern.
+\renewcommand{\ABNTEXchapterfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsectionfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsubsectionfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsubsubsectionfont}{\rmfamily\bfseries}
+
+\hyphenation{fe-de-ral}
+\hyphenation{scientiae}
+% [round14] Line-breaking help for the long words in the Chapter 1 arc paragraphs. The
+% author's Overleaf log (TeX Live 2025) reports "Overfull \hbox (9.27821pt too wide)" at
+% 1_introduction.tex:158-162; this tree builds on TeX Live 2026, where the same paragraph
+% fits and no Overfull is reported, so the defect is not reproducible here and the fix has
+% to be one that cannot depend on the version. Giving TeX legal break points does exactly
+% that: it changes no wording and no meaning, it only widens the set of lines TeX may
+% choose. "dimensional" is the load-bearing one -- it follows an explicit hyphen in
+% "64-dimensional", and TeX will not hyphenate the remainder of a word after an explicit
+% hyphen unless the parts are given to it.
+\hyphenation{di-men-sio-nal ar-chi-tec-ture rep-re-sen-ta-tion sub-stan-tial-ly
+             con-trolled com-par-i-son cat-e-gor-i-cal mono-lith-ic}
+
+% ---------------------------------------------------------------------------------------
+% THE SUPPLEMENTARY VOLUME, named in one place. [round7, 2026-07-29]
+% Appendices B (errata) and D (the label-history benchmark) live in a separate document,
+% src/main_extra.tex, per the author's decision on the advisor's ruling of 2026-07-28. Eight
+% sentences in this document point the reader at that volume, and they must all name it the
+% same way: a reader who meets "the supplementary volume", "the supplementary material" and
+% "the extra volume" in three chapters has to work out whether those are one thing.
+% \extravolume is that one name. Change it here and every pointer follows.
+% NOT a \ref: the target is in another document and has no label here. The pointers say what
+% the volume is called, not what number anything in it carries -- except the two appendix
+% letters B and D, which are stable by construction (main_extra.tex sets the chapter counter
+% so they keep the letters they had here) and guarded by src_utils/check_extra_xrefs.py.
+\newcommand{\extravolume}{the supplementary volume of this dissertation}
+\newcommand{\Extravolume}{The supplementary volume of this dissertation}
+% ---------------------------------------------------------------------------------------
+
+% Chapter preface: the time-capsule device (NORTH_STAR §3). One italic paragraph
+% before §N.1 stating venue, status, contribution note, and what later chapters revise.
+\newenvironment{chapterpreface}%
+{\begin{quotation}\itshape\noindent}%
+{\end{quotation}\vspace{0.5\baselineskip}}
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text. Kept, unrelocated in meaning, for review.]
+% ---------------------------------------------------------------
+% Cover / folha de rosto metadata
+% ---------------------------------------------------------------
+% TITLE (author decision 2026-07-30, commit e771d331): the title live below is the author's own
+% candidate with his adjustment, and it supersedes the 2026-07-24 working title ("From
+% Representations to a Single Joint Model ..."), which named only the two sequential tasks. His
+% reasoning: two of the three articles are about category CLASSIFICATION, so a title naming only
+% next category and next region misdescribes the collection. Still pending the final call with the
+% advisor.
+% FIVE LIVE SITES CARRY THIS STRING and must not drift apart: \titulo below (folha de rosto), the
+% Resumo and Abstract catalog headers in content.tex, main_extra.tex's derived title, and hyperref
+% pdftitle (which inherits \titulo). Verified in the RENDER, not the source, when it was applied.
+%
+% ALTERNATES (kept for the advisor conversation; all pass the two-factor rule -- name
+% both the representation and the sharing/architecture factor, or neither;
+% science/storyline/audit/AVAL_NECESSARIA_3_ptBR.md D2):
+%   1. From Representations to a Single Joint Model: Multi-Task Learning for
+%      Point-of-Interest Category and Region Prediction
+%   2. Representation Drives, Sharing Delivers: A Check-in-Level Multi-Task
+%      Study of Next Category and Region Prediction
+%   3. The Visit, Not the Place: Check-in-Level Representations and a Joint
+%      Model for Next Category and Region Prediction
+%   4. One Visit, One Vector: From a Published Null to a Joint Model for
+%      Next Category and Region Prediction
+
+\titulo{\normalsize{\textbf{Multitask Learning for Point-of-Interest Classification and Prediction Tasks: The Role of the Check-in-Level Representation}}}
+\autor{\normalsize{\textbf{Vitor Hugo De Oliveira Silva}}}
+\local{\normalsize{\textbf{Florestal - Minas Gerais}}}
+\data{\normalsize{\textbf{2026}}}
+\orientador{Fabrício Aguiar Silva}
+\instituicao{Universidade Federal de Viçosa}
+% \campus set 2026-07-27 (author: "o campus e o Florestal", src_utils/PENDENCIAS.md:37).
+% Consumed by \imprimircampus in abntex2-UFV.sty:49, inside \imprimircapa only; that macro
+% is not called by either build today, so this renders nothing until a cover page is added.
+\campus{Campus Florestal}
+\curso{Pós-graduação em Ciência da Computação}
+\membrobancaA{[Banca member 1 --- pending advisor conversation]}
+\membrobancaB{[Banca member 2 --- pending advisor conversation]}
+\databanca{[defense date --- pending]}
+
+\preambulo{Dissertation submitted to the Computer Science Graduate Program of the
+Universidade Federal de Viçosa in partial fulfillment of the requirements for the
+degree of \textit{Magister Scientiae}.}
+
+\makeatletter
+\hypersetup{
+    pdftitle={\@title},
+    pdfauthor={\@author},
+    pdfsubject={\imprimirpreambulo},
+    pdfcreator={LaTeX with abnTeX2},
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    bookmarksdepth=4,
+    % [round6, E-5, visual/presentation persona 18] hyperfootnotes DISABLED, and the option is NOT
+    % set here -- it is passed at load time by the \PassOptionsToPackage line at the top of this
+    % file, because setting hyperfootnotes=false in \hypersetup after abntex2 has already loaded
+    % hyperref leaves the defect in place (measured). This comment sits here because this is where
+    % someone will look for it.
+    % THE DEFECT: every build logged ten "pdfTeX warning (dest): name{Hfootnote.N} has been
+    % referenced but does not exist" lines, and the persona measured where the links LAND rather
+    % than only whether the destinations resolve: all ten footnote marks jumped the reader to
+    % PHYSICAL PAGE 1 (the folha de rosto in the defense build, the List of Figures in the deposit
+    % build). Ten dead links in a PDF handed to a committee. The cause is that abntex2 loads
+    % hyperref itself and this document's footnotes are set inside groups the footnote-anchor
+    % mechanism does not survive, so hyperref emits a reference to an anchor it never writes.
+    % Turning the marks back into plain text costs nothing here: a footnote mark sits on the same
+    % page as its own note, so the link was never carrying the reader anywhere useful. Internal
+    % cross-references, citations and URLs stay live.
+}
+\makeatother
+
+% ============================================================================
+% preamble.tex -- everything before \begin{document}: packages, class options, the ABNT/UFV
+% metadata fields, hyperref setup and the build switches' consumers.
+%
+% WHY THIS FILE EXISTS (author decision 2026-07-29). This and content.tex were one 580-line file
+% that was 44 percent preamble and 56 percent document, and two things depended on the boundary
+% between them: a reader had to know where it fell, and src_utils/mkformat.py found it by searching
+% for \begin{document} and hashing the bytes before it, so its staleness key carried a BYTE OFFSET
+% that moved on every preamble edit. Splitting makes both names true and keys the format dump to
+% this file's own checksum instead.
+%
+% WHAT BELONGS HERE: anything that must be read before \begin{document}. If you add a package or a
+% metadata field, it goes here and the format dump is invalidated automatically -- `make fast3` will
+% rebuild it. Anything that produces output belongs in content.tex.
+%
+% DO NOT put \begin{document} in this file. mkformat.py dumps everything here and stops; a
+% \begin{document} would be swallowed into the format and every later build would fail with
+% "Extra }, or forgotten \endgroup" or a silently empty document.
+% ============================================================================
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text. Kept, unrelocated in meaning, for review.]

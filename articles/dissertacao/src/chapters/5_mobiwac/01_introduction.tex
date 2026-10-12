@@ -1,0 +1,65 @@
+% !TeX root = ../../main.tex
+% chapters/5_mobiwac/01_introduction.tex -- one section of Chapter 5 (MobiWac 2026, accepted 2026-08-26; status comment updated 2026-09-01, AUT-35).
+% Split out of chapters/5_mobiwac.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/[mobiwac]/src/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Introduction}
+\label{sec:mobiwac:intro}
+
+Location-based social networks, such as Gowalla~\cite{cho2011gowalla}, let people share the places that they visit as check-ins, which together record how people move through a city. Individual mobility is highly predictable in principle~\cite{song2010limits}, so a service that anticipates the next move can prepare ahead of time, caching content where a user is heading~\cite{bastug2014edge} or provisioning capacity at the destination before demand arrives. Handover predictions already let cellular services adapt in advance at the network level~\cite{vielhaus2022handover}; at the city scale, check-in mobility analysis is likewise a design input for mobility-aware services~\cite{moura2025mobilityaware}.
+
+Predicting the next place exactly, a single point of interest (POI), is hard and often more than a service needs. Two coarser questions are usually enough: the next category, the type of place such as food or shopping, and the next region, the part of the city that a user is heading to (a neighborhood-scale unit such as the U.S. census tract). The first captures intent, the second captures geography; we study whether one model should learn both at once.
+
+Sharing one representation across tasks has a cost: in multitask learning (MTL), one model does several jobs at once by sharing most of its parts, so the shared parameters can converge to a compromise optimal for neither task, helping one while hurting the other~\cite{caruana1997multitask}. Our earlier
+work reported no consistent multitask advantage for the paired category tasks and attributed it, in part, to this effect~\cite{silva2025mtlnet}; the useful question is where sharing helps, what it costs, and how to share so the gains hold and the cost stays small.
+% [B.1 FIX 2026-07-24, author-approved] Was "Prior work observed exactly this for next-category
+% and next-region": two errors vs the CBIC record (Ch.3) -- CBIC paired STATIC category
+% classification with next-category (no region task), and it HYPOTHESIZED negative transfer on a
+% parity null, it did not OBSERVE it. Repaired per persona-14 B.1. Mirrored in [mobiwac]/src/ and
+% logged in [mobiwac]/ERRATA.md + Appendix B.
+
+% [2026-09-02, B-23, author ruling "concordo podemos fazer"] "We propose two enhancements." named no
+% antecedent; the previous paragraph's \cite{silva2025mtlnet} is it. Reproduced accepted-article text
+% -> errata row B.5 (registry).
+We propose two enhancements to that earlier model. First, we build a check-in-level representation: instead of one fixed vector per place, each check-in gets its own vector that holds its context (the time, nearby places, and recent visits).
+This adds a fourth level, the check-in, beneath the place, region, and city levels of hierarchical graph infomax~\cite{huang2023hgi,velickovic2019deep} (Figure~\ref{fig:mobiwac:dataflow}). Second, we train one model that
+predicts the next category and the next region in a single forward pass, with a shared trunk (a cross-attention stack where the two tasks exchange
+semantic context) and a private spatial path for the region task (Figure~\ref{fig:mobiwac:model}). We evaluate on two settings chosen to differ: five U.S. states of different sizes (Gowalla) and one non-U.S. city (Istanbul).\footnote{\label{fn:mobiwac:code}Code (model, representation, baselines, statistical tests): \url{https://github.com/VitorHugoOli/PoiMtlNet/tree/mobiwac}. Both data sources are public: the category-annotated Gowalla dump (\url{https://figshare.com/articles/dataset/gowalla_data/22126586}) and Massive-STEPS~\cite{wongso2025massivesteps}.}
+
+Our contributions are as follows.
+% [2026-10-01, AUTHOR-RULED, Table B.5 row] "$+0.23$ to $+6.29$" -> "$+0.23$ to $+2.81$": the Istanbul
+% place cell is now the paired run (tables/mobiwac/representation.tex, comment there). Range
+% endpoints remain Florida (+0.23) and Istanbul (+2.81, now above Arizona's +2.58).
+\begin{itemize}
+  \item A check-in-level representation that extends hierarchical graph infomax from the place to the individual visit, improving next-category prediction over a standard place embedding across all six datasets, by $+0.23$ to $+2.81$ points of macro-F1 (a balanced score that counts every
+    category equally) (Table~\ref{tab:mobiwac:representation}). The direction is
+    consistent even where the size is small, because a single fixed vector
+    per place cannot separate places that serve several purposes, which
+    per-visit context recovers.
+  % [2026-09-08, AUTHOR-AUTHORIZED errata batch, Table B.5 item] "the first work to treat ... as an end
+  % target of equal standing" -> the hedged form the chapter's own related-work section already uses
+  % ("is underexplored"). The frame's provenance record (1_introduction.tex) documents eight OpenAlex
+  % probes that refuted "pioneering" and bans "the first"; this claim had survived the ban. Wording
+  % copied from the article's revised introduction.
+  \item A single model for joint next-category and next-region prediction, sharing semantic context across tasks while keeping a private spatial path for the region task; to our knowledge, fine-grained region as an end target of equal standing is underexplored (Section~\ref{sec:mobiwac:related-tasks}). In one forward pass, it outperforms a dedicated
+    single-task region model at Texas and California, the two datasets with the
+    largest region vocabularies, and at the other four it stays within a
+    two-point margin registered before any result was read (statistical
+    non-inferiority, assessed with two one-sided tests). On category it
+    outperforms the dedicated model at Florida, and the five remaining
+    differences are equivalent to zero within half a point, even though each
+    dedicated model is tuned per dataset (Table~\ref{tab:mobiwac:results}).
+  \item An empirical account, across five U.S. states and one non-U.S. city, of where the joint
+    region gain appears. The two datasets where the joint model outperforms are the two with the
+    largest region vocabularies, Texas and California, while the four with smaller vocabularies sit
+    inside the two-point margin (Figure~\ref{fig:mobiwac:deltas}). The grouping is reported as an
+    observation rather than a law: the ordering does not hold inside the pair, since California has
+    more regions than Texas and a slightly smaller gain, and region count co-varies with corpus
+    size across these states. All joint and dedicated results average
+    four random initializations (Section~\ref{sec:mobiwac:results-part2}).
+\end{itemize}
+
+The remainder of this chapter presents related work (Section~\ref{sec:mobiwac:related}), the problem (Section~\ref{sec:mobiwac:problem}), the method and setup (Sections~\ref{sec:mobiwac:method} and~\ref{sec:mobiwac:setup}), results (Section~\ref{sec:mobiwac:results}), and discussion and conclusions (Sections~\ref{sec:mobiwac:discussion} and~\ref{sec:mobiwac:conclusion}).

@@ -1,0 +1,38 @@
+{
+  "estado": "california",
+  "execucoes": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      7
+    ],
+    [
+      100,
+      100
+    ]
+  ],
+  "margem": 0.4,
+  "veredito": {
+    "cat": {
+      "desfecho": "para",
+      "execucoes": 4,
+      "meia_largura": 0.14937650490339516,
+      "sd": 0.054346166953306595,
+      "sd_ucl": 0.09388843802853247
+    },
+    "reg": {
+      "desfecho": "para",
+      "execucoes": 4,
+      "meia_largura": 0.27304413241434466,
+      "sd": 0.09933892893937604,
+      "sd_ucl": 0.17161793363566605
+    }
+  }
+}

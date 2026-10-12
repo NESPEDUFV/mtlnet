@@ -1,0 +1,27 @@
+% !TeX root = main_ppgc.tex
+% ============================================================================
+% main_ppgc.tex -- the defense PDF WITH the approval sheet (folha de aprovacao).
+%
+% Author decision, 2026-07-28: "o main deve gerar o build da defesa e o main_ppgc so
+% gerar o pdf da defesa com a folha de aceite."
+%
+% This file is deliberately TWO lines of content: the \def below and the \input after it. The
+% count was stated as "four" here and in main.tex until 2026-07-29 -- measure it, do not trust
+% a prose claim about it:
+%   grep -v '^[[:space:]]*%' main_ppgc.tex | grep -cv '^[[:space:]]*$'   returns 2
+% The anchor is the two commands by name because the line coordinates this sentence used to
+% carry (":18-19") had gone stale by the time the header above them grew.
+% It sets one switch and reads main.tex, so main_ppgc.pdf is the defense document plus the
+% approval sheet, and the two entry points CANNOT drift apart. Everything real -- the preamble,
+% the front matter, the chapters, the bibliography -- lives in preamble.tex and content.tex.
+%
+% Build: `make ppgc` -> build/main_ppgc.pdf. Do not add content here: shared material goes in
+% content.tex or preamble.tex, and anything for this build alone is gated there on
+% \ifapprovalsheet.
+%
+% The three builds, the two switches and what each build is: the main.tex header, which is
+% the canonical telling and the one that travels with an Overleaf paste of src/.
+% ============================================================================
+
+\def\APPROVALSHEET{}
+\input{main.tex}

@@ -1,0 +1,68 @@
+# O eixo de partição nos CINCO estados que faltam — a segunda coluna, `split_seed = 7`.
+#
+# O Alabama já tem o 2×2 (`s10_4_partition_axis.toml`), e ele deu eixo de partição +0,077 pp em
+# categoria e +0,366 pp em região, este último acima do limiar de 0,15 e sem resolver.
+#
+# ── POR QUE OS SEIS, E NÃO SÓ O ALABAMA ─────────────────────────────────────────────────────────
+#
+# O §10.4 pré-registrou UM estado, e declara isso como limite ("one state, 1 df per axis"). Um
+# estado não diz se o efeito escala com o tamanho do conjunto — e é exatamente essa a pergunta que
+# decide o desenho: se a partição move 0,37 pp num estado de 3,8 k usuários e 0,02 pp num de 38 k, a
+# conclusão é uma; se mover igual nos dois, é outra.
+#
+# A campanha já dá a coluna `split_seed = 0` com as sementes de modelo {0,7} em todos os seis. Aqui
+# vem a coluna `split_seed = 7` com as mesmas duas, fechando um 2×2 por estado.
+#
+# `split_seed` alimenta o `random_state` do `StratifiedGroupKFold` — mecanismo distinto do
+# `fold_seed = seed + fold`, então duas partições quaisquer são independentes. A colisão de fluxo do
+# §12.5b não se aplica a este eixo.
+#
+# ── O QUE ESTE MANIFESTO NÃO É ──────────────────────────────────────────────────────────────────
+#
+# Não é a campanha sob outro desenho, e não produz material de leitura. `save_predictions = false`
+# em toda célula: mede movimento de eixo sobre validação interna, que é a grandeza em que o limiar
+# de 0,15 pp está escrito. Persistir predições de segundas partições criaria material confirmatório
+# para conjuntos que ninguém pré-registrou ler.
+#
+# ── CUSTO ───────────────────────────────────────────────────────────────────────────────────────
+#
+# Dos tempos medidos na campanha, por semente e somando os três braços: AZ ~15 min, IST ~25 min,
+# FL ~25 min, CA ~59 min, TX ~76 min. Duas sementes cada → ~6,5 h serial, com a GPU ociosa.
+
+[wave]
+study = "s10_4_partition_axis"
+
+[substrate.identity.arizona]
+checkin = "ba148afce8edeaca"
+[substrate.identity.istanbul]
+checkin = "1a32d3dfa16e67d1"
+[substrate.identity.florida]
+checkin = "5e29bdf925027e34"
+[substrate.identity.california]
+checkin = "85ad0a5bc82dd23a"
+[substrate.identity.texas]
+checkin = "4c02019abe146d75"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["arizona", "istanbul", "florida", "california", "texas"]
+seeds = [0, 7]
+split_seed = 7
+save_predictions = false
+set = { inner_validation = true, retain_checkpoints = "none" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["arizona", "istanbul", "florida", "california", "texas"]
+seeds = [0, 7]
+split_seed = 7
+save_predictions = false
+set = { inner_validation = true, retain_checkpoints = "none" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["arizona", "istanbul", "florida", "california", "texas"]
+seeds = [0, 7]
+split_seed = 7
+save_predictions = false
+set = { inner_validation = true, retain_checkpoints = "none" }

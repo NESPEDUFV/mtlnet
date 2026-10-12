@@ -1,0 +1,9 @@
+eager type: dict | lazy type: _LazyFoldMapping | len 5 5
+RNG untouched by eager construction (all 5 folds): True
+RNG untouched by lazy create_folds: True
+fold 0: n_train=77061 n_val=19265 ALL EQUAL
+fold 1: n_train=77062 n_val=19264 ALL EQUAL
+fold 2: n_train=77061 n_val=19265 ALL EQUAL
+fold 3: n_train=77059 n_val=19267 ALL EQUAL
+fold 4: n_train=77061 n_val=19265 ALL EQUAL
+UNIT EQUIVALENCE: PASS

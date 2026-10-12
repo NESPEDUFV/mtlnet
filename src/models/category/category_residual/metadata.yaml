@@ -1,0 +1,8 @@
+name: category_residual
+domain: category
+status: implemented
+evidence_status: implemented
+registry_key: category_residual
+runtime_class: models.category.category_residual.head.CategoryHeadResidual
+runtime_file: src/models/category/category_residual/head.py
+source_doc: ""

@@ -1,0 +1,34 @@
+% !TeX root = main_academico.tex
+% ============================================================================
+% main_academico.tex -- the AcademicoPG deposit body (no cover, no folha de rosto, no
+% approval sheet, no Resumo, no Abstract: that system generates all of them from web forms).
+%
+% Author decision, 2026-07-28 (src_utils/LATEX_UPGRADE.md §4, A-1/A-2/A-3): this build was
+% called `final` until 2026-07-29. "Final" said nothing next to `defense` and `ppgc` -- final
+% of what? -- so the target, the jobname, the output file and the switch macro all say
+% academico now, after the one system the PDF is actually uploaded to.
+%
+% WHY THIS FILE EXISTS AT ALL. Until it did, this was the only one of the three builds that
+% could not be opened in Overleaf or a GUI editor, because it lived exclusively as a pdflatex
+% command-line injection in the Makefile. Every editor can select a compile ROOT; none can be
+% told to add \def\ACADEMICOBUILD{} first. So the deposit build -- the one PDF that is
+% actually submitted -- was the one nobody could produce without make. Now all three builds
+% are a selectable root: main.tex, main_academico.tex, main_ppgc.tex.
+%
+% This file is deliberately TWO lines of content: the \def below and the \input after it.
+% Measure it rather than trusting this sentence:
+%   grep -v '^[[:space:]]*%' main_academico.tex | grep -cv '^[[:space:]]*$'   returns 2
+% and src_utils/check_comment_hygiene.py fails the build if that stops being true. The count is
+% anchored to the two commands by name, not to line numbers, because a line coordinate here went
+% stale before the file was ever committed.
+%
+% Build: `make academico` -> build/main_academico.pdf. Do not add content here: shared material
+% goes in content.tex or preamble.tex, and anything for this build alone is gated there on
+% \ifdefensebuild (false in this build).
+%
+% The three builds, the two switches and what each build is: the main.tex header, which is
+% the canonical telling and the one that travels with an Overleaf paste of src/.
+% ============================================================================
+
+\def\ACADEMICOBUILD{}
+\input{main.tex}

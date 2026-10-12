@@ -1,0 +1,19 @@
+[materialize] florida: wrote /Volumes/Vitor's SSD/ingred_g1fl/output/check2hgi_v18_fullcpu/florida/input/next.parquet (1274418 of 1274418 source windows, dim=64)
+       33.46 real        42.76 user         8.31 sys
+         15299723264  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1145231  page reclaims
+                1655  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                5814  voluntary context switches
+               29460  involuntary context switches
+        311513125652  instructions retired
+        162081189375  cycles elapsed
+         14462136200  peak memory footprint

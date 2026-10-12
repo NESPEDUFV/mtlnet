@@ -1,0 +1,8 @@
+name: category_dcn
+domain: category
+status: implemented
+evidence_status: implemented
+registry_key: category_dcn
+runtime_class: models.category.category_dcn.head.DCNHead
+runtime_file: src/models/category/category_dcn/head.py
+source_doc: ""

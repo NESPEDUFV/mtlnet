@@ -1,0 +1,272 @@
+{
+  "state": "texas",
+  "confirmatory": true,
+  "analysis": {
+    "name": "v19_ladder",
+    "path": "recipes/analysis/v19_ladder.toml",
+    "fingerprint": "56547de73f015cdc",
+    "delta": 0.4,
+    "levels": [
+      0.9,
+      0.95
+    ],
+    "correction": "holm"
+  },
+  "co_primary": {
+    "verdict": "held",
+    "reason": "reg superior \u2227 cat non_inferior, ambos a \u03b1 cheio"
+  },
+  "escalation": null,
+  "ladder": {
+    "executions": 3,
+    "pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        7,
+        7
+      ]
+    ],
+    "ladder_outcome": {
+      "cat": "para",
+      "reg": "para"
+    },
+    "ladder_margin": 0.4
+  },
+  "tasks": [
+    {
+      "task": "cat",
+      "arm_a": "cat",
+      "arm_b": "joint",
+      "pooled": {
+        "cat": 36.3051410507688,
+        "joint": 36.29964205163522
+      },
+      "delta": -0.007036847432580669,
+      "bca_90": [
+        -0.030210442839366587,
+        0.01747214129654191
+      ],
+      "bca_95": [
+        -0.03446848731280788,
+        0.021893864480940797
+      ],
+      "percentile_90": [
+        -0.030588102519229686,
+        0.017140372651186037
+      ],
+      "half_width_90": 0.023841292067954246,
+      "p_ni": 3.944020091314104e-14,
+      "p_ni_adjusted": 7.888040182628208e-14,
+      "alpha_local": 0.025,
+      "p_studentized": 0.6381361863813618,
+      "p_unstudentized": 0.6381361863813618,
+      "verdict": "non_inferior",
+      "verdict_marginal": "non_inferior",
+      "delta_critical": {
+        "non_inferiority": 0.030210442839366587,
+        "inferiority": -0.01747214129654191,
+        "tost": 0.023841292067954246
+      },
+      "tost_claimable": true,
+      "within_rerun_floor": true,
+      "execution_band": {
+        "execucoes": 3,
+        "graus_de_liberdade": 2,
+        "sd": 0.013720204598037104,
+        "meia_largura": 0.03408562850891193,
+        "intervalo": [
+          -0.041122475941492605,
+          0.027048781076331265
+        ],
+        "dentro_da_margem": true
+      },
+      "sensitivity": {
+        "0.2": "non_inferior",
+        "0.4": "non_inferior",
+        "1.0": "non_inferior"
+      },
+      "seed_deltas": [
+        0.00842430114620929,
+        -0.01776052674526407,
+        -0.011774316698687226
+      ],
+      "seeds": [
+        0,
+        1,
+        7
+      ],
+      "n_users": 22592,
+      "intervals_disagree": false,
+      "diagnostics": {
+        "half_width": 0.023841292067954246,
+        "half_width_projected": [
+          0.05,
+          0.3
+        ],
+        "half_width_within_projection": false,
+        "unpaired_benchmark": 0.5,
+        "pairing_gain": 20.972017731877212,
+        "mde": 0.040607510810604895,
+        "mde_power": 0.8,
+        "n_users": 22592,
+        "per_class": [
+          {
+            "class": 0,
+            "f1_a": 0.40056265999770574,
+            "f1_b": 0.4011259956309864,
+            "delta": 0.05633356332806483,
+            "users": 16340
+          },
+          {
+            "class": 1,
+            "f1_a": 0.3626850206047134,
+            "f1_b": 0.3634987614534142,
+            "delta": 0.08137408487007836,
+            "users": 18884
+          },
+          {
+            "class": 2,
+            "f1_a": 0.43264520320585903,
+            "f1_b": 0.4378691185707686,
+            "delta": 0.522391536490957,
+            "users": 21441
+          },
+          {
+            "class": 3,
+            "f1_a": 0.3035273009321529,
+            "f1_b": 0.2992021715074065,
+            "delta": -0.4325129424746388,
+            "users": 15907
+          },
+          {
+            "class": 4,
+            "f1_a": 0.27739851575160634,
+            "f1_b": 0.2766045997957694,
+            "delta": -0.07939159558369435,
+            "users": 13537
+          },
+          {
+            "class": 5,
+            "f1_a": 0.4563090761361665,
+            "f1_b": 0.455341031892994,
+            "delta": -0.09680442431724834,
+            "users": 17834
+          },
+          {
+            "class": 6,
+            "f1_a": 0.30823209692561254,
+            "f1_b": 0.30733326476312584,
+            "delta": -0.08988321624867068,
+            "users": 16780
+          }
+        ],
+        "min_users_per_class": 13537
+      },
+      "warnings": []
+    },
+    {
+      "task": "reg",
+      "arm_a": "reg",
+      "arm_b": "joint",
+      "pooled": {
+        "reg": 64.8398145300569,
+        "joint": 65.73286856198834
+      },
+      "delta": 0.8930540319314506,
+      "bca_90": [
+        0.8534540203852882,
+        0.9335687693194258
+      ],
+      "bca_95": [
+        0.846309543946107,
+        0.9423679418165697
+      ],
+      "percentile_90": [
+        0.852782937380049,
+        0.9328195685438269
+      ],
+      "half_width_90": 0.04005737446706881,
+      "p_ni": 8.288570734573266e-13,
+      "p_ni_adjusted": 8.288570734573266e-13,
+      "alpha_local": 0.05,
+      "p_studentized": 9.999000099990002e-05,
+      "p_unstudentized": 9.999000099990002e-05,
+      "verdict": "superior",
+      "verdict_marginal": "superior",
+      "delta_critical": {
+        "non_inferiority": -0.8534540203852882,
+        "inferiority": -0.9335687693194258,
+        "tost": 0.04005737446706881
+      },
+      "tost_claimable": true,
+      "within_rerun_floor": false,
+      "execution_band": {
+        "execucoes": 3,
+        "graus_de_liberdade": 2,
+        "sd": 0.0504623062193686,
+        "meia_largura": 0.12536543542087072,
+        "intervalo": [
+          0.7676885965105799,
+          1.0184194673523213
+        ],
+        "dentro_da_margem": true
+      },
+      "sensitivity": {
+        "0.2": "superior",
+        "0.4": "superior",
+        "1.0": "superior"
+      },
+      "seed_deltas": [
+        0.8776335926090506,
+        0.9494273987093904,
+        0.8521011044759108
+      ],
+      "seeds": [
+        0,
+        1,
+        7
+      ],
+      "n_users": 22592,
+      "intervals_disagree": false,
+      "diagnostics": {
+        "half_width": 0.04005737446706881,
+        "half_width_projected": [
+          0.05,
+          0.3
+        ],
+        "half_width_within_projection": false,
+        "unpaired_benchmark": 0.5,
+        "pairing_gain": 12.4820961596235,
+        "mde": 0.06822743759354992,
+        "mde_power": 0.8,
+        "n_users": 22592,
+        "region": {
+          "reg": {
+            "top10_raw": 0.6483981453005689,
+            "top10_full": 0.6483971010270256,
+            "top10_acc_indist": 0.6484794924742697,
+            "ood_fraction": 0.0001270532810987707,
+            "ood_hit_rate": 0.00821917808219178,
+            "n_windows": 11491242.0
+          },
+          "joint": {
+            "top10_raw": 0.6573286856198833,
+            "top10_full": 0.6573265100500015,
+            "top10_acc_indist": 0.6574100361521219,
+            "ood_fraction": 0.0001270532810987707,
+            "ood_hit_rate": 0.017123287671232876,
+            "n_windows": 11491242.0
+          }
+        }
+      },
+      "warnings": []
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+results/g1_cat_f4/full_cpu/check2hgi_v18/florida/next_lr1.0e-04_bs8192_ep50_20261004_175334_68646/

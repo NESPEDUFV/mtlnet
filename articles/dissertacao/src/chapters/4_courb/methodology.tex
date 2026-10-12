@@ -1,0 +1,276 @@
+% !TeX root = ../../main.tex
+% chapters/4_courb/methodology.tex -- one section of Chapter 4 (CoUrb 2026, published).
+% Split out of chapters/4_courb.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CoUrb_2026/src_en/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Methodology}
+\label{sec:courb:methods}
+
+As discussed in Section~\ref{sec:courb:related}, MTLnet \cite{silva2025mtlnet} uses a single vector $\mathbf{E}_{DGI} \in \mathbb{R}^{64}$ as input for both tasks, jointly encoding spatial and categorical information through the graph topology. One limitation of this monolithic approach is that it does not incorporate continuous geographic coordinates or temporal visitation patterns, factors that, as shown by works on spatial \cite{wu2024torchspatial} and temporal \cite{kazemi2019time2vec} encoding, carry information complementary to the topological relationships of the graph.
+
+The central design decision of this chapter is to decompose the unimodal DGI representation into three independent 64-dimensional components, trained separately and integrated by concatenation: a continuous spatial encoder, a temporal encoder (Time2Vec), and a hierarchical categorical encoder (HGI). The underlying hypothesis is that a decoupled representation, with specialized encoders trained with loss functions suited to each dimension of the information, produces more expressive representations than a unimodal representation that encodes all dimensions jointly. To evaluate this hypothesis and investigate the impact of the spatial encoding strategy, two encoders with distinct architectural assumptions are compared: SIREN and Sphere2Vec-M.
+
+The proposed methodology is illustrated in Figure~\ref{fig:courb:arquitetura}. The following describes the MTLnet model, the baseline with DGI, the rationale and operation of each proposed encoder, and the strategy for integrating the embeddings.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/courb/arquitetura_modelo.png}
+    \caption{Architecture based on MTLnet \cite{silva2025mtlnet}. The spatial, temporal, and categorical encoders are trained in a decoupled manner and generate their respective embeddings, which are integrated as input to the model. The integrated input is processed by the model's shared layers (\textit{Shared Layers Module}) and by the task-specific layers, producing the \textit{Category Output} and \textit{Next POI Output}.}
+    \label{fig:courb:arquitetura}
+\end{figure}
+
+MTLnet \cite{silva2025mtlnet} is a multitask network built on hard parameter sharing \cite{caruana1997multitask}, which simultaneously processes the POI Category Classification and Next-POI Prediction tasks. The architecture uses task-specific encoders implemented as MLPs with LayerNorm and Dropout, which project the input embeddings into a shared latent space of dimension $d_{\mathrm{shared}} = 256$. Next, FiLM modulation (\textit{Feature-wise Linear Modulation}) \cite{perez2018film} is applied, conditioned by a task-identifier embedding $\mathbf{e}_{t}$, which generates scale $\gamma_{t}$ and shift $\beta_{t}$ parameters to modulate the encoded representations:
+
+\begin{equation}
+\mathrm{FiLM}(\mathbf{h}_{\mathrm{enc}}^{(t)} \,|\, \mathbf{e}_{t}) = \gamma_{t} \odot \mathbf{h}_{\mathrm{enc}}^{(t)} + \beta_{t}
+\label{eq:courb:film}
+\end{equation}
+
+The modulated representations are processed by four shared residual blocks with LayerNorm, LeakyReLU, and Dropout, allowing the model to learn a common representation for both tasks \cite{baxter2000model}.
+
+At the output, each task has a specialized head. The category classification module uses a set of three parallel MLPs with varying depths (2, 3, and 4 layers), whose outputs are concatenated and projected to the 7 POI classes. The next-POI head employs a \textit{Transformer encoder} with 8 attention heads and 4 layers, a causal mask for autoregressive processing, and attention-weighted pooling using attention weights learned over the timesteps of the input sequence.
+
+Multitask training uses the Nash-MTL regularizer \cite{nash}, which formulates gradient balancing as a cooperative Nash bargaining game among $K$ tasks. Given the gradients of each task, Nash-MTL seeks the update direction that maximizes the product of the utilities of all tasks. Away from a Pareto-stationary point, meaning a point at which some convex combination of the task gradients is zero, and under the method's assumption that the gradients are linearly independent there, that direction is a descent direction for every task, avoiding the dominance of one task over the other.
+% [round6, COD-005 sub-claim 4] CORRECTION of a published claim, listed in Appendix B
+% (tables/courb/errata.tex). The published clause read "which ensures that the update is beneficial
+% for all tasks simultaneously", which states the guarantee unconditionally. The method's guarantee is
+% real and conditional, so the correction narrows it without weakening it below what the paper states:
+% "aims to", "is intended to" or "seeks to make" would all be WEAKER than the source, since the
+% authors derive the property rather than aspire to it.
+% SOURCE OF RECORD: arXiv:2202.01017, "Multi-Task Learning as a Bargaining Game", Navon, Shamsian,
+% Achituve, Maron, Kawaguchi, Chechik, Fetaya. Venue ICML 2022 per the arXiv comment field. PDF
+% downloaded and read this session (19 pp.); every quotation below re-checked against the extracted
+% text by exact substring match after normalizing the extractor's hyphenation artifacts.
+%   p.1 abstract: "Under certain assumptions, the bargaining problem has a unique solution, known as
+%       the Nash Bargaining Solution" -- the guarantee is conditional in the authors' own first
+%       sentence about it.
+%   p.6: "Since our update rule is a descent direction for all tasks, we can reasonably assume that
+%       our algorithm avoids local maxima points" -- the property, in the authors' words. This is
+%       STRONGER and more precise than the published "beneficial", which was loose.
+%   p.3: "Our main assumption, besides the ones used by Nash, is that if theta is not Pareto
+%       stationary then the gradients are linearly independent" (formalized as Assumption 5.1, p.6) --
+%       condition one, and the reason the sentence above names linear independence.
+%   p.3, Claim 3.1, which characterizes the solution as sum_i alpha_i g_i with G^T G alpha = 1/alpha,
+%       is stated for the case "if theta is not on the Pareto front" -- condition two, and the reason
+%       the sentence above says "at points that are not Pareto stationary".
+%   p.3, on Axiom 2.4: "the solution can easily be dominated by a single direction" without the
+%       scale-invariance assumption -- this independently supports the retained published clause
+%       "avoiding the dominance of one task over the other", which is therefore kept, not cut.
+% DELIBERATELY NOT IMPORTED: p.4, "we limit the sequence of CCP to 20 in all experiments". The
+% approximation of the bargaining solution is an implementation fact rather than part of the stated
+% guarantee; it belongs in the Appendix B row, where the neighbouring Nash cost correction already
+% discusses the twenty-pass concave-convex procedure (tables/cbic/errata.tex, last row).
+% TERM GLOSSED, per WRITING_LAW section 1 ("define every term ONCE at first use") and the GLOSSARY
+% fail-closed rule. "Pareto stationary" is not in GLOSSARY.md. The document's first use is in
+% Chapter 3's Nash formal formulation, which is PUBLISHED prose and carries "convergence to a
+% Pareto-stationary point" with no gloss; expanding that sentence would be a further edit to a
+% published article for no reader gain, so the gloss is placed here instead, at the use that carries a
+% claim. The hyphenated form "Pareto-stationary point" is used deliberately, matching Chapter 3's
+% spelling, so the two chapters name one concept one way.
+% The plain reading is the source's own: arXiv:2202.01017 p.2, "a point is called Pareto stationary if
+% there exists a convex combination of the gradients at this point that equals zero", restated at p.6
+% as "a point where some convex combination of the gradients is zero". Read from the PDF this session.
+% The sentence was also split in two rather than carried on one semicolon, which keeps the definition
+% out of the clause that states the guarantee.
+% [NEEDS SIGN-OFF 19 | CLOSED] Author: "Deixe do jeito que esta." The claim narrowing stays as an
+% in-body clause; do NOT convert it to the footnote device used in 3_cbic.tex for the Nash cost claim.
+% His reason stands as recorded: Chapter 4's prose already carries many parentheticals, and one clause
+% is cheaper for the reader than a footnote.
+% The glossary dependency this block raised is RESOLVED: "Pareto-stationary point" is now registered in
+% GLOSSARY.md (English row plus the PT rendering "ponto Pareto-estacionario"), added 2026-07-30. The
+% gloss here is placed at the use that carries a claim rather than at the document's first use, which
+% is Chapter 3's published prose and would cost a further edit to a published article for no reader
+% gain. Keep the hyphenated "Pareto-stationary point" so both chapters spell the concept one way.
+
+\subsection{Baseline: MTLnet with DGI}
+
+The baseline model corresponds to the original MTLnet proposed in \cite{silva2025mtlnet}, whose internal architecture is kept unchanged in this chapter. In this model, each POI is represented by a single monolithic embedding $\mathbf{E}_{DGI} \in \mathbb{R}^{64}$, obtained via \textit{Deep Graph Infomax} (DGI) \cite{velickovic2019deep} over a spatial graph built by Delaunay triangulation and categorical node attributes, as described in detail in \cite{silva2025mtlnet}. Thus, DGI jointly encodes spatial and categorical relationships in a single vector, without incorporating explicit temporal components. In contrast, the proposed approach replaces this monolithic representation with the concatenation of three specialized encoders, totaling 192 input dimensions.
+
+\subsection{Data Preparation}
+
+For the \textit{POI Category Classification} task, each POI is represented by the embedding resulting from the concatenation of the three components, $\mathbf{E}_{cat} = [\mathbf{E}_{HGI} \| \mathbf{E}_{loc} \| \mathbf{E}_{time}] \in \mathbb{R}^{192}$, forming pairs $(\mathbf{E}_{cat}, c)$ where $c$ is the real category of the POI. In the case of the baseline, $\mathbf{E}_{DGI} \in \mathbb{R}^{64}$ is used directly.
+
+For the \textit{Next-POI Prediction} task, the check-ins are ordered chronologically per user, and users with fewer than five visits are discarded. Non-overlapping windows of size $L_h = 9$ are extracted: the check-ins $(p_1, \dots, p_9)$ form the context, and $p_{\text{target}}$ is the next POI whose category must be predicted. Each check-in in the window is represented by the corresponding embedding, resulting in an input of $9 \times 192 = 1728$ dimensions for ST-MTLNet and $9 \times 64 = 576$ dimensions for the baseline. Shorter sequences are filled with padding of zero vectors.
+
+\subsection{Spatial Encoder}
+
+The original MTLnet model encodes spatial information implicitly through the topology of the Delaunay graph, without directly using geographic coordinates as an input signal. However, as discussed in Section~\ref{sec:courb:related}, continuous spatial encoders have shown effectiveness in various geospatial tasks \cite{wu2024torchspatial}, although their application in multitask POI models remains little explored. This chapter selects two encoders that represent distinct spatial encoding paradigms: SIREN \cite{russwurm2024geographiclocationencodingspherical}, which models continuous functions through sinusoidal activations with controllable frequencies, and Sphere2Vec-M \cite{mai2023sphere2vecgeneralpurposelocationrepresentation}, which operates directly on spherical coordinates preserving geodesic distance properties. This diversity allows evaluating how different geometric and architectural assumptions impact performance on POI tasks.
+
+% [2026-10-10, AUTHOR-APPROVED method-description errata (registry + jisa agree, both verified in the code; writer re-verified)] #1: "based on the geographic distance between pairs of coordinates" -> "on pairs of coordinates", and the
+% y_ij clause: the code of record (temp/tarik-new SIREN and Sphere2Vec notebooks, ContrastiveSpatialDataset,
+% pos_radius=0.01, tau=0.15) forms positives as a coordinate plus Gaussian noise of sd 0.01 degrees and
+% negatives as a random other coordinate; the 10 km / 70 km rule exists only in the dropped Space2Vec-grid
+% notebook. Table B.3 row. No number changes; verified.
+All encoders produce $\mathbf{E}_{loc} \in \mathbb{R}^{64}$ and are
+trained with the same binary contrastive loss on pairs of coordinates:
+\begin{equation}
+\mathcal{L}_{\text{loc}}(i,j)
+=
+- \left[
+y_{ij}\,\log \sigma\!\left(\frac{\text{sim}(z_i,z_j)}{\tau}\right)
++
+(1-y_{ij})
+\log \left(1 - \sigma\!\left(\frac{\text{sim}(z_i,z_j)}{\tau}\right)\right)
+\right]
+\end{equation}
+
+in which $\sigma$ denotes the sigmoid function, $\text{sim}(\cdot,\cdot)$ is the cosine similarity, and $y_{ij} \in \{0,1\}$ indicates whether the pair is positive, a coordinate paired with a copy of itself perturbed by Gaussian noise of standard deviation $0.01^{\circ}$ (about 1 km), or negative, the coordinate paired with another coordinate drawn at random, with temperature $\tau = 0.15$. Using the same loss function for the two spatial encoders allows a controlled comparison, isolating the effect of the encoding architecture.
+
+\subsubsection{SIREN}
+
+The SIREN model (\textit{Sinusoidal Representation Networks}) \cite{russwurm2024geographiclocationencodingspherical} models a continuous function $f_\theta : \mathbb{R}^2 \rightarrow \mathbb{R}^{64}$ that directly maps normalized geographic coordinates into a vector embedding. Each layer of the network uses sinusoidal activations with controllable frequencies, allowing high-frequency signals in spatial data to be represented. The output is the embedding $\mathbf{E}_{loc} \in \mathbb{R}^{64}$.
+
+\subsubsection{Sphere2Vec-M}
+
+% [2026-10-10, AUTHOR-APPROVED method-description errata (registry + jisa agree, both verified in the code; writer re-verified)] #2: the sphereM / S=16 / 10 km to 10,000 km clause and the interaction-terms sentence removed: two
+% Sphere2Vec notebooks exist (sin/cos of the 3-D unit vector with 16 or 64 scales; and an RBF variant over
+% 128 or 256 random unit centroids with 16 or 32 scales), neither carries that range, and which one
+% produced the published column cannot be established; the replacement states only what both share.
+% Table B.3 row. No number changes; verified.
+Sphere2Vec-M \cite{mai2023sphere2vecgeneralpurposelocationrepresentation} is a multi-scale encoder formulated to operate directly on spherical coordinates ($\lambda$, $\phi$), generating representations that preserve distance properties on the surface of the sphere. In the implementation, each coordinate is mapped to a unit vector on the sphere, from which multi-scale features are computed and passed to a feed-forward network. The resulting vector is projected by an MLP to produce $\mathbf{E}_{loc} \in \mathbb{R}^{64}$.
+
+\subsection{Temporal Encoder}
+
+Human mobility patterns exhibit cyclical regularities, such as meal times and weekly movements \cite{cho2011gowalla}, and models of the next visit read them through explicit temporal representations \cite{sun2020go}. However, the original MTLnet model does not incorporate explicit temporal representations to capture this information.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.15 (arquivado 2026-08-02), author decision: path A, 2026-07-30] CLAIM NARROWED. Errata row in
+% Appendix B; the same edit is applied to both published CoUrb sources (src/sections/metodology.tex
+% for the PT of record and src_en/ for the EN translation).
+% WHAT THE OLD SENTENCE CLAIMED AND THE CITED PAPER DOES NOT SUPPORT. It attributed to sun2020go
+% that cyclical regularities "carry discriminative information about the functional nature of the
+% visited POIs", i.e. that temporal signal reveals place SEMANTICS. sun2020go is LSTPM (AAAI 2020,
+% DOI 10.1609/aaai.v34i01.5353), which models long- and short-term USER PREFERENCE for next-POI
+% recommendation with a nonlocal network and a geo-dilated RNN. It makes no claim about temporal
+% signal predicting place function.
+% THE SPLIT. The temporal-regularity half is common ground and cho2011gowalla supports it directly
+% (KDD 2011, DOI 10.1145/2020408.2020579, already cited five times in this document including at
+% 4_courb/intro.tex:12 and 4_courb/results.tex:63, so no entry is added). The semantics half had no
+% support anywhere in this bibliography, so it is DROPPED rather than re-cited: sun2020go is kept for
+% what it does establish, that models of the next visit read temporal structure explicitly, which is
+% also the premise the next sentence needs. The paragraph's argument is unchanged: MTLnet lacks an
+% explicit temporal representation, which is what ST-MTLNet adds.
+
+To fill this gap, Time2Vec \cite{kazemi2019time2vec} is used, a generic and decoupled temporal representation capable of capturing periodic and non-periodic patterns without the need for manual feature engineering. The architecture combines linear and periodic terms to map the temporal values of each check-in (hour of day and day of week, in a coupled manner) into an embedding vector. For an embedding of dimension $D$, the function is defined as:
+
+\begin{equation}
+\mathbf{f}(\tau)[i] = \begin{cases} \omega_0 \tau + \phi_0 & \text{if } i=0 \\ \sin(\omega_i \tau + \phi_i) & \text{if } 1 \leq i \leq D-1 \end{cases}
+\label{eq:courb:time2vec}
+\end{equation}
+
+in which $\omega_i$ and $\phi_i$ are trainable parameters (weights and bias) that capture the periodicity of the temporal visitation patterns. The linear term ($i=0$) captures global temporal trends, while the sinusoidal terms model cyclical patterns at different frequencies.
+
+The model is trained using the discrete temporal values (hour of day and day of week) in a coupled manner for each check-in, with the same binary contrastive formulation employed in the spatial encoder, denoted $\mathcal{L}_{tempo}$. The final output is the embedding $\mathbf{E}_{time} \in \mathbb{R}^{64}$, which represents the timestamp of each check-in.
+
+\subsection{Categorical Encoder}
+
+The DGI used in the original model encodes categorical information through a \textit{one-hot} matrix of 7 classes processed by the graph structure, without explicitly capturing hierarchical or regional relationships among POI categories. To enrich this dimension, the generation of categorical embeddings is carried out in two complementary phases. The POI Encoder learns vector representations that capture co-occurrences among categories from random walks on the spatial graph, and the HGI model \cite{huang2023hgi} incorporates hierarchical information at multiple levels (POI, region, and city), producing representations that reflect both the local and the regional context.
+
+\subsubsection{POI Encoder}
+
+% [2026-10-10, AUTHOR-APPROVED method-description errata (registry + jisa agree, both verified in the code; writer re-verified)] #3: "counties (GEOIDs)" -> "census tracts (GEOIDs)": the HGI script (temp/tarik-new/hgi.py:19) downloads
+% the TIGER 2021 census tracts of the state and the GEOID is the tract's. Table B.3 row. No number changes;
+% verified.
+The category embedding $\mathbf{E}_{\text{POI\_category}} \in \mathbb{R}^{64}$ is generated by the POI Encoder, which is trained independently. The POIs are organized into a spatial graph
+built by Delaunay triangulation over the geographic coordinates, with edges weighted by
+logarithmic decay of the Haversine distance and penalization for connections between distinct
+census tracts (GEOIDs).
+% [v2 review, 2026-07-26] F1 REPAIR, found by the mandatory L5 translation-fidelity gate
+% (src_utils/_history/_review_v2/08_translation_fidelity_report.md). The round-4 edit below appended the
+% second half of this published sentence to the END of its own last comment line, so three
+% published method facts (Delaunay triangulation, logarithmic Haversine decay, GEOID penalty)
+% silently did not render, and the chapter printed a sentence ending mid-clause at "a spatial
+% graph". Confirmed absent from both builds by string search before the repair: "Haversine" and
+% "GEOIDs" each occurred 0 times in dissertacao.pdf. The clause is restored verbatim from the
+% English source of record (src_en/sections/metodology.tex:106) and matches the published PT
+% (sol.sbc.org.br record for DOI 10.5753/courb.2026.22960, p. 9). NOTE: the round-4 justification
+% below asserts "Every content word is preserved", which was false as applied; it is left in place
+% so the ledger's error stays visible, and this comment is the correction.
+% [round4, REV-021] Mechanical re-typeset, not a content departure. The published sentence
+% (src_en/sections/metodology.tex:107) read "The POI Encoder is trained independently to
+% generate the category embedding E_POI_category in R^64."; the clause order is reversed so
+% the unbreakable inline expression is no longer trapped at the end of the first line. Every
+% content word is preserved (category embedding, the symbol, generate, POI Encoder, trained
+% independently); no claim, quantity, or scope changes, which is why this is declared in the
+% mechanical section of the ledger rather than as an errata row. It clears the 15.14 pt
+% overfull hbox that build/main.log records at lines 175--176 of this chapter. The line is
+% not an equation: the nearby display equations set clean. Nothing was shrunk and no
+% adjustbox was added. Measured budget: the text block is 453.1 pt wide and the paragraph
+% indents 37.0 pt, so the published run-up plus the expression up to the relation symbol
+% needed 468.2 pt; the reordered run-up puts the whole expression at about 227 pt.
+
+Over this graph, random walks are executed following the Node2Vec methodology \cite{grover2016node2vec}.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.20 (arquivado 2026-08-02), author decision: option 2, 2026-07-30] The published PT sentence read
+% "caminhadas aleatorias (\textit{random walks})", where the italic parenthetical glossed the
+% Portuguese phrase with the English loan term. Translated to English the gloss repeats the words it
+% glosses, so it is dropped rather than de-italicized. This is a translation artifact, not a claim.
+Each walk is converted into a sequence of secondary categories, the fine classes, resulting in local and global co-occurrences among categories. The model learns the embeddings using the \textit{skip-gram} strategy with \textit{negative sampling} \cite{mikolov2013word2vec,mikolov2013negsampling}:
+% [round9c, PENDENCIAS_RESOLVIDOS 2.15 (arquivado 2026-08-02), author decision: path A, 2026-07-30] BANNED TERM REMOVED, the first of
+% the two sites on this file's three affected lines. `(\textit{fclass})` was the parenthetical gloss
+% naming the code column; GLOSSARY.md:73 registers the reader-facing term as "fine class" and forbids
+% `fclass` in prose. The gloss now names the registered term in apposition, which keeps the sentence
+% telling the reader what a secondary category is. Applied to both published CoUrb sources as well;
+% errata row in Appendix B.
+
+\[
+\mathcal{L}_{\text{SGNS}}(i,j)
+=
+-\log \sigma\!\left(\mathbf{e}_j^\top \mathbf{e}_i\right)
+-
+\sum_{k=1}^{K}
+\log \sigma\!\left(-\mathbf{e}_{n_k}^\top \mathbf{e}_i\right),
+\]
+
+in which $\mathbf{e}_i$ is the embedding of the target class, $\mathbf{e}_j$ the positive context embedding, and $\mathbf{e}_{n_k}$ represent the negative samples. The implementation incorporates a hierarchical regularization term \cite{Xu2023} between category and fine class: $\mathcal{L}_{\text{hier}} = \sum_{(c,s) \in \mathcal{H}} \left\| \mathbf{e}_s - \mathbf{e}_c \right\|_2^2$, in which $\mathcal{H}$ contains the (category, fine class) pairs. The total loss is $\mathcal{L} = \mathcal{L}_{\text{SGNS}} + \lambda_{\text{hier}} \, \mathcal{L}_{\text{hier}}$. In the end, the resulting embedding is generated per category and remapped to each POI.
+% [round9c, PENDENCIAS_RESOLVIDOS 2.15 (arquivado 2026-08-02), author decision: path A, 2026-07-30] TWO CHANGES IN ONE SENTENCE, both
+% his ruling, each with its own errata row in Appendix B, and both applied to the published CoUrb
+% sources as well (src/sections/metodology.tex PT and src_en/sections/metodology.tex EN).
+% (1) CITATION SUBSTITUTED, belkin2003laplacian -> Xu2023. The cited object is an L2 penalty pulling
+% a subcategory embedding toward its parent over a KNOWN LABEL TREE. Laplacian eigenmaps
+% (Neural Computation 15(6):1373-1396, DOI 10.1162/089976603321780317) is nonlinear DIMENSIONALITY
+% REDUCTION for data on a manifold; the link is thematic (a graph Laplacian) and the sentence
+% attributed the term itself to that paper. Xu2023 is TME (ACM TOIS 41(4), DOI 10.1145/3582553),
+% whose abstract, READ AT CROSSREF THIS SESSION, states it "utilizes the predefined category
+% hierarchy to regularize the relatedness among categories" -- the same construction. The key is
+% already in this bibliography and already cited in this same chapter at 4_courb/related.tex:40, so
+% no entry is added. belkin2003laplacian keeps its entry; it is now uncited, which the bibliography
+% style drops from the printed list.
+% (2) BANNED TERM REMOVED, `fclass` -> "fine class", 2 occurrences on this line. GLOSSARY.md:73
+% registers the term as "fine class" and says in full capitals never to write `fclass` in prose. The
+% italics go with it: `fclass` was italicized as a code identifier, and "fine class" is ordinary
+% English, so it is set roman.
+% MEASURED after editing, over all 54 live .tex files with comments stripped: `fclass` in rendered
+% prose = 0. It previously stood at 3 lines in this one file (the other two occurrences were in the
+% Node2Vec sentence above, changed in the same pass).
+
+\subsubsection{Hierarchical Graph Infomax (HGI)}
+
+After the generation of the embeddings $\mathbf{E}_{\text{POI\_category}}$, they are used as input to the Hierarchical Graph Infomax (HGI) model \cite{huang2023hgi}, which enriches the representation by incorporating regional geographic information. The model optimizes mutual information at two hierarchical levels (POI-region and region-city):
+
+\[
+\mathcal{L}
+=
+\alpha\,\mathcal{L}_{\text{POI--region}}
++
+(1-\alpha)\,\mathcal{L}_{\text{region--city}},
+\]
+
+in which $\alpha = 0.5$ controls the balance between the hierarchical levels. Both losses use structural negative sampling to reinforce the separability between regions and between POIs. The output is the enriched embeddings $\mathbf{E}_{\text{HGI}} \in \mathbb{R}^{64}$, which capture both local and regional categorical relationships.
+
+\subsection{Embedding Integration}
+
+The three representation components are trained independently and concatenated to form the input of both MTLnet tasks:
+
+\begin{equation}
+\mathbf{E}_{input} = [\mathbf{E}_{HGI} \| \mathbf{E}_{loc} \| \mathbf{E}_{time}] \in \mathbb{R}^{192}
+\label{eq:courb:concat}
+\end{equation}
+
+The choice of concatenation as the integration strategy preserves the individual information of each component without imposing premature interactions between the representations, delegating to MTLnet the task of learning how to combine these dimensions through its shared layers and FiLM modulation. The input dimensionality of ST-MTLNet ($\mathbb{R}^{192}$) is higher than that of the baseline ($\mathbb{R}^{64}$), a natural consequence of the decomposition into three specialized components.
+
+However, the MTLnet architecture projects any input to the same shared latent space of dimension $d_{\mathrm{shared}} = 256$ through the task-specific encoders, so that the capacity of the shared layers and task heads remains unchanged across the evaluated models. Even so, the difference in input dimensionality may influence part of the observed gains. For this reason, an additional experimental control equalizing the dimensionality of the representations would allow validating more precisely whether the gains occur mainly from the semantic specialization of the encoders, and not only from the increase in input dimensionality.
+
+Two variants of the proposed model are evaluated, named ST-MTLNet (\textit{Spatial-Temporal MTLNet}), each using a different spatial encoder. The baseline MTLnet \cite{silva2025mtlnet} uses only the monolithic embedding $\mathbf{E}_{DGI} \in \mathbb{R}^{64}$ as input for both tasks. The proposed variants replace this representation with the concatenation of the decoupled embeddings, keeping the temporal (Time2Vec) and categorical (HGI) encoders fixed and varying the spatial encoder between SIREN and Sphere2Vec-M.
+
+All models share the same hyperparameters of the MTLnet architecture, differing only in the input embeddings. This configuration allows isolating the effect of the representation strategy on performance, evaluating both the gain of the modular approach relative to the monolithic baseline and the impact of the choice of the spatial encoder.

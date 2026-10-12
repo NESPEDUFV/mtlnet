@@ -1,0 +1,66 @@
+% !TeX root = ../../src/main.tex
+% ============================================================================
+% ERRATA RESUMO -- o escopo do resultado de categoria no Resumo em portugues.
+% Achada 2026-08-21, na preparacao da apresentacao de defesa.
+% Destino: o Resumo (pt) em src/content.tex:152-156. APLICADA AO FONTE em 2026-08-21,
+% por decisao do autor, para valer na versao final. O dissertacao.pdf entregue NAO foi
+% reconstruido: ele continua sendo o registro do que a banca recebeu.
+%
+% O DEFEITO, em uma frase: o Resumo em portugues afirma que o modelo conjunto superou os
+% dedicados na previsao da proxima categoria "em todos os conjuntos", e o resultado entregue
+% e superioridade em UM conjunto apenas.
+%
+% POR QUE ISSO IMPORTA MAIS DO QUE O TAMANHO SUGERE. O Resumo e o primeiro paragrafo em
+% portugues que um membro da banca le, e a frase generaliza exatamente na direcao que a
+% WRITING_LAW §3 proibe: "outperforms" e reservado a superioridade pareada demonstrada, e
+% uma diferenca que nao passa no teste e reportada pelo limite que seu intervalo sustenta,
+% nunca como igualdade e nunca como resultado universal.
+%
+% O DEFEITO E ISOLADO -- medido, nao suposto. Todo o resto dos dois volumes esta correto e
+% diz o oposto da frase do Resumo. Verificado por extracao de texto do dissertacao.pdf
+% entregue (md5 5be69d1bf589e6fe5e794898a06306cf) em 2026-08-21:
+%   Abstract (en), l. 748  : "it outperforms the dedicated model at Florida, and the five
+%                             remaining differences are equivalent to zero within half a point"
+%   Cap. 5, l. 3320        : mesma frase, mesma delimitacao
+%   Cap. 6 / contribuicoes : "it outperforms at one dataset, and every one of the six
+%                             differences is equivalent to zero within half a point"
+%   §2.5.2                 : idem
+% Ou seja: a versao em ingles do proprio Resumo ja esta certa. A correcao e alinhar o
+% portugues ao ingles, nao mudar um resultado.
+%
+% A FONTE DO VEREDITO: src/tables/mobiwac/results.tex (celula FL categoria, 37.35 dedicado
+% contra 37.55 conjunto, marcada com a seta de superioridade) e
+% ../evidence/ladder_recompute.json (Holm p = 0.011 em Florida; as outras cinco nao resolvidas).
+% ============================================================================
+
+\paragraph*{Errata: o escopo do resultado de categoria no Resumo.}
+No Resumo em portugues, o periodo que relata os resultados passa a ler:
+
+\begin{quote}
+Essas analises compararam o modelo conjunto com os modelos dedicados a cada tarefa: na
+previsao da proxima regiao ele os superou nos dois conjuntos com os maiores vocabularios de
+regiao e permaneceu dentro da margem de dois pontos de Acc@10, registrada antes de qualquer
+resultado ser lido, nos outros quatro (nao-inferioridade estatistica, por dois testes
+unilaterais); e na previsao da proxima categoria ele os superou em um conjunto, enquanto as
+cinco diferencas restantes sao equivalentes a zero dentro de meio ponto.
+\end{quote}
+
+\noindent Este periodo e a traducao fiel do que o Abstract em ingles ja afirmava. A frase
+anterior --- ``superou os modelos dedicados na previsao da proxima categoria em todos os
+conjuntos'' --- generalizava um resultado que o proprio documento delimita a Florida, e nao
+tinha equivalente em nenhuma outra passagem dos dois volumes.
+
+% ----------------------------------------------------------------------------
+% RESPOSTA ORAL, se um arguidor citar o Resumo entregue:
+%
+% "O senhor esta certo, e o erro e meu. Essa frase do Resumo em portugues generaliza um
+%  resultado que o documento delimita: a superioridade em categoria e em Florida, com Holm
+%  p = 0,011, e as outras cinco diferencas nao sao resolvidas, cada uma limitada a meio ponto
+%  de zero. O Abstract em ingles, a Secao 2.5, o Capitulo 5 e o Capitulo 6 dizem exatamente
+%  isso; o defeito ficou so na versao em portugues do Resumo, e ele entra como errata no
+%  deposito final."
+%
+% Regra para a apresentacao: NUNCA dizer a frase do Resumo. O veredito falado e sempre
+% "supera em Florida" para categoria. Se ninguem perguntar, nao levantar o assunto --- a
+% errata ja cobre o deposito.
+% ----------------------------------------------------------------------------

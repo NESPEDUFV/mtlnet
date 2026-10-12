@@ -1,0 +1,62 @@
+# The bridge: AL / AZ / IST under the SEALED protocol, with predictions persisted.
+#
+# Purpose is twofold and the second matters more than the first.
+#
+# (1) Produce the first prediction files that Tier A can legitimately use — rows from an outer fold
+#     that did NOT choose the checkpoint.
+# (2) MEASURE the legacy selection bias. These three states already have banked numbers under the
+#     legacy rule (one fold selecting and reporting), so the difference is the optimism that rule
+#     bought. A single Alabama fold already suggests ~0.66 pp, which is ABOVE the protocol's 0.4 pp
+#     equivalence margin — if that holds across folds and states, legacy equivalence claims need
+#     re-reading, and that is exactly the question the bridge exists to answer.
+#
+# inner_validation carves 10% of users out of each fold's development block for selection; the outer
+# 20% is read exactly once, after the checkpoint is fixed. inner_split_seed is separate from the
+# repetition seed on purpose (NOMENCLATURE §1).
+#
+# `split_seed = 0` on every cell, so `seeds` index REPLICATES (protocol §10.1: freeze the partition;
+# §10.5: `--seed` splits in two). This is not a preference — it is what the frozen protocol decided,
+# and two things break without it:
+#
+#   * §10.3 makes it mandatory. The calibration gate must re-measure the band as a *replicate* band
+#     (frozen split_seed=0, model_seed ∈ {0,1,7,100}), because the inherited 0.05–0.15 pp band is
+#     repetition-inclusive and now only an upper bound. Letting the partition move with the seed
+#     would re-measure the confounded band and call it the replicate one.
+#   * §3's pooled Tier A becomes unrunnable. Four seeds with four partitions produce four
+#     partition_hashes, and `predictions.assert_comparable` refuses cells spanning more than one —
+#     unconditionally, with no exploratory escape, because pairing across partitions silently
+#     re-admits the ~1.2 pp fold component.
+#
+# Partition 0 was never used for tuning (every recipe choice was made at seed 42), and its
+# (split_seed=0, model_seed=0) cell reproduces one legacy diagonal cell exactly, which is what
+# anchors the like-for-like comparison in purpose (2) below.
+#
+# 4 replicates here, not 2: these are the calibration states, and the §2 gate needs the band
+# re-measured under the regime that will govern it.
+
+[wave]
+study = "sealed_bridge"
+
+[[cell]]
+recipe = "recipes/v18/cat.toml"
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true }
+
+[[cell]]
+recipe = "recipes/v18/reg.toml"
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["alabama", "arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true }

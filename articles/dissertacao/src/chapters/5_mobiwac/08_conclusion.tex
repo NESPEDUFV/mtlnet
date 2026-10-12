@@ -1,0 +1,51 @@
+% !TeX root = ../../main.tex
+% chapters/5_mobiwac/08_conclusion.tex -- one section of Chapter 5 (MobiWac 2026, accepted 2026-08-26; status comment updated 2026-09-01, AUT-35).
+% Split out of chapters/5_mobiwac.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/[mobiwac]/src/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Conclusion}
+\label{sec:mobiwac:conclusion}
+
+% [2026-10-01, AUTHOR-RULED, Table B.5 row] "to six points" -> "to nearly three points": the Istanbul
+% delta is +2.81 after the paired run (tables/mobiwac/representation.tex, comment there).
+We tested whether one model can predict both the category and region of a user's next visit. The central concern was
+that sharing could help one task while hurting the other. However, the evidence shows that sharing alone does not
+explain the outcome because the result also depends on what the model represents. A standard place-level representation
+assigns the same vector to every visit to a place, so it cannot distinguish visits made under different contexts. By
+assigning one vector to each visit, the check-in-level representation can include the visit time, nearby places, and
+recent visits. The controlled comparison then shows a consistent advantage for that representation on the category
+task: every fold favors it at every dataset, though the size of the advantage varies from a quarter of a point to
+nearly three points. Once this information is available, the joint model can share
+semantic context between the tasks while keeping a private spatial path for region prediction.
+
+With both changes in place, the region cost of joint training stays inside the registered two-point
+margin at every dataset. For region
+prediction the model outperforms the dedicated model at Texas and California, and at the other four
+datasets it stays within the two-point margin registered before any result was read. For category
+prediction it outperforms the dedicated model at Florida; the five remaining differences are not
+resolved, and every one of them is equivalent to zero within half a point. The two datasets where
+the region output improves are the two with the largest region vocabularies, although region
+count and corpus size co-vary across these
+states and the ordering is not monotone within the pair.
+% [2026-09-09, AUTHOR-DECIDED (dropped from the version of record; the article's own note at
+% articles/[mobiwac]/src/sections/08_conclusion.tex:36 adds that the clause is contradicted by
+% the California control), errata Table B.5] ", which is where an auxiliary signal has the most
+% to add" removed: same mechanism claim as
+% the results-section sentence, same contradiction with the discussion's "The evidence here does not
+% separate their contributions". The observation (largest vocabularies) and its confounder clause
+% stay. The version of record carries this correction; the chapter reproduced the text from before it.
+% [2026-10-01, AUTHOR-APPROVED errata, Table B.5 row] "at least $3.06$" -> "at least $4.11$"
+% macro-F1 over POI-RGNN: see 06_results.tex and the results.tex header for the chain.
+% [2026-10-01, AUTHOR-APPROVED A4, Table B.5 row] "(HMT-GRN, STAN, or ReHDM; the first two on our folds,
+% ReHDM under its own protocol)" -> "(HMT-GRN, STAN, or ReHDM)".
+The joint model also remains above every
+external baseline in Table~\ref{tab:mobiwac:results} at all six datasets, by at least $3.55$ Acc@10
+points over the strongest region reference (HMT-GRN, STAN, or ReHDM) and by at least $4.11$ macro-F1 points over POI-RGNN on category.
+
+Together, these results do not mean that multitask learning helps automatically. They show that the initial concern
+about harmful sharing was incomplete: the result also depends on the representation and on how the tasks exchange
+information. When the representation preserves the context of each visit and the architecture keeps a private spatial
+path where the tasks differ, one model can predict both what a user will do next and where in a single forward pass.

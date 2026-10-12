@@ -1,0 +1,26 @@
+=== build hgi_dk_ovl category inputs for istanbul (reuse frozen check2hgi_dk_ovl overlap sequences) ===
+  symlink embeddings.parquet -> /Volumes/Vitor's SSD/istanbul_pair/output/hgi/istanbul/embeddings.parquet
+  WARN: source missing, not symlinked: /Volumes/Vitor's SSD/istanbul_pair/output/hgi/istanbul/region_embeddings.parquet
+  frozen sequences: /Volumes/Vitor's SSD/istanbul_pair/output/check2hgi_dk_ovl/istanbul/temp/sequences_next.parquet  rows=271,666
+  history-POI gather: 0/2,444,994 -> pad row (0 are pad -1, 0 are OOV-in-HGI)
+istanbul hgi-ovl:   0%|          | 0/2 [00:00<?, ?it/s]istanbul hgi-ovl:  50%|█████     | 1/2 [00:02<00:02,  2.35s/it]istanbul hgi-ovl: 100%|██████████| 2/2 [00:02<00:00,  1.20s/it]
+  [gate] check2hgi_dk_ovl next.parquet absent (disk-reclaimed); sequence count 271,666 is the reference (matched by construction).
+DONE: hgi_dk_ovl/istanbul next.parquet rows=271,666 -> /Volumes/Vitor's SSD/istanbul_pair/output/hgi_dk_ovl/istanbul/input/next.parquet
+        4.48 real         5.84 user         1.03 sys
+          2194456576  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              167201  page reclaims
+                 801  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 147  voluntary context switches
+                6902  involuntary context switches
+         49119640912  instructions retired
+         21753403581  cycles elapsed
+          2144979344  peak memory footprint

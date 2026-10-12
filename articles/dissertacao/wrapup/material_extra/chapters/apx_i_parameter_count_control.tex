@@ -1,0 +1,209 @@
+% !TeX root = ../main.tex
+%TODO: AUTHOR do this experimento for next-region
+% [2026-09-02] PARAMETER COLUMNS CORRECTED, AND THE FRAMING WITH THEM. The three counts printed here
+% until today (644,359 / 4,207,399 / 5,249,719, labelled "100.2%" and "101.9% matched") were WRONG.
+% They came from the 2026-07-23 audit whose own output file says it used the "ceiling config"
+% (docs/results/closing_data/capacity_matched_stl_cat/alabama_h672/param_audit_pilot.txt). It did not.
+%
+% PROOF, closed end to end and reproducible without a GPU or a re-run. NextHeadGRU is a GRU plus a
+% LayerNorm+Linear classifier, so its parameter count is a closed form. At embed_dim=64 the six
+% numbers in dispute are the SAME architecture at two depths and nothing else:
+%     hidden=256  num_layers=2 ->    644,359      num_layers=4 ->  1,433,863
+%     hidden=672  num_layers=2 ->  4,207,399      num_layers=4 ->  9,634,471
+%     hidden=752  num_layers=2 ->  5,249,719      num_layers=4 -> 12,044,791
+% Which depth the CELLS ran is not a matter of opinion:
+%   1. The cells ran `--task next --model next_gru`, width via `--model-param hidden_dim=<w>`,
+%      "nothing else changed" (that folder's README.md:17-18).
+%   2. scripts/train.py:339 maps task "next" -> ExperimentConfig.default_next.
+%   3. src/configs/experiment.py:530 -- default_next pins "num_layers": 4.
+%   4. scripts/train.py:1454-1460 -- without --replace-model-params, --model-param UPDATES the
+%      config's model_params. num_layers=4 survives the width override.
+% So the executed arms had four layers. The audit built the head with the MODULE default
+% (src/models/next/next_gru/head.py:18, num_layers=2) while believing it used the config.
+%
+% WHAT CHANGED HERE: the two table rows; "100.2%/101.9%" -> "229.5%/233.8%"; "6.5 and 8.1 times" ->
+% "6.7 and 8.4"; "6.5" -> "6.7" twice in the prose; "approximately the same number of trainable
+% parameters" -> the over-capacity framing; and "carries a comparable budget to the wider one" ->
+% "on less than half the wider model's budget" (4,197,621 / 9,634,471 = 43.6%).
+%
+% WHAT DID NOT CHANGE: every macro-F1 in this appendix. The scores were measured; only the parameter
+% audit was wrong. AND THE CONCLUSION GETS STRONGER, not weaker: the dedicated model was given more
+% than twice the joint model's budget and still does not recover the gain, so the arm that fails to
+% improve is the larger one. The joint model's own count is NOT affected -- California's 5,151,189 is
+% confirmed digit-for-digit by the delivered execution log (cat 1,731,079 + reg 1,835,982 + shared
+% 1,584,128, docs/results/closing_data/v18_2/modal_runs/california_s7_lane_*/logs/california_s7_joint.out).
+%
+% THE MAIN VOLUME CARRIED THE SAME DEFECT AND WAS FIXED IN THE SAME COMMIT. 5_mobiwac/04_method.tex
+% printed "1.1 million for the two dedicated models combined (2.0 at California)"; those close exactly
+% against the withdrawn 644,359, and the dedicated category model alone is 1,433,863, so the printed
+% sum was impossible. Rather than guess the region half, it was MEASURED: the region head was
+% instantiated exactly as cell_reg builds it (next_stan_flow, d_model=128 by default, freeze_alpha,
+% alpha_init=0.0, embed_dim=64), giving 417,117 at Alabama's 1,109 regions and 1,370,685 at
+% California's 8,501. Cross-check that validates both sides at once: the joint's region partition
+% MINUS this head is exactly 465,297 at all five datasets with a delivered log. The sums are now
+% 1,850,980 (2.27x) and 2,804,548 (1.84x), printed as 1.9 and 2.8 million. Registered as an errata
+% row in the Chapter 5 scope table.
+\chapter{A Parameter-Count Control for Next-Category Prediction}
+\label{apx:parameter-count-control}
+
+Chapter~\ref{ch:mobiwac} attributes the next-category results to the check-in-level
+representation rather than to the size of the model that reads it. This experiment tests the
+competing explanation. The dedicated category model was widened with the intention of matching the
+complete joint model's trainable parameter count, holding the representation, the folds, and the
+training protocol fixed. The widths chosen in fact give it more than twice that count
+(Table~\ref{tab:apx-parameter-counts}), so what the experiment delivers is an over-capacity control
+rather than a matched one. If capacity were what the category task responds to, the wider model
+should improve on the narrower one. It does not.
+
+The control covers Alabama under the four-seed protocol and California at one seed, the second
+limited by a per-fold cost thirty-six times higher there. It is an additional dissertation analysis
+and does not appear in the Chapter~\ref{ch:mobiwac} manuscript.
+% [2026-08-12] The pointer into the main volume's conclusion is withdrawn. It said that section used
+% this control to test an alternative explanation, which stopped being true when the capacity
+% paragraph was withdrawn there; and a \ref across volumes cannot resolve, so it also printed as an
+% undefined reference once this appendix moved here.
+This control is reported in the supplementary volume because the main volume's category results are
+bounded within half a point, the same band this control's own effects fall near, so it does not
+carry an argument there.
+
+\section{Result at a glance}
+\label{sec:apx-parameter-summary}
+
+Table~\ref{tab:apx-parameter-comparison} places the three results side by side. At Alabama, where
+the control ran the full four-seed protocol, the wider dedicated model does not improve on the
+narrower one it replaces: it scores $0.53$ macro-F1 points lower with $6.7$ times the parameters,
+and a paired test over the four seeds separates that difference from zero ($p = 0.0011$). The
+direction is unanimous at the fold level, all twenty folds included, which is a stronger statement
+than the seed-level mean alone. The joint
+model, on less than half the wider model's budget, sits between them and above the wider
+model by $0.35$ points ($p = 0.041$). Capacity is therefore not the variable next-category
+prediction responds to at this dataset, which leaves the representation as the explanation
+Chapter~\ref{ch:mobiwac} gives.
+
+At California the same three arms were measured at one seed, where the three lie within $0.06$
+points of each other. That is a single-seed reading rather than a result under the four-seed
+convention, and it is reported as such: no test is applied to it and no average is taken across the
+two datasets.
+
+\begin{table}[H]
+    \centering
+    \caption{Next-category macro-F1 for the original dedicated, wider dedicated,
+    and joint models. The last two columns report wider minus original and joint
+    minus wider, in macro-F1 points. Alabama: four seeds $\times$ five folds per arm;
+    $\pm$ is the standard deviation across seeds. $^{\dagger}$California: seed 0 only,
+    five folds, for all three arms; a single-seed reading, not a result under the
+    four-seed convention.}
+    \label{tab:apx-parameter-comparison}
+    {\small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{lrrrrr}
+        \toprule
+        Dataset & Original & Wider & Joint & Wider $-$ original & Joint $-$ wider \\
+        \midrule
+        Alabama                  & $30.77 \pm 0.07$ & $30.24 \pm 0.13$ & $30.59 \pm 0.07$ & $-0.53$ & $+0.35$ \\
+        California$^{\dagger}$   & $35.62$           & $35.56$           & $35.61$           & $-0.06$ & $+0.05$ \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+% [2026-08-12] CORRECTED. The note claimed the joint column used a diagnostic-best per-task
+% checkpoint and that its values were therefore not comparable with Chapter 5's. The appendix's own
+% evidence file refutes it: the four Alabama seed means and the California seed-0 mean in
+% docs/results/closing_data/apxi_v18/apxi_final.json equal joint_best.cat_f1*100 from
+% docs/results/closing_data/v18/joint_best_perfold.json to seven decimals, which is the JOINTLY
+% SELECTED checkpoint, the same convention as the chapter's table. The note said the opposite of
+% what the numbers are.
+The joint column uses the jointly selected checkpoint, the same convention as
+Chapter~\ref{ch:mobiwac}'s results table, so the joint value here and the chapter's cell for the
+same dataset are the same number. Only the dedicated arms differ between the two, because this
+control replaces the narrow dedicated model with a wider one.
+
+\section{Experimental design}
+\label{sec:apx-parameter-design}
+
+The control changes one factor: the hidden dimension of the dedicated
+next-category model. At Alabama each arm uses four seeds, \{0, 1, 7, 100\}, and five
+user-disjoint folds per seed, for 20 fitted models per arm, which is the convention the rest of
+this document uses. At California one fold of the wider model takes $3{,}682$ seconds against
+$102$ seconds at Alabama, so the four-seed protocol would take about twenty hours there; the
+wider arm was measured at seed 0 and stopped. The reported value is macro-F1 under the same
+epoch-selection rule as the arms it is compared against.
+
+Table~\ref{tab:apx-parameter-counts} shows the parameter counts. The original model
+uses a hidden dimension of 256. The wider models reach 229.5\% and 233.8\% of the
+joint-model parameter counts, so they receive more than twice the joint model's budget rather than a
+matched one, which makes the control conservative: the arm that fails to improve is the larger one.
+Relative to the original dedicated model, the wider models carry $6.7$ and $8.4$ times the trainable
+parameters.
+
+\begin{table}[H]
+    \centering
+    \caption{Trainable parameter counts in the parameter-count control.}
+    \label{tab:apx-parameter-counts}
+    \begin{tabular}{lrrr}
+        \toprule
+        Dataset & Joint model & Original dedicated & Wider dedicated \\
+        \midrule
+        Alabama    & 4,197,621 & 1,433,863 & 9,634,471 ($h=672$) \\
+        California & 5,151,189 & 1,433,863 & 12,044,791 ($h=752$) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% [2026-09-02] ADDED at the author's request: make the dataset dependence explicit. Measured, not
+% asserted -- the delivered joint logs record the optimizer's own partition, e.g. california:
+% [('cat', 8e-05, 1731079), ('reg', 0.00012, 1835982), ('shared', 4e-05, 1584128)]. The cat and
+% shared partitions are IDENTICAL at Istanbul, Arizona, Texas and California; only reg moves, from
+% 806,433 to 1,835,982 as the region vocabulary goes 520 -> 8,501. Alabama has no delivered log in
+% this checkout, so its total is the audited one and its reg partition follows by subtraction
+% (882,414). Reproduce: research/reproducibility/mobiwac_v18/param_counts.py.
+The joint model's own count is not one number across the study. Its category and shared partitions
+are the same at every dataset; only the region head changes, because it scales with the region
+vocabulary. That single term moves the joint model's total by about a quarter across the datasets of
+Chapter~\ref{ch:mobiwac}, from roughly 4.1 million where the vocabulary is smallest to 5.2 million
+where it is largest. The two datasets in this control sit near the ends of that range, so the
+budget the wider dedicated model was widened toward is a per-dataset quantity, not a constant of the
+architecture.
+
+Because width can change the best learning rate, the wider model was given its own small search
+before the reported runs, and it selects 0.0025 rather than the 0.005 the original model uses at
+both datasets. Table~\ref{tab:apx-parameter-arms} reports the selected setting per dataset. This
+search is smaller than the one the original dedicated model received, which is a reason the wider
+arm is not read as a tuned ceiling.
+
+\begin{table}[H]
+    \centering
+    \caption{The selected training setting for the wider dedicated category model at each dataset,
+    with the macro-F1 it reaches. Alabama: four seeds $\times$ five folds, $\pm$ across seeds.
+    $^{\dagger}$California: seed 0, five folds.}
+    \label{tab:apx-parameter-arms}
+    \begin{tabular}{lrrrc}
+        \toprule
+        Dataset & Hidden dimension & Batch size & Learning rate & Macro-F1 \\
+        \midrule
+        Alabama                 & 672 & 2,048 & 0.0025 & $30.24 \pm 0.13$ \\
+        California$^{\dagger}$  & 752 & 8,192 & 0.0025 & $35.56$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Interpretation and limits}
+\label{sec:apx-parameter-result}
+
+At Alabama, parameter count does not account for next-category performance: multiplying the
+dedicated model's trainable parameters by $6.7$ lowers its macro-F1. The competing explanation this
+control was built to test is therefore not supported, which leaves the input representation as the
+factor Chapter~\ref{ch:mobiwac} identifies. What the control does not do is decompose the joint
+model: it holds the representation fixed and varies width, so it says nothing about which of the
+joint model's own mechanisms contribute to its results.
+
+The scope is narrow and worth stating plainly: next-category prediction only, one wider model per
+dataset, width rather than depth, a smaller hyperparameter search than the original model received,
+the full four-seed protocol at Alabama and a single seed at California. The result rules out a
+simple parameter-count explanation at Alabama and is consistent with the same reading at
+California, but it is neither a complete capacity study nor a component ablation.
+
+\noindent\textbf{Result files.} The per-fold scores of every arm, the driver log with per-seed
+wall-clock times, and the parsed digests are tracked under
+\path{docs/results/closing_data/apxi_v18/}.

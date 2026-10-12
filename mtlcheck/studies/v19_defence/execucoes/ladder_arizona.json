@@ -1,0 +1,38 @@
+{
+  "estado": "arizona",
+  "execucoes": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      7
+    ],
+    [
+      100,
+      100
+    ]
+  ],
+  "margem": 0.4,
+  "veredito": {
+    "cat": {
+      "desfecho": "para",
+      "execucoes": 4,
+      "meia_largura": 0.21686980741633763,
+      "sd": 0.07890158340899735,
+      "sd_ucl": 0.1363103754973838
+    },
+    "reg": {
+      "desfecho": "para",
+      "execucoes": 4,
+      "meia_largura": 0.19734929721195438,
+      "sd": 0.07179963047960446,
+      "sd_ucl": 0.12404104161656467
+    }
+  }
+}

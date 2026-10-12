@@ -1,0 +1,72 @@
+% !TeX root = ../../main.tex
+% chapters/4_courb/results.tex -- one section of Chapter 4 (CoUrb 2026, published).
+% Split out of chapters/4_courb.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CoUrb_2026/src_en/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Results}
+\label{sec:courb:results}
+
+\subsection{Experimental Setup}
+
+The performance of the models is evaluated using the Average F1-Score per category, reported as mean and standard deviation over 5 folds with a stratified split, using 80\% of the data for training and 20\% for validation, preserving the proportion between categories. % [round14] STANDALONE. Same treatment as 3_cbic/results.tex: the two forward pointers to Chapter 5
+
+The experiments were conducted with the Gowalla dataset \cite{cho2011gowalla,jure2014snap} in the states of Florida, California, and Texas, whose statistics are presented in Table \ref{tab:courb:dataset}. Texas concentrates the largest volume of check-ins of the three states, while Florida provides the smallest. The choice of these states is due to the high volume of check-ins and the presence of distinct urban patterns and spatial distributions, which allows evaluating the behavior of the models in scenarios with different levels of density and geographic dispersion.
+
+\input{tables/courb/dataset}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/courb/distribuicao_estados.png}
+    \caption{Spatial distribution of POIs of the Food (red) and Shopping (orange) categories in the densest sub-region of Florida, California, and Texas. The sub-regions were selected by density in a grid, with about 100 POIs per region. Each panel plots the POI coordinates (longitude on the horizontal axis, latitude on the vertical axis) for one state; the dense, overlapping clusters of the two categories illustrate the co-location pattern discussed in the text.}
+    \label{fig:courb:distribuicao}
+\end{figure}
+
+\subsection{POI Category Classification}
+
+The results of the POI Category Classification task are presented in Table~\ref{tab:courb:category}.
+% [v2 review, 2026-07-26] F2 repair (L5 gate, src_utils/_history/_review_v2/08_translation_fidelity_report.md).
+% The dissertation-authored lead clause said the variants "reach higher mean F1 ... in every category
+% and state". Two defects: (1) "mean F1" is not this table's metric. The table reports the Average
+% F1-Score PER CATEGORY (its own caption, and the published caption "F1-Score Medio (%) por modelo e
+% estado"); GLOSSARY 4 reserves "mean of per-category F1" for macro-F1, a different quantity, so the
+% phrase asserted a mean-over-categories score and then quantified it "in every category", which is
+% incoherent. (2) It was a bare universal stated before the reader reaches the table, without its
+% convention, against WRITING_LAW 3. The clause is DROPPED rather than reworded, because the very
+% next sentence is the published one and already states the same result with its convention (all 21
+% category-state combinations). Verified before dropping: the universal is TRUE on the printed values
+% (21 of 21 rows have both variant cells above the MTLnet cell, checked cell by cell), so this is a
+% wording repair, not a claim retraction. Nothing published changed; a dissertation-authored addition
+% was removed, which the Appendix B row for this lead sentence now records.
+
+% [2026-10-07, PROPOSAL from the final Fable audit, verified by the registry and re-verified by the writer; pending the author's ruling] A1 (reproduced text, Table B.3 row): the
+% sentence "The average gains per state are 20.2 to 22.0 percentage points, considering the better of the
+% two spatial encoders in each combination." is removed: the published results section
+% (CoUrb_2026/src/sections/results.tex:20) carries no such range; the chapter had added it; verified.
+In the three evaluated states, the two variants of ST-MTLNet outperform the original MTLnet in all 21 category-state combinations, showing that replacing the monolithic embedding of DGI with decoupled representations consistently enriches the characterization of the POIs. The gains are particularly substantial in categories such as \textit{Nightlife} and \textit{Travel}. In \textit{Nightlife}, for example, ST-MTLNet with Sphere2Vec-M reaches 62.44 $\pm$ 2.00 in Florida, 60.78 $\pm$ 1.63 in California, and 64.57 $\pm$ 1.03 in Texas, always well above the baseline. In \textit{Travel}, the best results reach 64.89 $\pm$ 1.20 in Florida with SIREN, 63.59 $\pm$ 1.45 in California with SIREN, and 64.73 $\pm$ 0.72 in Texas with Sphere2Vec-M.
+
+\input{tables/courb/category}
+
+The improvements observed in \textit{Food} and \textit{Shopping} reinforce that the geographic location carries discriminative signals relevant to the semantic category of the POI. Figure \ref{fig:courb:distribuicao} shows that these categories tend to form dense clusters in the analyzed sub-regions, favoring the capture of spatial patterns by the continuous encoders. Although the two proposed variants present close performance, a complementary behavior is observed: SIREN obtains more outstanding results in Florida and California, while Sphere2Vec-M stands out more frequently in Texas. Together, these results show that the modular approach consistently outperforms the monolithic paradigm of DGI in this task.
+
+\subsection{Next-POI Prediction}
+
+The results of the Next-POI Prediction task are presented in Table \ref{tab:courb:next}: the proposed variants keep the higher Average F1-Score per category in most category-state combinations, while the baseline retains six of them.
+% [v2 review, 2026-07-26] F2 repair, sibling sentence. Two changes, both to dissertation-authored
+% prose: "mean F1" -> the table's own metric (Average F1-Score per category), same reason as the lead
+% sentence above; and the vague "a few categories" -> "six of them". The six is COUNTED from this
+% chapter's own Table 4.3, not recalled: the rows where the MTLnet cell is at least as high as both
+% variant cells are Florida Outdoors (21.61 vs 21.29 / 21.59), Florida Travel (64.47 vs 45.00 /
+% 44.93), California Entertainment (19.38 vs 17.28 / 17.01), California Nightlife (18.24 vs 16.34 /
+% 15.10), California Outdoors (25.01 vs 24.84 / 24.07), and California Travel (46.05 vs 36.94 /
+% 37.82). Six of 21.
+
+Unlike classification, this task presents a more heterogeneous scenario, but still favorable to the proposed variants: counting the better of the two spatial encoders per combination, the spatio-temporal models outperform the original MTLnet in 15 of the 21 evaluated combinations, with one additional technical tie in \textit{Outdoors} in Florida, where the baseline mean exceeds the best variant by 0.02 percentage points, a gap within one standard deviation. The largest gains occur in \textit{Food}, a category in which both variants outperform the baseline in the three states. The best result is obtained by Sphere2Vec-M in Texas, with 48.67 $\pm$ 0.66, while in California the same model reaches 51.28 $\pm$ 0.57, outperforming DGI by a wide margin. Consistent improvements also appear in \textit{Shopping} and \textit{Community}, suggesting that the combination between continuous spatial information and temporal context favors the modeling of recurrent transitions between categories.
+
+\input{tables/courb/next}
+
+The co-location pattern shown in Figure \ref{fig:courb:distribuicao} helps to interpret this behavior, since the presence of dense clusters of categories such as \textit{Food} and \textit{Shopping} favors frequent local transitions along the user's trajectory. Even so, the baseline maintains an advantage in some cases, especially in \textit{Travel} in Florida and California, in addition to specific categories in California, such as \textit{Entertainment}, \textit{Nightlife}, and \textit{Outdoors}.
+
+This behavior may be related to the nature of the \textit{Travel} category itself, which tends to involve sparser movements between distant regions. In these cases, the graph topology used by DGI may be more efficient for preserving relationships between geographically distant POIs. On the other hand, spatial encoders such as SIREN and Sphere2Vec-M are coordinate-based, being more suitable for capturing local patterns, showing that continuous coordinate encodings and graph-based representations capture complementary aspects of mobility. Even with this limitation, the general performance indicates that the proposed representations are more effective in most sequential prediction scenarios.

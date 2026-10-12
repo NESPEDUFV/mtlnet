@@ -1,0 +1,14 @@
+{
+  "rundir": "/Volumes/Vitor's SSD/ingred_g1/results/g1_cat/full_cpu/check2hgi_v18/alabama/next_lr1.0e-04_bs8192_ep50_20261001_223616_52893",
+  "tag": "g1_cat_full_cpu",
+  "metric": "STL cat ceiling = macro-F1 (f1 col) at f1-best epoch, fold-mean",
+  "n_folds": 1,
+  "cat_macro_f1_mean": 32.3678,
+  "cat_macro_f1_std": 0.0,
+  "cat_per_fold": [
+    32.3678
+  ],
+  "cat_best_epochs": [
+    18
+  ]
+}

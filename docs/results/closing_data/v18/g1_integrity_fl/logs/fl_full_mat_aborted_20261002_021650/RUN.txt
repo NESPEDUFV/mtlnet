@@ -1,0 +1,8 @@
+start 2026-10-02 02:09:26 commit d01cd2a8 swap_used_MB=4499
+cmd: .venv/bin/python scripts/integrity_v2/materialize_engine.py --state florida --arm-npz results/integ18_repr/florida/FULL_CPU/win_matched.npz --source-engine check2hgi_dk_ovl_srcview --dest-engine check2hgi_v18_fullcpu
+ABORT 02:09:36 swap=6095 free=32 disk_int=31 disk_ssd=8
+ABORT 02:09:41 swap=6079 free=37 disk_int=31 disk_ssd=8
+rc=0 wall=42s peakRSS_bytes=7949565952
+repo-write-guard OK
+end 2026-10-02 02:10:09
+DONE

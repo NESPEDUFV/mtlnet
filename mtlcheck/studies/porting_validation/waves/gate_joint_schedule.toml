@@ -1,0 +1,48 @@
+# Gate: can the joint schedule drop from 50 epochs to 30 or 35?
+#
+# The joint lane is ~77% of a wave's cost (122-331 s per fold against 13-64 s for a dedicated cell),
+# so a 30-40% cut here is the single largest speed lever available. The review measured, at four
+# settling points, that 30 epochs moves category +0.12 to +0.42 pp and region between -0.11 and
+# +0.13 pp, with 35 recovering region to -0.01 at 30% savings.
+#
+# THIS CHANGES RESULTS.
+#
+# Arizona and Istanbul, because their 50-epoch compiled arms are already banked in
+# az_ist_validation (4 seeds x 5 folds) and are REUSED rather than re-run.
+#
+# That reuse was checked, not assumed, and the check produced the number that matters here: re-running
+# joint/arizona/seed0 at 50 epochs gives cat 34.5416 against the banked 34.5169 and reg 59.1876
+# against 59.2369. Compiled runs are not bit-reproducible between sessions (inductor autotuning and
+# reduction order), so two runs of ONE config differ by ~0.02-0.05 pp. Re-running the incumbent would
+# not have avoided that noise — it would only have paid 8 extra cells for a different sample of it.
+# The paired band over seeds is what absorbs it.
+#
+# Keep that floor in mind reading the result: a schedule delta under ~0.05 pp is not distinguishable
+# from running the same config twice.
+#
+# diagnostics = true throughout. Since the gradient-geometry probe was split out, diagnostics no
+# longer forces eager — measured at 974 s against 995 s for the same cell, still compiled. So the
+# convergence data that explains WHY a schedule wins is now free.
+#
+# 30 AND 35, not just 30: the region dip at 30 reproduced across two seeds at Alabama, and the
+# review expects 35 to win the region lane while keeping most of the saving. Racing them costs one
+# extra arm and settles it.
+
+[wave]
+study = "gate_joint_schedule"
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+arm = "ep35"
+set = { epochs = 35, diagnostics = true }
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+split_seed = "per-seed"   # o que esta wave rodou, anotado em 24-08
+states = ["arizona", "istanbul"]
+seeds = [0, 1, 7, 100]
+arm = "ep30"
+set = { epochs = 30, diagnostics = true }

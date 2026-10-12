@@ -1,0 +1,6 @@
+start 2026-10-02 04:36:04 commit d01cd2a8 swap_used_MB=3818
+cmd: .venv/bin/python scripts/integrity_v2/materialize_engine.py --state arizona --arm-npz results/integ18_repr/arizona/TO_F3/win_matched.npz --source-engine check2hgi_dk_ovl --dest-engine check2hgi_v18_to_f3
+rc=0 wall=12s peakRSS_bytes=3947872256
+repo-write-guard OK
+end 2026-10-02 04:36:17
+DONE

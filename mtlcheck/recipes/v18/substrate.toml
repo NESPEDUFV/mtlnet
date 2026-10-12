@@ -1,0 +1,54 @@
+# v18 — the check-in substrate.
+#
+# v18 = the v17 recipe on a forward-only check-in graph, plus elapsed-time node features. It is not
+# an architecture change.
+#
+# Source: docs/studies/closing_data/v18/METHODOLOGY.md §1 and
+# scripts/integrity_v2/build_study_repr.py --forward-only --add-continuous-time.
+
+[substrate]
+engine = "check2hgi_v18"
+
+# The canonical preprocessor emits BOTH directions of every consecutive-visit edge, so a visit's
+# vector is convolved over a neighbourhood containing the visit AFTER it — the category head sees a
+# feature of the target it is asked to predict. Keeping only src < tgt removes that.
+#
+# Measured cost of the leak at alabama: retaining the target visit is worth 28.63 macro-F1 points
+# (28.23 -> 56.86). Expect v18 category numbers to fall by that order. A v18 category number near
+# its v17 value means the forward-only path is broken.
+#
+# Scope, so nobody over-reads it: this makes the CHECK-IN AXIS causal. The pretext training signal
+# still sees the future by other routes (Checkin2POI pools future visits, the MAE target is a
+# corpus-wide category distribution, edge-weight normalisation is fit on the whole corpus), and the
+# region tower consumes fully bidirectional v14 embeddings.
+forward_only = true
+
+# Four columns appended to the canonical eleven -> in_channels = 15. All measured UP TO the visit
+# itself; the gap to the target is never added, which would reintroduce the leak in a new form.
+#   log1p(hours since previous visit) / 10
+#   log1p(hours since the user's first visit) / 10
+#   clip(gap, 0, 24) / 24
+#   gap == 0                                  <- the build metadata calls this "is_first_visit", but
+#                                                the code computes gap == 0, so timestamp ties also
+#                                                get 1.0. Reproduce the behaviour, not the name.
+continuous_time = true
+
+encoder = "resln"
+dim = 64            # fixed: the encoder, the Delaunay place-table distillation target and the
+                    # downstream head all assume 64
+num_layers = 2      # width sweeps at 32/64/128 and depth sweeps at 1/2/3/4 found 64 and 2 at or
+                    # near optimum; one layer equalled three within 0.014 points. Settled.
+epochs = 500
+repr_seed = 42      # one representation per state, shared by all four downstream seeds
+
+# Deliberately NOT enabled — measured at alabama against the forward-only baseline of 27.5127, and
+# every one hurt:
+#   place identity, standardized, projected to 8   27.1047  (-0.41)
+#   place identity, standardized, full 64          25.7683  (-1.74)
+#   place identity, raw 64                         25.6506  (-1.86)
+#   region identity, standardized, projected to 8  26.9601  (-0.55)
+# Mechanism: the pretext discriminator's negatives are row-permuted node features, so a spatial
+# block the graph can already anticipate from a neighbourhood becomes a shortcut — "real or
+# shuffled?" becomes answerable from that block alone, the pretext loss collapses, and downstream
+# accuracy falls. Elapsed time is the one tested feature barely above chance in neighbourhood
+# predictability, which is the working explanation for why it is the only one that helps.

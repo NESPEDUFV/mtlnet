@@ -1,0 +1,53 @@
+--- a/scripts/baselines/build_ctle_substrate.py
++++ b/scripts/baselines/build_ctle_substrate.py
+@@ -101,13 +101,20 @@
+ # ---------------------------------------------------------------------------
+ # Fold split — bit-identical to the board (see module docstring step 1).
+ # ---------------------------------------------------------------------------
+-def get_fold_indices(state: str, seed: int, fold: int):
++def get_fold_indices(state: str, seed: int, fold: int, split_engine: str = "check2hgi"):
+     """Return (train_idx, val_idx, userids) for ONE fold of the board split.
++
++    [2026-10-01] ``split_engine`` picks the rows the split is computed on. The default, ``check2hgi``
++    (canonical stride-9 rows), is what the June cells used. But the CTLE cells are SCORED by
++    ``train.py --only-fold`` on the engine's own stride-1 rows (= ``check2hgi_dk_ovl``), whose folds differ:
++    74-82 % (AL) / 78-82 % (AZ) of each scored fold's validation users were on the pre-training side.
++    Pass ``--split-engine check2hgi_dk_ovl`` so pre-training excludes exactly the scored fold's users.
++    ``load_next_data`` returns int64 userids, i.e. the same groups ``train.py`` uses.
+ 
+     Bit-identical to FoldCreator._create_check2hgi_mtl_folds /
+     compute_region_transition._build_per_fold (same X/y_cat/groups/seed).
+     """
+-    X, y_cat, userids, _ = load_next_data(state, CHECK2HGI)
++    X, y_cat, userids, _ = load_next_data(state, EmbeddingEngine(split_engine))
+     sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=seed)
+     splits = list(sgkf.split(X, y_cat, groups=userids))
+     train_idx, val_idx = splits[fold]
+@@ -317,7 +324,7 @@
+     per-fold seeded log_T (``region_transition_log_seed{S}_fold{N}.pt``).
+     """
+     state = state.lower()
+-    train_idx, val_idx, userids = get_fold_indices(state, seed, fold)
++    train_idx, val_idx, userids = get_fold_indices(state, seed, fold, args.split_engine)
+     train_userids = set(int(u) for u in userids[train_idx])
+     val_userids = set(int(u) for u in userids[val_idx])
+     print(f"[fold {fold} seed {seed}] train_users={len(train_userids)} "
+@@ -370,6 +377,8 @@
+     (sub_dir / "CTLE_FOLD.txt").write_text(
+         f"state={state} seed={seed} fold={fold} vocab={vocab}\n"
+         f"pretrain_epochs={args.pretrain_epochs} smoke={args.smoke}\n"
++        f"split_engine={args.split_engine} n_val_users={len(val_userids)} "
++        f"val_users_sha256={__import__('hashlib').sha256(np.sort(np.fromiter(val_userids, dtype=np.int64)).tobytes()).hexdigest()}\n"
+         f"LEAK-SAFE: encoder pretrained on fold-{fold} TRAIN users only.\n"
+     )
+     return sub_dir
+@@ -385,6 +394,9 @@
+     ap.add_argument("--batch-size", type=int, default=256)
+     ap.add_argument("--max-len", type=int, default=64)
+     ap.add_argument("--lr", type=float, default=1e-3)
++    ap.add_argument("--split-engine", default="check2hgi",
++                    help="engine whose rows define the fold split (default check2hgi = the June behaviour). "
++                         "Use check2hgi_dk_ovl to match the rows train.py scores the CTLE cells on.")
+     ap.add_argument("--stride", type=int, default=None,
+                     help="window stride for next/next_region (None=stride-9 "
+                          "non-overlap default; pass 1 for the P3 gated-overlap "

@@ -1,0 +1,7 @@
+    _multiclass_stat_scores_tensor_validation(preds, target, num_classes, multidim_average, ignore_index)
+  File "/Users/vitor/Desktop/mestrado/ingred/.venv/lib/python3.12/site-packages/torchmetrics/functional/classification/stat_scores.py", line 322, in _multiclass_stat_scores_tensor_validation
+    raise RuntimeError(
+RuntimeError: Detected more unique values in `target` than expected. Expected only 7 but found 1403 in `target`. Found values: tensor([-2147450368, -1996455424,  -423318592,  ...,  1342177280,
+         1610612736,  1712150016], device='mps:0').
+        8.26 real         4.39 user         1.32 sys
+          2150891520  maximum resident set size

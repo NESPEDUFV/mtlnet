@@ -1,0 +1,5 @@
+=== A40 matched-metric score: mtlnet_lr1.0e-04_bs8192_ep50_20260805_191316_3471663 ===
+  seed=0  tag=rg2_istanbul_s0_f0
+  cat macro-F1 (diag-best)      = 9.3102 ± 0.0000  (n=1)  per-fold=[9.3102]  epochs=[3]
+  reg FULL top10_acc (indist-best) = 76.5814 ± 0.0000  (n=1)  per-fold=[76.5814]  epochs=[23]
+  wrote /home/vitor.oliveira/PoiMtlNet/results/check2hgi_dk_ovl/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260805_191316_3471663/a40_matched_score.json

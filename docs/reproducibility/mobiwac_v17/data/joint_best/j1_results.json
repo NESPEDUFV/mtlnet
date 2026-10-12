@@ -1,0 +1,1274 @@
+{
+  "per_run": [
+    {
+      "state": "alabama",
+      "seed": 0,
+      "pid": 983885,
+      "rundir": "results/check2hgi_dk_ovl/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260629_235217_983885",
+      "jb_cat": 64.5279,
+      "jb_reg": 69.8347,
+      "jb_cat_folds": [
+        64.5533,
+        65.8806,
+        66.0597,
+        65.3455,
+        60.8006
+      ],
+      "jb_reg_folds": [
+        71.9128,
+        68.885,
+        73.3766,
+        70.7791,
+        64.2201
+      ],
+      "jb_epochs": [
+        36,
+        40,
+        41,
+        40,
+        45
+      ],
+      "db_cat": 64.584,
+      "db_reg": 69.8617,
+      "delta_cat": -0.0561,
+      "delta_reg": -0.027,
+      "audit_a": {
+        "cat_scorer": 64.584,
+        "cat_a40": 64.584,
+        "reg_scorer": 69.8617,
+        "reg_a40": 69.8617,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 36,
+          "2": 40,
+          "3": 41,
+          "4": 40,
+          "5": 45
+        },
+        "ckpt_epochs": {
+          "1": 35,
+          "2": 39,
+          "3": 40,
+          "4": 39,
+          "5": 44
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "alabama",
+      "seed": 1,
+      "pid": 983884,
+      "rundir": "results/check2hgi_dk_ovl/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260629_235217_983884",
+      "jb_cat": 64.6409,
+      "jb_reg": 69.6012,
+      "jb_cat_folds": [
+        64.9774,
+        65.5216,
+        66.0977,
+        65.3648,
+        61.2431
+      ],
+      "jb_reg_folds": [
+        71.6792,
+        68.5868,
+        73.2766,
+        71.4026,
+        63.0606
+      ],
+      "jb_epochs": [
+        42,
+        36,
+        43,
+        43,
+        38
+      ],
+      "db_cat": 64.6689,
+      "db_reg": 69.7185,
+      "delta_cat": -0.028,
+      "delta_reg": -0.1173,
+      "audit_a": {
+        "cat_scorer": 64.6689,
+        "cat_a40": 64.6689,
+        "reg_scorer": 69.7185,
+        "reg_a40": 69.7185,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 42,
+          "2": 36,
+          "3": 43,
+          "4": 43,
+          "5": 38
+        },
+        "ckpt_epochs": {
+          "1": 41,
+          "2": 35,
+          "3": 42,
+          "4": 42,
+          "5": 37
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "alabama",
+      "seed": 7,
+      "pid": 988104,
+      "rundir": "results/check2hgi_dk_ovl/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260630_001556_988104",
+      "jb_cat": 64.3847,
+      "jb_reg": 69.7018,
+      "jb_cat_folds": [
+        64.5883,
+        65.4239,
+        65.6311,
+        65.1602,
+        61.12
+      ],
+      "jb_reg_folds": [
+        71.7882,
+        68.5664,
+        72.7523,
+        71.4486,
+        63.9535
+      ],
+      "jb_epochs": [
+        45,
+        38,
+        37,
+        49,
+        38
+      ],
+      "db_cat": 64.4041,
+      "db_reg": 69.8129,
+      "delta_cat": -0.0194,
+      "delta_reg": -0.1111,
+      "audit_a": {
+        "cat_scorer": 64.4041,
+        "cat_a40": 64.4041,
+        "reg_scorer": 69.8129,
+        "reg_a40": 69.8129,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 45,
+          "2": 38,
+          "3": 37,
+          "4": 49,
+          "5": 38
+        },
+        "ckpt_epochs": {
+          "1": 44,
+          "2": 37,
+          "3": 36,
+          "4": 48,
+          "5": 37
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "alabama",
+      "seed": 100,
+      "pid": 988155,
+      "rundir": "results/check2hgi_dk_ovl/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260630_001556_988155",
+      "jb_cat": 64.4668,
+      "jb_reg": 69.644,
+      "jb_cat_folds": [
+        64.9432,
+        65.3451,
+        65.6553,
+        65.3663,
+        61.0242
+      ],
+      "jb_reg_folds": [
+        71.3003,
+        68.7931,
+        73.126,
+        71.3922,
+        63.6081
+      ],
+      "jb_epochs": [
+        40,
+        39,
+        39,
+        34,
+        35
+      ],
+      "db_cat": 64.505,
+      "db_reg": 69.809,
+      "delta_cat": -0.0382,
+      "delta_reg": -0.1651,
+      "audit_a": {
+        "cat_scorer": 64.505,
+        "cat_a40": 64.505,
+        "reg_scorer": 69.809,
+        "reg_a40": 69.809,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 40,
+          "2": 39,
+          "3": 39,
+          "4": 34,
+          "5": 35
+        },
+        "ckpt_epochs": {
+          "1": 39,
+          "2": 38,
+          "3": 38,
+          "4": 33,
+          "5": 34
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "arizona",
+      "seed": 0,
+      "pid": 992231,
+      "rundir": "results/check2hgi_dk_ovl/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260630_003956_992231",
+      "jb_cat": 65.7914,
+      "jb_reg": 59.4838,
+      "jb_cat_folds": [
+        67.3288,
+        64.8296,
+        66.7106,
+        65.3408,
+        64.7472
+      ],
+      "jb_reg_folds": [
+        62.7641,
+        59.322,
+        59.6306,
+        57.7466,
+        57.9556
+      ],
+      "jb_epochs": [
+        38,
+        40,
+        37,
+        34,
+        35
+      ],
+      "db_cat": 65.8321,
+      "db_reg": 59.6212,
+      "delta_cat": -0.0407,
+      "delta_reg": -0.1374,
+      "audit_a": {
+        "cat_scorer": 65.8321,
+        "cat_a40": 65.8321,
+        "reg_scorer": 59.6212,
+        "reg_a40": 59.6212,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 38,
+          "2": 40,
+          "3": 37,
+          "4": 34,
+          "5": 35
+        },
+        "ckpt_epochs": {
+          "1": 37,
+          "2": 39,
+          "3": 36,
+          "4": 33,
+          "5": 34
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "arizona",
+      "seed": 1,
+      "pid": 992283,
+      "rundir": "results/check2hgi_dk_ovl/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260630_003956_992283",
+      "jb_cat": 65.7714,
+      "jb_reg": 59.45,
+      "jb_cat_folds": [
+        66.5771,
+        64.8593,
+        66.9116,
+        65.7163,
+        64.7926
+      ],
+      "jb_reg_folds": [
+        62.5675,
+        59.1428,
+        59.5286,
+        58.1821,
+        57.8287
+      ],
+      "jb_epochs": [
+        44,
+        48,
+        35,
+        35,
+        35
+      ],
+      "db_cat": 65.806,
+      "db_reg": 59.5316,
+      "delta_cat": -0.0346,
+      "delta_reg": -0.0816,
+      "audit_a": {
+        "cat_scorer": 65.806,
+        "cat_a40": 65.806,
+        "reg_scorer": 59.5316,
+        "reg_a40": 59.5316,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 44,
+          "2": 48,
+          "3": 35,
+          "4": 35,
+          "5": 35
+        },
+        "ckpt_epochs": {
+          "1": 43,
+          "2": 47,
+          "3": 34,
+          "4": 34,
+          "5": 34
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "arizona",
+      "seed": 7,
+      "pid": 998602,
+      "rundir": "results/check2hgi_dk_ovl/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260630_012450_998602",
+      "jb_cat": 65.7698,
+      "jb_reg": 59.5047,
+      "jb_cat_folds": [
+        66.2852,
+        64.4988,
+        67.5552,
+        65.4953,
+        65.0144
+      ],
+      "jb_reg_folds": [
+        62.5476,
+        59.3718,
+        59.6754,
+        57.866,
+        58.0627
+      ],
+      "jb_epochs": [
+        48,
+        40,
+        39,
+        44,
+        34
+      ],
+      "db_cat": 65.851,
+      "db_reg": 59.6058,
+      "delta_cat": -0.0813,
+      "delta_reg": -0.101,
+      "audit_a": {
+        "cat_scorer": 65.851,
+        "cat_a40": 65.851,
+        "reg_scorer": 59.6058,
+        "reg_a40": 59.6058,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 48,
+          "2": 40,
+          "3": 39,
+          "4": 44,
+          "5": 34
+        },
+        "ckpt_epochs": {
+          "1": 47,
+          "2": 39,
+          "3": 38,
+          "4": 43,
+          "5": 33
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "arizona",
+      "seed": 100,
+      "pid": 998757,
+      "rundir": "results/check2hgi_dk_ovl/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260630_012455_998757",
+      "jb_cat": 65.806,
+      "jb_reg": 59.3872,
+      "jb_cat_folds": [
+        66.365,
+        64.6721,
+        67.3643,
+        65.5796,
+        65.0488
+      ],
+      "jb_reg_folds": [
+        63.0777,
+        59.2459,
+        59.1827,
+        57.4369,
+        57.993
+      ],
+      "jb_epochs": [
+        42,
+        37,
+        38,
+        36,
+        36
+      ],
+      "db_cat": 65.8523,
+      "db_reg": 59.4933,
+      "delta_cat": -0.0463,
+      "delta_reg": -0.106,
+      "audit_a": {
+        "cat_scorer": 65.8523,
+        "cat_a40": 65.8523,
+        "reg_scorer": 59.4933,
+        "reg_a40": 59.4933,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 42,
+          "2": 37,
+          "3": 38,
+          "4": 36,
+          "5": 36
+        },
+        "ckpt_epochs": {
+          "1": 41,
+          "2": 36,
+          "3": 37,
+          "4": 35,
+          "5": 35
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "florida",
+      "seed": 0,
+      "pid": 1058652,
+      "rundir": "results/check2hgi_dk_ovl/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260630_070822_1058652",
+      "jb_cat": 79.8369,
+      "jb_reg": 77.3862,
+      "jb_cat_folds": [
+        79.4438,
+        79.9507,
+        79.8154,
+        79.3609,
+        80.6137
+      ],
+      "jb_reg_folds": [
+        77.6377,
+        77.498,
+        76.1903,
+        76.5457,
+        79.0594
+      ],
+      "jb_epochs": [
+        44,
+        48,
+        50,
+        49,
+        49
+      ],
+      "db_cat": 79.8443,
+      "db_reg": 77.391,
+      "delta_cat": -0.0074,
+      "delta_reg": -0.0048,
+      "audit_a": {
+        "cat_scorer": 79.8443,
+        "cat_a40": 79.8443,
+        "reg_scorer": 77.391,
+        "reg_a40": 77.391,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 44,
+          "2": 48,
+          "3": 50,
+          "4": 49,
+          "5": 49
+        },
+        "ckpt_epochs": {
+          "1": 43,
+          "2": 47,
+          "3": 49,
+          "4": 48,
+          "5": 48
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "florida",
+      "seed": 1,
+      "pid": 1088683,
+      "rundir": "results/check2hgi_dk_ovl/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260630_111843_1088683",
+      "jb_cat": 79.8045,
+      "jb_reg": 77.4109,
+      "jb_cat_folds": [
+        78.8264,
+        79.7901,
+        80.2347,
+        79.3312,
+        80.8399
+      ],
+      "jb_reg_folds": [
+        77.3666,
+        76.9029,
+        76.929,
+        76.6846,
+        79.1716
+      ],
+      "jb_epochs": [
+        43,
+        40,
+        47,
+        48,
+        48
+      ],
+      "db_cat": 79.806,
+      "db_reg": 77.4196,
+      "delta_cat": -0.0015,
+      "delta_reg": -0.0086,
+      "audit_a": {
+        "cat_scorer": 79.806,
+        "cat_a40": 79.806,
+        "reg_scorer": 77.4196,
+        "reg_a40": 77.4196,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 43,
+          "2": 40,
+          "3": 47,
+          "4": 48,
+          "5": 48
+        },
+        "ckpt_epochs": {
+          "1": 42,
+          "2": 39,
+          "3": 46,
+          "4": 47,
+          "5": 47
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "florida",
+      "seed": 7,
+      "pid": 1097178,
+      "rundir": "results/check2hgi_dk_ovl/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260630_121402_1097178",
+      "jb_cat": 79.87,
+      "jb_reg": 77.3978,
+      "jb_cat_folds": [
+        79.351,
+        79.8604,
+        79.9381,
+        79.2985,
+        80.9022
+      ],
+      "jb_reg_folds": [
+        77.3717,
+        77.1457,
+        76.636,
+        76.7678,
+        79.0677
+      ],
+      "jb_epochs": [
+        44,
+        42,
+        49,
+        47,
+        43
+      ],
+      "db_cat": 79.8847,
+      "db_reg": 77.413,
+      "delta_cat": -0.0147,
+      "delta_reg": -0.0152,
+      "audit_a": {
+        "cat_scorer": 79.8847,
+        "cat_a40": 79.8847,
+        "reg_scorer": 77.413,
+        "reg_a40": 77.413,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 44,
+          "2": 42,
+          "3": 49,
+          "4": 47,
+          "5": 43
+        },
+        "ckpt_epochs": {
+          "1": 43,
+          "2": 41,
+          "3": 48,
+          "4": 46,
+          "5": 42
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "florida",
+      "seed": 100,
+      "pid": 1119752,
+      "rundir": "results/check2hgi_dk_ovl/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260630_154208_1119752",
+      "jb_cat": 79.8515,
+      "jb_reg": 77.4439,
+      "jb_cat_folds": [
+        79.112,
+        79.7672,
+        79.6398,
+        79.5206,
+        81.2179
+      ],
+      "jb_reg_folds": [
+        77.1924,
+        77.1029,
+        76.6937,
+        76.8023,
+        79.4282
+      ],
+      "jb_epochs": [
+        50,
+        47,
+        50,
+        47,
+        42
+      ],
+      "db_cat": 79.8572,
+      "db_reg": 77.46,
+      "delta_cat": -0.0056,
+      "delta_reg": -0.0161,
+      "audit_a": {
+        "cat_scorer": 79.8572,
+        "cat_a40": 79.8572,
+        "reg_scorer": 77.46,
+        "reg_a40": 77.46,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 50,
+          "2": 47,
+          "3": 50,
+          "4": 47,
+          "5": 42
+        },
+        "ckpt_epochs": {
+          "1": 49,
+          "2": 46,
+          "3": 49,
+          "4": 46,
+          "5": 41
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "california",
+      "seed": 0,
+      "pid": 1363454,
+      "rundir": "results/check2hgi_dk_ovl/california/mtlnet_lr1.0e-04_bs8192_ep50_20260701_040244_1363454",
+      "jb_cat": 77.0406,
+      "jb_reg": 65.6876,
+      "jb_cat_folds": [
+        76.9509,
+        77.2786,
+        76.7003,
+        77.1617,
+        77.1116
+      ],
+      "jb_reg_folds": [
+        65.4044,
+        65.5541,
+        65.6362,
+        65.5725,
+        66.271
+      ],
+      "jb_epochs": [
+        48,
+        48,
+        49,
+        49,
+        49
+      ],
+      "db_cat": 77.0422,
+      "db_reg": 65.694,
+      "delta_cat": -0.0016,
+      "delta_reg": -0.0064,
+      "audit_a": {
+        "cat_scorer": 77.0422,
+        "cat_a40": 77.0422,
+        "reg_scorer": 65.694,
+        "reg_a40": 65.694,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 48,
+          "2": 48,
+          "3": 49,
+          "4": 49,
+          "5": 49
+        },
+        "ckpt_epochs": {
+          "1": 47,
+          "2": 47,
+          "3": 48,
+          "4": 48,
+          "5": 48
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "texas",
+      "seed": 0,
+      "pid": 1419069,
+      "rundir": "results/check2hgi_dk_ovl/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260701_085836_1419069",
+      "jb_cat": 77.227,
+      "jb_reg": 67.0711,
+      "jb_cat_folds": [
+        77.4234,
+        77.0575,
+        77.1903,
+        77.2942,
+        77.1695
+      ],
+      "jb_reg_folds": [
+        66.9747,
+        67.3614,
+        66.2423,
+        67.2732,
+        67.5038
+      ],
+      "jb_epochs": [
+        49,
+        50,
+        49,
+        49,
+        50
+      ],
+      "db_cat": 77.2272,
+      "db_reg": 67.0723,
+      "delta_cat": -0.0002,
+      "delta_reg": -0.0012,
+      "audit_a": {
+        "cat_scorer": 77.2272,
+        "cat_a40": 77.2272,
+        "reg_scorer": 67.0723,
+        "reg_a40": 67.0723,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 49,
+          "2": 50,
+          "3": 49,
+          "4": 49,
+          "5": 50
+        },
+        "ckpt_epochs": {
+          "1": 48,
+          "2": 49,
+          "3": 48,
+          "4": 48,
+          "5": 49
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "istanbul",
+      "seed": 0,
+      "pid": 3852943,
+      "rundir": "results/check2hgi_dk_ovl/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260706_035048_3852943",
+      "jb_cat": 63.3014,
+      "jb_reg": 75.3392,
+      "jb_cat_folds": [
+        64.2416,
+        62.7909,
+        62.7779,
+        63.2525,
+        63.4442
+      ],
+      "jb_reg_folds": [
+        76.6864,
+        75.0888,
+        74.585,
+        75.2379,
+        75.098
+      ],
+      "jb_epochs": [
+        46,
+        40,
+        47,
+        46,
+        47
+      ],
+      "db_cat": 63.3179,
+      "db_reg": 75.4066,
+      "delta_cat": -0.0164,
+      "delta_reg": -0.0674,
+      "audit_a": {
+        "cat_scorer": 63.3179,
+        "cat_a40": 63.3179,
+        "reg_scorer": 75.4066,
+        "reg_a40": 75.4066,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 46,
+          "2": 40,
+          "3": 47,
+          "4": 46,
+          "5": 47
+        },
+        "ckpt_epochs": {
+          "1": 45,
+          "2": 39,
+          "3": 46,
+          "4": 45,
+          "5": 46
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "istanbul",
+      "seed": 1,
+      "pid": 3858409,
+      "rundir": "results/check2hgi_dk_ovl/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260706_042640_3858409",
+      "jb_cat": 63.3323,
+      "jb_reg": 75.3767,
+      "jb_cat_folds": [
+        62.9587,
+        63.9112,
+        62.9677,
+        63.0428,
+        63.7812
+      ],
+      "jb_reg_folds": [
+        76.1857,
+        75.1863,
+        75.3019,
+        75.8829,
+        74.3268
+      ],
+      "jb_epochs": [
+        45,
+        44,
+        43,
+        47,
+        41
+      ],
+      "db_cat": 63.3323,
+      "db_reg": 75.4835,
+      "delta_cat": 0.0,
+      "delta_reg": -0.1067,
+      "audit_a": {
+        "cat_scorer": 63.3323,
+        "cat_a40": 63.3323,
+        "reg_scorer": 75.4835,
+        "reg_a40": 75.4835,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 45,
+          "2": 44,
+          "3": 43,
+          "4": 47,
+          "5": 41
+        },
+        "ckpt_epochs": {
+          "1": 44,
+          "2": 43,
+          "3": 42,
+          "4": 46,
+          "5": 40
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "istanbul",
+      "seed": 7,
+      "pid": 3863852,
+      "rundir": "results/check2hgi_dk_ovl/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260706_050236_3863852",
+      "jb_cat": 63.351,
+      "jb_reg": 75.2954,
+      "jb_cat_folds": [
+        63.7864,
+        63.3901,
+        62.7338,
+        63.565,
+        63.2797
+      ],
+      "jb_reg_folds": [
+        75.2765,
+        75.3842,
+        75.4827,
+        74.6797,
+        75.6538
+      ],
+      "jb_epochs": [
+        42,
+        40,
+        49,
+        50,
+        46
+      ],
+      "db_cat": 63.3587,
+      "db_reg": 75.3922,
+      "delta_cat": -0.0077,
+      "delta_reg": -0.0968,
+      "audit_a": {
+        "cat_scorer": 63.3587,
+        "cat_a40": 63.3587,
+        "reg_scorer": 75.3922,
+        "reg_a40": 75.3922,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 42,
+          "2": 40,
+          "3": 49,
+          "4": 50,
+          "5": 46
+        },
+        "ckpt_epochs": {
+          "1": 41,
+          "2": 39,
+          "3": 48,
+          "4": 49,
+          "5": 45
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    },
+    {
+      "state": "istanbul",
+      "seed": 100,
+      "pid": 3869098,
+      "rundir": "results/check2hgi_dk_ovl/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260706_053831_3869098",
+      "jb_cat": 63.3,
+      "jb_reg": 75.3966,
+      "jb_cat_folds": [
+        63.0598,
+        63.5183,
+        63.0641,
+        63.4506,
+        63.4071
+      ],
+      "jb_reg_folds": [
+        75.2581,
+        75.2931,
+        75.4735,
+        75.2729,
+        75.6856
+      ],
+      "jb_epochs": [
+        46,
+        48,
+        49,
+        50,
+        48
+      ],
+      "db_cat": 63.3059,
+      "db_reg": 75.4769,
+      "delta_cat": -0.0059,
+      "delta_reg": -0.0802,
+      "audit_a": {
+        "cat_scorer": 63.3059,
+        "cat_a40": 63.3059,
+        "reg_scorer": 75.4769,
+        "reg_a40": 75.4769,
+        "ok": true
+      },
+      "audit_b": {
+        "scorer_epochs": {
+          "1": 46,
+          "2": 48,
+          "3": 49,
+          "4": 50,
+          "5": 48
+        },
+        "ckpt_epochs": {
+          "1": 45,
+          "2": 47,
+          "3": 48,
+          "4": 49,
+          "5": 47
+        },
+        "mismatches": {},
+        "ok": true
+      },
+      "reg_collapse_epochs": [],
+      "warnings": []
+    }
+  ],
+  "cells": {
+    "alabama": {
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "basis": "n=20 (4 seeds x5f); +/- = cross-seed sd of per-seed means",
+      "jb_cat": 64.5051,
+      "jb_cat_sd": 0.0934,
+      "jb_reg": 69.6954,
+      "jb_reg_sd": 0.088,
+      "db_cat": 64.5405,
+      "db_cat_sd": 0.0978,
+      "db_reg": 69.8005,
+      "db_reg_sd": 0.0517,
+      "paper_diag": [
+        64.54,
+        69.8
+      ],
+      "ceiling": [
+        56.82,
+        70.11
+      ],
+      "jb_dcat_vs_ceil": 7.69,
+      "jb_dreg_vs_ceil": -0.41,
+      "db_dcat_vs_ceil": 7.72,
+      "db_dreg_vs_ceil": -0.31,
+      "gap_cat": -0.035,
+      "gap_reg": -0.105
+    },
+    "arizona": {
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "basis": "n=20 (4 seeds x5f); +/- = cross-seed sd of per-seed means",
+      "jb_cat": 65.7846,
+      "jb_cat_sd": 0.015,
+      "jb_reg": 59.4564,
+      "jb_reg_sd": 0.0445,
+      "db_cat": 65.8354,
+      "db_cat_sd": 0.0187,
+      "db_reg": 59.563,
+      "db_reg_sd": 0.0526,
+      "paper_diag": [
+        65.84,
+        59.56
+      ],
+      "ceiling": [
+        56.43,
+        59.46
+      ],
+      "jb_dcat_vs_ceil": 9.35,
+      "jb_dreg_vs_ceil": -0.0,
+      "db_dcat_vs_ceil": 9.41,
+      "db_dreg_vs_ceil": 0.1,
+      "gap_cat": -0.051,
+      "gap_reg": -0.107
+    },
+    "florida": {
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "basis": "n=20 (4 seeds x5f); +/- = cross-seed sd of per-seed means",
+      "jb_cat": 79.8407,
+      "jb_cat_sd": 0.024,
+      "jb_reg": 77.4097,
+      "jb_reg_sd": 0.0216,
+      "db_cat": 79.8481,
+      "db_cat_sd": 0.0283,
+      "db_reg": 77.4209,
+      "db_reg_sd": 0.0249,
+      "paper_diag": [
+        79.85,
+        77.42
+      ],
+      "ceiling": [
+        74.51,
+        76.7
+      ],
+      "jb_dcat_vs_ceil": 5.33,
+      "jb_dreg_vs_ceil": 0.71,
+      "db_dcat_vs_ceil": 5.34,
+      "db_dreg_vs_ceil": 0.72,
+      "gap_cat": -0.007,
+      "gap_reg": -0.011
+    },
+    "california": {
+      "seeds": [
+        0
+      ],
+      "basis": "seed-0 x5f (provisional); +/- = fold sd",
+      "jb_cat": 77.0406,
+      "jb_cat_sd": 0.2001,
+      "jb_reg": 65.6876,
+      "jb_reg_sd": 0.3014,
+      "db_cat": 77.0422,
+      "db_cat_sd": null,
+      "db_reg": 65.694,
+      "db_reg_sd": null,
+      "paper_diag": [
+        77.04,
+        65.69
+      ],
+      "ceiling": [
+        70.6,
+        63.49
+      ],
+      "jb_dcat_vs_ceil": 6.44,
+      "jb_dreg_vs_ceil": 2.2,
+      "db_dcat_vs_ceil": 6.44,
+      "db_dreg_vs_ceil": 2.2,
+      "gap_cat": -0.002,
+      "gap_reg": -0.006
+    },
+    "texas": {
+      "seeds": [
+        0
+      ],
+      "basis": "seed-0 x5f (provisional); +/- = fold sd",
+      "jb_cat": 77.227,
+      "jb_cat_sd": 0.1237,
+      "jb_reg": 67.0711,
+      "jb_reg_sd": 0.4491,
+      "db_cat": 77.2272,
+      "db_cat_sd": null,
+      "db_reg": 67.0723,
+      "db_reg_sd": null,
+      "paper_diag": [
+        77.23,
+        67.07
+      ],
+      "ceiling": [
+        69.79,
+        64.95
+      ],
+      "jb_dcat_vs_ceil": 7.44,
+      "jb_dreg_vs_ceil": 2.12,
+      "db_dcat_vs_ceil": 7.44,
+      "db_dreg_vs_ceil": 2.12,
+      "gap_cat": -0.0,
+      "gap_reg": -0.001
+    },
+    "istanbul": {
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "basis": "n=20 (4 seeds x5f); +/- = cross-seed sd of per-seed means",
+      "jb_cat": 63.3212,
+      "jb_cat_sd": 0.0215,
+      "jb_reg": 75.352,
+      "jb_reg_sd": 0.0386,
+      "db_cat": 63.3287,
+      "db_cat_sd": 0.0197,
+      "db_reg": 75.4398,
+      "db_reg_sd": 0.0408,
+      "paper_diag": [
+        63.33,
+        75.44
+      ],
+      "ceiling": [
+        54.74,
+        75.16
+      ],
+      "jb_dcat_vs_ceil": 8.58,
+      "jb_dreg_vs_ceil": 0.19,
+      "db_dcat_vs_ceil": 8.59,
+      "db_dreg_vs_ceil": 0.28,
+      "gap_cat": -0.008,
+      "gap_reg": -0.088
+    }
+  },
+  "order": [
+    "istanbul",
+    "alabama",
+    "arizona",
+    "florida",
+    "texas",
+    "california"
+  ]
+}

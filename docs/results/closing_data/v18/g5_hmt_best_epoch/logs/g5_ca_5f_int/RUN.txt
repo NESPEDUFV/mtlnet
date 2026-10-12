@@ -1,0 +1,4 @@
+start 2026-10-03 19:58:28 commit 6193ae52 swap_used_MB=812 state=california folds=5 epoch_select=per_task
+b3 rc=0 wall=11324s peakRSS_bytes=4715692032
+end 2026-10-03 23:07:12
+DONE

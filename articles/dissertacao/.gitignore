@@ -1,0 +1,5 @@
+exemples/
+# OS and Python cruft (removed 2026-07-27; regenerated automatically)
+.DS_Store
+**/.DS_Store
+__pycache__/

@@ -1,0 +1,779 @@
+{
+  "updated_at": "2026-08-11T03:19:51.626460+00:00",
+  "commit_sha": "4bc3e1b08d7fa2556be68f6ca5ebd475f9d9457f",
+  "phase": "done",
+  "current_n": {
+    "istanbul": 20,
+    "alabama": 20,
+    "arizona": 20,
+    "florida": 20,
+    "texas": 20,
+    "california": 20
+  },
+  "seeds_complete": {
+    "istanbul": [
+      0,
+      1,
+      7,
+      100
+    ],
+    "alabama": [
+      0,
+      1,
+      7,
+      100
+    ],
+    "arizona": [
+      0,
+      1,
+      7,
+      100
+    ],
+    "florida": [
+      0,
+      1,
+      7,
+      100
+    ],
+    "texas": [
+      0,
+      1,
+      7,
+      100
+    ],
+    "california": [
+      0,
+      1,
+      7,
+      100
+    ]
+  },
+  "cells": [
+    {
+      "state": "istanbul",
+      "seed": 0,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 802,
+      "rundir": "results/check2hgi_v18/istanbul/next_lr1.0e-04_bs8192_ep50_20260809_061502_710882",
+      "cat": 35.3539,
+      "reg": null
+    },
+    {
+      "state": "istanbul",
+      "seed": 0,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 487,
+      "rundir": "docs/results/P1/region_head_istanbul_region_5f_50ep_v18_istanbul_reg_s0.json",
+      "cat": null,
+      "reg": 75.1563
+    },
+    {
+      "state": "istanbul",
+      "seed": 0,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 1863,
+      "rundir": "results/check2hgi_v18/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260809_062824_713692",
+      "cat": 35.4227,
+      "reg": 75.2177
+    },
+    {
+      "state": "istanbul",
+      "seed": 1,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 809,
+      "rundir": "results/check2hgi_v18/istanbul/next_lr1.0e-04_bs8192_ep50_20260809_234113_881087",
+      "cat": 35.3519,
+      "reg": null
+    },
+    {
+      "state": "istanbul",
+      "seed": 1,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 483,
+      "rundir": "docs/results/P1/region_head_istanbul_region_5f_50ep_v18_istanbul_reg_s1.json",
+      "cat": null,
+      "reg": 75.1791
+    },
+    {
+      "state": "istanbul",
+      "seed": 1,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 1868,
+      "rundir": "results/check2hgi_v18/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260809_235441_883226",
+      "cat": 35.5232,
+      "reg": 75.323
+    },
+    {
+      "state": "istanbul",
+      "seed": 7,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 268,
+      "rundir": "results/check2hgi_v18/istanbul/next_lr1.0e-04_bs8192_ep50_20260810_061136_73",
+      "cat": 35.3431,
+      "reg": null
+    },
+    {
+      "state": "istanbul",
+      "seed": 7,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 287,
+      "rundir": "docs/results/P1/region_head_istanbul_region_5f_50ep_v18_istanbul_reg_s7.json",
+      "cat": null,
+      "reg": 75.143
+    },
+    {
+      "state": "istanbul",
+      "seed": 7,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 657,
+      "rundir": "results/check2hgi_v18/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260810_162444_90",
+      "cat": 35.4417,
+      "reg": 75.2744
+    },
+    {
+      "state": "istanbul",
+      "seed": 100,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 177,
+      "rundir": "results/check2hgi_v18/istanbul/next_lr1.0e-04_bs8192_ep50_20260810_162457_97",
+      "cat": 35.323,
+      "reg": null
+    },
+    {
+      "state": "istanbul",
+      "seed": 100,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 268,
+      "rundir": "docs/results/P1/region_head_istanbul_region_5f_50ep_v18_istanbul_reg_s100.json",
+      "cat": null,
+      "reg": 75.1588
+    },
+    {
+      "state": "istanbul",
+      "seed": 100,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 622,
+      "rundir": "results/check2hgi_v18/istanbul/mtlnet_lr1.0e-04_bs8192_ep50_20260810_162501_100",
+      "cat": 35.4187,
+      "reg": 75.2774
+    },
+    {
+      "state": "alabama",
+      "seed": 0,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 322,
+      "rundir": "results/check2hgi_v18/alabama/next_lr1.0e-04_bs8192_ep50_20260809_061500_710881",
+      "cat": 30.7654,
+      "reg": null
+    },
+    {
+      "state": "alabama",
+      "seed": 0,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 189,
+      "rundir": "docs/results/P1/region_head_alabama_region_5f_50ep_v18_alabama_reg_s0.json",
+      "cat": null,
+      "reg": 69.9956
+    },
+    {
+      "state": "alabama",
+      "seed": 0,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 1167,
+      "rundir": "results/check2hgi_v18/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260809_062021_712015",
+      "cat": 30.6985,
+      "reg": 69.5928
+    },
+    {
+      "state": "alabama",
+      "seed": 1,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 325,
+      "rundir": "results/check2hgi_v18/alabama/next_lr1.0e-04_bs8192_ep50_20260809_234110_881088",
+      "cat": 30.8745,
+      "reg": null
+    },
+    {
+      "state": "alabama",
+      "seed": 1,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 169,
+      "rundir": "docs/results/P1/region_head_alabama_region_5f_50ep_v18_alabama_reg_s1.json",
+      "cat": null,
+      "reg": 70.1929
+    },
+    {
+      "state": "alabama",
+      "seed": 1,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 1171,
+      "rundir": "results/check2hgi_v18/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260809_234634_882153",
+      "cat": 30.6275,
+      "reg": 69.7112
+    },
+    {
+      "state": "alabama",
+      "seed": 7,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 154,
+      "rundir": "results/check2hgi_v18/alabama/next_lr1.0e-04_bs8192_ep50_20260810_043251_134",
+      "cat": 30.7304,
+      "reg": null
+    },
+    {
+      "state": "alabama",
+      "seed": 7,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 197,
+      "rundir": "docs/results/P1/region_head_alabama_region_5f_50ep_v18_alabama_reg_s7.json",
+      "cat": null,
+      "reg": 70.2084
+    },
+    {
+      "state": "alabama",
+      "seed": 7,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 563,
+      "rundir": "results/check2hgi_v18/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260810_043258_136",
+      "cat": 30.7022,
+      "reg": 69.6281
+    },
+    {
+      "state": "alabama",
+      "seed": 100,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 127,
+      "rundir": "results/check2hgi_v18/alabama/next_lr1.0e-04_bs8192_ep50_20260810_051925_72",
+      "cat": 30.7296,
+      "reg": null
+    },
+    {
+      "state": "alabama",
+      "seed": 100,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 149,
+      "rundir": "docs/results/P1/region_head_alabama_region_5f_50ep_v18_alabama_reg_s100.json",
+      "cat": null,
+      "reg": 70.0727
+    },
+    {
+      "state": "alabama",
+      "seed": 100,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 607,
+      "rundir": "results/check2hgi_v18/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260810_061258_103",
+      "cat": 30.7659,
+      "reg": 69.7363
+    },
+    {
+      "state": "arizona",
+      "seed": 0,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 296,
+      "rundir": "results/check2hgi_v18/arizona/next_lr1.0e-04_bs8192_ep50_20260809_065925_717493",
+      "cat": 34.508,
+      "reg": null
+    },
+    {
+      "state": "arizona",
+      "seed": 0,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 189,
+      "rundir": "docs/results/P1/region_head_arizona_region_5f_50ep_v18_arizona_reg_s0.json",
+      "cat": null,
+      "reg": 59.4813
+    },
+    {
+      "state": "arizona",
+      "seed": 0,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 1132,
+      "rundir": "results/check2hgi_v18/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260809_070421_718456",
+      "cat": 34.5482,
+      "reg": 59.3907
+    },
+    {
+      "state": "arizona",
+      "seed": 1,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 297,
+      "rundir": "results/check2hgi_v18/arizona/next_lr1.0e-04_bs8192_ep50_20260810_002547_886880",
+      "cat": 34.6016,
+      "reg": null
+    },
+    {
+      "state": "arizona",
+      "seed": 1,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 181,
+      "rundir": "docs/results/P1/region_head_arizona_region_5f_50ep_v18_arizona_reg_s1.json",
+      "cat": null,
+      "reg": 59.4992
+    },
+    {
+      "state": "arizona",
+      "seed": 1,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 1135,
+      "rundir": "results/check2hgi_v18/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260810_003044_887833",
+      "cat": 34.6761,
+      "reg": 59.2021
+    },
+    {
+      "state": "arizona",
+      "seed": 7,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 145,
+      "rundir": "results/check2hgi_v18/arizona/next_lr1.0e-04_bs8192_ep50_20260810_150829_99",
+      "cat": 34.5921,
+      "reg": null
+    },
+    {
+      "state": "arizona",
+      "seed": 7,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 343,
+      "rundir": "docs/results/P1/region_head_arizona_region_5f_50ep_v18_arizona_reg_s7.json",
+      "cat": null,
+      "reg": 59.555
+    },
+    {
+      "state": "arizona",
+      "seed": 7,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 659,
+      "rundir": "results/check2hgi_v18/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260810_150831_98",
+      "cat": 34.6063,
+      "reg": 59.2728
+    },
+    {
+      "state": "arizona",
+      "seed": 100,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 128,
+      "rundir": "results/check2hgi_v18/arizona/next_lr1.0e-04_bs8192_ep50_20260810_162414_92",
+      "cat": 34.5943,
+      "reg": null
+    },
+    {
+      "state": "arizona",
+      "seed": 100,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 258,
+      "rundir": "docs/results/P1/region_head_arizona_region_5f_50ep_v18_arizona_reg_s100.json",
+      "cat": null,
+      "reg": 59.3887
+    },
+    {
+      "state": "arizona",
+      "seed": 100,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 518,
+      "rundir": "results/check2hgi_v18/arizona/mtlnet_lr1.0e-04_bs8192_ep50_20260810_162415_95",
+      "cat": 34.6391,
+      "reg": 59.1737
+    },
+    {
+      "state": "florida",
+      "seed": 0,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1820,
+      "rundir": "results/check2hgi_v18/florida/next_lr1.0e-04_bs8192_ep50_20260809_072320_720702",
+      "cat": 37.363,
+      "reg": null
+    },
+    {
+      "state": "florida",
+      "seed": 0,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 1666,
+      "rundir": "docs/results/P1/region_head_florida_region_5f_50ep_v18_florida_reg_s0.json",
+      "cat": null,
+      "reg": 76.6998
+    },
+    {
+      "state": "florida",
+      "seed": 0,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 7257,
+      "rundir": "results/check2hgi_v18/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260809_075343_731514",
+      "cat": 37.5813,
+      "reg": 77.0963
+    },
+    {
+      "state": "florida",
+      "seed": 1,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1825,
+      "rundir": "results/check2hgi_v18/florida/next_lr1.0e-04_bs8192_ep50_20260810_004946_890326",
+      "cat": 37.3816,
+      "reg": null
+    },
+    {
+      "state": "florida",
+      "seed": 1,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 1658,
+      "rundir": "docs/results/P1/region_head_florida_region_5f_50ep_v18_florida_reg_s1.json",
+      "cat": null,
+      "reg": 76.7083
+    },
+    {
+      "state": "florida",
+      "seed": 1,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 7331,
+      "rundir": "results/check2hgi_v18/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260810_012014_900489",
+      "cat": 37.6781,
+      "reg": 77.0744
+    },
+    {
+      "state": "florida",
+      "seed": 7,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1980,
+      "rundir": "results/check2hgi_v18/florida/next_lr1.0e-04_bs8192_ep50_20260810_132852_113",
+      "cat": 37.3359,
+      "reg": null
+    },
+    {
+      "state": "florida",
+      "seed": 7,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 2251,
+      "rundir": "docs/results/P1/region_head_florida_region_5f_50ep_v18_florida_reg_s7.json",
+      "cat": null,
+      "reg": 76.6944
+    },
+    {
+      "state": "florida",
+      "seed": 7,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 4450,
+      "rundir": "results/check2hgi_v18/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260810_070923_60",
+      "cat": 37.5399,
+      "reg": 77.0609
+    },
+    {
+      "state": "florida",
+      "seed": 100,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1985,
+      "rundir": "results/check2hgi_v18/florida/next_lr1.0e-04_bs8192_ep50_20260810_133145_488",
+      "cat": 37.3346,
+      "reg": null
+    },
+    {
+      "state": "florida",
+      "seed": 100,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 2150,
+      "rundir": "docs/results/P1/region_head_florida_region_5f_50ep_v18_florida_reg_s100.json",
+      "cat": null,
+      "reg": 76.6737
+    },
+    {
+      "state": "florida",
+      "seed": 100,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 4387,
+      "rundir": "results/check2hgi_v18/florida/mtlnet_lr1.0e-04_bs8192_ep50_20260810_070901_60",
+      "cat": 37.5731,
+      "reg": 77.1088
+    },
+    {
+      "state": "texas",
+      "seed": 0,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 5480,
+      "rundir": "results/check2hgi_v18/texas/next_lr1.0e-04_bs8192_ep50_20260809_095453_746546",
+      "cat": 36.3225,
+      "reg": null
+    },
+    {
+      "state": "texas",
+      "seed": 0,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 5897,
+      "rundir": "docs/results/P1/region_head_texas_region_5f_50ep_v18_texas_reg_s0.json",
+      "cat": null,
+      "reg": 64.9514
+    },
+    {
+      "state": "texas",
+      "seed": 0,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 22453,
+      "rundir": "results/check2hgi_v18/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260809_112624_771463",
+      "cat": 36.3424,
+      "reg": 66.8901
+    },
+    {
+      "state": "texas",
+      "seed": 1,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 5493,
+      "rundir": "results/check2hgi_v18/texas/next_lr1.0e-04_bs8192_ep50_20260810_032240_916753",
+      "cat": 36.3144,
+      "reg": null
+    },
+    {
+      "state": "texas",
+      "seed": 1,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 1205,
+      "rundir": "docs/results/P1/region_head_texas_region_5f_50ep_v18_texas_reg_s1.json",
+      "cat": null,
+      "reg": 64.9528
+    },
+    {
+      "state": "texas",
+      "seed": 1,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 22505,
+      "rundir": "results/check2hgi_v18/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260810_063214_968091",
+      "cat": 36.3806,
+      "reg": 66.875
+    },
+    {
+      "state": "texas",
+      "seed": 7,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1421,
+      "rundir": "results/check2hgi_v18/texas/next_lr1.0e-04_bs8192_ep50_20260810_215016_76",
+      "cat": 36.319,
+      "reg": null
+    },
+    {
+      "state": "texas",
+      "seed": 7,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 3260,
+      "rundir": "docs/results/P1/region_head_texas_region_5f_50ep_v18_texas_reg_s7.json",
+      "cat": null,
+      "reg": 64.9436
+    },
+    {
+      "state": "texas",
+      "seed": 7,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 6558,
+      "rundir": "results/check2hgi_v18/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260810_070235_71",
+      "cat": 36.3501,
+      "reg": 66.8218
+    },
+    {
+      "state": "texas",
+      "seed": 100,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1430,
+      "rundir": "results/check2hgi_v18/texas/next_lr1.0e-04_bs8192_ep50_20260810_215955_76",
+      "cat": 36.3445,
+      "reg": null
+    },
+    {
+      "state": "texas",
+      "seed": 100,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 3384,
+      "rundir": "docs/results/P1/region_head_texas_region_5f_50ep_v18_texas_reg_s100.json",
+      "cat": null,
+      "reg": 64.9295
+    },
+    {
+      "state": "texas",
+      "seed": 100,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 6601,
+      "rundir": "results/check2hgi_v18/texas/mtlnet_lr1.0e-04_bs8192_ep50_20260810_135751_72",
+      "cat": 36.3936,
+      "reg": 66.8394
+    },
+    {
+      "state": "california",
+      "seed": 0,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 4188,
+      "rundir": "results/check2hgi_v18/california/next_lr1.0e-04_bs8192_ep50_20260809_174021_821539",
+      "cat": 35.6208,
+      "reg": null
+    },
+    {
+      "state": "california",
+      "seed": 0,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 5177,
+      "rundir": "docs/results/P1/region_head_california_region_5f_50ep_v18_california_reg_s0.json",
+      "cat": null,
+      "reg": 63.4456
+    },
+    {
+      "state": "california",
+      "seed": 0,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 17478,
+      "rundir": "results/check2hgi_v18/california/mtlnet_lr1.0e-04_bs8192_ep50_20260809_185016_843391",
+      "cat": 35.7187,
+      "reg": 65.3989
+    },
+    {
+      "state": "california",
+      "seed": 1,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 4188,
+      "rundir": "results/check2hgi_v18/california/next_lr1.0e-04_bs8192_ep50_20260810_124703_1019205",
+      "cat": 35.627,
+      "reg": null
+    },
+    {
+      "state": "california",
+      "seed": 1,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 5119,
+      "rundir": "docs/results/P1/region_head_california_region_5f_50ep_v18_california_reg_s1.json",
+      "cat": null,
+      "reg": 63.4691
+    },
+    {
+      "state": "california",
+      "seed": 1,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 17485,
+      "rundir": "results/check2hgi_v18/california/mtlnet_lr1.0e-04_bs8192_ep50_20260810_152217_1060899",
+      "cat": 35.7768,
+      "reg": 65.4336
+    },
+    {
+      "state": "california",
+      "seed": 7,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1091,
+      "rundir": "results/check2hgi_v18/california/next_lr1.0e-04_bs8192_ep50_20260810_215949_76",
+      "cat": 35.6311,
+      "reg": null
+    },
+    {
+      "state": "california",
+      "seed": 7,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 2811,
+      "rundir": "docs/results/P1/region_head_california_region_5f_50ep_v18_california_reg_s7.json",
+      "cat": null,
+      "reg": 63.5036
+    },
+    {
+      "state": "california",
+      "seed": 7,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 5099,
+      "rundir": "results/check2hgi_v18/california/mtlnet_lr1.0e-04_bs8192_ep50_20260810_135832_72",
+      "cat": 35.7903,
+      "reg": 65.4426
+    },
+    {
+      "state": "california",
+      "seed": 100,
+      "family": "cat",
+      "status": "done",
+      "wall_seconds": 1100,
+      "rundir": "results/check2hgi_v18/california/next_lr1.0e-04_bs8192_ep50_20260810_215951_76",
+      "cat": 35.653,
+      "reg": null
+    },
+    {
+      "state": "california",
+      "seed": 100,
+      "family": "reg",
+      "status": "done",
+      "wall_seconds": 2809,
+      "rundir": "docs/results/P1/region_head_california_region_5f_50ep_v18_california_reg_s100.json",
+      "cat": null,
+      "reg": 63.4981
+    },
+    {
+      "state": "california",
+      "seed": 100,
+      "family": "joint",
+      "status": "done",
+      "wall_seconds": 5111,
+      "rundir": "results/check2hgi_v18/california/mtlnet_lr1.0e-04_bs8192_ep50_20260810_162607_74",
+      "cat": 35.7255,
+      "reg": 65.4533
+    }
+  ],
+  "running": [],
+  "gpu_free_mib": 42657,
+  "disk_free_gb": 2192,
+  "disk_free_gb_home": 37,
+  "blocked_on": null,
+  "verify_flags": []
+}

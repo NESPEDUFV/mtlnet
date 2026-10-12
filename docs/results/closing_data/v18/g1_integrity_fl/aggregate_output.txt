@@ -1,0 +1,11 @@
+ fold  cat_to  cat_to_ep  cat_full  cat_full_ep  reg_to  reg_to_ep  reg_full  reg_full_ep  cat_print  reg_print  cat_TOmFULL  reg_TOmFULL  cat_FULLmPRINT  reg_FULLmPRINT
+    0 37.7920          8   37.7179            8 77.0366         45   77.1261           50    37.7463    76.9868       0.0741      -0.0895         -0.0284          0.1393
+    1 37.2479         11   37.2481           12 76.7416         44   76.7635           48    37.2184    76.7671      -0.0002      -0.0220          0.0297         -0.0036
+    2 36.6187         12   36.6251           12 75.5524         47   75.5359           44    36.7075    75.6191      -0.0065       0.0165         -0.0824         -0.0832
+    3 37.8333         10   37.9332           10 75.7889         47   75.9290           50    37.6194    75.8246      -0.0998      -0.1401          0.3138          0.1044
+    4 37.3405         12   37.2490            8 78.3202         47   78.5054           47    37.5234    78.3014       0.0915      -0.1852         -0.2744          0.2040
+cat_TOmFULL     mean +0.0118 sd 0.0761 t p=0.746 wilcoxon p=1.0000 positives 2/5
+reg_TOmFULL     mean -0.0840 sd 0.0827 t p=0.086 wilcoxon p=0.1250 positives 1/5
+cat_FULLmPRINT  mean -0.0083 sd 0.2132 t p=0.934 wilcoxon p=1.0000 positives 2/5
+reg_FULLmPRINT  mean +0.0722 sd 0.1149 t p=0.233 wilcoxon p=0.3125 positives 3/5
+means: {'cat_to': 37.3665, 'cat_full': 37.3547, 'cat_print': 37.363, 'reg_to': 76.6879, 'reg_full': 76.772, 'reg_print': 76.6998}

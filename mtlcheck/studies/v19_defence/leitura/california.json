@@ -1,0 +1,280 @@
+{
+  "state": "california",
+  "confirmatory": true,
+  "analysis": {
+    "name": "v19_ladder",
+    "path": "recipes/analysis/v19_ladder.toml",
+    "fingerprint": "56547de73f015cdc",
+    "delta": 0.4,
+    "levels": [
+      0.9,
+      0.95
+    ],
+    "correction": "holm"
+  },
+  "co_primary": {
+    "verdict": "held",
+    "reason": "reg superior \u2227 cat non_inferior, ambos a \u03b1 cheio"
+  },
+  "escalation": null,
+  "ladder": {
+    "executions": 4,
+    "pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        7,
+        7
+      ],
+      [
+        100,
+        100
+      ]
+    ],
+    "ladder_outcome": {
+      "cat": "para",
+      "reg": "para"
+    },
+    "ladder_margin": 0.4
+  },
+  "tasks": [
+    {
+      "task": "cat",
+      "arm_a": "cat",
+      "arm_b": "joint",
+      "pooled": {
+        "cat": 35.588588670203855,
+        "joint": 35.62534836021648
+      },
+      "delta": 0.035419900234170965,
+      "bca_90": [
+        0.01472429844264765,
+        0.057607337692614724
+      ],
+      "bca_95": [
+        0.010569612938236177,
+        0.06157661930885949
+      ],
+      "percentile_90": [
+        0.01435348541502443,
+        0.056991177784619915
+      ],
+      "half_width_90": 0.021441519624983536,
+      "p_ni": 5.052427784203908e-13,
+      "p_ni_adjusted": 5.052427784203908e-13,
+      "alpha_local": 0.05,
+      "p_studentized": 0.007799220077992201,
+      "p_unstudentized": 0.007799220077992201,
+      "verdict": "non_inferior",
+      "verdict_marginal": "non_inferior",
+      "delta_critical": {
+        "non_inferiority": -0.01472429844264765,
+        "inferiority": -0.057607337692614724,
+        "tost": 0.021441519624983536
+      },
+      "tost_claimable": true,
+      "within_rerun_floor": true,
+      "execution_band": {
+        "execucoes": 4,
+        "graus_de_liberdade": 3,
+        "sd": 0.09197150597395552,
+        "meia_largura": 0.14632666600456323,
+        "intervalo": [
+          -0.11090676577039227,
+          0.1817465662387342
+        ],
+        "dentro_da_margem": true
+      },
+      "sensitivity": {
+        "0.2": "non_inferior",
+        "0.4": "non_inferior",
+        "1.0": "non_inferior"
+      },
+      "seed_deltas": [
+        0.07673484434438382,
+        0.07995308885351826,
+        -0.10237564048233283,
+        0.0873673082211146
+      ],
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "n_users": 20667,
+      "intervals_disagree": false,
+      "diagnostics": {
+        "half_width": 0.021441519624983536,
+        "half_width_projected": [
+          0.05,
+          0.3
+        ],
+        "half_width_within_projection": false,
+        "unpaired_benchmark": 0.5,
+        "pairing_gain": 23.319242700382247,
+        "mde": 0.03652011549900983,
+        "mde_power": 0.8,
+        "n_users": 20667,
+        "per_class": [
+          {
+            "class": 0,
+            "f1_a": 0.3857164308515018,
+            "f1_b": 0.3857862777836056,
+            "delta": 0.006984693210376758,
+            "users": 13595
+          },
+          {
+            "class": 1,
+            "f1_a": 0.22146205624033383,
+            "f1_b": 0.22210630927206354,
+            "delta": 0.06442530317297135,
+            "users": 15577
+          },
+          {
+            "class": 2,
+            "f1_a": 0.45659348265749555,
+            "f1_b": 0.45597672442948,
+            "delta": -0.06167582280155459,
+            "users": 19611
+          },
+          {
+            "class": 3,
+            "f1_a": 0.2380628721778578,
+            "f1_b": 0.2394803667560493,
+            "delta": 0.14174945781915138,
+            "users": 12941
+          },
+          {
+            "class": 4,
+            "f1_a": 0.2840646290121644,
+            "f1_b": 0.2827389673775228,
+            "delta": -0.1325661634641595,
+            "users": 13856
+          },
+          {
+            "class": 5,
+            "f1_a": 0.43052171462533945,
+            "f1_b": 0.4318611891473296,
+            "delta": 0.13394745219901805,
+            "users": 16101
+          },
+          {
+            "class": 6,
+            "f1_a": 0.4747800213495772,
+            "f1_b": 0.4758245504491023,
+            "delta": 0.10445290995251266,
+            "users": 17136
+          }
+        ],
+        "min_users_per_class": 12941
+      },
+      "warnings": []
+    },
+    {
+      "task": "reg",
+      "arm_a": "reg",
+      "arm_b": "joint",
+      "pooled": {
+        "reg": 63.197034250269866,
+        "joint": 64.15759916539793
+      },
+      "delta": 0.960564915128051,
+      "bca_90": [
+        0.9079259631275365,
+        1.0291357296898704
+      ],
+      "bca_95": [
+        0.8996936241037948,
+        1.0439529987921456
+      ],
+      "percentile_90": [
+        0.9033487020994484,
+        1.0223654353209495
+      ],
+      "half_width_90": 0.06060488328116698,
+      "p_ni": 6.224306020485686e-23,
+      "p_ni_adjusted": 1.2448612040971371e-22,
+      "alpha_local": 0.025,
+      "p_studentized": 9.999000099990002e-05,
+      "p_unstudentized": 9.999000099990002e-05,
+      "verdict": "superior",
+      "verdict_marginal": "superior",
+      "delta_critical": {
+        "non_inferiority": -0.9079259631275365,
+        "inferiority": -1.0291357296898704,
+        "tost": 0.06060488328116698
+      },
+      "tost_claimable": true,
+      "within_rerun_floor": false,
+      "execution_band": {
+        "execucoes": 4,
+        "graus_de_liberdade": 3,
+        "sd": 0.11320077013020946,
+        "meia_largura": 0.18010242527716325,
+        "intervalo": [
+          0.7804624898508877,
+          1.1406673404052143
+        ],
+        "dentro_da_margem": true
+      },
+      "sensitivity": {
+        "0.2": "superior",
+        "0.4": "superior",
+        "1.0": "superior"
+      },
+      "seed_deltas": [
+        0.9018392283485777,
+        0.8417120554468971,
+        1.0998589626404764,
+        0.9988494140762527
+      ],
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "n_users": 20667,
+      "intervals_disagree": false,
+      "diagnostics": {
+        "half_width": 0.06060488328116698,
+        "half_width_projected": [
+          0.05,
+          0.3
+        ],
+        "half_width_within_projection": true,
+        "unpaired_benchmark": 0.5,
+        "pairing_gain": 8.250160266464459,
+        "mde": 0.10322483555005618,
+        "mde_power": 0.8,
+        "n_users": 20667,
+        "region": {
+          "reg": {
+            "top10_raw": 0.6319703425026987,
+            "top10_full": 0.6319684624603397,
+            "top10_acc_indist": 0.6322577958944844,
+            "ood_fraction": 0.00045761940149022413,
+            "ood_hit_rate": 0.004108309990662932,
+            "n_windows": 11701864.0
+          },
+          "joint": {
+            "top10_raw": 0.6415759916539793,
+            "top10_full": 0.6415731715904406,
+            "top10_acc_indist": 0.641866902338125,
+            "ood_fraction": 0.00045761940149022413,
+            "ood_hit_rate": 0.0061624649859943975,
+            "n_windows": 11701864.0
+          }
+        }
+      },
+      "warnings": []
+    }
+  ]
+}

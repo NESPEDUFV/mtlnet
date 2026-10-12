@@ -1,0 +1,569 @@
+% !TeX root = ../main.tex
+
+% Chapter 1 -- Introduction (Introducao Geral)
+%
+% ---------------------------------------------------------------------------
+% DISSERTATION TITLE (working decision, author 2026-07-23; final call with the
+% advisor before the front matter is built -- Resumo/Abstract header must match
+% the folha de rosto exactly):
+%   WORKING TITLE:
+%     From Representations to a Single Joint Model: Multi-Task Learning for
+%     Point-of-Interest Category and Region Prediction
+%   ALTERNATES for the advisor to consider (all pass the two-factor rule --
+%   name both the representation and the sharing/architecture factor, or
+%   neither; see science/storyline/audit/AVAL_NECESSARIA_3_ptBR.md D2):
+%     1. Representation Drives, Sharing Delivers: A Check-in-Level Multi-Task
+%        Study of Next Category and Region Prediction
+%     2. The Visit, Not the Place: Check-in-Level Representations and a Joint
+%        Model for Next Category and Region Prediction
+%     3. One Visit, One Vector: From a Published Null to a Joint Model for
+%        Next Category and Region Prediction
+% ---------------------------------------------------------------------------
+%
+% Draft 1 (2026-07-23). Written from the approved beat budget
+% (science/storyline/audit/ch1_beat_budget.md) and the synced spine (NORTH_STAR §6.1).
+% Obeys WRITING_LAW.md + GLOSSARY.md. Citation ledger: 1_citations.md (same folder).
+% Rule of this chapter: it NARRATES; the prefaces, recaps, and Chapter 6 litigate.
+
+
+\chapter{Introduction}
+\label{ch:intro}
+
+
+\section{Context and motivation}
+\label{sec:intro:context}
+% [FAB-12, round 9] "users" stays plural at the advisor's request: the sentence describes the record
+% type, not one person's visit. No claim depends on it.
+
+Location-based social networks record visits through \emph{check-ins}. Each check-in
+states that a user visited a place, or point of interest (POI), at a given time.
+Although these traces are noisy, human movement is highly regular: an analysis of
+large-scale mobility traces estimated the potential predictability of an individual's
+next location at about 93 percent~\cite{song2010limits}. Anticipating what kind of
+place a person will visit and where that visit will occur can support recommendation,
+navigation, transit planning, and the allocation of resources by area. The broader
+study of mobility also informs urban planning, disease-spread analysis, and pollution
+research~\cite{luca2021mobilitysurvey}. Among the properties of a visit that these
+services rely on, the category of the place carries its semantic
+meaning~\cite{Xu2023}, and it is one of the two properties this dissertation predicts.
+% AUT-04 (PENDENCIAS §4): the place-category clause used to hang off the end of the
+% mobility-applications sentence with "while", which gave no reason for it to be there. The
+% paragraph had already moved from urban planning to disease analysis, and the clause read as a
+% third unconnected item. It now leads INTO the two tasks, which is the work the sentence was
+% supposed to do. \cite{Xu2023} is unchanged; no new claim and no new reference.
+%
+% AUT-05 (PENDENCIAS §4): two sentences removed here. They introduced "neighboring geospatial
+% tasks", a term the document never defines, and jumped to the methodology of the second study
+% three paragraphs before the studies are introduced.
+% WHERE THE CONTENT WENT, measured after the deletion rather than assumed before it, because my
+% first version of this comment was WRONG and claimed both references survive in §2.2.3.1:
+%   mai2023sphere2vec...  DOES appear in §2.2.3.1 (Sphere2Vec, coordinates on a sphere), so the
+%       spatial-encoder material is genuinely presented where it belongs, and also in Ch.4.
+%   wu2024torchspatial    appeared ONLY here and in Ch.4 (intro, related, methodology x2). Deleting
+%       this sentence therefore removed its only frame-chapter citation. It is NOT orphaned in the
+%       bibliography (Ch.4 still cites it four times), so no dangling entry results, but the frame
+%       no longer points at it. That is the correct outcome: a benchmarking library for spatial
+%       representation learning is a methods reference for the study that used it, not a motivating
+%       reference for the opening paragraph.
+% Probes: R13-aut04, R13-aut05.
+% [ORPHANED 2026-08-02 by the author's clean-tree pass: the sentence this block annotated is no longer in the text.
+% Kept, unrelocated in meaning, for review.]
+% [FAB-13, round 9] "the two prediction tasks that are the object of study of this
+% dissertation", his wording, which is more precise about what the two tasks are TO the document.
+% [FAB-16, round 9] The semicolon before "this dissertation does not address it" is gone: he read
+% it as an AI tell, and WRITING_LAW §4 bans semicolon braids independently. Now two sentences.
+%
+% AUT-16 (PENDENCIAS §4): the words "static" and "sequential" divide the three tasks throughout the
+% document, and Ch.1 used "static" with no gloss while never using "sequential" at all, so a reader
+% met the contrast only in Ch.2 (§2.1.1.3, which does gloss both). The appositive in the paragraph
+% below supplies the distinction at first use, as WRITING_LAW §1 requires, without moving the formal
+% definitions out of Ch.2.
+% This comment sits at the PARAGRAPH boundary, not beside the sentence it describes, and that is not
+% cosmetic: placed mid-paragraph it split "outside the scope of / this work" across a comment block,
+% which the trapped-prose gate caught as a broken sentence. Probe: R13-aut16.
+
+This dissertation studies two properties of the next visit. \emph{Next-category
+prediction} identifies the semantic category of that visit, and \emph{next-region
+prediction} identifies where it will occur. These tasks differ from \emph{next-place
+prediction}, which identifies the exact establishment and is outside the scope of
+this work. The two tasks above are sequential, because each one reads a history of
+% [FAB-32 + FAB-33, round 13, 2026-08-03] ONE DEFECT, TWO OCCURRENCES, and he found both. The old
+% text read "The first two studies also use ..." and "The task pair changes in the final study",
+% which address a set of studies the reader has not met: the three studies are first introduced at
+% :125 in the next section, thirty-five lines and one section boundary later. MEASURED, not assumed
+% (first live occurrence of "The three studies conducted in this dissertation" is :125; these
+% sentences are :90 and :92-93). This is the same forward-reference class the Chapter 2 redesign
+% removed and the same one his own Definition 2.2 edit needed fixing for, hours apart.
+% HIS OWN SUGGESTED FORM was to describe the work rather than index an unintroduced set ("Durante o
+% desenvolvimento da dissertacao, tambem usamos a category classification"), and that is what these
+% two sentences now do. Nothing about WHICH tasks pair with which is claimed here any more; the arc
+% section still owns that, and the pointer to it survives.
+visits. This dissertation also uses \emph{category classification}, a static task
+that reads a single place rather than a history, predicting the category of a POI held
+out from classifier training. Which two tasks are trained together is not fixed
+across the work, as Section~\ref{sec:intro:arc} explains.
+Chapter~\ref{ch:fundamentals} formally defines the three tasks that appear in the
+experiments.
+
+Because next category and next region are predicted from the same visit history, one
+model may serve both tasks. Multitask learning (MTL) trains related tasks jointly so
+that they can share information~\cite{caruana1997multitask}. This approach has been
+used in vision~\cite{kokkinos2016ubernet}, clinical
+prediction~\cite{lipton2015learning}, and language
+modeling~\cite{wei2022finetuned}. For the setting studied here, its operational appeal
+is a single model to maintain and one forward pass that produces both predictions,
+instead of two dedicated single-task models. Joint training does not guarantee better
+predictions, however. Shared parameters can harm one task, a failure known as negative
+transfer. Whether MTL would help these POI prediction tasks, and which design choices
+would determine the result, was an open question at the start of this research.
+% [NEEDS SIGN-OFF 05 | CLOSED] Author approved the current wording. Kept because it is the REASON
+% this passage must not be "simplified" back: it was deliberately reworded away from Ch.5's
+% near-verbatim phrasing so the reproduced paper chapter keeps the original. The claim is identical;
+% only the wording differs. Do not re-align the two.
+
+
+% [FAB-19, round 9] "and the arc of this dissertation" removed from the heading at his request:
+% the section IS the research question, and the arc is what the section body then narrates. The
+% \label is untouched on purpose -- sec:intro:arc is cited from three other files.
+
+
+\section{Research question}
+\label{sec:intro:arc}
+
+\textbf{Does multitask learning help point-of-interest prediction (next category and
+next region), and what does the answer depend on?}
+
+The three studies conducted in this dissertation answer this question in sequence. The first reports a negative
+result, the second identifies its main bottleneck, and the third tests the resulting
+solution. This progression is itself part of the contribution because each study
+narrows the explanation supported by the evidence.
+
+% AUT-07 + AUT-10 (PENDENCIAS §4). TWO defects in one sentence, so one edit closes both.
+% AUT-07: "static place categories" is NOT in the registry. GLOSSARY §1 registers the task as
+% "category classification", and the fail-closed rule forbids a term the registry does not carry;
+% WRITING_LAW §2 independently bans synonym-cycling, and this was a second name for a task the
+% same chapter had already named two paragraphs earlier. One occurrence, which is exactly the case
+% a sampled sweep misses.
+% AUT-10: "hard parameter sharing" was used three times in this chapter with no gloss, and its
+% formal definition sits in Ch.2 (§2.3.1). WRITING_LAW §1 requires the definition at FIRST use.
+% The gloss here is an appositive and the formal definition stays in Ch.2, so nothing is duplicated.
+% Probes: R13-aut07, R13-aut10.
+Chapter~\ref{ch:cbic}, published at CBIC 2025, introduces MTLnet, the first joint model
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] (1) "and separate only at their output heads"
+% removed: MTLnet's inputs pass through separate task-specific encoders before the shared trunk
+% (3_cbic/method.tex, "first processed by separate, task-specific encoders"), so the tasks do not share
+% from the input up. The gloss "in which the tasks share one trunk of hidden layers" is true and stays:
+% it is the author's first-use gloss (probe R13-aut10); verified.
+% [2026-10-07, PROPOSAL from the final Fable audit, verified by the registry and re-verified by the writer; pending the author's ruling] nit: "predicts category classification and the
+% next category in a sequence" -> "performs category classification and next-category prediction" (one
+% cannot predict a classification); the R13-aut10 gloss before it is untouched; verified.
+developed in this research. It combines a place-level graph embedding with hard
+parameter sharing, in which the tasks share one trunk of hidden layers, and performs category classification and next-category prediction. For that configuration, the joint model did not consistently outperform
+the two dedicated single-task models and required more training time. The study
+treated this null result as a finding and proposed three possible explanations,
+including an input representation that might not provide enough information for both
+tasks.
+
+% [2026-10-07, PROPOSAL from the final Fable audit, verified by the registry and re-verified by the writer; pending the author's ruling] F1: the sentence covered only the
+% category task (true: 21 of 21, 4_courb/results.tex:44) and was silent on the sequential task (15 of 21,
+% results.tex:62; "most scenarios", intro.tex:27); split into one sentence naming both; verified.
+Chapter~\ref{ch:courb}, published at CoUrb 2026, examines that explanation through a
+controlled comparison. The study keeps MTLnet unchanged and replaces its monolithic
+64-dimensional place embedding with separate spatial, temporal, and categorical
+encoders. Category classification then improves in every scenario evaluated, and
+next-category prediction in most.
+Because the architecture remains fixed, the study identifies the input representation
+as the bottleneck for that stage of the research.
+
+% [2026-09-01, AUT-35] "submitted to MobiWac 2026 and under review" -> "accepted for publication at
+% MobiWac 2026". Fact: the article was accepted on 2026-08-26 (presentation/_preparacao/HANDOFF.md §7 item 1).
+% Same wording at the other four status sites (:342, :374, 5_mobiwac.tex:29, tables/frame/lineage.tex:8).
+Chapter~\ref{ch:mobiwac}, accepted for publication at MobiWac 2026, develops the
+resolution.
+% [2026-09-02, B-05, banca annotation "nao entendi bem" (wrapup/REVISAO_BANCA_PDF.md, reviewer alexb,
+% 26/08), author-approved] Two defects fixed. (1) ORDER: the lunch/Saturday example arrived before
+% "check-in level" was defined ("one vector per visit" came two sentences later); the definition now
+% precedes the example. (2) PERSONIFICATION: "is working against both tasks at once" animated a
+% representation (WRITING_LAW §1, same class as 2_fundamentals.tex:1727-1729); replaced by the causal
+% statement: the two visits get one vector, so both tasks receive the same input for different
+% contexts. The hypothesis framing (NORTH_STAR §6 beat 4e) is kept. Old text: "Any place-level
+% embedding assigns a place the same vector on every visit; a representation that cannot tell a
+% weekday lunch from a Saturday night out at the same place is working against both tasks at once.
+% That observation is the hypothesis the final study tests. It moves the representation to the
+% check-in level: one vector per visit."
+Any place-level embedding assigns a place the same vector on every visit. A
+check-in-level representation assigns one vector per visit instead, so two visits to
+the same place can receive different vectors. The distinction matters for both tasks.
+A weekday lunch and a Saturday night visit at the same place are different contexts
+for the next category and for the next region, but a place-level representation gives
+both tasks one vector for the two visits. The final study tests the hypothesis that
+this loss of context limits both tasks, and it therefore moves the representation to
+the check-in level. Acting on another of the first study's candidate explanations, it also replaces
+the shared hidden layers with cross-attention between task-specific streams, addressing
+the earlier concern about hard parameter sharing. Under a check-in-level representation, static
+category classification is a less natural companion task than a second sequential target,
+% [round10, PENDENCIAS §6 FAB-22, author's ruling: "nao precisamos tirar tudo, o ponto e o excesso de
+% informacao. Podemos comentar algo somente sobre o fato que os experimentos foram realizados em 5
+% estados dos estados unidos e um dataset non-U.S para metritos de generalizacao. Tambem, podemos
+% comentar que usamos metodos estatisticos para comprovar essa diferenca. Enfim a ideia e ser mais
+% direto. Nao remover tudo."]
+% MOST OF THIS RULING WAS ALREADY SATISFIED when I re-measured: the per-dataset counts and the
+% "four of six ... TOST" detail he objected to had already left this paragraph, and the sentence
+% already named the five states, Istanbul, and the two test families. ONE CLAUSE WAS MISSING, and it
+% is the half of his ruling that carries the argument: that Istanbul is there BECAUSE it is not a
+% United States dataset, which is what makes it evidence about generalization rather than a sixth
+% dataset. Naming the purpose is also what keeps the sentence honest without the numbers: the claim
+% it makes is about scope, and the scope is now stated.
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] (6) "check-in level representation" ->
+% "check-in-level" (adjective, :193). NOT applied on that day: (4) dropping "established" and (6b) "non-U.S.",
+% because probes R13-aut08 and R10-fab22 pinned both phrases as the author's own wording; reported to the
+% registry for the author's ruling instead; verified.
+% [2026-10-05, AUTHOR-RULED D8b; frame, no errata] Both applied now, by his ruling of this date: "established"
+% is dropped below, and two paragraphs down the spelled-out compound gives way to the abbreviated one; verified
+so the final task pair becomes next category and next region. Both are end
+targets in the mobility literature, and the next region feeds a broader family of
+downstream problems.
+% [2026-10-05, AUTHOR-RULED D8b] "established" DROPPED by the author: "Both are end targets in the
+% mobility literature". Why: Chapter 5's own related work (02_related) says that in multi-granularity
+% systems category and region are auxiliary signals under a next-place task and that fine-grained
+% region as an end target of equal standing is underexplored, and the note below says the same of
+% category; "established" claimed more than either. What remains is true and was re-checked: next
+% category is an end target in POI-RGNN and in Chapter 3, and next region in the nearest exceptions
+% Chapter 5 names (DRRGNN forecasts a next activity region). The history below is kept as written;
+% where it quotes "established", read it as the wording that stood until this date. Probe R13-aut08
+% pins the old string and is re-pinned by the registry.
+% AUT-08 (PENDENCIAS §4, ruling "Opção A"). The two sentences above are the SANCTIONED FALLBACK from
+% NORTH_STAR §6 Ch.1 beat 4 (b). The sanctioned string is: "both are established end targets, and
+% next region feeds a broader family of downstream problems".
+% ONE WORD OF SCOPE WAS ADDED TO IT, and this note exists because a reviewer caught the comment claiming
+% the string was used unchanged. The prose reads "established end targets IN THE MOBILITY LITERATURE".
+% The qualifier narrows the claim rather than widening it: the sanctioned string leaves "established"
+% unattributed, and naming the field is where the two tasks are in fact established as end targets. If
+% the author prefers the bare sanctioned wording, delete the three words; nothing else depends on them.
+% WHAT THEY REPLACE, and why nothing stronger is written. The author wanted the comparative form: that
+% in the literature the next category and the next region carry more weight than static category
+% classification. THAT FORM WAS REFUTED. No open anchor supports it and the OpenAlex counts point the
+% other way, because MTL with a category target is a populated literature (HAMTL, DRRGNN, Hgarn,
+% HMT-GRN, MCMG, CSLSL, MCARNN). The axis the literature DOES support case by case is a different one:
+% in those works the category is usually an AUXILIARY task under a next-place objective rather than an
+% end target. The fallback asserts neither comparison, which is why it is the form that can be defended.
+% This CLOSES the [VERIFY] flag that NORTH_STAR §6 Ch.1 beat 4 (b) left open for this exact sentence,
+% and it closes it NEGATIVELY: the comparative leg is not to be written here later either.
+% The author's second half of this item, the category-leakage argument, is deliberately ABSENT. His
+% ruling was "Opção A" alone; option C (adding that argument) was not taken. It would also require a
+% coordinated rewrite of apx_b_static_scope.tex, which currently reads the other way.
+% Probe: R13-aut08.
+% [round14] WORDING. "five United States states" -> "five U.S. states": the doubled noun read
+% as a typo on a first pass, and "U.S. states" is the form the rest of the document and the term
+% registry already use (GLOSSARY next-region row; 5_mobiwac/01_introduction.tex:42-43). The
+% following clause kept the spelled-out compound at that time, on the ground that it is a compound
+% adjective. [2026-10-05, AUTHOR-RULED D8b] It now reads "non-U.S.", the form of Chapter 5's
+% contribution list and of its external-validity section; one form across the document. Probe
+% R10-fab22 pins the old string and is re-pinned by the registry.
+The study evaluates five
+U.S. states and, to test whether the finding holds outside that setting,
+Istanbul as a non-U.S. dataset, comparing the joint and dedicated models with
+paired superiority and non-inferiority tests. The results support a positive answer for
+this configuration; Chapter~\ref{ch:mobiwac} reports the task-specific outcomes.
+
+The task pair thus changes across the studies: the first two combine static category
+classification with next-category prediction, whereas the final study combines
+next-category and next-region prediction. The dissertation does not treat these as one
+unchanged experiment. Each study revised what the previous one had concluded, and each
+later chapter states which earlier conclusion it supersedes and under which conditions
+the earlier one still holds.
+% AUT-09 (PENDENCIAS §4, ruling "Vamos reescrever e combinar as duas cuidado com a reescrita não soar
+% natural"). Neither version was restored; the two were combined, which is what he asked for.
+% WHAT WAS WRONG WITH THE VERSION THIS REPLACES: "It presents a sequence in which a result valid for
+% one configuration leads to a diagnosis and then to a different, explicitly bounded solution." The
+% subject was "a sequence", and a result "leads to" a diagnosis, so an abstract noun acts. WRITING_LAW
+% §1 bans exactly that shape, and the author's reading of it was correct.
+% WHAT WAS TAKEN FROM THE EARLIER VERSION HE PREFERRED: its named subject and its agents. Each STUDY
+% revised; each CHAPTER states. That is the half that reads naturally.
+% WHAT WAS NOT TAKEN, and why: the earlier version called the arc "a correction trail". NORTH_STAR §6
+% Ch.1 beat 4 (d) carries an explicit F4 guard against making the null result read as act one of a
+% script written in advance, and a named trail is a plot. The clause "under which conditions the
+% earlier one still holds" replaces the metaphor with the time-indexing WRITING_LAW §3 requires: a
+% superseded conclusion was true of its configuration, not wrong from the start.
+% Probe: R13-aut09.
+
+
+\section{Objectives}
+\label{sec:intro:objectives}
+
+The general objective is to determine whether multitask learning helps next-category
+and next-region prediction and to identify the conditions that shape the answer. Four
+specific objectives connect this question to the article chapters and to their
+consolidation:
+
+\begin{enumerate}
+    \item Evaluate whether a joint model with hard parameter sharing benefits static
+    category classification and next-category prediction when compared with
+    dedicated single-task models (Chapter~\ref{ch:cbic}).
+    \item Determine how the input representation affects that result by enriching and
+    decomposing the input while keeping the architecture fixed
+    (Chapter~\ref{ch:courb}).
+    \item Design and validate a check-in-level representation and a joint model for
+    next-category and next-region prediction (Chapter~\ref{ch:mobiwac}).
+    % AUT-12 (PENDENCIAS §4, author ruling A): ch:conclusion -> ch:mobiwac. The clause names the
+    % PROTOCOL (user-disjoint cross-validation, significance testing, non-inferiority), and that
+    % protocol belongs to the final study, which is Chapter 5. Chapter 6 is the Conclusion and is
+    % not a study. The old reference resolved, so the build reported zero undefined references and
+    % every gate passed while the rendered page printed "(Chapter 6)". Probe: R13-obj4.
+    % [2026-09-03, AUTHOR-APPROVED, domain-review finding] "Consolidate the evidence under the ...
+    % protocol used in the final study" promised either a re-evaluation of Chapters 3 and 4 that never
+    % happened (Chapter 2 says twice, in live text, that they "report fold means and standard deviations
+    % without significance tests") or, read narrowly, objective 3 again. Rewritten to what the
+    % document does: it states the protocol differences among the three studies (Section 2.4.3), binds
+    % each comparison verb to the test that licenses it (Section 2.4.4), and reads each result
+    % accordingly (Chapter 6), with the final study's protocol as the reference. The seven-word span
+    % "non-inferiority protocol used in the final study (Chapter~\ref{ch:mobiwac})" that probe
+    % R13-obj4 pins is kept VERBATIM, so the pattern still pairs the prose with the ch:mobiwac label
+    % and needs no repoint; the reference still points at the study, not at the Conclusion.
+    \item State the differences in evaluation protocol among the three studies and read
+    each result by the verdict its own protocol supports, taking as the reference the
+    user-disjoint cross-validation, significance-testing, and non-inferiority protocol
+    used in the final study (Chapter~\ref{ch:mobiwac}).
+\end{enumerate}
+
+% [COD-003, round8, 2026-07-30] Objective 4 said "a leakage-guarded statistical protocol". Changed to
+% "a user-disjoint statistical protocol" on the author's decision, PENDENCIAS_RESOLVIDOS 5.1 (arquivado 2026-07-30)
+% ("Valide no texto,
+% pf"), and the substitution is his own proposed wording. The reason it is not cosmetic: Chapter 5
+% states that it LIMITED the future-edge channel of the representation, not that it closed it, so
+% "leakage-guarded" promised a property of the representation pipeline that the protocol does not
+% deliver. What the protocol does guarantee is the user-disjoint split, which is what the clause now
+% names. The claim is strictly weaker, and no number moves.
+% The apposition that follows lost its own "user-disjoint" in the same edit, because the adjective now
+% sits in the head noun phrase and the pair read "a user-disjoint statistical protocol, the
+% user-disjoint cross-validation with". That deletion is mechanical de-duplication, not a scope
+% change: the components named (paired significance and non-inferiority testing) are untouched.
+
+
+\section{Scope and assumptions}
+\label{sec:intro:scope}
+
+The experiments use observational check-in traces from two sources: Gowalla data for
+five U.S. states (Alabama, Arizona, Florida, California, Texas) and the Istanbul subset of the Massive-STEPS
+benchmark. % [round11, PENDENCIAS §6 FAB-15, author's ruling "opcao 1" and his confirmation of 2026-08-03: "Cut
+% regions units, the taxonomy, cut most as possible, but let them in a specific place in the
+% introduction, so someone reading just the introduction has this context. The point is we don't need to
+% be repeating this all the time, mainly because our approach is generic and not fixed on this taxonomy."
+% MEASURED FIRST. The units had ALREADY left §1.1, where Fabricio objected; this sentence in §1.4 was the
+% only live occurrence of "census tract", "mahalle" or the seven classes anywhere in the introduction, so
+% there was no repetition WITHIN the chapter to cut. The repetition he means is across the frame: Chapter
+% 2 §2.1 is the definitional home (:119-121) and the next sentence here already points at it for the
+% output spaces and geographic units. So this is compaction, not deletion: the concrete instantiations
+% stay, once, because he asked that an introduction-only reader keep the context.
+% WHAT CHANGED, and it is the framing rather than the facts. "over the seven-class taxonomy defined in
+% Chapter 2" made the taxonomy read as part of the task DEFINITION; the targets are now stated plainly
+% and the label sets follow as properties of the data used here, which is what they are.
+% WHAT I DELIBERATELY DID NOT WRITE. His reason is that the approach is generic and not fixed on this
+% taxonomy, and a sentence asserting taxonomy-independence would overreach: Chapter 6 limitation 2
+% (6_conclusion.tex:384-385) states that next-category prediction uses seven top-level classes and that
+% "a finer taxonomy may change the effect of joint training". The formulation admits other label sets;
+% whether the RESULT survives them is explicitly open. Removing the definitional framing conveys his
+% point without making a claim the document contradicts one chapter later.
+% [FAB-34, round 13, 2026-08-03] "o que e isso? defina" -- on \emph{mahalle}, which stood here with
+% no gloss. MEASURED: this is its only live occurrence in the introduction, and the chapter's own
+% first use of it. Chapter 2 DOES gloss it ("a \emph{mahalle}, a municipal neighborhood",
+% 2_fundamentals.tex:1450), but that is 1,148 lines later in a different chapter, and WRITING_LAW §1
+% requires the definition at FIRST use. It is not an acronym, so the siglas list is not its home
+% either (that block carries CBIC, Check2HGI, CoUrb, DGI, FiLM, HGI, LBSN, MobiWac, MTL, POI, SBRC,
+% TOST -- checked).
+% THE GLOSS IS SOURCED, not written from memory, because his own note said "search if needed": the
+% mahalle is the smallest unit of Turkish local administration, below the district, headed by an
+% elected muhtar. It is therefore the CORRECT counterpart of a census tract only as the smallest
+% available areal unit, not as a statistical one -- so the wording says "administrative unit" rather
+% than implying the two are the same kind of object. The two-word appositive matches Chapter 2's own
+% phrasing ("a municipal neighborhood") so the two chapters do not drift apart, and adds the level
+% of government that makes the comparison legible.
+The prediction targets are the next category and the next region. In the data used
+here the category space has seven classes, and a region is a census tract in the United
+States or a \emph{mahalle} in Istanbul, the smallest administrative unit of Turkish
+local government, roughly a municipal neighborhood.
+The joint model operates under a single-model constraint: one trained artifact must produce
+both outputs in one forward pass. These choices define the design scope.
+Chapter~\ref{ch:fundamentals} specifies the output spaces and geographic units, and
+Chapter~\ref{ch:conclusion} discusses the limitations that affect how the results may
+generalize.
+
+
+\section{Organization of this dissertation}
+\label{sec:intro:organization}
+
+% [2026-10-06, AUTHOR-RULED D10; frame] "listed in the repository (Appendix A)" -> "applied in each chapter": the
+% pointer reached the main volume's Appendix A, not an errata appendix; the three prefaces now close
+% with one uniform sentence.
+% [2026-10-03, AUTHOR-RULED D5 (a); frame] ", apart from the corrections listed in the repository
+% (Appendix A)" appended so that this sentence and the Ch.5 preface agree; "the submitted manuscript"
+% stays by the 2026-09-02 ruling. True of all three article chapters: B.1, B.3 and B.5 are in the
+% repository; verified.
+This dissertation is organized as a collection of works, where each central chapter is an
+independent article. The articles were re-typeset in a common format, and the second
+article was translated into English. Their content follows the published versions or,
+% [2026-09-01, AUT-35] STATUS ONLY: "the article under review" -> "the accepted article". The second
+% half of this sentence ("the submitted manuscript") is left as delivered on purpose: it disagrees
+% with the Ch.5 preface, which says the chapter reproduces the REVISED form (ORA-1 in
+% wrapup/open_points/LACUNAS.md). Changing it is a substance decision and is with the author.
+for the accepted article, the submitted manuscript, apart from corrections and clarifications
+applied in each chapter.
+\begin{itemize}
+    % [FAB-23, round 9] ", Fundamentals" dropped at his request: the \ref renders the number and the
+    % chapter title is already in the sumario, so repeating it here is redundant.
+    \item \textbf{Chapter~\ref{ch:fundamentals}} defines the shared background: POI
+    prediction tasks, mobility representations, multitask learning, datasets,
+    metrics, and evaluation protocols.
+    \item \textbf{Chapter~\ref{ch:cbic}} reproduces the first article, published in
+    English at the XVII Congresso Brasileiro de Intelig\^encia Computacional
+    (CBIC 2025, DOI~10.21528/CBIC2025-1191324). This dissertation's author is its
+    first author.
+    % Venue verified 2026-07-23 against the official CBIC 2025 site
+    % (cbic2025.dcc.ufmg.br): XVII edition, promoted by SBIC, Belo Horizonte,
+    % October 27-30, 2025.
+    \item \textbf{Chapter~\ref{ch:courb}} presents an English translation of the second
+    article, published in Portuguese at the X Workshop de Computa\c{c}\~ao Urbana
+    (CoUrb 2026, DOI~10.5753/courb.2026.22960), held with the Simp\'osio
+    Brasileiro de Redes de Computadores e Sistemas Distribu\'idos (SBRC 2026).
+    This dissertation's author contributed the MTLnet baseline used in the study
+    and presented the work at the event.
+    % Venue verified 2026-07-23 against SBC OpenLibrary (sol.sbc.org.br/index.php/
+    % courb): X edition, May 25-29 2026, Praia do Forte/BA, with the XLIV SBRC.
+    % [round-tarik, this session] Removed the sentence stating Tarik S. Paiva is the
+    % first author / this author is second author, per author instruction: the
+    % PPGCC regimento does not require first authorship for a coletânea chapter
+    % (NORTH_STAR §5 item, verified 2026-07-18), so the role statement is not
+    % asserted in prose. The paper's real author list is unchanged and still
+    % printed in full in the bibliography (references.bib, paiva2026stmtlnet) --
+    % this edit removes a narrative claim, not a citation. Vitor's own
+    % contribution (MTLnet baseline, presenter) is kept, since that is a
+    % statement about this dissertation's author, not about the other paper's
+    % authorship ranking.
+    \item \textbf{Chapter~\ref{ch:mobiwac}} presents the third article, accepted for
+    publication at the 23rd ACM International Symposium on Mobility Management and
+    Wireless Access (MobiWac 2026). This dissertation's author is its first
+    author.
+    % Venue verified 2026-07-23 against the official symposium site
+    % (mobiwac-symposium.org/2026): 23rd edition.
+    % [2026-09-01, AUT-35] Status updated: accepted 2026-08-26 (presentation/_preparacao/HANDOFF.md §7 item 1).
+    % The instruction that used to sit here ("update the status wording here and in sections
+    % 1.1-1.2 the moment a decision arrives") is done; sections 1.1-1.2 carry no status wording,
+    % the other sites are :168 and :342 above.
+    % [FAB-24, round 9] Same as FAB-23.
+    \item \textbf{Chapter~\ref{ch:conclusion}} answers the research question across the
+    three studies, states their joint limitations, and connects each limitation
+    to future work.
+\end{itemize}
+
+Each article chapter begins with a preface that identifies its venue and publication
+status. The prefaces also distinguish the conclusion supported at the time of each
+article from the final position of the dissertation.
+
+
+% AUT-14 (PENDENCIAS §4, ruling: "Vamos seguir só com as **Depois as decisoes:**"). The author declined
+% the mechanical half of the plan, and his reason is on the record: Chapter 4 "apesar de ter sido uma
+% ótima base teórica, como citada na introdução, ele não possui contribuições praticas para literatura, a
+% não ser os aprendizados que já foram consumidos nos artigos em sequencias." So Chapter 4 and ST-MTLNet
+% are NOT added to the Software or Theoretical bullets, deliberately. Do not "complete" that later.
+% HIS FOUR CANDIDATES, each landed at the strength its evidence supports:
+%  (a) Check2HGI as a reusable advance -> STRENGTHENED (Software). Sustainable and previously
+%      under-declared: it is stated as independent of the heads placed on it, which is a property of the
+%      four-level construction, not a measured transfer result.
+%  (b) the joint model as modular/extensible -> ADMITTED AS DESIGN ONLY (Software). "Separates its
+%      per-task streams from the cross-attention that connects them" is a design fact. The stronger form
+%      he proposed, that it "can be expanded to other tasks", is a PREDICTION no experiment supports and
+%      is deliberately not written.
+%  (c) "the tasks appear not to conflict" -> DEMOTED OUT OF THIS SECTION, and his own warning was right.
+%      The claim now travels with its full scope in the Empirical bullet: the balancer screen is nineteen
+%      methods at DEFAULT configurations, ONE seed, TWO datasets, and the orthogonality statement is
+%      Appendix F's own wording with its reference attached. A mean cannot distinguish "consistently
+%      orthogonal" from "strong conflict in both directions that cancels", which is also GER-11's point.
+%  (d) "our papers are pioneering" -> REFUTED AS HE PHRASED IT, and the refutation was deliberately
+%      sought rather than assumed: eight boolean OpenAlex probes plus five keyword searches, instrument
+%      validated first. MTL with a category target is a POPULATED literature (HAMTL, DRRGNN, Hgarn,
+%      HMT-GRN, MCMG, CSLSL, MCARNN) and next category as an isolated target PREDATES this work. The one
+%      form that survived is the narrow one now written: co-equal end targets, no next-place target,
+%      hedged with "to our knowledge". [Premise retired 2026-09-08: this form used to be weaker than
+%      Chapter 5's own claim, and that was correct while Chapter 5 was under review and the frame
+%      could not exceed the chapter. Chapter 5 was accepted on 2026-08-26 and its priority claim was
+%      lowered to the same hedged form in 293de196, so the two now say the same thing.] "Pioneering"
+%      and "the first" are banned here. Probe R10-novelty already guards the surviving form.
+% Probes: R13-aut14, R13-aut14b, R13-aut14c.
+\section{Contributions}
+\label{sec:intro:contributions}
+
+The contributions are organized into four groups.
+
+\begin{description}
+    % [2026-09-02, AUTHOR RULING] Verb lowered at his direction: the studies ANALYZE how MTL behaves
+    % under different representations and sharing topologies; they do not "determine whether MTL
+    % helps". His words: "realinhar o texto para dizer que criamos um estudo com o objetivo de
+    % analisar ou demonstrar como o MTL se comporta nesse contexto, em vez de apresentar previamente
+    % a ideia de que o estudo determina ou comprova que o MTL ajuda." Both objects (representation
+    % AND sharing topology) are kept: the boundary in presentation/_preparacao/considerations.md §4E is that the
+    % evidential STATUS moves, never the presence of the contribution (AUT-15 confirmed this list).
+    % Sentence 2 carries 6_conclusion.tex:192-194's own hedges ("one condition", "not fully
+    % isolated") bound to the factor Ch.1 names; "dataset scale" is NOT imported from Ch.6 because
+    % Ch.1 never raised it. The "therefore" sentence and the novelty sentence (R13-aut14b) are
+    % unchanged. Old text: "The studies show that the input representation and its sharing topology
+    % determine whether MTL helps these POI prediction tasks."
+    \item[Theoretical.] The studies analyze how MTL behaves on these POI prediction tasks
+    under different input representations and sharing topologies. The controlled
+    comparisons identify the input representation as one condition of the outcome; the
+    effect of the sharing topology was not fully isolated from it. A null result
+    with a place-level representation and hard sharing therefore does not conflict
+    with a positive result obtained from a check-in-level representation and a
+    different form of sharing. Among the works reviewed in this dissertation, none treats
+    the next category and the next region as co-equal end targets of one joint model that
+    does not also predict the next place.
+    \item[Software.] The work provides MTLnet (Chapter~\ref{ch:cbic}), Check2HGI and the
+    joint model built on it (Chapter~\ref{ch:mobiwac}), and reproducible training
+    and evaluation pipelines for Chapters~\ref{ch:cbic} and~\ref{ch:mobiwac}. The
+    corresponding code repositories are referenced in those chapters. Check2HGI is the
+    reusable part: it learns one vector per visit from a four-level hierarchy and is
+    independent of the prediction heads placed on top of it, so a task other than the
+    two studied here can consume the same representation. The joint model separates its
+    per-task streams from the cross-attention that connects them, which is a property of
+    its design rather than a result measured on further tasks.
+    \item[Empirical.] The final study compares joint and dedicated models on six
+    datasets under user-disjoint cross-validation. Each configuration has twenty
+    fitted models: four repetitions of the complete five-fold experiment, each
+    with its own random initialization and its own user partition. The analysis
+    uses paired tests on the four per-seed means, non-inferiority tests, and a
+    leakage audit. Because each seed draws its own partition, the reported intervals
+    cover variation from both the initialization and the user split, sampled at four
+    draws. Three further measurements stand on their own. Nineteen loss and gradient
+    balancers were screened at their default configurations, at a single random
+    initialization, on Alabama and Florida, and none improved on a tuned fixed task
+    weighting across both tasks and both datasets. The gradients of the two tasks were
+    measured directly and are statistically indistinguishable from orthogonal at the four
+    % [2026-09-03, AUTHOR-APPROVED, domain-review finding] "which explains the balancer result rather
+    % than merely accompanying it" claimed more than Appendix F, which says "the measurement does not
+    % by itself explain every balancer's performance", and than Chapter 2, which says the cosine "reads
+    % how the two requested updates are aligned and ignores how large they are" while "other methods
+    % may still react to differences in gradient magnitude or task loss". The sentence now names what
+    % the measurement explains (the direction-based part) and what it does not read (magnitude), in
+    % Chapter 2's own hedge. R13-aut14c's screen-scope span above is untouched; the absent-type probe
+    % on "indistinguishable from orthogonal on <N>" stays absent ("at the four datasets").
+    datasets where the measurement was taken, which explains the direction-based part of
+    the balancer result (Appendix~\ref{apx:cosine}); the cosine reads alignment and not
+    magnitude, to which some of the screened methods may still react. Two external sequence baselines were adapted so that
+    a region comparison exists at all: HMT-GRN keeps its shared multitask skeleton
+    and gains a per-fold region-transition prior, without its graph components and
+    hierarchical beam search; and STAN has its output layer adapted to rank
+    region candidates. Neither adaptation reproduces its complete published system, and
+    Chapter~\ref{ch:mobiwac} states what was changed.
+    \item[Practical.] One model produces both predictions in one forward pass, and every
+    difference on both tasks stays inside the bound its axis supports. On the region task it outperforms the dedicated model
+    at the two datasets with the largest region vocabularies, Texas and California, and
+    at the other four it stays within the two-point margin registered before any result
+    was read (statistical non-inferiority, assessed with two one-sided tests). On the
+    category task it outperforms the dedicated model at Florida, and the five remaining
+    differences are equivalent to zero within half a point.
+\end{description}
+
+% [round5, persona 03 S3-05] "seed" first reached the reader here, on rendered p. 16, while its
+% definition sits in 5_mobiwac/05_setup.tex on p. 66 -- a fifty-page forward dependency in a frame
+% chapter, where WRITING_LAW's define-at-first-use rule is in full force. The gloss added here uses
+% the registry's own wording, so Ch.5's definition is unchanged and stays canonical. The Abstract and
+% Resumo already comply by writing "random initializations" instead of the bare term.

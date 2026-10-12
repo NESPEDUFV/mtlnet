@@ -1,0 +1,656 @@
+{
+ "chapters/1_introduction.tex": [
+  [
+   358,
+   "silhouette",
+   "(CoUrb 2026, DOI~10.5753/courb.2026.22960), held with the Simp\\'osio"
+  ],
+  [
+   461,
+   "ladder_cat_all",
+   "outperforms the dedicated models on the category task at all six datasets and on"
+  ],
+  [
+   462,
+   "ladder_reg_4",
+   "the region task at four of the six; at the other two it remains statistically"
+  ]
+ ],
+ "chapters/2_fundamentals.tex": [
+  [
+   1834,
+   "ladder_cat_all",
+   "outperforms the dedicated model on next category at all six datasets, and on next"
+  ]
+ ],
+ "chapters/3_cbic/results.tex": [
+  [
+   125,
+   "v17_repr_gap",
+   "As shown in Table~\\ref{tab:cbic:category}, both our MTL and Single models outperform HMRM \\cite{chen2020modeling} in every POI cat"
+  ]
+ ],
+ "chapters/4_courb.tex": [
+  [
+   42,
+   "silhouette",
+   "This chapter is a translated reproduction of the paper ``ST-MTLNet: Representa\u00e7\u00f5es Espa\u00e7o-Temporais de Pontos de Interesse para Ap"
+  ]
+ ],
+ "chapters/4_courb/results.tex": [
+  [
+   44,
+   "silhouette",
+   "In the three evaluated states, the two variants of ST-MTLNet outperform the original MTLnet in all 21 category-state combinations,"
+  ],
+  [
+   62,
+   "silhouette",
+   "Unlike classification, this task presents a more heterogeneous scenario, but still favorable to the proposed variants: counting th"
+  ]
+ ],
+ "chapters/5_mobiwac.tex": [
+  [
+   33,
+   "ladder_cat_all",
+   "model outperforms the dedicated single-task category model at all six datasets"
+  ]
+ ],
+ "chapters/5_mobiwac/01_introduction.tex": [
+  [
+   37,
+   "ladder_cat_all",
+   "single-task category model on every dataset (by about $+5$ to $+9$ points of"
+  ],
+  [
+   39,
+   "ladder_reg_4",
+   "it outperforms at four of the six datasets and stays"
+  ],
+  [
+   42,
+   "scaling",
+   "\\item An empirical account, across five U.S. states and one non-U.S. city, of how the joint gain scales with the number of regions"
+  ],
+  [
+   44,
+   "scaling",
+   "region result moves monotonically with the region count: the joint model"
+  ],
+  [
+   49,
+   "v17_reg_delta",
+   "regions, the joint model is also ahead on region ($+0.19$ Acc@10). All joint and dedicated results average"
+  ]
+ ],
+ "chapters/5_mobiwac/04_method.tex": [
+  [
+   35,
+   "loss_075",
+   "L = 0.75\\,L_{\\mathrm{cat}} + 0.25\\,L_{\\mathrm{reg}},"
+  ]
+ ],
+ "chapters/5_mobiwac/06_results.tex": [
+  [
+   12,
+   "learnable",
+   "\\subsection{The representation makes the category task learnable}"
+  ],
+  [
+   16,
+   "v17_repr_gap",
+   "dataset (Table~\\ref{tab:mobiwac:representation}). The comparison is controlled: target, single-task model, training configuration,"
+  ],
+  [
+   20,
+   "v17_repr_tbl",
+   "particular: the per-visit vectors' silhouette score by category (how tight and well separated the seven labeled groups are, on a $"
+  ],
+  [
+   20,
+   "v17_repr_gap",
+   "particular: the per-visit vectors' silhouette score by category (how tight and well separated the seven labeled groups are, on a $"
+  ],
+  [
+   20,
+   "silhouette",
+   "particular: the per-visit vectors' silhouette score by category (how tight and well separated the seven labeled groups are, on a $"
+  ],
+  [
+   20,
+   "ctle_75",
+   "particular: the per-visit vectors' silhouette score by category (how tight and well separated the seven labeled groups are, on a $"
+  ],
+  [
+   21,
+   "feat_width_11",
+   "per-visit features that our graph reads (the category one-hot plus hour and"
+  ],
+  [
+   80,
+   "ladder_cat_all",
+   "category at all six datasets, and on next region it outperforms them at four of the six"
+  ],
+  [
+   80,
+   "ladder_reg_4",
+   "category at all six datasets, and on next region it outperforms them at four of the six"
+  ],
+  [
+   147,
+   "v17_cat_delta",
+   "every dataset, by $+5.33$ to $+9.35$ macro-F1 (smallest at Florida, largest at"
+  ],
+  [
+   148,
+   "v17_cat_delta",
+   "Arizona, and $+8.58$ at Istanbul)."
+  ],
+  [
+   157,
+   "scaling",
+   "(TOST, $\\pm2$~pp) at Alabama and Arizona. Across the five U.S. states, the region gain rises with region count,"
+  ],
+  [
+   158,
+   "v17_reg_delta",
+   "from $-0.41$ at the smallest count to $+2.20$ at the largest; region count and"
+  ],
+  [
+   163,
+   "ladder_cat_all",
+   "seeds favor the joint model on every dataset, and each gain is significant"
+  ],
+  [
+   170,
+   "v17_reg_delta",
+   "(each entry: point estimate; interval): Alabama ($-0.41$; $-0.63$ to $-0.20$)"
+  ],
+  [
+   175,
+   "v17_reg_delta",
+   "$+0.71$; $+0.67$ to $+0.76$; Istanbul $+0.19$; $+0.15$ to $+0.23$), so the"
+  ],
+  [
+   290,
+   "v17_cat_delta",
+   "joint model outperforms the dedicated category ceiling by $+8.58$ macro-F1"
+  ],
+  [
+   291,
+   "v17_cat_ded",
+   "(dedicated $54.74$, joint $63.32$) and is slightly above the dedicated region ceiling at $+0.19$"
+  ],
+  [
+   291,
+   "v17_cat_joint",
+   "(dedicated $54.74$, joint $63.32$) and is slightly above the dedicated region ceiling at $+0.19$"
+  ],
+  [
+   291,
+   "v17_reg_delta",
+   "(dedicated $54.74$, joint $63.32$) and is slightly above the dedicated region ceiling at $+0.19$"
+  ],
+  [
+   292,
+   "v17_reg_joint",
+   "Acc@10 (dedicated $75.16$, joint $75.35$), a gain with statistical support (the whole 90\\% confidence interval of the paired"
+  ]
+ ],
+ "chapters/5_mobiwac/07_discussion.tex": [
+  [
+   12,
+   "ladder_cat_all",
+   "A single model serves both tasks in one forward pass. It outperforms the dedicated category model on all six datasets."
+  ],
+  [
+   13,
+   "ladder_reg_4",
+   "For region prediction, it outperforms the dedicated model on four datasets and remains within a two-point margin on the"
+  ],
+  [
+   18,
+   "v17_reg_joint",
+   "set: at California, ten regions out of 8{,}501 contain the true next region 65.69"
+  ],
+  [
+   19,
+   "ladder_reg_4",
+   "percent of the time. On four datasets (Alabama, Arizona, Florida, and Istanbul; a single seed over five folds), the ten shortliste"
+  ]
+ ],
+ "chapters/5_mobiwac/08_conclusion.tex": [
+  [
+   26,
+   "scaling",
+   "gain rises with the number of regions. This advantage extends to the external methods because the joint model remains"
+  ],
+  [
+   28,
+   "markov_gap",
+   "on all six datasets, by at least 4 Acc@10 points over the strongest region reference (HMT-GRN, STAN, or ReHDM; the first"
+  ],
+  [
+   29,
+   "markov_gap",
+   "two on our folds, ReHDM under its own protocol) and by at least 33 macro-F1 points over POI-RGNN on category."
+  ]
+ ],
+ "chapters/6_conclusion.tex": [
+  [
+   36,
+   "ladder_cat_all",
+   "dedicated single-task models on the category task at all six datasets and on the region"
+  ],
+  [
+   37,
+   "ladder_reg_4",
+   "task at four of the six. At the other two, it remains statistically non-inferior within"
+  ],
+  [
+   100,
+   "v17_cat_delta",
+   "the category task at all six datasets, by 5.3 to 9.4 macro-F1 points. On the region task,"
+  ],
+  [
+   100,
+   "ladder_cat_all",
+   "the category task at all six datasets, by 5.3 to 9.4 macro-F1 points. On the region task,"
+  ],
+  [
+   101,
+   "ladder_reg_4",
+   "it outperforms them at four datasets: Istanbul, Florida, California, and Texas. At"
+  ],
+  [
+   128,
+   "scaling",
+   "model grows with the number of regions. It exceeds two Acc@10 points in Texas and"
+  ]
+ ],
+ "chapters/apx_f_cosine.tex": [
+  [
+   100,
+   "ladder_cat_all",
+   "orthogonal on every dataset measured, which is a stronger statement than mere absence of"
+  ]
+ ],
+ "chapters/apx_h_check2hgi_joint_model.tex": [
+  [
+   125,
+   "feat_width_11",
+   "first layer maps the 11 input features to 64 dimensions and applies layer"
+  ],
+  [
+   428,
+   "feat_width_11",
+   "Check2HGI & Check-in input & 7 category indicators + 4 cyclic time values; width 11 \\\\"
+  ],
+  [
+   465,
+   "loss_075",
+   "\\item the supervised objective is the fixed $0.75/0.25$ combination in"
+  ]
+ ],
+ "chapters/apx_i_parameter_count_control.tex": [
+  [
+   37,
+   "v17_cat_ded",
+   "Alabama    & $56.82 \\pm 0.03$ & $56.16 \\pm 1.89$ & 64.54 & $-0.66$ & $+8.38$ \\\\"
+  ],
+  [
+   38,
+   "v17_cat_ded",
+   "California & $70.60 \\pm 0.07$ & $69.88 \\pm 0.26$ & 77.05 & $-0.72$ & $+7.17$ \\\\"
+  ],
+  [
+   38,
+   "v17_cat_joint",
+   "California & $70.60 \\pm 0.07$ & $69.88 \\pm 0.26$ & 77.05 & $-0.72$ & $+7.17$ \\\\"
+  ]
+ ],
+ "tables/cbic/category.tex": [
+  [
+   13,
+   "v17_repr_gap",
+   "& Food          & \\textbf{57.43 $\\pm$ 1.46} & 56.70 $\\pm$ 0.84          & 28.44 $\\pm$ 0.42 \\\\"
+  ],
+  [
+   14,
+   "v17_repr_gap",
+   "& Nightlife     & 29.94 $\\pm$ 2.27          & \\textbf{34.22 $\\pm$ 2.08} & 25.54 $\\pm$ 1.73 \\\\"
+  ],
+  [
+   24,
+   "v17_repr_gap",
+   "& Shopping      & 60.24 $\\pm$ 1.21          & \\textbf{61.59 $\\pm$ 1.44} & 39.63 $\\pm$ 0.82 \\\\"
+  ],
+  [
+   28,
+   "v17_repr_gap",
+   "& Entertainment & 39.14 $\\pm$ 1.69          & \\textbf{39.88 $\\pm$ 4.93} & 11.90 $\\pm$ 1.08 \\\\"
+  ],
+  [
+   32,
+   "v17_cat_ded",
+   "& Shopping      & \\textbf{65.04 $\\pm$ 2.69} & 62.28 $\\pm$ 2.83          & 56.82 $\\pm$ 0.98 \\\\"
+  ]
+ ],
+ "tables/cbic/next.tex": [
+  [
+   13,
+   "v17_repr_gap",
+   "& Food          & \\underline{28.06 $\\pm$ 3.55} & 26.35 $\\pm$ 2.97             & \\textbf{43.47 $\\pm$ 0.50} \\\\"
+  ],
+  [
+   20,
+   "v17_repr_gap",
+   "& Entertainment & \\underline{32.64 $\\pm$ 2.55} & 28.63 $\\pm$ 2.85             & \\textbf{38.72 $\\pm$ 1.56} \\\\"
+  ],
+  [
+   21,
+   "v17_repr_gap",
+   "& Food          & 39.05 $\\pm$ 0.70             & \\textbf{39.87 $\\pm$ 1.48}    & 35.91 $\\pm$ 0.81 \\\\"
+  ],
+  [
+   22,
+   "v17_repr_gap",
+   "& Nightlife     & \\underline{17.71 $\\pm$ 2.40} & 15.27 $\\pm$ 0.67             & \\textbf{39.67 $\\pm$ 23.94} \\\\"
+  ],
+  [
+   24,
+   "v17_repr_gap",
+   "& Shopping      & \\underline{42.57 $\\pm$ 0.78} & \\textbf{43.47 $\\pm$ 1.08}    & 39.04 $\\pm$ 1.06 \\\\"
+  ],
+  [
+   24,
+   "silhouette",
+   "& Shopping      & \\underline{42.57 $\\pm$ 0.78} & \\textbf{43.47 $\\pm$ 1.08}    & 39.04 $\\pm$ 1.06 \\\\"
+  ],
+  [
+   30,
+   "v17_repr_gap",
+   "& Nightlife     & 32.13 $\\pm$ 9.47             & \\textbf{38.35 $\\pm$ 3.11}    & 0.80 $\\pm$ 0.79 \\\\"
+  ],
+  [
+   31,
+   "v17_repr_gap",
+   "& Outdoors      & 25.06 $\\pm$ 4.26             & \\textbf{27.07 $\\pm$ 3.40}    & 7.30 $\\pm$ 1.32 \\\\"
+  ]
+ ],
+ "tables/courb/category.tex": [
+  [
+   23,
+   "silhouette",
+   "& Nightlife & 26.81 $\\pm$ 1.71 & 60.59 $\\pm$ 1.35 & \\textbf{60.78 $\\pm$ 1.63} \\\\"
+  ],
+  [
+   26,
+   "v17_repr_gap",
+   "& Travel & 38.88 $\\pm$ 1.32 & \\textbf{63.59 $\\pm$ 1.45} & 63.25 $\\pm$ 0.99 \\\\"
+  ],
+  [
+   34,
+   "v17_repr_gap",
+   "& Travel & 39.37 $\\pm$ 1.29 & 57.53 $\\pm$ 1.08 & \\textbf{64.73 $\\pm$ 0.72} \\\\"
+  ]
+ ],
+ "tables/courb/next.tex": [
+  [
+   12,
+   "v17_repr_gap",
+   "\\multirow{7}{*}{\\textbf{Florida}} & Community & 34.33 $\\pm$ 1.33 & \\textbf{38.31 $\\pm$ 0.90} & 37.98 $\\pm$ 1.22 \\\\"
+  ],
+  [
+   14,
+   "v17_repr_gap",
+   "& Food & 27.12 $\\pm$ 2.79 & \\textbf{41.91 $\\pm$ 1.93} & 41.65 $\\pm$ 3.15 \\\\"
+  ],
+  [
+   17,
+   "v17_repr_gap",
+   "& Shopping & 39.62 $\\pm$ 3.40 & 44.00 $\\pm$ 2.04 & \\textbf{44.66 $\\pm$ 2.38} \\\\"
+  ],
+  [
+   20,
+   "v17_repr_gap",
+   "\\multirow{7}{*}{\\textbf{California}} & Community & 32.14 $\\pm$ 0.89 & \\textbf{37.86 $\\pm$ 0.20} & 37.80 $\\pm$ 1.11 \\\\"
+  ],
+  [
+   22,
+   "v17_repr_gap",
+   "& Food & 29.26 $\\pm$ 1.67 & 50.42 $\\pm$ 1.15 & \\textbf{51.28 $\\pm$ 0.57} \\\\"
+  ],
+  [
+   22,
+   "silhouette",
+   "& Food & 29.26 $\\pm$ 1.67 & 50.42 $\\pm$ 1.15 & \\textbf{51.28 $\\pm$ 0.57} \\\\"
+  ],
+  [
+   25,
+   "v17_repr_gap",
+   "& Shopping & 38.41 $\\pm$ 2.64 & \\textbf{39.04 $\\pm$ 1.72} & 37.82 $\\pm$ 1.31 \\\\"
+  ],
+  [
+   26,
+   "v17_repr_gap",
+   "& Travel & \\textbf{46.05 $\\pm$ 0.84} & 36.94 $\\pm$ 1.70 & 37.82 $\\pm$ 1.04 \\\\"
+  ],
+  [
+   29,
+   "v17_repr_gap",
+   "& Entertainment & 25.56 $\\pm$ 1.56 & \\textbf{28.30 $\\pm$ 1.37} & 27.59 $\\pm$ 1.64 \\\\"
+  ],
+  [
+   30,
+   "v17_repr_gap",
+   "& Food & 29.56 $\\pm$ 4.10 & 47.48 $\\pm$ 2.42 & \\textbf{48.67 $\\pm$ 0.66} \\\\"
+  ],
+  [
+   33,
+   "v17_repr_gap",
+   "& Shopping & 38.79 $\\pm$ 4.12 & \\textbf{45.40 $\\pm$ 1.30} & 43.18 $\\pm$ 2.19 \\\\"
+  ],
+  [
+   34,
+   "v17_repr_gap",
+   "& Travel & 29.71 $\\pm$ 1.32 & \\textbf{34.26 $\\pm$ 0.90} & 33.05 $\\pm$ 1.51 \\\\"
+  ]
+ ],
+ "tables/frame/bib_errata.tex": [
+  [
+   125,
+   "silhouette",
+   "Author restored per the Crossref record of DOI 10.5753/courb.2026.22960; pages"
+  ]
+ ],
+ "tables/mobiwac/representation.tex": [
+  [
+   13,
+   "v17_repr_tbl",
+   "Istanbul & \\textbf{54.65}\\sd{0.6} & 26.56\\sd{0.5} & $+28.09$ \\\\"
+  ],
+  [
+   13,
+   "v17_repr_gap",
+   "Istanbul & \\textbf{54.65}\\sd{0.6} & 26.56\\sd{0.5} & $+28.09$ \\\\"
+  ],
+  [
+   14,
+   "v17_repr_tbl",
+   "AL & \\textbf{55.87}\\sd{2.4} & 26.56\\sd{1.0} & $+29.31$ \\\\"
+  ],
+  [
+   14,
+   "v17_repr_gap",
+   "AL & \\textbf{55.87}\\sd{2.4} & 26.56\\sd{1.0} & $+29.31$ \\\\"
+  ],
+  [
+   15,
+   "v17_repr_tbl",
+   "AZ & \\textbf{57.13}\\sd{1.3} & 29.50\\sd{1.0} & $+27.63$ \\\\"
+  ],
+  [
+   15,
+   "v17_repr_gap",
+   "AZ & \\textbf{57.13}\\sd{1.3} & 29.50\\sd{1.0} & $+27.63$ \\\\"
+  ],
+  [
+   16,
+   "v17_repr_tbl",
+   "FL & \\textbf{75.15}\\sd{0.5} & 35.53\\sd{0.3} & $+39.62$ \\\\"
+  ],
+  [
+   16,
+   "v17_repr_gap",
+   "FL & \\textbf{75.15}\\sd{0.5} & 35.53\\sd{0.3} & $+39.62$ \\\\"
+  ],
+  [
+   16,
+   "ctle_75",
+   "FL & \\textbf{75.15}\\sd{0.5} & 35.53\\sd{0.3} & $+39.62$ \\\\"
+  ],
+  [
+   17,
+   "v17_repr_tbl",
+   "TX & \\textbf{69.95}\\sd{0.2} & 32.48\\sd{0.6} & $+37.47$ \\\\"
+  ],
+  [
+   17,
+   "v17_repr_gap",
+   "TX & \\textbf{69.95}\\sd{0.2} & 32.48\\sd{0.6} & $+37.47$ \\\\"
+  ],
+  [
+   18,
+   "v17_repr_tbl",
+   "CA & \\textbf{70.26}\\sd{0.3} & 32.31\\sd{0.4} & $+37.95$ \\\\"
+  ],
+  [
+   18,
+   "v17_repr_gap",
+   "CA & \\textbf{70.26}\\sd{0.3} & 32.31\\sd{0.4} & $+37.95$ \\\\"
+  ],
+  [
+   23,
+   "v17_repr_tbl",
+   "{\\footnotesize The matching place-level value at Alabama and Istanbul ($26.56$) is a coincidence of"
+  ]
+ ],
+ "tables/mobiwac/results.tex": [
+  [
+   30,
+   "v17_cat_ded",
+   "Istanbul & 520     & 24.55 & 30.12 & 54.74\\sd{0.09} & \\textbf{63.32}\\sd{0.02} \\\\"
+  ],
+  [
+   30,
+   "v17_cat_joint",
+   "Istanbul & 520     & 24.55 & 30.12 & 54.74\\sd{0.09} & \\textbf{63.32}\\sd{0.02} \\\\"
+  ],
+  [
+   31,
+   "v17_cat_ded",
+   "AL       & 1{,}109 & 20.50 & 23.80 & 56.82\\sd{0.03} & \\textbf{64.51}\\sd{0.09} \\\\"
+  ],
+  [
+   31,
+   "v17_cat_joint",
+   "AL       & 1{,}109 & 20.50 & 23.80 & 56.82\\sd{0.03} & \\textbf{64.51}\\sd{0.09} \\\\"
+  ],
+  [
+   32,
+   "v17_cat_ded",
+   "AZ       & 1{,}547 & 23.92 & 27.64 & 56.43\\sd{0.10} & \\textbf{65.79}\\sd{0.02} \\\\"
+  ],
+  [
+   32,
+   "v17_cat_joint",
+   "AZ       & 1{,}547 & 23.92 & 27.64 & 56.43\\sd{0.10} & \\textbf{65.79}\\sd{0.02} \\\\"
+  ],
+  [
+   32,
+   "v17_repr_gap",
+   "AZ       & 1{,}547 & 23.92 & 27.64 & 56.43\\sd{0.10} & \\textbf{65.79}\\sd{0.02} \\\\"
+  ],
+  [
+   33,
+   "v17_cat_ded",
+   "FL       & 4{,}703 & 29.74 & 34.49 & 74.51\\sd{0.03} & \\textbf{79.84}\\sd{0.02} \\\\"
+  ],
+  [
+   33,
+   "v17_cat_joint",
+   "FL       & 4{,}703 & 29.74 & 34.49 & 74.51\\sd{0.03} & \\textbf{79.84}\\sd{0.02} \\\\"
+  ],
+  [
+   33,
+   "v17_repr_gap",
+   "FL       & 4{,}703 & 29.74 & 34.49 & 74.51\\sd{0.03} & \\textbf{79.84}\\sd{0.02} \\\\"
+  ],
+  [
+   34,
+   "v17_cat_ded",
+   "TX       & 6{,}553 & 28.67 & 33.03 & 69.79\\sd{0.08} & \\textbf{77.24}\\sd{0.01} \\\\"
+  ],
+  [
+   34,
+   "v17_cat_joint",
+   "TX       & 6{,}553 & 28.67 & 33.03 & 69.79\\sd{0.08} & \\textbf{77.24}\\sd{0.01} \\\\"
+  ],
+  [
+   34,
+   "v17_repr_gap",
+   "TX       & 6{,}553 & 28.67 & 33.03 & 69.79\\sd{0.08} & \\textbf{77.24}\\sd{0.01} \\\\"
+  ],
+  [
+   35,
+   "v17_cat_ded",
+   "CA       & 8{,}501 & 27.58 & 31.78 & 70.60\\sd{0.07} & \\textbf{77.05}\\sd{0.01} \\\\"
+  ],
+  [
+   35,
+   "v17_cat_joint",
+   "CA       & 8{,}501 & 27.58 & 31.78 & 70.60\\sd{0.07} & \\textbf{77.05}\\sd{0.01} \\\\"
+  ],
+  [
+   35,
+   "v17_repr_gap",
+   "CA       & 8{,}501 & 27.58 & 31.78 & 70.60\\sd{0.07} & \\textbf{77.05}\\sd{0.01} \\\\"
+  ],
+  [
+   48,
+   "v17_reg_joint",
+   "Istanbul & 520     & 60.4  & 69.33 & 61.86 & 75.16\\sd{0.01} & \\textbf{75.35}\\sd{0.04}$^{\\uparrow}$ \\\\"
+  ],
+  [
+   49,
+   "v17_reg_joint",
+   "AL       & 1{,}109 & 57.05 & 65.38 & 60.72 & 70.11\\sd{0.10} & 69.70\\sd{0.09}$^{\\approx}$ \\\\"
+  ],
+  [
+   49,
+   "v17_reg_ded",
+   "AL       & 1{,}109 & 57.05 & 65.38 & 60.72 & 70.11\\sd{0.10} & 69.70\\sd{0.09}$^{\\approx}$ \\\\"
+  ],
+  [
+   50,
+   "v17_reg_ded",
+   "AZ       & 1{,}547 & 43.70 & 53.00 & 49.86 & 59.46\\sd{0.08} & 59.46\\sd{0.04}$^{\\approx}$ \\\\"
+  ],
+  [
+   51,
+   "v17_reg_joint",
+   "FL       & 4{,}703 & 63.74 & 64.49 & 72.99 & 76.70\\sd{0.02} & \\textbf{77.41}\\sd{0.02}$^{\\uparrow}$ \\\\"
+  ],
+  [
+   52,
+   "v17_reg_joint",
+   "TX       & 6{,}553 & 53.85 & 48.81$^{\\ddagger}$ & 61.67$^{\\dagger}$ & 64.95\\sd{0.01} & \\textbf{67.06}\\sd{0.01}$^{\\uparrow}$ \\\\"
+  ],
+  [
+   53,
+   "v17_reg_joint",
+   "CA       & 8{,}501 & 49.61 & 50.26$^{\\ddagger}$ & 58.52$^{\\dagger}$ & 63.49\\sd{0.02} & \\textbf{65.69}\\sd{0.02}$^{\\uparrow}$ \\\\"
+  ]
+ ]
+}

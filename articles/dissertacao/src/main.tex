@@ -1,0 +1,139 @@
+% !TeX root = main.tex
+% ============================================================================
+% main.tex -- the dissertation's real entry point (Vitor H. O. Silva, UFV/PPGCC). This header is
+% the canonical description of the build shape; the Makefile, README_SRC.md and CLAUDE.md point
+% here rather than retelling it. The story lived in five places until 2026-07-29 and three copies
+% had drifted, which is why there is now one.
+%
+% THREE BUILDS, ONE SOURCE. The other two entry files are two-line shims that set a switch and
+% read this one, so no build can drift from another except where a switch says it should, and
+% each is selectable as a compile root in Overleaf:
+%   main.tex            defense PDF      `make defense`    -> build/main.pdf -> ./dissertacao.pdf
+%   main_academico.tex  AcademicoPG body `make academico`  sets \ACADEMICOBUILD
+%   main_ppgc.tex       defense + sheet  `make ppgc`       sets \APPROVALSHEET
+%
+% \ifdefensebuild carries the front matter (cover, folha de rosto, Resumo/Abstract, lists); the
+% deposit build starts at the lists because AcademicoPG generates those from web forms
+% (UFV_COMPLIANCE §1). \ifapprovalsheet adds the approval placeholder. Both use \ifdefined rather
+% than \newif for the reason given at their definitions below.
+%
+% WARNING 1 -- DO NOT SELECT THE DEPOSIT BUILD FROM THE COMMAND LINE. A `pdflatex "\newif
+% \ifdefensebuild \defensebuildfalse\input{main.tex}"` invocation stood here until 2026-07-29 and
+% silently produced the DEFENSE document under a deposit-looking jobname: this file's own \newif
+% undoes the command-line one, so \ifdefined finds no switch and the run takes the defense branch.
+% Measured by running it verbatim: 108 pages with the Abstract on page 3, against that day's
+% 105-page deposit build. Compile main_academico.tex instead.
+%
+% WARNING 2 -- IF YOU RENAME A BUILD, SWEEP THE TOOLS THAT HARDCODE ITS STEM; none derives it, and
+% a missed one does not error, it reports the page count of a file nobody writes any more:
+% build.sh (jobname, both bibtex calls, BUILT, the label map), sync_page_counts.py (the stem tuple
+% AND its CLAIMS regexes), sync_deliverables.py, mkformat.py, fastbuild.sh, verify_format.py
+% (STEMS), Makefile, this header. `final` -> `academico` on 2026-07-29 (LATEX_UPGRADE.md §4 A-1).
+% \finalbuildfirstpage keeps its old name on purpose: mkformat.py uses it as SWITCH_LAST to find
+% the switch region, and the author's rename covered the external names, not this counter.
+%
+% WARNING 3 -- `make` sets PATH and the TEXMF variables itself, but a bare `pdflatex` here does
+% not. Without them the class and every .tfm resolve, three passes run, and pdftex dies with
+% "Font ntx-Regular-tlf-ot1r at 657 not found". That is a missing font MAP, not a missing font:
+% newtx registers its ntx-* entries in the usermode updmap output under TEXMFVAR. Do not go
+% looking for the font, and do not probe the variable either -- `kpsewhich -var-value TEXMFVAR`
+% reports an unreadable path on this machine, which is why texenv.sh sets it explicitly.
+%
+% TeX tree, verification protocol and the gate suite: ../src_utils/README_SRC.md.
+% ============================================================================
+
+% Default mode = DEFENSE. main_academico.tex sets \ACADEMICOBUILD (\def\ACADEMICOBUILD{})
+% before reading this file; absent that macro, this is the defense build. The macro was
+% called \FINALBUILD until 2026-07-29 and was set on the pdflatex command line rather than
+% in an entry file; both changed together (LATEX_UPGRADE.md §4).
+%
+% THE NESTED-\if SCANNING HAZARD, described here once because this is where the pattern
+% lives (the header above and README_SRC.md both point at this block rather than repeat it).
+% TeX skips the untaken branch of a conditional by SCANNING for the matching \fi, and while
+% skipping it still counts every \if... and \fi it passes. It does not evaluate them, so a
+% conditional built out of \newif on the command line can leave the scanner counting
+% \if tokens that were never meant as a conditional, and the \fi that should close the outer
+% test closes an inner one instead. The failure does not look like a switch problem: the
+% wrong branch runs, or a \fi is reported missing at a line that has nothing wrong with it.
+% \ifdefined\MACRO is a SINGLE conditional primitive with no \newif behind it, so nothing is
+% left for the scanner to miscount, which is why both switches below use it. This pattern is
+% the fix, NOT the hazard -- a comment here claimed the reverse until 2026-07-29 ("a problem
+% that \ifdefined has"), which invited exactly the rewrite that reintroduces the bug.
+% Do not "simplify" either line back to \newif manipulation on the command line.
+\newif\ifdefensebuild
+\ifdefined\ACADEMICOBUILD \defensebuildfalse \else \defensebuildtrue \fi
+
+% Approval sheet: OFF here, ON in main_ppgc.tex (author decision 2026-07-28). See the
+% header comment above. main_ppgc.tex sets \APPROVALSHEET before reading this file, so
+% the same \ifdefined guard pattern applies, for the reason given at the block above.
+\newif\ifapprovalsheet
+\ifdefined\APPROVALSHEET \approvalsheettrue \else \approvalsheetfalse \fi
+
+% Page number of the FIRST BODY PAGE in the academico deposit build (the macro keeps the name
+% \finalbuildfirstpage; see the NAMING note in the header). UFV_COMPLIANCE §4.4: pre-textual
+% pages are counted but not numbered, so the first body page prints
+% (number of pre-textual pages) + 1.
+%
+% THE STANDING HAZARD, and the reason this counter is corrected in every round that touches the
+% front matter: it is a hardcoded copy of a MEASURED property of that front matter, so it goes
+% silently wrong whenever the front matter changes length, and it is only reachable in the
+% academico build (content.tex sets it inside the \ifdefensebuild-false branch), which is why the
+% defense and ppgc builds stay correct and nobody notices. Corrected 11 -> 8 in round 6 (the
+% deposit build has three fewer pre-textual pages than the defense build, so it had inherited the
+% defense offset and every deposited page number ran three ahead) and 8 -> 9 in round 7, when the
+% cosine appendix's figure and table pushed the List of Figures and the List of Tables each onto a
+% second page and 7 pre-textual pages became 8. Both times the printed number was wrong on the one
+% build that is actually deposited, which is a UFV numbering non-compliance.
+% MEASURED on the current build, by finding the first page whose header carries a digit:
+%   defense   (main.pdf)           physical p.12, prints 12  OK
+%   ppgc      (main_ppgc.pdf)      physical p.13, prints 13  OK
+%   academico (main_academico.pdf) physical p. 9, printed  8  WRONG before this fix
+% ============================================================================================
+% [2026-09-06] 10 -> 20, AND THE RECIPE ABOVE IS WITHDRAWN. Everything from "HOW TO RE-DERIVE IT"
+% down was deleted here because it TAUGHT THE METHOD THAT PRODUCED EVERY WRONG VALUE. It said:
+% count the pre-textual pages of build/main_academico.pdf and add one. Our PDF has NINE unnumbered
+% pages, so that recipe yields 10 -- reproducibly, and wrong by exactly the pages it cannot see.
+%
+% WHAT IT CANNOT SEE. AcademicoPG PREPENDS its own front matter to whatever we upload, and the UFV
+% manual counts those pages. They are not in our file. No amount of measuring our file reveals them,
+% so the recipe could never have converged: 11 -> 8 -> 9 -> 10 were four applications of a method
+% that is blind to more than half of the counted pre-textual block.
+%
+% AND THE RECIPE CLAIMED A GATE THAT DID NOT EXIST: "check.sh runs it, which is how this was
+% caught." It did not. Verified 2026-09-06 by listing every script check.sh invokes; sync_page_counts
+% checks page TOTALS, never this number. That false claim is why each successive wrong value felt
+% verified. A gate now genuinely exists -- src_utils/check_first_body_page.py, wired into check.sh --
+% and it fails loudly on 10.
+%
+% THE RULE (Manual de entrega §7; UFV_COMPLIANCE.md:37): pre-textual pages are COUNTED but NOT
+% NUMBERED; the cover and the ficha catalografica are NEITHER counted NOR numbered; so the first
+% body page prints (counted pre-textual) + 1. The number is a property of the ASSEMBLED document,
+% not of ours.
+%
+% THE ARITHMETIC, from the system-emitted RASCUNHO of 2026-09-06 (127 sheets, DRAFT watermark):
+%     127 sheets = 11 prepended by AcademicoPG + 116 ours
+%      11 prepended = 1 cover (not counted) + 10 counted
+%     counted pre-textual = 10 (system) + 9 (ours) = 19   ->   first body page prints 20
+% Cross-checked from the other end: last sheet 127, only the cover uncounted, so counted page 126;
+% and 20 + 107 - 1 = 126, where 107 = 116 - 9 body pages. Two independent paths agree.
+%
+% THE FICHA DOES NOT MOVE THIS. When the Library attaches it: 128 sheets, but it is inserted before
+% the body and is not counted, so 128 - cover - ficha = 126 still and this stays 20. Do NOT
+% "correct" it when the ficha arrives.
+%
+% TO RE-DERIVE IT PROPERLY: you cannot, from this repository alone. The count of system-prepended
+% sheets is a property of the portal and its only authority is a fresh RASCUNHO -- which the manual
+% states twice: "a referencia correta para a numeracao das paginas deve ser sempre o arquivo emitido
+% pelo sistema." Run src_utils/check_first_body_page.py for the arithmetic; re-measure the pinned
+% constant there against a new RASCUNHO if the portal's front matter might have changed.
+% IF YOU ADD OR REMOVE FRONT MATTER, OR ANY FLOAT THAT LENGTHENS THE LISTS, the gate re-measures our
+% half automatically and will tell you the new value.
+% ============================================================================================
+\newcommand{\finalbuildfirstpage}{20}
+
+% The preamble and the body, in that order. They were one file until 2026-07-29; see
+% preamble.tex's header for why they are two. mkformat.py precompiles preamble.tex into a
+% format dump and its staleness key is that file's own checksum, so a preamble edit invalidates
+% the format automatically. Do not reorder these, and do not add a third \input between them.
+\input{preamble.tex}
+\input{content.tex}

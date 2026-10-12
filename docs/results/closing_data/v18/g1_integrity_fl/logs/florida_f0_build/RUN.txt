@@ -1,0 +1,7 @@
+start 2026-10-02 00:50:38 commit d01cd2a8 swap_used_MB=3040
+cmd: .venv/bin/python scripts/integrity_v2/build_study_repr.py --state florida --cell TO_F0 --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --exclude-users-file results/g1/splits/florida_split_seed0_fold0.json --study-root results/integ18_repr
+rc=0 wall=1201s peakRSS_bytes=8807743488
+repo-write-guard FAIL:
+/Users/vitor/Desktop/mestrado/ingred/docs/results/.DS_Store
+end 2026-10-02 01:10:40
+DONE

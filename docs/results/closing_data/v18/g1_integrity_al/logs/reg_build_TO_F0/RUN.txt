@@ -1,0 +1,6 @@
+start 2026-10-01 22:44:52 commit d01cd2a8 swap_used_MB=2441
+cmd: .venv/bin/python scripts/pre_freeze_gates/a4_build.py --state alabama --seed 0 --fold 0 --split-json results/g1/splits/alabama_split_seed0_fold0.json --device cpu
+rc=0 wall=150s peakRSS_bytes=1492320256
+repo-write-guard OK
+end 2026-10-01 22:47:22
+DONE

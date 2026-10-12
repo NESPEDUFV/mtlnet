@@ -1,0 +1,102 @@
+% !TeX root = ../../main.tex
+% chapters/3_cbic/basis.tex -- one section of Chapter 3 (CBIC 2025, published).
+% Split out of chapters/3_cbic.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CBIC___MTL/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Theoretical Foundations and Related Work}
+\label{sec:cbic:related}
+
+\subsection{POI Classification and Next-POI Prediction}
+POI Category Classification refers to the task of inferring the semantic category of a location based on contextual information such as geographic coordinates, visit frequency, or user behavior.
+
+Next-POI Prediction, in contrast, aims to predict which specific location a user is likely to visit next, given their past movement history.\footnote{This states the general formulation of the task as the literature poses it. The variant studied in this chapter predicts the \emph{category} of the next visited place rather than the place itself, as defined in Section~\ref{sec:cbic:intro} and in the chapter preface.} It is a sequential task that requires modeling temporal and spatial patterns within user trajectories.
+% [round4, REV-010] Footnote added to preserved published prose (basis.tex:23, reproduced
+% verbatim; the published sentence is complete, not truncated -- byte-compared this session).
+% The sentence defines the research AREA as the literature names it; the chapter's own
+% instantiation is the category variant (:53, :169, :182, :318). The footnote marks the scope
+% without altering the published wording. Declared in Appendix B, Table B.2.
+
+The prediction and classification of POIs are fundamental challenges in applications such as recommendation systems and urban planning. Xu et al.~\cite{Xu2023} propose the Tree-guided Multitask Embedding (TME) model, which aims to improve the semantic annotation of POIs using a hierarchical structure of categories and mobility-based representation learning.
+
+POI Category Classification has been extensively addressed in location-based recommendation systems, with various techniques applied to capture patterns and improve prediction accuracy. In this context, Lim et al.~\cite{Lim2022} propose the Hierarchical Multitask Graph Recurrent Network (HMT-GRN), which uses multitask learning to simultaneously predict the next POI and its geographic region.
+
+Although these approaches have made significant progress in the POI classification and next-location prediction fields, they tend to focus only on single-task objectives. None of the cited models propose a unified multitask learning (MTL) framework that jointly optimizes both POI category classification and next-POI prediction tasks. This motivates the development of solutions that use shared representations across related POI tasks.
+
+\subsection{Multitask Learning}
+\label{sec:cbic:mtl}
+
+MTL was formalized by Caruana \cite{caruana1997multitask} as an inductive transfer mechanism that enhances generalization by learning shared representations across related tasks. Early neural architectures employed \emph{hard parameter sharing}, where a common set of hidden layers is used for all tasks, yielding strong regularization and reduced training time.
+
+Recent surveys \cite{yu2024survey,zhang2021survey} organize contemporary MTL research along five methodological dimensions: (i) \textit{parameter sharing} (hard vs.\ soft); (ii) \textit{relationship learning} (discovering task affinity or hierarchy); (iii) \textit{feature routing} (e.g., cross-stitch, sluice networks, attention gating); (iv) \textit{optimization} (conflict-aware gradient techniques); and (v) \textit{pre-training and instruction tuning}. MTL has evolved from small, homogeneous task sets to dozens of heterogeneous objectives spanning computer vision, natural language processing, and recommender systems.
+
+A fundamental architectural challenge in MTL is deciding \emph{how much}, \emph{where}, and \emph{when} to share parameters across tasks. Three canonical sharing schemes have emerged:
+
+\paragraph*{Hard Parameter Sharing}
+A single encoder is shared by all tasks, followed by task-specific heads. This remains the simplest and most popular baseline, providing effective regularization \cite{caruana1997multitask}.
+\paragraph*{Soft Parameter Sharing}
+Each task has its own encoder, but networks exchange information through learned cross-connections, such as Cross-Stitch units \cite{misra2016cross} or Sluice networks \cite{ruder2017sluice}.
+\paragraph*{Mixture-of-Experts (MoE)}
+Multi-Gate Mixture-of-Experts (MMoE) architectures maintain a pool of shared expert subnetworks; each task learns a gating function to combine experts, outperforming monolithic sharing in large-scale recommendation settings \cite{ma2018mmoe}.
+
+To mitigate task interference and loss imbalance, several optimization techniques have been proposed: GradNorm equalizes gradient magnitudes across tasks \cite{chen2018gradnorm}; MGDA finds a direction that decreases every task loss, unless the current point is already Pareto-stationary \cite{sener2018mgda};
+% [round9c, PENDENCIAS_RESOLVIDOS 2.12 (arquivado 2026-08-02), author decision, 2026-07-30] CLAIM NARROWED in published co-authored
+% prose. Errata row in Appendix B (Table B.1), and the same edit is applied to the published source at
+% articles/CBIC___MTL/sections/basis.tex; the published PDF of record (DOI 10.21528/CBIC2025-1191324)
+% is not edited.
+% HIS WORDS: the finding was offered to him as "Se quiser corrigir, e uma linha de errata no Apendice
+% B, e a decisao e sua", and he answered "Otimo trabalho, pode adicionar essa linha no appendix B,
+% para termos conhecimento desse detalhe menor e nao deixar passar batido." The line he authorized is
+% the errata line, which exists only if the sentence is corrected, so both halves are applied.
+% WHAT WAS WRONG. The published clause said MGDA "finds Pareto-optimal descent directions", which
+% attaches Pareto OPTIMALITY to the per-step direction. sener2018mgda states a dichotomy instead: the
+% computed direction either decreases all objectives, or the point is already Pareto-stationary. Its
+% abstract, READ AT arXiv:1810.04650 THIS SESSION, claims Pareto optimality for an UPPER BOUND on the
+% multi-objective loss and under stated assumptions ("we prove that optimizing this upper bound yields
+% a Pareto optimal solution under realistic assumptions"), not for the step. The compression is the one
+% the MTL literature commonly makes, which is why it survived review.
+% This chapter does not use MGDA, so no result, design choice or number depends on the sentence.
+% "Pareto-stationary" is registered in GLOSSARY.md (section 4) under the author's decision (a) on the
+% same item, so the replacement wording is admissible under the fail-closed registry rule.
+PCGrad removes conflicting gradient components \cite{yu2020pcgrad}; and Dynamic Weight Averaging (DWA) reweights losses based on their relative learning speeds \cite{liu2019dwa}.
+
+Despite these successes, MTL still faces several key challenges:
+\begin{itemize}
+  \item \textbf{Negative Transfer}: Unrelated or adversarial tasks can degrade shared representations, harming individual task performance \cite{ruder2017sluice,zhang2021survey}.
+  \item \textbf{Gradient Conflict}: Simultaneous optimization may produce opposing gradient directions, slowing or destabilizing convergence \cite{yu2020pcgrad,sener2018mgda}.
+  \item \textbf{Data Heterogeneity}: Variations in modality, label granularity, and dataset size complicate sampling strategies and minibatch construction \cite{nash,standley2020tasks}.
+  \item \textbf{Scalability}: Routing complexity, memory footprint, and evaluation costs often grow super-linearly as the number of tasks increases \cite{zhang2021survey,yu2024survey}.
+\end{itemize}
+
+Recent work addresses these issues via task clustering \cite{standley2020tasks}, dynamic curricula, conflict-aware optimizers, and parameter-efficient adapters \cite{yu2024survey}. Nevertheless, principled criteria for task grouping, theoretical guarantees of Pareto efficiency, and energy-efficient training of very large MTL foundation models remain open research directions.
+
+\subsection{Multitask learning applied in POI}
+MTL has been explored in problems related to Points of Interest (POIs), primarily due to its ability to improve generalization by sharing information across correlated tasks. In POI modeling scenarios, such as user trajectory prediction and recommendation, MTL allows complementary objectives to be learned simultaneously, which can improve accuracy.
+
+Early MTL-based approaches such as MCARNN~\cite{Liao2018} employ recurrent neural networks with temporal attention mechanisms to jointly predict user activities and future visited locations. Similarly, the iMTL framework~\cite{Zhang2020} uses an LSTM architecture to model next-activity prediction, incorporating temporal dynamics in user behavior modeling.
+
+% [2026-09-02, author-approved, banca review] In the MTPR sentence of the paragraph below,
+% "uncertainty in check-ins" -> "the sparsity of check-in data". The MTPR paper addresses SPARSITY
+% (its PDF: zero occurrences of "uncertain", twelve of "sparse"); "uncertainty" was the attribute of
+% another model in this paragraph. One-word factual correction to reproduced text; the errata row is
+% the registry's. Comment kept on its own lines: the paragraph is one source line, and a mid-line
+% comment made the old phrase look live to a line-based comment stripper.
+More recent works have begun incorporating contextual and semantic signals. TLR-M~\cite{Halder2021}, for example, applies Transformer-based architectures to simultaneously predict the next POI and queue waiting time, demonstrating the value of attention-based models in capturing spatio-temporal dependencies. MTPR~\cite{Xia2020} combines LSTMs and adversarial learning to address the sparsity of check-in data and improve multitask POI recommendation both location and temporal context with a generative component.
+
+% [2026-09-02, author-approved, INTERNAL RECORD ONLY (no Appendix B row by his decision)] Internal
+% consistency fix on the TME sentence below. The chapter describes TME twice: at :22 as "a
+% hierarchical structure of categories and mobility-based representation learning", and here, until
+% this edit, as "graph-based encoders". The first wording is the one the chapter's own description and
+% 2_fundamentals.tex ("tree-guided multitask embedding") support; the second grouped TME with graph
+% work on no basis in this tree. The sentence now reuses the chapter's own :22 wording for the same
+% model. NOT verified against the source: the TME paper's encoder was not characterized from its PDF
+% (none in the tree; the bib entry is the CBIC donor carried verbatim, and the round-13 literature
+% audit cites Xu2023 without describing its encoder). So this edit asserts nothing about what TME
+% is; it removes an attribution the chapter itself did not support and keeps the two supported
+% claims (category annotation; prediction and classification treated separately). The published
+% CBIC sentence carried "graph-based encoders"; the departure is recorded in wrapup/ by the registry.
+Despite these advances, existing MTL approaches often focus on joint modeling of next-POI prediction and temporal or behavioral signals, while the relationship between POI category classification and next-POI prediction remains underexplored. Some models, such as TME~\cite{Xu2023}, address category annotation using a hierarchical structure of categories and mobility-based representation learning but treat prediction and classification separately.
+
+This creates a gap in the literature regarding the joint modeling of semantic and sequential POI tasks. In contrast, our proposed model introduces a unified MTL framework that jointly performs POI category classification and next-category prediction using a hard parameter-sharing architecture. By modeling both tasks simultaneously, our approach promotes knowledge transfer across shared spatio-temporal representations.

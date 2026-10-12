@@ -1,0 +1,7 @@
+{
+  "what": "next_category replaced by check2hgi_v18/istanbul next_category (same rows, userid-aligned as int64) so both arms share targets",
+  "rows_changed": 2852,
+  "rows": 271666,
+  "builder_output_kept_as": "next.builder_labels.parquet",
+  "reason": "builder derives labels from data/checkins/Istanbul.parquet (box copy md5 90cec3fc30d1b9ffb07efa8cbf2d8469), which disagrees with the dk_ovl/v18 labels on 1.05% of targets"
+}

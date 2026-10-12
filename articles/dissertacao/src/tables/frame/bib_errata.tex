@@ -1,0 +1,161 @@
+% !TeX root = ../../main.tex
+% frame/bib_errata.tex -- one table. Extraction provenance and verification: tables/README.md
+% [round5, author-reported] CONVERTED table -> longtable. This table is TALLER THAN THE TEXT BLOCK
+% longtable breaks across pages with a repeated header and continuation notices. All 16 rows, the
+% caption, the label and \small are preserved; only the container changed.
+% THE ASYMMETRY YOU ARE ABOUT TO "TIDY UP", AND WHY IT MUST STAY. In this file \small is set
+% OUTSIDE the environment, by the `{\small` line just below the comments and its lone closing
+% brace on the very last line of the file. In the sibling errata tables it is set INSIDE:
+% tables/courb/errata.tex, tables/mobiwac/errata_scope.tex and tables/cbic/errata_wording.tex
+% each carry a plain `\small` line a few lines after `\begin{table}[htb]`. That looks like an
+% inconsistency and is not one.
+% The reason is that a longtable IS NOT A FLOAT. \begin{table} opens a group of its own, so a
+% font change inside it is confined to the table and ends with it; \begin{longtable} opens no
+% such group, so a \small placed inside would leak out and shrink the rest of the document
+% after the table. The explicit { ... } braces are that missing group, which is why the two
+% families of table must be written differently. tables/cbic/errata.tex is the other longtable
+% here and carries the same outside-the-environment form for the same reason.
+% WHAT THE ASYMMETRY COST. Because the group is a bare brace pair spanning the whole table
+% rather than a named environment, dropping one half is invisible to a reader and fatal to the
+% build:
+% the opening brace was lost in the tables/ reorganization (commit 6d780b58) while the closing
+% brace on the last line survived, leaving the file one brace short. From that commit to a880632b
+% every build raised "! Extra }, or forgotten \endgroup": `make` (-halt-on-error) produced no PDF at
+% all, while src_utils/build.sh (-interaction=nonstopmode) RECOVERED from the error and still wrote a
+% 104-page PDF, which is the PDF that was measured and committed. The two tools disagreed for six
+% commits and the one that was believed could not see the error; build.sh now reports tex_errors and
+% fails on them. The recovered PDF was not junk, which is why nothing looked wrong: its only defect
+% was this table rendering at the surrounding body size instead of \small. Restored 2026-07-28.
+% [round6] Two rows added for the UberNet and Sphere2Vec preprint-to-version-of-record upgrades.
+% A \texttt key does not line-break, so a key longer than the 0.42\textwidth column overflows it:
+% printing mai2023sphere2vecgeneralpurposelocationrepresentation (52 characters) in the left cell
+% produced "Overfull \hbox (113.58371pt too wide)", the only overfull box in either build. That row
+% therefore NAMES the work, which is what the Rußwurm row above it already does for the same
+% reason. Rebuilt after the change: 0 overfull boxes in both variants. Do not re-introduce a long
+% key in a cell here without re-measuring.
+{\small
+\begin{longtable}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\caption{Bibliography errata: defects in entries inherited from the articles'
+reference lists and the corrections applied in the global bibliography. Keys in
+typewriter font.}
+\label{tab:apx:bib-errata} \\
+\toprule
+\textbf{Defect in a donor reference list} & \textbf{Correction in the global
+bibliography} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{@{}l}{\footnotesize\itshape Table \thetable\ continued from the previous page.}\\
+\toprule
+\textbf{Defect in a donor reference list} & \textbf{Correction in the global
+bibliography} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r@{}}{\footnotesize\itshape Continued on the next page.}\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+POI-RGNN cited the wrong paper for the Capanema et al.\ model. &
+Replaced by the correct record (\texttt{capanema2023poirgnn}: Ad Hoc Networks,
+v.~138, 103016, 2023), verified against Crossref. \\
+\addlinespace
+HMRM entry (\texttt{chen2020modeling}): garbled and incomplete author list, journal
+article typed as conference paper, DOI missing. &
+Five authors restored per the Crossref record; type corrected to journal article
+(IEEE TKDE, 34(4):1902--1914, 2022), DOI 10.1109/TKDE.2020.3001025. \\
+\addlinespace
+Graph Attention Networks cited as an arXiv preprint. &
+Cited as the ICLR 2018 version of record; arXiv identifier kept as a note. \\
+\addlinespace
+The spherical-harmonics location encoder of Ru\ss{}wurm et al.\ was typed as an arXiv
+preprint, although the entry already recorded the year of the conference version. &
+Cited as the ICLR 2024 version of record, confirmed against the arXiv journal reference
+and the OpenReview submission record; arXiv identifier kept as a note. \\
+\addlinespace
+Cross-Stitch entry (\texttt{misra2016cross}): DOI resolves to a different paper. &
+DOI corrected to 10.1109/CVPR.2016.433 (verified). \\
+\addlinespace
+MTL-survey entry (\texttt{zhang2021survey}): DOI does not resolve. &
+DOI corrected to 10.1109/TKDE.2021.3070203 (verified). \\
+\addlinespace
+The node feature matrix is described as the category one-hot encoding of each POI. The
+released implementation feeds the mean of the one-hot vectors of a POI's graph
+neighbors, with the POI's own vector excluded. &
+Published sentence preserved; a footnote records what the code does and why the
+distinction matters. The embedding therefore describes a neighborhood rather than a
+POI's own label, so the static task it supports is spatial homophily. \\
+% [round9, register track] "neighbours"/"neighbourhood" -> American, matching the footnote in
+% chapters/3_cbic/method.tex that this row describes. This cell is this document's own prose
+% (measured: neither string occurs in articles/CBIC___MTL/sections/*.tex), so no errata row is owed
+% for the change; the row's own subject, the published sentence, is unaltered.
+Kohavi (1995), the cross-validation and bootstrap study: the entry carried a DOI that
+resolves to a re-deposit of the paper made in 2026, not to the conference record. &
+DOI dropped, since the IJCAI-95 proceedings predate DOI registration. Author, title,
+volume and pages 1137--1143 confirmed against the proceedings PDF published by IJCAI. \\
+\addlinespace
+\texttt{church2017word2vec} resolves to a commentary column, not the skip-gram
+method. &
+Replaced by \texttt{mikolov2013word2vec} (arXiv:1301.3781) at the citing sentence. \\
+\addlinespace
+The sentence corrected in the row above attributes both skip-gram and negative sampling to
+\texttt{mikolov2013word2vec} (arXiv:1301.3781), which introduces skip-gram but not negative
+sampling. &
+\texttt{mikolov2013negsampling} (arXiv:1310.4546) added alongside it, which is where negative
+sampling is introduced. Both keys now appear at the citing sentence, since it claims both
+methods. \\
+\addlinespace
+\texttt{yu2019mmoe}: no distinct resolvable work; its claimed arXiv identifier
+resolves to an unrelated toolkit paper. &
+Dropped; the citing sentence describes MMoE and now cites \texttt{ma2018mmoe} alone. \\
+\addlinespace
+Deep Graph Infomax cited under three different key spellings across the donor
+lists. &
+Consolidated to a single entry (\texttt{velickovic2019deep}, ICLR 2019). \\
+\addlinespace
+\texttt{silva2025mtlnet} (the Chapter~\ref{ch:cbic} article, cited by the CoUrb
+paper): venue name conflated with another conference, stale ``Submetido''
+note, wrong author list. &
+Venue corrected to CBIC 2025 (Congresso Brasileiro de Intelig\^encia Computacional),
+DOI 10.21528/CBIC2025-1191324; note dropped; six authors restored per the Crossref
+record. \\
+\addlinespace
+\texttt{paiva2026stmtlnet} (the Chapter~\ref{ch:courb} article): third author
+missing in the seed entry. &
+Author restored per the Crossref record of DOI 10.5753/courb.2026.22960; pages
+323--336 confirmed. \\
+\addlinespace
+\texttt{standley2020tasks}: venue given as CVPR; page range unverifiable. &
+Venue corrected to ICML 2020 per OpenAlex; arXiv:1905.07553 noted; the unverifiable
+page range dropped. \\
+\addlinespace
+\texttt{kokkinos2016ubernet}: typed as an arXiv preprint, with the preprint identifier
+standing in for the journal field. &
+Cited as the CVPR 2017 version of record, DOI 10.1109/CVPR.2017.579, pages
+5454--5463, verified against Crossref; arXiv identifier kept as a note. \\
+\addlinespace
+The Sphere2Vec location encoder of Mai et al.\ was typed as an arXiv preprint, with no
+venue recorded at all. &
+Cited as the journal version of record (ISPRS Journal of Photogrammetry and Remote
+Sensing, v.~202, pages 439--462, 2023), DOI 10.1016/j.isprsjprs.2023.06.016, verified
+against Crossref and against the journal reference recorded on the preprint; arXiv
+identifier kept as a note. \\
+\addlinespace
+CoUrb chapter (\ref{ch:courb}): the Gowalla dataset was cited via Liu et al.\ (2014),
+``Exploiting Geographical Neighborhood Characteristics for Location Recommendation''
+(ACM CIKM), a location-recommendation method paper, not the dataset source. &
+Citation corrected to the dataset sources (\texttt{cho2011gowalla},
+\texttt{jure2014snap}), which the same chapter already cites for the dataset
+elsewhere; the location-recommendation reference was dropped from the chapter. \\
+\addlinespace
+\texttt{nash} (Nash-MTL) recorded the venue by the abbreviation this bibliography uses for
+that conference, and carried neither the proceedings volume, the series, the publisher, nor
+a resolvable link. The three articles' own lists went further and cited the work as a
+preprint, with a preprint identifier in place of a journal or proceedings field. &
+Brought to the publisher's own record for the paper: the proceedings of the thirty-ninth
+International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning
+Research, pages 16428--16446, 2022, with the publisher and the publisher's landing page. The
+page range was already correct here and is unchanged. The same entry was corrected in each of
+the three article source trees, where the entry type itself was wrong. \\
+\end{longtable}
+}

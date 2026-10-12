@@ -1,0 +1,13 @@
+ASSERT FAIL florida f0 split
+  File "/Volumes/Vitor's SSD/ingred_g1fl/src/data/folds.py", line 692, in _guard_cpu_resident_ram
+    raise MemoryError(
+MemoryError: load_next_data: CPU-resident next dataset needs ~5.5 GB (n_rows=1274418, num_features=576) but only 7.8 GB is available (head-room 4.0 GB). This usually means an oversized (e.g. stride-1 large-state) build. Use a smaller config or rebuild at the default stride. Override head-room via MTL_RAM_HEADROOM_GB.
+STEP FAIL florida_f0_build
+STEP FAIL fl_full_build
+SKIP (done) fl_full_build
+SKIP (done) fl_full_infer
+moved aside aborted attempt: fl_full_mat_aborted_20261002_021650
+PRELUDE DONE 2026-10-02 02:42:53
+SKIP (done, A1/A2 OK) florida_f0_build
+/Volumes/Vitor's SSD/ingred_g1fl/g1_logs/g1_run.sh: line 25: 66480 Terminated: 15          /usr/bin/time -l "$@" > "$L/out.log" 2>&1
+STEP FAIL florida_f0_cat_to

@@ -1,0 +1,169 @@
+{
+ "PROVENANCE": "Every value derived by src_utils/_round7/cosine_stats6.py from src_utils/_round7/gradient_cosine_observations6.parquet (4,650 rows), whose new 750 rows passed the fold-distinctness gate in cosine_harvest6.py (15 of 15 files kept, 15 distinct md5, GATE_RC=0). Re-derive, never increment.",
+ "n_observations": 4650,
+ "n_datasets": 7,
+ "datasets": [
+  "alabama",
+  "arizona",
+  "istanbul",
+  "florida",
+  "california",
+  "texas",
+  "georgia"
+ ],
+ "DATASET_COUNT_NOTE": "SEVEN datasets: the dissertation's SIX (alabama, arizona, california, florida, istanbul, texas) PLUS georgia, which is a further Gowalla state the dissertation does not otherwise use. Never write 'six datasets' about this set and never imply georgia is one of the six -- tables/mobiwac/datasets.tex lists AL, AZ, FL, TX, CA, Istanbul and no Georgia.",
+ "pooled_mean_of_observations": 0.001021,
+ "pct_within_margin_0.05": 92.37,
+ "range": [
+  -0.3407,
+  0.5802
+ ],
+ "DEPENDENCE_NOTE": "The 50 per-epoch cosines within a fold are consecutive states of ONE training trajectory and are NOT independent. Panel (b) CIs and every p-value are computed on the FOLD unit: 60 fold series for florida (12 configurations x 5 folds), 5 fold means elsewhere. Observation-level p-values are anti-conservative; do not quote them.",
+ "fold_unit_n": {
+  "alabama": 5,
+  "arizona": 5,
+  "istanbul": 5,
+  "florida": 60,
+  "california": 5,
+  "texas": 5,
+  "georgia": 5
+ },
+ "fold_unit_mean": {
+  "alabama": 0.01119,
+  "arizona": 0.0015,
+  "istanbul": 0.00011,
+  "florida": 0.00026,
+  "california": 0.00071,
+  "texas": -0.00026,
+  "georgia": 0.00385
+ },
+ "fold_unit_ci95": {
+  "alabama": [
+   0.00399,
+   0.0184
+  ],
+  "arizona": [
+   -0.00511,
+   0.00812
+  ],
+  "istanbul": [
+   -0.00084,
+   0.00106
+  ],
+  "florida": [
+   -0.00099,
+   0.00151
+  ],
+  "california": [
+   1e-05,
+   0.0014
+  ],
+  "texas": [
+   -0.00236,
+   0.00183
+  ],
+  "georgia": [
+   0.00158,
+   0.00612
+  ]
+ },
+ "TOST_p_margin_0.05": {
+  "alabama": 5.819e-05,
+  "arizona": 1.722e-05,
+  "istanbul": 6.596e-09,
+  "florida": 4.536e-62,
+  "california": 2.005e-09,
+  "texas": 1.595e-07,
+  "georgia": 2.959e-07
+ },
+ "TOST_equivalent_within_0.05_at_every_unit": true,
+ "positive_fold_units": {
+  "alabama": "5/5",
+  "arizona": "3/5",
+  "istanbul": "3/5",
+  "florida": "31/60",
+  "california": "4/5",
+  "texas": "4/5",
+  "georgia": "5/5"
+ },
+ "sign_test_floor": {
+  "n5": 0.0625,
+  "n12": 0.0005,
+  "n60": 0.0
+ },
+ "significance_caveat": "At n=5 the two-sided exact sign test cannot return below 0.0625, so NO five-fold dataset can support a significance claim about the sign of its mean. alabama (t p=0.0125), georgia (t p=0.0093) and california (t p=0.0478) all reject by t-test, but their sign tests are 0.0625, 0.0625 and 0.3750. Report consistent tendencies, never significance. Equivalence within +/-0.05 by TOST is the claim that survives, and it holds everywhere.",
+ "panel_c_per_fold_slope": {
+  "alabama": {
+   "mean_slope": -0.00090704,
+   "t_test_p": 0.0058,
+   "sign_test_p": 0.0625,
+   "sign_p_floor": 0.0625,
+   "n_folds": 5,
+   "n_negative": 5
+  },
+  "arizona": {
+   "mean_slope": -0.000122697,
+   "t_test_p": 0.5685,
+   "sign_test_p": 1.0,
+   "sign_p_floor": 0.0625,
+   "n_folds": 5,
+   "n_negative": 3
+  },
+  "istanbul": {
+   "mean_slope": -1.88463e-06,
+   "t_test_p": 0.9327,
+   "sign_test_p": 1.0,
+   "sign_p_floor": 0.0625,
+   "n_folds": 5,
+   "n_negative": 2
+  },
+  "florida": {
+   "mean_slope": -1.65803e-05,
+   "t_test_p": 0.7108,
+   "sign_test_p": 0.8974,
+   "sign_p_floor": 0.0,
+   "n_folds": 60,
+   "n_negative": 29
+  },
+  "california": {
+   "mean_slope": -5.29922e-05,
+   "t_test_p": 0.2403,
+   "sign_test_p": 0.375,
+   "sign_p_floor": 0.0625,
+   "n_folds": 5,
+   "n_negative": 4
+  },
+  "texas": {
+   "mean_slope": 6.60486e-05,
+   "t_test_p": 0.5346,
+   "sign_test_p": 1.0,
+   "sign_p_floor": 0.0625,
+   "n_folds": 5,
+   "n_negative": 3
+  },
+  "georgia": {
+   "mean_slope": -0.000272888,
+   "t_test_p": 0.047,
+   "sign_test_p": 0.0625,
+   "sign_p_floor": 0.0625,
+   "n_folds": 5,
+   "n_negative": 5
+  }
+ },
+ "drift_caveat": "alabama (5/5 negative, t p=0.0058) and georgia (5/5, t p=0.0470) lean negative, but the exact sign test gives 0.0625 for both, ITS FLOOR AT n=5 -- the same footing as the positive-mean claim this record declines to call significant, so the drift is not called significant either. california 4/5 (t p=0.2403), texas 3/5 positive-leaning (t p=0.5346), istanbul 2/5 (t p=0.9327). Florida, with 60 independent series, is flat (t p=0.7108, 29/60) and is the only estimate with enough units to settle the question.",
+ "florida_configurations_equivalent": "12 of 12 at the fold unit",
+ "florida_configuration_mean_span": [
+  -0.00261,
+  0.00457
+ ],
+ "coverage": "SEVEN datasets (the dissertation's six plus georgia), ONE architecture family (MTLnet cross-attention). Nothing outstanding: istanbul job 9f3da11f, texas 6faa6e22 and california 67585dff all completed rc=0 on 2026-07-30.",
+ "figure_claims_verified_against_data": {
+  "(a) every dataset mean equivalent to zero": true,
+  "(a) pct inside margin": 92.4,
+  "(b) every mean inside margin": true,
+  "(b) alabama and georgia all-positive": true,
+  "(c) every mean slope within 0.001 of zero": true,
+  "(c) alabama and georgia all-negative": true,
+  "(c) florida flat": "29/60 negative"
+ }
+}

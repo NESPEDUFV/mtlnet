@@ -1,0 +1,14 @@
+name: mtlnet_crossattn_mult
+domain: mtl
+status: implemented
+evidence_status: experimental
+registry_key: mtlnet_crossattn_mult
+runtime_class: models.mtl.mtlnet_crossattn_mult.model.MTLnetCrossAttnMulT
+runtime_file: src/models/mtl/mtlnet_crossattn_mult/model.py
+source_doc: docs/studies/mtl_improvement/HANDOFF.md
+notes: >
+  T2.4 speculative hybrid (user-requested completeness). Subclass of mtlnet_crossattn
+  that adds per-stream self-attention BEFORE the bidirectional cross-attention in each
+  block (canonical MulT, Tsai et al. ACL 2019). Overrides only _build_shared_backbone;
+  forward/partial-forwards/param partition inherited (self-attn params -> shared).
+  Expected NULL on reg (shared-pathway capacity lever, twice falsified); cat-only.

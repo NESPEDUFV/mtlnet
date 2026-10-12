@@ -1,0 +1,179 @@
+% !TeX root = ../../main.tex
+% chapters/3_cbic/results.tex -- one section of Chapter 3 (CBIC 2025, published).
+% Split out of chapters/3_cbic.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/CBIC___MTL/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Experimental Setup and Results}
+\label{sec:cbic:experiments}
+
+\subsection{Dataset and Evaluation Metrics}
+\label{sec:cbic:dataset}
+
+To evaluate our model, we use a subset of the public \emph{Gowalla} check-in dataset, originally collected by Cho \textit{et al.}\,\cite{cho2011gowalla}. We focus our analysis on the data from the U.S. state of Florida, which is one of the most active regions in the original dataset. This subset comprises 20{,}301 users, 65{,}009 unique Points-of-Interest (POIs), and 990{,}518 check-ins.
+% [RESOLVED 2026-07-24, author decision 1.2/1.3] Dataset counts set to the Florida figures of
+% record: 20,301 users / 65,009 POIs / 990,518 check-ins. These are the numbers published in the
+% CoUrb 2026 dataset table (src_en/resultados/tabela_dataset.tex) for the same Gowalla-Florida
+% data, produced by the CURRENT ETL pipeline the author maintains. The author ruled that the
+% older data/output/florida_dgi.zip::filtrado.csv artifact (10,460/64,454/960,520) is from a
+% PRIOR ETL no longer in use and must NOT be used as the source. The CBIC paper itself never
+% published these three statistics (they were placeholders), so no published CBIC value is
+% overridden; using the current-pipeline Florida figures keeps Ch.3 consistent with the same
+% Florida corpus reported in Ch.4. [VERIFY] cleared by this ruling.
+% Full analysis of the alternatives: ../../../src_utils/evidence/cbic_recompute_result.md.
+
+Following previous work, each POI is mapped to one of seven high-level categories: \emph{Community}, \emph{Entertainment}, \emph{Food}, \emph{Nightlife}, \emph{Outdoors}, \emph{Shopping}, and \emph{Travel}. These categories will be used for the POI category prediction task.
+
+\paragraph*{Evaluation protocol}
+To ensure a robust evaluation of our models, all experiments were conducted using a 5-fold cross-validation methodology. % [round14] STANDALONE. Two forward pointers to Chapter 5 removed from this paragraph so the
+% article body carries no dissertation structure. What they disclosed is KEPT in full: the split is
+% stratified by sample and not by user (so one user's check-ins may span the train/validation
+% boundary), and the five folds are one repetition at a single seed. Those are the limitations; the
+% comparison to a later chapter's stricter protocol was the frame speaking, and the frame still
+% makes it (2_fundamentals.tex section on evaluation, and Appendix B's adaptation record).
+The folds are formed by a stratified splitter over the samples rather than over the users, so the check-ins of one user may appear in both training and validation. For the category task the sample unit is the place, so no place spans two folds. The code of record pins a single random seed, so the five folds constitute one repetition of the experiment rather than several, and the means and standard deviations reported below are the spread across those five folds at that seed rather than across independent repetitions. Within a fold, training runs for the full number of epochs configured, without early stopping, and each task is read at the epoch of its own highest validation macro-F1, measured on the same fold the score is reported on. For every category, we report precision, recall, and $F_{1}$-score, and utilize the macro-average of these metrics to summarize overall performance. Class-wise metrics are crucial because category frequencies are highly skewed in real LBSN data.
+% [round6, COD-007] Declared ADDITION of protocol detail, not part of the published text, and not a
+% correction of any published claim: the published paper states the fold count and nothing else about
+% the protocol. Appendix B, Article 1, carries it in the additions paragraph. Same class as the two
+% protocol sentences added to Chapter 4 (4_courb.tex, "stratified by sample" and "single random
+% seed"), and the last sentence is deliberately WORD-FOR-WORD the one added there: the two chapters
+% run the same checkpoint code, and WRITING_LAW's one-name-per-concept rule argues for one phrasing.
+%
+% EVIDENCE, verified firsthand this session in the CBIC-era codebase at commit 9b06053f
+% (message "VERSION PUBLISHED", 2025-07-24), repository VitorHugoOli/PoiMtlNet:
+%   SPLIT AXIS -- src/data/create_fold.py:217 next_skf  = StratifiedKFold(n_splits=k_splits,
+%                 shuffle=True, random_state=random_state)
+%                 :220 place_skf = StratifiedKFold(... same ...)
+%                 :231-233 both .split(x, y) calls carry NO groups= argument
+%                 :194 x_next drops 'userid' from the features
+%                 Single-task paths are the same shape and also ungrouped:
+%                 src/model/next/head/data/fold.py:34, src/model/category/head/data/fold.py:32.
+%                 Grepped all five files for groups= and GroupKFold: zero occurrences.
+%   SAMPLE UNIT -- :205 places_ids = df_category['placeid'].unique(); :209 df_category.set_index(
+%                 'placeid'), so the category task has one row per place and places cannot span
+%                 folds. That is a property of the unit, NOT a leakage guard on users.
+%   SEED       -- :159 random_state: int = 42 (the create_folds default, which
+%                 pipelines/mtlnet_trainer.py:32-37 takes by calling create_folds without the
+%                 argument); pipelines/next_head_trainer.py:46 and category_head_trainer.py:46 both
+%                 read seed=42; next_config.py:24 and category_config.py:22 both SEED = 42. Values
+%                 checked at every commit spanning the three published run dates (5bcc9c8b,
+%                 de0a23ca, 8a557aa3, ea18c2cb, 6976242a).
+%   CHECKPOINT -- src/model/mtlnet/engine/mtl_train.py:81 loops the configured num_epochs; :206
+%                 state = model.state_dict(); :214-229 two add_val calls, one per task, both
+%                 best_metric='val_f1'; utils/ml_history/metrics.py:107 comparison = lambda x,y: x>=y,
+%                 :119-122 deepcopy on improvement and best_epoch recorded; mtl_train.py:387-393 then
+%                 validation.py:18,:29 reload each task's own best state in two passes.
+%                 f1 is the macro average: engine/evaluate.py:58,:61 read
+%                 report['macro avg']['f1-score']; single-task trainer.py:93 f1_score(...,
+%                 average='macro'). Single-task paths: trainer.py:45 loop, :100-106 add_val taking
+%                 the 'val_f1' default, cross_validation.py:165 evaluates from best_model.
+%                 Artifact confirmation, committed with the paper:
+%                 results_save/florida_dgi_new/bests/mtlnet_lr1.0e-04_bs1024_ep50_20250523_1415/
+%                 folds/fold{1..5}_info.json record best_epochs per task, two different epochs per
+%                 fold (next 40/35/38/31/36, category 4/4/7/5/4 of 50), so no fold stopped early.
+%   NO EARLY STOPPING -- the only two break statements in the epoch loop are a target-F1 cutoff
+%                 (mtl_train.py:240-249) and a wall-clock timeout (:251-254), both guarded by "is
+%                 not None", and configs/model.py:6,9,10 set TIMEOUT_TEST, NEXT_TARGET and
+%                 CATEGORY_TARGET to None. At :7-8 the two target values sit commented out
+%                 (# NEXT_TARGET = 32.2, # CATEGORY_TARGET = 47.0), which is how the "Convergence
+%                 Comparison" subsection's experiment was run, so "without early stopping" is scoped
+%                 by placement to the main experiments and must NOT be read over that subsection,
+%                 which stops each model at a target score deliberately because stopping is the
+%                 quantity it measures. That subsection states its own mechanism, which is why no
+%                 exception clause was added to the sentence above.
+%
+% DELIBERATELY NOT CLAIMED, three things:
+%  (1) That these files produced the published runs. The honest form, and the one used above, is "the
+%      code of record", mirroring the Chapter 4 sentence the audit already accepted as correctly
+%      scoped. Three of the four published columns do reproduce exactly from the committed run
+%      summaries (21 of 21 cells each), but the joint model's next-category column does not
+%      reproduce from any artifact in the repository, and one sentence covers all four columns.
+%  (2) A tuning budget. NOT RECOVERABLE: no tuning harness ever existed in either codebase (git
+%      ls-tree at 9b06053f returns no sweep/tune/grid/optuna/hparam file; no search library in
+%      requirements_colab.txt) and .gitignore was /results/* so the losing configurations were never
+%      committed. No sentence here asserts a configuration count, and none may.
+%  (3) An epoch count. The committed configs/model.py and the committed run record disagree on batch
+%      size for the joint model's published run (model_params.json says 1024; the config at every
+%      commit from 13:22 that day reads 2**11), so a config-sourced integer is not a witness for what
+%      a run used. The literal seed value 42 is likewise kept out of the prose, following the
+%      Chapter 4 precedent recorded at 4_courb.tex:277-286: it is a fact about the code, not a
+%      reported parameter of the published paper.
+%
+% ONE QUALIFICATION, recorded here rather than in prose because the sentence above does not claim
+% otherwise: create_fold.py:176-177 seeds torch and numpy ONCE, inside create_folds, before the
+% five-fold loop builds any model, and the two single-task paths carry no torch.manual_seed or
+% np.random.seed call at all (the one seeded torch.Generator, next/head/data/fold.py:64, feeds a
+% WeightedRandomSampler that is commented out at :78). So "one repetition" is a statement about the
+% fold partition, which is what the sentence says, and not about weight initialization.
+%
+% [NEEDS SIGN-OFF 16 | CLOSED] Author: "Nao precisamos comentar nada." The hyperparameter-search gap
+% stays UNSTATED -- do not add a sentence about it. The strongest form the evidence would support is a
+% claim about how the study was conducted, not a record recovered from code, so it is not ours to add.
+% The cross-file consequence this block flagged is DONE: 2_fundamentals.tex no longer says Chapter 3
+% reports cross-validation "without identifying the split axis"; it now states that Chapters 3 and 4
+% stratify samples so one user's check-ins may occur in both training and validation. Verified
+% 2026-08-04.
+
+\subsection{Discussion and Comparison with Established Models}
+In this section, we discuss the performance of our proposed MTL model and its single-task (Single) counterpart. For a comprehensive evaluation, we selected two state-of-the-art approaches as baselines. The Human Mobility Representation Model (HMRM), introduced by Chen et al. (2020) \cite{chen2020modeling}, is designed for POI category classification. HMRM calculates POI embeddings by considering users' temporal visiting patterns and the co-occurrence of locations within an individual's historical trajectory. To quantify the relationship between locations and visiting times, it employs Point-wise Mutual Information (PMI). The model then utilizes matrix factorization techniques to generate latent representations (embeddings) from various inputs, and these embeddings are subsequently used to train a Support Vector Machine (SVM) for predicting POI categories.
+
+For the task of next POI category prediction, we compare our models against MHA+PE, a solution proposed by Zeng et al. (2019) \cite{zeng2019next}. This model enhances a recurrent neural network with a Multi-Head Attention (MHA) mechanism, originally developed for machine translation by Vaswani et al. (2017) \cite{vaswani2017attention}, and incorporates Positional Encoding (PE). The MHA mechanism allows the model to extract correlations from different parts of a sequence, effectively capturing the relevance of various elements within a user's trajectory, while positional encoding helps to propagate the order of records in a sequence.
+
+\subsubsection{POI Category Classification}
+% [2026-09-02, B-13, author-approved; ledger entry B9, errata B.1 row added by the registry] The
+% universal "in every POI category in terms of F1-score, precision, and recall" was false by one cell
+% of 21 in tables/cbic/category.tex: Recall / Nightlife reads MTL 25.80, Single 36.77, HMRM 42.13, so
+% HMRM has the higher recall there (same cell in the published table, CBIC___MTL/tables/
+% category_result.tex:25; ledger entry B7 of round 4 saw the cell as a bolding question and did not
+% connect it to this sentence). Reconciled to the table, weakening in favor of the baseline (the
+% B2/B3 rule). The published sentence said "significantly outperform HMRM across all POI categories";
+% "significantly" had already been removed by the earlier errata round, so this is the second edit
+% to one published sentence and Table B.2 of the supplement quotes the current form. The Shopping
+% and Food examples that follow are F1 values and remain correct.
+As shown in Table~\ref{tab:cbic:category}, both our MTL and Single models outperform HMRM \cite{chen2020modeling} in every POI category in terms of F1-score and precision, and in every category except Nightlife in terms of recall. For instance, in the `Shopping' category, our MTL model achieves an F1-score of $62.51 \pm 0.94$ compared to HMRM's $46.69 \pm 0.81$. Similarly, for `Food', the MTL model scores $57.43 \pm 1.46$ against HMRM's $28.44 \pm 0.42$. While both MTL and Single models are competitive, the Single model shows marginally better F1-scores in several categories like `Community' ($53.11 \pm 0.58$) and `Outdoors' ($47.75 \pm 0.89$), whereas the MTL model excels in `Food' and `Shopping'. Overall, our approaches demonstrate a substantial improvement over the HMRM baseline for this task.
+
+\input{tables/cbic/category}
+
+\subsubsection{Next POI Category Prediction}
+The results for next POI category prediction, detailed in Table~\ref{tab:cbic:next}, indicate a competitive performance landscape. The MHA+PE model \cite{zeng2019next} shows strong F1-scores in several categories, notably `Food' ($43.47 \pm 0.50$) and `Shopping' ($43.53 \pm 1.66$), outperforming our MTL and Single models in these instances. However, our MTL model achieves the best F1-score in `Travel' ($64.61 \pm 1.11$) and `Nightlife' ($22.07 \pm 0.52$), surpassing MHA+PE in these two categories. The Single model also shows competitive results, leading in `Entertainment' ($26.06 \pm 1.01$) and `Outdoors' ($22.45 \pm 0.81$). This suggests that while MHA+PE is highly effective for certain POI categories, our MTL and Single models offer superior or comparable performance in others, particularly where different sequential patterns might be exploited. One further point concerns how these leads are distributed. The MTL and Single models do not lead consistently across the categories, each obtaining the better F1-score in some of them, and this uneven distribution could make either model appear worse in the categories where the other one leads.
+% [NEEDS SIGN-OFF 17 | CLOSED] Author: "This is done in the pendencias_resolvidas.md" -- the reading
+% is settled there (PENDENCIAS_RESOLVIDOS 5.3): the sentence is about the per-category comparison
+% looking worse than the aggregate, i.e. the split of the leads between the two models, NOT about the
+% imbalance of the category distribution. Those are two different claims; this is the one that was
+% written.
+% WHAT THE REWRITE PRESERVED, kept because a future reader may think the sentence was strengthened:
+% the published wording is "Also, it is important to notice that since we have an unbalanced result
+% for the MTL and single, this could lead to the worse of other results" (verbatim from
+% articles/CBIC___MTL/sections/results.tex:34). No number, table cell, or verb of verdict changed, and
+% the hedge is still "could", not "does". The chapter reports no inferential test and this sentence
+% asserts none. Errata row recorded in the supplementary volume (chapters/apx_b_errata.tex, Table B.2).
+
+\input{tables/cbic/next}
+
+Overall, while our proposed models show strong performance in POI category classification against HMRM \cite{chen2020modeling}, the next POI category prediction task presents a more competitive landscape when compared against a sophisticated sequential model like MHA+PE \cite{zeng2019next}. Comparing the MTL and Single models directly reveals that the multitask learning approach did not yield the anticipated substantial improvements over the single-task baseline across both tasks. Crucially, many of these observed differences in F1-scores are minor and often fall within the reported standard deviations, suggesting that the performance of the MTL and Single models is largely comparable, without a clear or consistent advantage for the multitask learning setup in these experiments.
+% [round4, REV-027] Four substitutions in reproduced prose removing inferential vocabulary
+% the chapter never supports with a test (no p-value, Wilcoxon, t-test, Holm, TOST, or
+% confidence interval appears anywhere in the chapter): :62 "consistent, significant gains"
+% -> "consistent gains"; :302 "significantly outperform ... across all POI categories" ->
+% "outperform ... in every POI category"; :340 "significantly surpassing" -> "surpassing";
+% and this sentence, where "statistically" and "significant advantage" become a descriptive
+% comparison. Each reduces claim strength; none changes a finding. Declared in Table B.2.
+% Untouched by design: :90 and :209 (claims attributed to cited work), :60 (the study's own
+% hypothesis, not a result claim), :68 (a claim about task dissimilarity, not a measured
+% comparison), :237 (a property of Nash-MTL attributed to \cite{nash}), :395 (a chosen target
+% level, not a comparison). Two further uses are borderline and were left as published pending
+% the author's call, since neither was in the approved set of four: :414 ("a significantly
+% higher overhead in wall time", reading the 80.88 s against 34.97 s of the chapter's own
+% convergence table) and :423 ("the lack of significant improvement", restating the null
+% result). Both read as ordinary-language magnitude rather than as an inferential verdict.
+
+\subsection{Convergence Comparison}
+To further evaluate the practical implications of the MTL approach compared to single-task models, we conducted a convergence experiment. We measured the wall time, number of epochs, and Mega Floating Point Operations (MFLOPs) required for the MTL model and the individual single-task models (SingleClass and SinglePred) to reach predefined target average F1-scores. The target F1-score for the \textit{Category} prediction task was set to 47, and for the \textit{Next} POI category classification task, it was set to 32.2. These specific F1 values were chosen because they are close to the best-achieved results for each respective task, thereby representing a comparable and significant level of predictive performance for the models to attain. To ensure robust measurements for this experiment, all models were evaluated through a 5-fold cross-validation process. The specific metrics are detailed in Table~\ref{tab:cbic:convergence}.
+
+The convergence measurements show a clear wall-time disadvantage for the joint model, while the MFLOPs column does not follow the same pattern. Table~\ref{tab:cbic:convergence} reports the three metrics for each model.
+
+\input{tables/cbic/convergence}
+
+The results from this experiment were contrary to the potential expectation that an MTL framework might offer training efficiencies. Our findings indicated that the MTL model took substantially longer to converge to the target F1-scores. Specifically, the MTL approach required 80.88~s of wall time, about 2.3 times the cumulative 34.97~s of the individual single-task models. In terms of MFLOPs, in contrast, the table does not show a higher cost for the MTL setup: the MTL model required 0.234 MFLOPs, against 2.315 MFLOPs for the Category model and 0.012 MFLOPs for the Next model. This suggests that while attempting to learn multiple tasks simultaneously, the MTL model, in this configuration, incurred a significantly higher overhead in wall time. Given these observations, for deployment scenarios where convergence speed is a critical factor, employing separate, optimized single-task models would likely be a more convenient strategy.\footnote{Experiments conducted on Apple M2 Pro (10-core CPU, 16-core GPU) with 32GB unified memory running macOS 15.5. Key software versions: Python 3.9.6, PyTorch 2.6.0.dev20241014+cpu, NumPy 1.26.4, scikit-learn 1.5.2, CVXPY 1.5.2. Training utilized PyTorch MPS backend for Apple Silicon acceleration.}

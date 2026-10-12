@@ -1,0 +1,53 @@
+====================================================================================
+0 . Artifact -> board reproduction gate (24/24)
+====================================================================================
+  [OK] AL MTL cat (joint-best n=20): recomputed 64.5051 vs board 64.51
+  [OK] AL MTL reg (joint-best n=20): recomputed 69.6954 vs board 69.7
+  [OK] AL dedicated cat ceiling (n=20): recomputed 56.8151 vs board 56.82
+  [OK] AL dedicated reg ceiling (n=20): recomputed 70.1109 vs board 70.11
+  [OK] AZ MTL cat (joint-best n=20): recomputed 65.7846 vs board 65.79
+  [OK] AZ MTL reg (joint-best n=20): recomputed 59.4564 vs board 59.46
+  [OK] AZ dedicated cat ceiling (n=20): recomputed 56.4349 vs board 56.43
+  [OK] AZ dedicated reg ceiling (n=20): recomputed 59.4595 vs board 59.46
+  [OK] FL MTL cat (joint-best n=20): recomputed 79.8407 vs board 79.84
+  [OK] FL MTL reg (joint-best n=20): recomputed 77.4097 vs board 77.41
+  [OK] FL dedicated cat ceiling (n=20): recomputed 74.5087 vs board 74.51
+  [OK] FL dedicated reg ceiling (n=20): recomputed 76.6973 vs board 76.7
+  [OK] CA MTL cat (joint-best n=20): recomputed 77.0465 vs board 77.05
+  [OK] CA MTL reg (joint-best n=20): recomputed 65.6900 vs board 65.69
+  [OK] CA dedicated cat ceiling (n=20): recomputed 70.6041 vs board 70.6
+  [OK] CA dedicated reg ceiling (n=20): recomputed 63.4888 vs board 63.49
+  [OK] TX MTL cat (joint-best n=20): recomputed 77.2386 vs board 77.24
+  [OK] TX MTL reg (joint-best n=20): recomputed 67.0590 vs board 67.06
+  [OK] TX dedicated cat ceiling (n=20): recomputed 69.7921 vs board 69.79
+  [OK] TX dedicated reg ceiling (n=20): recomputed 64.9465 vs board 64.95
+  [OK] Istanbul MTL cat (joint-best n=20): recomputed 63.3212 vs board 63.32
+  [OK] Istanbul MTL reg (joint-best n=20): recomputed 75.3520 vs board 75.35
+  [OK] Istanbul dedicated cat ceiling (n=20): recomputed 54.7375 vs board 54.74
+  [OK] Istanbul dedicated reg ceiling (n=20): recomputed 75.1584 vs board 75.16
+
+====================================================================================
+1 . NEXT-CATEGORY superiority - the PRE-REGISTERED test (protocol 2)
+    paired one-sided Wilcoxon signed-rank, PER-FOLD, n=20 = 4 seeds x 5 folds
+====================================================================================
+  AL        Delta=+7.690 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=6)=5.7220e-06  reject@.05=True
+  AZ        Delta=+9.350 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=6)=5.7220e-06  reject@.05=True
+  FL        Delta=+5.332 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=6)=5.7220e-06  reject@.05=True
+  CA        Delta=+6.442 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=6)=5.7220e-06  reject@.05=True
+  TX        Delta=+7.446 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=6)=5.7220e-06  reject@.05=True
+  Istanbul  Delta=+8.584 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=6)=5.7220e-06  reject@.05=True
+
+  VERDICT: six-dataset next-category family ALL REJECT @ alpha=0.05; worst Holm-adjusted p = 5.7220e-06
+  (exact n=20 one-sided floor = 1/2^20 = 9.5367e-07; every cell is at the floor with 20/20 folds positive)
+
+====================================================================================
+2 . NEXT-REGION superiority - NOT pre-registered (protocol 1, 5.2 register
+    non-inferiority only). Reported as a secondary family with its own Holm.
+====================================================================================
+  Istanbul  Delta=+0.194 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=4)=3.8147e-06  reject@.05=True
+  FL        Delta=+0.712 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=4)=3.8147e-06  reject@.05=True
+  TX        Delta=+2.112 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=4)=3.8147e-06  reject@.05=True
+  CA        Delta=+2.201 pp  folds+=20/20  exact p=9.5367e-07  Holm-adj(m=4)=3.8147e-06  reject@.05=True
+
+  AL and AZ are equivalence cells (TOST, delta_reg = 2 pp) and are NOT in this family,
+  nor in the category family (protocol 5.2). Never upgrade AZ.

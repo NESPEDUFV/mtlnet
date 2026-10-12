@@ -1,0 +1,6 @@
+start 2026-10-02 05:10:12 commit d01cd2a8 swap_used_MB=3474
+cmd: .venv/bin/python scripts/integrity_v2/infer_checkins.py --state arizona --checkpoint results/integ18_repr/arizona/TO_F4/checkpoint.pt --readout prefix_forward_only --out results/integ18_repr/arizona/TO_F4/win_matched.npz --self-test
+rc=0 wall=150s peakRSS_bytes=2050670592
+repo-write-guard OK
+end 2026-10-02 05:12:43
+DONE

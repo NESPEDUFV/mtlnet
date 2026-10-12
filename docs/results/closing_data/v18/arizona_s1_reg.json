@@ -1,0 +1,37 @@
+{
+ "state": "arizona",
+ "seed": 1,
+ "family": "reg",
+ "wall_seconds": 181,
+ "rundir": "docs/results/P1/region_head_arizona_region_5f_50ep_v18_arizona_reg_s1.json",
+ "cat": null,
+ "reg": 59.4992,
+ "commit_sha": "da179081137e7b9960db39cc94c88907f0a4fbd6",
+ "v18_config": {
+  "engine": "check2hgi_v18",
+  "forward_only": true,
+  "in_channels": 15,
+  "node_layout": [
+   "canonical_11",
+   "continuous_time_4"
+  ],
+  "repr_seed": 42
+ },
+ "protocol": {
+  "precision": "fp32 (MTL_DISABLE_AMP=1)",
+  "compile": true,
+  "tf32": true,
+  "folds": 5,
+  "epochs": 50,
+  "cat_metric": "macro-F1 at f1-best epoch (diag-best)",
+  "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch"
+ },
+ "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+ "post_hoc_fields": {
+  "recipe_version": "added post-hoc 2026-08-11: banked before the field was introduced. All 14 reg cells that DO carry it hold this single value, and region was never retuned (max_lr 3e-3, freeze_alpha=True, alpha_init=0.0, logit_adjust_tau=0). Copied from the sibling cells, not inferred from a run record.",
+  "scoring_path": "added post-hoc 2026-08-11: derived from whether the cell's own p1 result JSON carries an ambiguous-row count. 4 of 24 do (new path), 20 do not (legacy). This is the field GAPS.md section 4 asks for, so the two populations can be told apart without archaeology.",
+  "lane_host": "added post-hoc 2026-08-11. Basis: run_wave.sh (the local A40 driver) ran seeds 0 and 1; no seed-0/1 cell anywhere declares a modal lane_host; and no _s0/_s1 lane exists under /live or /harvest on ANY of the three Modal accounts (checked 2026-08-11). Declared, not inferred from a per-cell run record."
+ },
+ "scoring_path": "legacy full-logit + topk CPU path (no tie certificate emitted)",
+ "lane_host": "local:NVIDIA A40"
+}

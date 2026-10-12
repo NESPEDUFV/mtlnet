@@ -1,0 +1,38 @@
+{
+  "state": "alabama",
+  "seed": 7,
+  "family": "joint",
+  "wall_seconds": 563,
+  "rundir": "results/check2hgi_v18/alabama/mtlnet_lr1.0e-04_bs8192_ep50_20260810_043258_136",
+  "cat": 30.7022,
+  "reg": 69.6281,
+  "commit_sha": "5075d77d68461c1df318307e791c88ea7dd72f9f",
+  "v18_config": {
+    "engine": "check2hgi_v18",
+    "forward_only": true,
+    "in_channels": 15,
+    "node_layout": [
+      "canonical_11",
+      "continuous_time_4"
+    ],
+    "repr_seed": 42
+  },
+  "protocol": {
+    "precision": "fp32 (MTL_DISABLE_AMP=1, pinned per-command)",
+    "compile": true,
+    "tf32": true,
+    "folds": 5,
+    "epochs": 50,
+    "cat_metric": "macro-F1 at f1-best epoch (diag-best)",
+    "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch"
+  },
+  "recipe": "bs8192 cat-lr 0.001 cw0.50 logit_adjust_tau=0.5 (cat head only)",
+  "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+  "compute": {
+    "provider": "modal",
+    "gpu": "A100-SXM4-80GB",
+    "parallel_cells": 3,
+    "job_id": "3fae7af1-392a-4c38-9883-406655741f42",
+    "lane_wall_seconds": 564
+  }
+}

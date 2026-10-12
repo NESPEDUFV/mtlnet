@@ -1,0 +1,8 @@
+start 2026-10-02 07:03:33 commit d01cd2a8 swap_used_MB=3072
+cmd: .venv/bin/python scripts/baselines/build_ctle_substrate.py --state arizona --seed 0 --fold 0 --split-engine check2hgi_dk_ovl --stride 1 --device mps
+waiting for heavy lock 07:03:33
+heavy lock acquired 07:03:33
+rc=0 wall=103s peakRSS_bytes=4422729728
+repo-write-guard OK
+end 2026-10-02 07:05:17
+DONE

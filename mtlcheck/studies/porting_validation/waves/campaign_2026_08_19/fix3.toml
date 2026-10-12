@@ -1,0 +1,30 @@
+# POI2Vec divergência 3 (ponderação do objetivo) sozinha. Resultado: +0,012 pp, ruído.
+#
+# ── RETROFIT ────────────────────────────────────────────────────────────────────────────────────
+# Escrito em 2026-08-19 DEPOIS das células terem rodado, a partir de drivers de shell ad-hoc que
+# viviam fora do repo. Isso é dívida sendo paga, não o processo correto — ver
+# `docs/RUNNING_STUDIES.md`. Um manifesto retroativo só vale se `mtlcheck wave status` reconhecer as
+# células bancadas como válidas; se não reconhecer, ele descreve outro experimento.
+#
+# ⚠ O SUBSTRATO NÃO CABE AQUI. Uma wave é uma matriz de células de TREINO; a identidade do substrato
+# não é campo de célula (`docs/RUNNING_STUDIES.md` §4). Estes estudos diferem **exatamente** nisso,
+# então a identidade de cada um está em `evidence/campaign_substrates.json` e repetida abaixo.
+#
+# substrato lido: ac8cc5dfe59e5017 — poi2vec com a divergência 3 corrigida
+# ────────────────────────────────────────────────────────────────────────────────────────────────
+
+[wave]
+study = "fix3"
+
+[substrate]
+# Declarado, não construído: a wave recusa rodar sobre outro substrato.
+recipe = "recipes/v19/substrate.toml"
+[substrate.identity]
+checkin = "ac8cc5dfe59e5017"
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+set = { inner_validation = true }

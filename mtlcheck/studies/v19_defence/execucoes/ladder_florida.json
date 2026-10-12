@@ -1,0 +1,38 @@
+{
+  "estado": "florida",
+  "execucoes": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      7
+    ],
+    [
+      100,
+      100
+    ]
+  ],
+  "margem": 0.4,
+  "veredito": {
+    "cat": {
+      "desfecho": "para",
+      "execucoes": 4,
+      "meia_largura": 0.2525219805523349,
+      "sd": 0.09187255869557376,
+      "sd_ucl": 0.15871903240247323
+    },
+    "reg": {
+      "desfecho": "para",
+      "execucoes": 4,
+      "meia_largura": 0.0775026939566087,
+      "sd": 0.028197033715716222,
+      "sd_ucl": 0.048713195447271346
+    }
+  }
+}

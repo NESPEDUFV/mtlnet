@@ -1,0 +1,12 @@
+{
+  "task": "next",
+  "engine": "hgi_dk_ovl",
+  "state": "istanbul",
+  "min_sequence_length": 10,
+  "stride": 1,
+  "effective_step": 1,
+  "window_size": 9,
+  "emit_tail": false,
+  "git_sha": "8d7fdc8cf72f125cb04696b4f2467ee45f93896c",
+  "utc": "2026-10-01T22:31:14.342186+00:00"
+}

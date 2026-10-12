@@ -1,0 +1,51 @@
+% !TeX root = ../../src/main.tex
+% ============================================================================
+% ERRATA Q13 -- o controle de concatenacao.
+% Escrita depois do envio. Nao entra em nenhum build.
+% Destino: a frase correspondente em chapters/5_mobiwac/06_results.tex.
+%
+% O DEFEITO, em uma frase: o volume principal afirma que o ganho de categoria vem da estrutura
+% hierarquica e nao de injecao de features, e o experimento na escala correta mostra o oposto.
+%
+% A frase depositada apoia essa separacao em "under a tenth of the place-to-check-in gap". Esse
+% decimo vem de outro estudo, em outra variante do grafo e com outro codigo de treino. O controle
+% foi refeito em 2026-08-16 na escala da Tabela 9, com o place embedding sozinho como controle de
+% fidelidade, e a taxa de aprendizado de cada dataset.
+%
+% MEDIDO (macro-F1 de proxima categoria, cinco dobras, semente 0):
+%   Alabama  place 29.148  feat 30.882  check-in 30.706   ganho +1.734  p=0.003   fecha 111%
+%   Arizona  place 31.995  feat 33.697  check-in 34.499   ganho +1.702  p<0.001   fecha  68%
+%   Florida  place 37.152  feat 38.171  check-in 37.360   ganho +1.018  p<0.001   fecha 490%
+%
+% LIMITE, declarado: o braco de fidelidade de Alabama reproduz a Tabela 9 exatamente, fold a fold.
+% Os de Arizona e Florida reproduzem a media (dentro de 0.07 e 0.03) mas nao os folds individuais
+% (ate 0.19 e 0.09). O treino e determinista -- verificado rodando a mesma configuracao duas vezes,
+% com diferenca zero -- entao essa discrepancia tem causa nao identificada.
+% Registro completo em ../post_submission_studies/Q13_concatenation_control.md.
+% ============================================================================
+
+\paragraph*{Errata: o controle de concatenacao (Cap.~5, p.~79).}
+A frase corrigida le:
+
+\begin{quote}
+A feature-concatenation control adds the per-visit features to the place embedding and feeds the
+result to the same single-task model. On the scale of Table~9, this control closes most of the gap
+between the two representations, and at one dataset it overshoots. At Alabama it raises the place
+embedding by $1.73$ macro-F1 points (paired over five folds, $p = 0.003$, every fold in the same
+direction), which covers the whole $1.56$-point gap; at Arizona by $1.70$ points ($p < 0.001$), or
+$68$ percent of the $2.50$-point gap; and at Florida by $1.02$ points ($p < 0.001$), which is nearly
+five times the $0.21$-point gap there. Arizona is the one dataset where the check-in-level
+representation still leads the concatenation arm, by $0.80$ points ($p = 0.03$); at Alabama the two
+are within $0.18$ points ($p = 0.53$), and at Florida the concatenation arm leads by $0.81$ points
+($p = 0.001$). The category gain therefore comes mostly from the per-visit features that the
+representation reads, and not from the hierarchical structure that reads them. What Table~9
+establishes is that the input representation is the dominant factor, which this control supports; it
+does not establish which part of the representation carries the gain.
+\end{quote}
+
+\noindent
+A frase substituida afirmava que o ganho vem da representacao hierarquica e nao de injecao de
+features. Medido na mesma escala, e a injecao de features que carrega a maior parte do ganho de
+categoria, e em dois dos tres datasets ela alcanca ou supera a representacao por check-in. A
+conclusao central do capitulo nao muda, porque ela e sobre a representacao de entrada contra a
+arquitetura, e nao sobre qual componente da representacao contribui mais.

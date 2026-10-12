@@ -1,0 +1,10 @@
+[board-overlap guard] non-board overlap engine check2hgi_ctle/istanbul: min_sequence_length=5 (board overlap windowing is min_seq=10). Rebuild board-correct with `python scripts/mtl_improvement/build_overlap_probe_engine.py istanbul 1` (stride=1, gated, min_seq=10) unless intentionally testing a variant.
+G2 OK istanbul f0: rows == dk_ovl (271666), train.py fold val-user sha == CTLE_FOLD.txt (9af98e93b87c...), n_val_rows=54333
+[board-overlap guard] non-board overlap engine check2hgi_ctle/istanbul: min_sequence_length=5 (board overlap windowing is min_seq=10). Rebuild board-correct with `python scripts/mtl_improvement/build_overlap_probe_engine.py istanbul 1` (stride=1, gated, min_seq=10) unless intentionally testing a variant.
+G2 OK istanbul f1: rows == dk_ovl (271666), train.py fold val-user sha == CTLE_FOLD.txt (745630f17512...), n_val_rows=54333
+[board-overlap guard] non-board overlap engine check2hgi_ctle/istanbul: min_sequence_length=5 (board overlap windowing is min_seq=10). Rebuild board-correct with `python scripts/mtl_improvement/build_overlap_probe_engine.py istanbul 1` (stride=1, gated, min_seq=10) unless intentionally testing a variant.
+G2 OK istanbul f2: rows == dk_ovl (271666), train.py fold val-user sha == CTLE_FOLD.txt (ecb5ddd25039...), n_val_rows=54334
+[board-overlap guard] non-board overlap engine check2hgi_ctle/istanbul: min_sequence_length=5 (board overlap windowing is min_seq=10). Rebuild board-correct with `python scripts/mtl_improvement/build_overlap_probe_engine.py istanbul 1` (stride=1, gated, min_seq=10) unless intentionally testing a variant.
+G2 OK istanbul f3: rows == dk_ovl (271666), train.py fold val-user sha == CTLE_FOLD.txt (418de9b78db4...), n_val_rows=54333
+[board-overlap guard] non-board overlap engine check2hgi_ctle/istanbul: min_sequence_length=5 (board overlap windowing is min_seq=10). Rebuild board-correct with `python scripts/mtl_improvement/build_overlap_probe_engine.py istanbul 1` (stride=1, gated, min_seq=10) unless intentionally testing a variant.
+G2 OK istanbul f4: rows == dk_ovl (271666), train.py fold val-user sha == CTLE_FOLD.txt (0ba049089513...), n_val_rows=54333

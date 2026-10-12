@@ -1,0 +1,4 @@
+ceil|nonoverlap	ceil	docs/results/P1/region_head_alabama_region_5f_50ep_r1_ceil_nonoverlap_alabama_s42.json
+ceil|overlap	ceil	docs/results/P1/region_head_alabama_region_5f_50ep_r1_ceil_overlap_alabama_s42.json
+g|nonoverlap	g	results/check2hgi_design_k_resln_mae_l0_1/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260608_013247_2798004
+g|overlap	g	results/check2hgi_dk_ovl/alabama/mtlnet_lr1.0e-04_bs2048_ep50_20260608_013433_2798377

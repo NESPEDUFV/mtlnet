@@ -1,0 +1,67 @@
+{
+ "_": "Qual substrato cada estudo da campanha de 2026-08-19 leu. Existe porque a wave NÃO expressa a identidade do substrato (docs/RUNNING_STUDIES.md §4) e porque estas células foram bancadas ANTES de o campo `substrate` do result.json existir — então nem o manifesto nem a célula carregam essa informação, e sem este arquivo ela se perde.",
+ "_computado": "2026-08-19, com substrate.identity.of() sobre os artefatos ainda em disco. A partir daqui a célula grava a própria identidade e este arquivo deixa de ser necessário.",
+ "_aviso": "`ref_parity_al` e `sealed_bridge` leram o substrato BANCADO da referência, que não tem manifest.json porque não foi construído por este pacote. A identidade dele não é estabelecível — inclusive para as células da PRIMEIRA LEITURA SELADA.",
+ "estudos": {
+  "al_full": {
+   "artifacts_root": "artifacts_al_full",
+   "checkin": "a9e1dfb26413a42a",
+   "region": "93390a37a5907524"
+  },
+  "ref_parity_al": {
+   "artifacts_root": "artifacts",
+   "checkin": null,
+   "region": null
+  },
+  "sealed_bridge": {
+   "artifacts_root": "artifacts",
+   "checkin": null,
+   "region": null
+  },
+  "tri_v18region": {
+   "artifacts_root": "artifacts_al_full",
+   "checkin": "a9e1dfb26413a42a",
+   "region": "93390a37a5907524"
+  },
+  "rs0_v18region": {
+   "artifacts_root": "artifacts_rs0",
+   "checkin": "8dec2bb254b1c5cb",
+   "region": "2028d5dc111fb5bd"
+  },
+  "rs1_v18region": {
+   "artifacts_root": "artifacts_rs1",
+   "checkin": "90613e5c8cd5a3ff",
+   "region": "93b004addab8024f"
+  },
+  "rs7_v18region": {
+   "artifacts_root": "artifacts_rs7",
+   "checkin": "58bcf7b45fd19db8",
+   "region": null
+  },
+  "fix3": {
+   "artifacts_root": "artifacts_fix3",
+   "checkin": "ac8cc5dfe59e5017",
+   "region": null
+  },
+  "fix1_2": {
+   "artifacts_root": "artifacts_fix1_2",
+   "checkin": "0a5ac65c62c20518",
+   "region": null
+  },
+  "div1_only": {
+   "artifacts_root": "artifacts_div1_only",
+   "checkin": "70716655db11d37e",
+   "region": null
+  },
+  "final_al": {
+   "artifacts_root": "artifacts_final",
+   "checkin": "696ac00419d287d3",
+   "region": null
+  },
+  "final_az": {
+   "artifacts_root": "artifacts_final",
+   "checkin": "ba148afce8edeaca",
+   "region": null
+  }
+ }
+}

@@ -1,0 +1,184 @@
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 60095 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 61382 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 62259 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 62707 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 63188 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 63699 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 64023 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 64332 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 64615 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+FOLD DONE alabama f1 2026-10-01 23:26:49
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 64945 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 66324 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 67006 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 67496 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 67995 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 69084 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 71365 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 72230 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 72516 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+FOLD DONE alabama f2 2026-10-01 23:51:43
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 73001 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 73289 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 73471 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 73946 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 74440 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 74961 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 75293 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 75581 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 75913 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+FOLD DONE alabama f3 2026-10-02 00:16:28
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 76253 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 76538 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 76716 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 77228 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 77811 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 78360 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 78690 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 79975 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+/Volumes/Vitor's SSD/ingred_g1/g1_logs/g1_run.sh: line 19: 81325 Terminated: 15          ( while true; do
+    sw=$(sysctl -n vm.swapusage | awk '{gsub("M","",$6); print int($6)}'); fr=$(memory_pressure | awk '/free percentage/{gsub("%","",$5); print $5}'); echo "$(date +%T) swap_used_MB=$sw mem_free_pct=$fr" >> "$L/mem.log"; if [ "$sw" -gt $((SW0+1500)) ] || [ "$fr" -lt 15 ]; then
+        echo "ABORT $(date +%T) swap=$sw free=$fr" >> "$L/RUN.txt"; pkill -f "$C/scripts/"; pkill -f "ingred_g1"; touch "$L/ABORTED";
+    fi; sleep 5;
+done )
+FOLD DONE alabama f4 2026-10-02 00:41:55

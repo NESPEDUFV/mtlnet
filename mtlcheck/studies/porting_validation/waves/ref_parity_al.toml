@@ -1,0 +1,43 @@
+# Paridade contra a implementação de referência — Alabama, reg e joint.
+#
+# POR QUE ESTA WAVE EXISTE
+#
+# A tabela do PLAN.md §4 comparava mtlcheck contra o `status.json` bancado da referência. Isso não é
+# uma comparação controlada: o número bancado veio de outra máquina, outro mês e — o que só ficou
+# visível agora — de OUTRO PROTOCOLO. A referência roda 5-fold plano (treina em 80 %, valida e
+# seleciona a época nos 20 % de fora). As células `al_full` do mtlcheck rodaram `inner_validation`
+# (treina em 70 %, valida nos 10 % internos). Treino menor e conjunto de validação diferente: os
+# números nunca foram comparáveis, e a divergência crescente por fold (+0,22 no fold 0, +8,78 no
+# fold 4) é o que a diferença de partição produz.
+#
+# Esta wave roda o mtlcheck no protocolo DA REFERÊNCIA para que a comparação seja pareada.
+#
+# `inner_validation` fica no default (false) -> a época é escolhida no fold externo, exatamente como
+# a regra legada da referência. Isso é deliberado: paridade de porte exige reproduzir a regra de
+# seleção, não a corrigida. Não é uma alegação científica e não entra em nenhum estimando.
+#
+# CUSTO DE TESTE: zero. O conjunto externo de Alabama foi lido em 2026-08-18 (SEALED_BRIDGE_READ.md).
+# AL já está gasto; CA e TX continuam intocados. Nenhum outro estado entra aqui por isso.
+#
+# `save_predictions` fica OFF: paridade compara a média por fold contra o log da referência, que não
+# grava linhas.
+
+# ⚠ CORRIGIDO 2026-08-21: onde este manifesto diz que CA/TX continuam "intocados", a premissa
+# estava errada — o batch size foi buscado neles sob o protocolo antigo. Isso NÃO invalida esta
+# wave (ela não tocou CA/TX de forma alguma); invalida a justificativa de que havia reserva a
+# proteger. Ver docs/QUAL_CONJUNTO_USAR.md §6.
+
+[wave]
+study = "ref_parity_al"
+
+[[cell]]
+recipe = "recipes/v18/reg.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0
+
+[[cell]]
+recipe = "recipes/v18/joint.toml"
+states = ["alabama"]
+seeds = [0]
+split_seed = 0

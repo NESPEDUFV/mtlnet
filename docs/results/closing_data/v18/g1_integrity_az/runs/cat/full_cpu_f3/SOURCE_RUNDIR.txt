@@ -1,0 +1,1 @@
+results/g1_cat_f3/full_cpu/check2hgi_v18/arizona/next_lr1.0e-04_bs8192_ep50_20261002_044406_92308

@@ -1,0 +1,8 @@
+name: focal
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: focal
+runtime_class: losses.focal.FocalLoss
+runtime_file: src/losses/focal/loss.py
+source_doc: ""

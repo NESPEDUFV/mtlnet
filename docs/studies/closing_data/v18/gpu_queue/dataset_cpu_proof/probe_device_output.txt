@@ -1,0 +1,2 @@
+MTL_DATASET_CPU=<unset> _dataset_device(0)=mps train.features.device=mps:0 val.features.device=mps:0
+MTL_DATASET_CPU=1 _dataset_device(0)=None train.features.device=cpu val.features.device=cpu

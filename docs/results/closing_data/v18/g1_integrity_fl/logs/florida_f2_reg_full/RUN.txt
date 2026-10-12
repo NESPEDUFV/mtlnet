@@ -1,0 +1,7 @@
+start 2026-10-04 12:04:23 commit 17571c16 tier=CRITICAL swap_used_MB_at_start=2822 swap_total_MB_at_start=4096 disk_int_GB_at_start=16 disk_ssd_GB_at_start=11 pressure_at_start=1
+cmd: env MTL_CHUNK_VAL_METRIC=1 MTL_STRICT=1 P1_HITS_FROM_RANK=0 P1_STREAM_GPU=0 .venv/bin/python -u scripts/p1_region_head_ablation.py --state florida --heads next_stan_flow --input-type region --override-hparams freeze_alpha=True alpha_init=0.0 --engine-override check2hgi_dk_ovl --folds 5 --only-fold 2 --epochs 50 --seed 0 --target region --max-lr 0.003 --region-emb-source check2hgi_design_k_resln_mae_l0_1_fullcpu_s0 --tag g1_reg_fullcpu_s0_florida_f2
+rc=0 wall=1960s peakRSS_bytes=11905482752
+trace peaks: max_pressure=2 min_free=35% max_swap_total=4096MB max_wired=8.9GB max_child_rss=9.1GB
+repo-write-guard OK
+end 2026-10-04 12:37:03
+DONE

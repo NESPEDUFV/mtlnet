@@ -1,0 +1,100 @@
+% !TeX root = ../main.tex
+% apx_b_static_scope.tex -- one section of Appendix B, kept in its own file so that a SINGLE
+% commented \input line in apx_b_errata.tex suppresses it (author's condition, PENDENCIAS_RESOLVIDOS 2.4 (arquivado 2026-07-30), was 2.2 before the 2026-07-29 renumber:
+% "deixe isso facil de ser comentado"). Provenance for every number is in the comment block
+% at that \input site. Do not inline this file back into the appendix.
+
+\section{The scope of the static task in Chapter~\ref{ch:courb}}
+\label{apx:errata:static-scope}
+
+Chapter~\ref{ch:courb} reports two tasks. One is sequential: predict the category of the
+next place a user visits, from the history of that user's check-ins. The other is static:
+classify the category of a place from that place's own representation. This section
+records what we established after publication about the second one, and it bears on how
+that chapter's category results should be read.
+
+% [2026-07-30, author decision in PENDENCIAS_RESOLVIDOS 2.4 (arquivado 2026-07-30)] REWRITTEN FOR CLARITY at his request: "a
+% explicação não está bem didatica e clara, requere bastante esforço para entender e varias
+% leituras". His example was the exact sentence this replaces -- "built from a fine-grained class
+% label attached to each place" -- which never tells the reader that the thing in question is the
+% VENUE'S OWN NAME. It now says so in the second sentence, with three real values.
+%
+% THE RANGE 284-365 IS CORRECT AND WAS RE-CONFIRMED. Do not "fix" it to 377: I did exactly that on
+% 2026-07-30 and it was wrong, because the number depends on WHICH COLUMN and AT WHAT GRANULARITY.
+% The pipeline's fine class is the parquet's `spot` column, which
+% research/embeddings/hgi/preprocess.py:62 renames to `fclass`, then drops rows with a null category
+% (:64) and reduces to ONE ROW PER placeid (:75-80). Reproduced on the five state parquets:
+%   Alabama 284 | Arizona 305 | Florida 324 | California 333 | Texas 365   -> the range in the text
+%   values mapping to more than one top-level category: 0, in every state
+% The parquet ALSO has a `spot_categories` column, which is a per-check-in JSON string. Counting
+% distinct values there, over raw check-in rows without the placeid dedup, gives 284/306/325/334/377
+% -- a different quantity that has no role in the pipeline. `fclass` is not a stale name: it is what
+% poi2vec.py requires and what the embedding is actually keyed on.
+% The example strings are verbatim values of that column: 'Coffee Shop', 'Seafood', 'Airport'.
+The problem is easiest to see by asking what the static task is actually given. Each place in the
+Gowalla data carries a fine-grained venue type, a string such as \texttt{Coffee Shop},
+\texttt{Seafood}, or \texttt{Airport}. The place embedding that Chapter~\ref{ch:courb} feeds to the
+static task is a lookup table on that string: two places of the same venue type receive the same
+vector. The target the task must predict is the top-level category, and \texttt{Coffee Shop} belongs
+to Food no matter which coffee shop it is.
+
+The input therefore contains the answer. We confirmed this holds without exception across the five
+Gowalla state subsets the collection uses: the venue type takes between 284 and 365 distinct values
+per state, and in every state each of those values maps to exactly one of the seven top-level
+categories. Not one is ambiguous. A model given the venue type and asked for the category is being
+asked to reproduce a lookup it already holds, so the reported accuracy on the static task measures
+that mapping rather than any learned semantic inference.
+
+Three qualifications matter, and none of them is a softening.
+
+The first is that the sequential task is unaffected. Its input is a history of visits and
+its target is a category the model has not seen for that step, so no equivalent identity
+exists between input and label. Every claim Chapter~\ref{ch:courb} makes about the
+sequential task, including the improvement that the decomposed representation produces,
+stands as published.
+
+The second is that Chapter~\ref{ch:cbic} has a version of the same problem, milder but present, and
+saying so is more honest than drawing a line between the two. That chapter builds each place's input
+feature from the average of its neighbors' categories and deliberately leaves the place itself out.
+We verified that this exclusion holds exactly: a place's own category vector is absent from its own
+input feature. The exclusion does not close the channel, because the input feature is not what the
+static task reads. Each neighbor's feature vector is itself an average over that neighbor's own
+neighborhood, and the place belongs to those neighborhoods, so one round of graph attention returns
+the place's category to its embedding at a measured mean weight of 0.10 against a total own-category
+weight of 0.39. Removing that contribution and leaving everything else unchanged lowers a probe of
+the place's own category from 0.46 to 0.30 macro-F1, against a majority-class floor of 0.07.
+Relabeling a single place, which never alters that place's own input feature, changes its embedding
+for every place that receives at least one message. The difference between the two chapters is
+therefore one of degree: an exact lookup in Chapter~\ref{ch:courb}, a diluted average recovered
+through one hop in Chapter~\ref{ch:cbic}.
+% [NEEDS SIGN-OFF 46 | OPEN] Author asked for an independent code-level verification rather than
+% accepting either his own belief (no leak, since the input feature excludes the place's own label)
+% or the prior round's finding (D-01) at face value. A fresh audit (see src_utils/, DGI-leak-audit)
+% traced the executed path with the real encoder on real Florida/California data and confirmed a
+% leak, quantified above. It also corrected D-01 itself: the encoder is GATConv
+% (research/embeddings/dgi/model/DGIModule.py:12), not GCNConv(cached=True) (an unused sibling
+% module); and the reentry route is not edge_index symmetry (edge_index is directed and asymmetric,
+% verified on the real preprocessed graphs) but the undirected neighbor-mean construction of each
+% neighbor's own input feature. A causal intervention (relabeling one place and re-running the real
+% encoder, with that place's own input row unchanged) confirmed the channel is not an artifact of the
+% linear-algebra decomposition. Full trace, code, and figures: SOURCE_LEDGER_dgi_selfleak.md and
+% dgi_selfleak_audit.png (this session's artifacts).
+% THIS PARAGRAPH NOW SAYS SOMETHING STRONGER ABOUT CHAPTER 3 THAN THE AUTHOR'S ORIGINAL RULING
+% ASSUMED (he believed the input feature's exclusion closed the channel; the measurement says it
+% does not), and the audit's own author explicitly flagged that the flag should stay until he reads
+% it. Two open questions for him: (1) whether the +0.165 macro-F1 delta changes how Chapter 3's
+% static-task numbers should be reported at all, beyond this appendix; (2) an incidental finding in
+% the audit's ledger \S F, outside the leak question: the DGI contrastive objective as implemented
+% appears degenerate (positive and negative score sets are identical as multisets; measured loss
+% floor matches 2*ln2 to six decimals), which may mean "trained DGI embedding" does not describe
+% what Chapter 3 actually used. Not acted on here; his call.
+
+The third is that Chapter~\ref{ch:mobiwac} does not inherit the problem, for the reason
+that chapter gives on its own terms: it replaces the place-level embedding with a
+check-in-level representation, whose input is a single visit, and the identity described
+above does not arise.
+
+The statement belongs here rather than in the chapter because Chapter~\ref{ch:courb} is a published,
+co-authored article, and this appendix is where this collection records the difference between what
+a published text says and what we know now. The
+measurement is recorded in the repository released with this work.

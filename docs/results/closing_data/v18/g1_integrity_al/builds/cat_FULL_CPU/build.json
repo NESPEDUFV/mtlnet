@@ -1,0 +1,111 @@
+{
+  "study": "check2hgi_integrity_v2",
+  "cell": "FULL_CPU",
+  "state": "alabama",
+  "generated_utc": "2026-10-02T01:28:42.895722+00:00",
+  "revision": "d01cd2a854fb79851d1eb00e3fdb10421418eb0e",
+  "command": "scripts/integrity_v2/build_study_repr.py --state alabama --cell FULL_CPU --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --study-root results/integ18_repr",
+  "recipe": {
+    "dim": 64,
+    "num_layers": 2,
+    "attention_head": 4,
+    "alpha_c2p": 0.4,
+    "alpha_p2r": 0.3,
+    "alpha_r2c": 0.3,
+    "mae_poi_lambda": 0.3,
+    "mae_poi_mask_rate": 0.15,
+    "mae_poi_gamma": 3.0,
+    "anchor_lambda": 0.1,
+    "gamma_init": 1.0,
+    "lr": 0.001,
+    "weight_decay": 0.0,
+    "max_norm": 0.9,
+    "lr_gamma": 1.0,
+    "epochs": 500,
+    "encoder": "resln",
+    "dropout": 0.1
+  },
+  "encoder": "resln",
+  "epochs": 500,
+  "repr_seed": 42,
+  "device": "cpu",
+  "torch_version": "2.11.0",
+  "selection": "minimum full-graph training loss (as in the frozen v14 builder)",
+  "best_epoch": 485,
+  "best_loss": 0.21548020839691162,
+  "n_params": 827212,
+  "graph": {
+    "path": "output/check2hgi/alabama/temp/checkin_graph.pt",
+    "sha256_first64MB": "3247d980a5e6cea1cff9d4531f6f52195132c2a319a78677ab65092e66e9ca17",
+    "restricted": false,
+    "n_checkins": 113846,
+    "n_pois": 11848,
+    "n_regions": 1109
+  },
+  "training_users": {
+    "exclude_users_file": null,
+    "n_excluded_users": 0
+  },
+  "spatial_scaffolding": {
+    "delaunay_edges": "output/hgi/alabama/temp/edges.csv",
+    "poi2vec": "output/hgi/alabama/poi2vec_poi_embeddings_Alabama.csv",
+    "held_fixed_across_arms": true,
+    "scope_note": "full-dataset place-spatial prior, held fixed on purpose so the contrast isolates the check-in channel; recorded as an open channel"
+  },
+  "node_feature_schema": {
+    "width": 15,
+    "layout": "7 category one-hot + hour sin/cos + dow sin/cos",
+    "category_vocabulary_source": "configs.globals.CATEGORIES_MAP"
+  },
+  "exports": {
+    "embeddings_insample.parquet": {
+      "rows": 113846,
+      "sha256": "4030567859abf63d796ba1275a011392ec87549995da6daacd7ffec5dffbdbaa",
+      "note": "training users only when the cell is restricted"
+    },
+    "checkpoint.pt": {
+      "sha256": "23a9e268e4a6fd9084a8a082a640c57039f5bfec84263286fb61077035f58603",
+      "contains": "selected state_dict + constructor args"
+    }
+  },
+  "causal_graph": {
+    "forward_only": true,
+    "edges_before": 219976,
+    "edges_after": 109988,
+    "dropped_backward": 109988,
+    "rule": "kept edges with src < tgt; node ids are in per-user visit order (fact F1)",
+    "semantics": "a visit's representation is computed from its own past only, at TRAINING time as well as at readout, which is the deployed information set"
+  },
+  "node_enrichment": {
+    "continuous_time": {
+      "columns": [
+        "log1p_gap_hours/10",
+        "log1p_since_first_hours/10",
+        "gap_clipped_24h/24",
+        "is_first_visit"
+      ],
+      "median_gap_hours": 3.4116666316986084,
+      "p90_gap_hours": 73.53878021240234,
+      "legitimacy": "all measured up to the visit itself; the gap to the TARGET is never added, which would be the leak this study exists to prevent"
+    },
+    "layout": [
+      "canonical_11",
+      "continuous_time_4"
+    ],
+    "in_channels": 15
+  },
+  "user_fraction": {
+    "user_fraction": null
+  },
+  "anchor": {
+    "anchor_dim_native": 64,
+    "anchor_adapted": false
+  },
+  "capacity": {
+    "dim": 64,
+    "num_layers": 2,
+    "reference_dim": 64,
+    "reference_num_layers": 2,
+    "overridden": false
+  }
+}

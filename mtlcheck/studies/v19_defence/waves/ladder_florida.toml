@@ -1,0 +1,51 @@
+# A escada do §2a em Florida.
+#
+# O manifesto declara o PISO (2 execuções) e a escada decide o resto, medindo a dispersão na
+# VALIDAÇÃO INTERNA — que não gasta leitura do teste externo. Cada execução é um par
+# `(split_seed, model_seed)` com os DOIS botões sorteados juntos.
+#
+# Projeção a partir da campanha arquivada, para planejamento e não como medição (o §2a manda cada
+# ciclo remedir na própria arquitetura): ~2.24 h por execução, 4 execuções esperadas,
+# ≈ 9.0 h. Nunca foi lido; primeira leitura, limpa.
+#
+# ⚠ `study = "v19_ladder"` e NÃO `v19_defence`: as células da campanha arquivada vivem em
+# `runs/v19_defence/` com fingerprint idêntico — a receita de TREINO não mudou — e o resume as
+# pularia em silêncio. Diretório separado é o que torna "do zero" verdadeiro.
+
+[wave]
+study = "v19_ladder"
+# Lida por `tests/test_campaign_manifests.py`, não pelo runtime: é a marca por que o contrato
+# varre, e ele exige `save_predictions` em toda célula que a carregue. Tirá-la em 25-08 fez
+# estes seis saírem do contrato em silêncio -- seis casos a menos na suíte, nenhum erro.
+confirmatory = true
+# De onde a escada tira o δ. Sem esta linha ele viria do default de `--margin`, que é CLI
+# e não pré-registro: uma wave rodada com outro δ para no degrau errado e a leitura aceita,
+# porque o gate confere a FORMA do conjunto e não a condição de parada.
+analysis = "recipes/analysis/v19_ladder.toml"
+
+[substrate.identity.florida]
+checkin = "5e29bdf925027e34"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["florida"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["florida"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["florida"]
+seeds = [0]
+partitions = "pilot"
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

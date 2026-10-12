@@ -1,0 +1,1 @@
+results/check2hgi_v18/istanbul/next_lr1.0e-04_bs8192_ep50_20261001_195628_10010

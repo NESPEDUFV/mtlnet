@@ -1,0 +1,204 @@
+% ============================================================================
+% fig2_model_slides.tex -- VARIANTE SO'-DE-SLIDE da Figura 2 do Capitulo 5.
+%
+% 🛑 ESTE ARQUIVO NAO E' A FIGURA DA TESE.  A figura entregue e'
+%    `articles/dissertacao/src/figures/mobiwac/fig2_model.pdf`, INTOCADA, e o
+%    `04_method.tex:66` continua apontando para ela.  Esta variante existe SO'
+%    para o deck da defesa.
+%
+% 🛑 O NOME E' DIFERENTE DE PROPOSITO.  O `graphicspath` do deck
+%    (`slides/main.tex:14`) lista `../figures/plates/` ANTES de
+%    `../../src/figures/mobiwac/`.  Uma chapa chamada `fig2_model.pdf` aqui
+%    SOMBREARIA o arquivo da tese EM SILENCIO -- o deck passaria a exibir outra
+%    figura sem nada avisar.  Mesma familia do `log_T` velho e dos nove dias de
+%    gates verdes na arvore errada.  NUNCA renomear para `fig2_model.pdf`.
+%
+% POR QUE ELA EXISTE.  O autor revogou a propria autorizacao de `stream` no
+% glossario ("falha minha -- nao e' para entrar, causa confusao no leitor e na
+% plateia") e padronizou pelo NOME DA TAREFA: `Next Category` / `Next Region`.
+% Ele aceitou o custo com o fato a' frente: "mude a imagem, como vamos
+% apresentar ela via slide, nao tem problema, qualquer duvida respondo em
+% prosa."  A divergencia entre a Fig. 2 projetada e a impressa e' DECISAO
+% TOMADA -- nao reabrir.  O volume nao recebe a troca porque a legenda dele
+% (`04_method.tex:67`) nomeia "(semantic)"/"(spatial)" e ficaria em contradicao
+% com a propria figura no documento depositado.
+%
+% CINCO ROTULOS TROCADOS (escopo fechado pelo `gate`):
+%    (semantic stream)  -> (Next Category)      semantic encoder -> category encoder
+%    (spatial stream)   -> (Next Region)        spatial encoder  -> region encoder
+%    streams exchange   -> tasks exchange   (ver ROTULO CURTO abaixo)
+%
+% 🛑 DOIS QUE FICAM, e nao e' descuido:
+%    `shared + private spatial path`  e  `raw region (private spatial path)`.
+%    A revogacao e' de `stream`/`tower`, NAO de `spatial`.  `private spatial
+%    path` esta VIVO no deck -- e' o titulo do slide impresso 42 e aparece em
+%    quatro lugares.  Trocar quebraria a correspondencia com um slide existente.
+%    Por isso a figura tem `Next Region` e `private spatial path` convivendo:
+%    um e' a TAREFA, o outro e' um COMPONENTE nomeado no texto entregue.
+%
+% ⚠ ROTULO CURTO -- de proposito, e nao e' economia de espaco.  O rotulo fica
+%    SOBRE a seta bidirecional dentro do `shared trunk`, mascarando o meio dela
+%    com fundo preenchido: quanto mais longo o texto, mais curtas as duas
+%    metades da seta.  `the two tasks exchange` (a 1a. entrega) encurtava as
+%    setas em 5 caracteres de texto.  `tasks exchange` tem UM caractere a menos
+%    que o `streams exchange` original -- as setas ficam MAIORES do que eram.
+%    Nao ha' perda de sentido: dentro de uma caixa rotulada `shared trunk
+%    (bidirectional cross-attention x2)`, "tasks exchange information" e'
+%    inequivoco, e o `the two` fazia trabalho que a caixa ja' faz.  A linha em
+%    destaque do slide carrega o `two` ("the two tasks exchange, they do not
+%    merge") -- a figura nao precisa repeti-lo.
+%    ⚠ Se alguem alongar este rotulo de novo, as setas encurtam junto.
+%
+% NADA MAIS MUDOU.  Caixas, setas, `shared trunk (bidirectional cross-attention
+% x2)`, saidas -- identicos a' fonte.
+%
+% ⚠ TAMANHO -- por que a borda e' assimetrica e nao pode ser arredondada.
+%    O PDF entregue na tese tem 283,636 x 196,499 pt (= 100,0 x 69,3 mm) e foi
+%    compilado com `newtx` (TeXGyreTermesX + txsys), no contexto Times do
+%    IEEEtran.  O `newtx` e o `txfonts` desta maquina estao SEM MAPA DE FONTES
+%    (`updmap` nunca rodou; falta `gsftopk`) -- nao foram consertados de
+%    proposito: mexer na instalacao TeX do autor por causa de uma figura de
+%    slide e' custo errado.  O unico clone de Times que compila aqui e' o
+%    `times` (Nimbus Roman No9 L), que e' o ANCESTRAL do TeX Gyre Termes --
+%    mesmo desenho, metricas praticamente iguais.  Ele da' 281,145 pt de
+%    largura: 2,5 pt (0,9%) a menos.
+%    A borda compensa a diferenca para a PAGINA sair no tamanho EXATO do
+%    entregue (283,627 x 196,499 pt -- 0,009 pt, tres micrometros).  Assim a
+%    caixa que a `ppt` calibrou NAO precisa ser remedida: o slide exibe a
+%    0,62\textwidth e a proporcao e' a mesma.  O desenho dentro fica 0,9% menor
+%    -- imperceptivel, e e' o lado certo do erro na vespera da defesa.
+%
+% 🛑 NAO "CONSERTAR" A BORDA.  Quem reconstruir isto com o `newtx` funcionando
+%    vai ver uma borda assimetrica de valores estranhos e querer arredondar
+%    para `border=4pt`.  NAO.  Ela existe para a PAGINA fechar no tamanho do
+%    `fig2_model.pdf` da tese, porque a caixa do slide foi calibrada contra ele.
+%    Com o `newtx` de volta, o certo e' voltar para `border=4pt` E CONFERIR que
+%    a pagina da' 283,636 x 196,499 pt -- se der, a borda assimetrica deixou de
+%    ser necessaria; se nao der, recalibrar, nao arredondar.
+%
+% BUILD:  pdflatex fig2_model_slides.tex   (roda sozinho; ver o \ifdefined)
+%         depois mover o PDF para ../plates/
+% FONTE:  derivado de `articles/[mobiwac]/src_fix/figs/fig2_model.tex` (10/jul).
+%         ⚠ Essa fonte NAO reproduz o PDF da tese: sai em Computer Modern a
+%         291,7 pt.  O texto e o desenho conferem; so' a fonte diverge.
+% ============================================================================
+
+% fig2_model.tex
+% Figure 2: the single multi-task model.
+%
+% Standalone-compilable on its own (pdflatex fig2_model.tex) AND \input-able into
+% the IEEE paper. The standalone wrapper runs only when \FIGINPUT is NOT defined.
+%
+% Paper preamble (once, shared with fig1):
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+%   \def\FIGINPUT{1}
+% Body:
+%   \begin{figure}[t]\centering\input{figs/fig2_model.tex}
+%   \caption{...}\label{fig:model}\end{figure}
+%
+% ARCHITECTURE (mtlnet_crossattn_dualtower + next_gru (cat) +
+% next_stan_flow_dualtower (reg)), verified against src/models/.../model.py:
+%   - two input streams: a check-in (semantic) window and a region (spatial) window;
+%   - a PRIVATE per-task encoder on each stream;
+%   - a SHARED bidirectional cross-attention stack (x2) that couples the streams
+%     (the only shared parameters): K/V flow both ways;
+%   - a GRU category head on the shared semantic output -> next-category;
+%   - a region head that is a DUAL TOWER: a shared tower on the cross-attention
+%     output PLUS a private spatial tower that runs on the RAW region window
+%     (bypassing the shared stack), fused inside the head -> next-region.
+% A dashed boundary encloses everything: one model, one forward pass, two outputs.
+% This supersedes the older BRACIS single-shared-backbone schematic.
+
+\ifdefined\FIGINPUT\else
+  % Borda ASSIMETRICA calibrada -- ver "TAMANHO" no cabecalho.  Nao arredondar.
+  \documentclass[border={5.2455pt 4.0290pt 5.2455pt 4.0290pt}]{standalone}
+  \usepackage[T1]{fontenc}
+  \usepackage{times}
+  \usepackage{tikz}
+  \usepackage{amsmath}
+  \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+  \begin{document}
+\fi
+
+\begin{tikzpicture}[
+    >={Stealth[length=2.2mm]},
+    font=\footnotesize,
+    box/.style={draw, rounded corners=2.5pt, align=center, inner sep=3pt,
+                minimum height=7mm, line width=0.5pt, font=\scriptsize},
+    inblk/.style={box, fill=orange!10, draw=orange!55!black, minimum width=27mm,
+                  font=\scriptsize},
+    enc/.style={box, fill=gray!9, draw=gray!55!black, minimum width=27mm},
+    shared/.style={box, fill=blue!8, draw=blue!45!black, minimum width=70mm,
+                   minimum height=12mm},
+    cathead/.style={box, fill=teal!10, draw=teal!55!black, minimum width=27mm,
+                    minimum height=9mm},
+    reghead/.style={box, fill=teal!10, draw=teal!55!black, minimum width=33mm,
+                    minimum height=11mm},
+    outlbl/.style={font=\scriptsize\itshape, text=black!72},
+    flow/.style={->, line width=0.7pt, draw=black!75},
+    kv/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]}, line width=0.9pt,
+               draw=blue!50!black},
+    skip/.style={->, line width=0.8pt, draw=teal!60!black, dashed},
+  ]
+
+  % ---------- Row 1: two input streams ----------
+  \node[inblk] (inc) {check-in window\\\textit{(Next Category)}};
+  \node[inblk, right=14mm of inc] (inr) {region window\\\textit{(Next Region)}};
+
+  % ---------- Row 2: private per-task encoders ----------
+  \node[enc, below=4.5mm of inc] (enca) {category encoder\\\scriptsize\textit{(private)}};
+  \node[enc, below=4.5mm of inr] (encb) {region encoder\\\scriptsize\textit{(private)}};
+
+  % ---------- Row 3: shared bidirectional cross-attention ----------
+  \node[shared, below=6mm of $(enca)!0.5!(encb)$] (cross) {};
+  \node[anchor=north, font=\scriptsize\bfseries, text=blue!30!black]
+       at ([yshift=-1.3mm]cross.north) {shared trunk (bidirectional cross-attention $\times 2$)};
+
+  % ---------- Row 4: two task heads ----------
+  \node[cathead, below=6.5mm of cross.south, anchor=north, xshift=-19mm] (cath)
+       {category output};
+  \node[reghead, below=6.5mm of cross.south, anchor=north, xshift=19mm] (regh)
+       {region output\\\scriptsize\textit{shared $+$ private spatial path}};
+
+  % ---------- Row 5: outputs ----------
+  \node[outlbl, below=3mm of cath] (oc) {$\rightarrow$ next-category};
+  \node[outlbl, below=3mm of regh] (orr) {$\rightarrow$ next-region};
+
+  % ---------- arrows ----------
+  % inputs -> private encoders
+  \draw[flow] (inc) -- (enca);
+  \draw[flow] (inr) -- (encb);
+  % encoders -> shared cross-attention
+  \draw[flow] (enca.south) -- (enca.south |- cross.north);
+  \draw[flow] (encb.south) -- (encb.south |- cross.north);
+  % bidirectional K/V coupling, drawn in the LOWER half of the box (below the title)
+  \draw[kv] ([xshift=-19mm,yshift=-2.8mm]cross.center) -- ([xshift=19mm,yshift=-2.8mm]cross.center)
+       node[pos=0.5, fill=blue!8, inner sep=1pt, font=\scriptsize, align=center]
+       {tasks exchange\\information};
+  % shared -> heads
+  \draw[flow] (cross.south) -- (cath.north);
+  \draw[flow] (cross.south) -- (regh.north);
+  % heads -> outputs
+  \draw[flow] (cath.south) -- (oc.north);
+  \draw[flow] (regh.south) -- (orr.north);
+  % private spatial path: the RAW region window feeds the region head's private
+  % tower directly, bypassing the encoder + shared cross-attention.
+  \draw[skip] (inr.east) -- ++(11mm,0) |- (regh.east)
+       node[pos=0.27, right, font=\scriptsize, text=teal!55!black, align=left]
+       {raw region\\(private\\spatial path)};
+
+  % ---------- dashed boundary: one model ----------
+  \begin{scope}[on background layer]
+    \node[draw, dashed, rounded corners=4pt, line width=0.7pt, draw=black!55,
+          fill=black!2, inner sep=4pt,
+          fit=(inc)(inr)(enca)(encb)(cross)(cath)(regh)(oc)(orr)] (model) {};
+  \end{scope}
+  \node[anchor=south, font=\scriptsize\bfseries, text=black!72]
+        at (model.north) {one model, one forward pass, two predictions};
+
+\end{tikzpicture}
+
+\ifdefined\FIGINPUT\else
+  \end{document}
+\fi

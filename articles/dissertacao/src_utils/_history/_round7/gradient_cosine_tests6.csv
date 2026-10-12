@@ -1,0 +1,8 @@
+dataset,unit,n,n_observations,mean,sd,ci95_lo,ci95_hi,t_p_vs_zero,sign_p,sign_p_floor_at_this_n,TOST_p_margin_0.05,TOST_0.05,n_positive
+alabama,fold mean,5,250,0.01119,0.0058,0.00399,0.0184,0.0125,0.0625,0.0625,5.819e-05,equivalent,5
+arizona,fold mean,5,250,0.0015,0.00533,-0.00511,0.00812,0.5621,1.0,0.0625,1.722e-05,equivalent,3
+california,fold mean,5,250,0.00071,0.00056,1e-05,0.0014,0.0478,0.375,0.0625,2.005e-09,equivalent,4
+florida,fold series mean,60,3150,0.00026,0.00484,-0.00099,0.00151,0.676,0.8974,0.0,4.536e-62,equivalent,31
+georgia,fold mean,5,250,0.00385,0.00183,0.00158,0.00612,0.0093,0.0625,0.0625,2.959e-07,equivalent,5
+istanbul,fold mean,5,250,0.00011,0.00076,-0.00084,0.00106,0.7565,1.0,0.0625,6.596e-09,equivalent,3
+texas,fold mean,5,250,-0.00026,0.00169,-0.00236,0.00183,0.744,0.375,0.0625,1.595e-07,equivalent,4

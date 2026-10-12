@@ -1,0 +1,8 @@
+name: static_weight
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: static_weight
+runtime_class: losses.static_weight.loss.StaticWeightLoss
+runtime_file: src/losses/static_weight/loss.py
+source_doc: ""

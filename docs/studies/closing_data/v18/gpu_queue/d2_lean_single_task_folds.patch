@@ -1,0 +1,99 @@
+diff --git i/scripts/train.py w/scripts/train.py
+index 2e7cf4e8..06bb001d 100644
+--- i/scripts/train.py
++++ w/scripts/train.py
+@@ -265,11 +265,12 @@ def _run_single_task(config, results_path, fold_results, *, task, run_cv,
+                      model_name, fold_attr, getter, description) -> dict:
+     """Shared single-task (category / next) CV launcher. The two paths differ only in
+     which ``run_cv`` module, fold attribute, dataset getter, and labels they use."""
+-    folds = [
+-        (getattr(fold_results[i], fold_attr).train.dataloader,
+-         getattr(fold_results[i], fold_attr).val.dataloader)
+-        for i in sorted(fold_results)
+-    ]
++    folds = []
++    for i in sorted(fold_results):
++        # One access per fold: a lazy mapping (--only-fold/--only-folds) builds the fold on
++        # each access; for the eager dict both reads return the same object.
++        fold_data = getattr(fold_results[i], fold_attr)
++        folds.append((fold_data.train.dataloader, fold_data.val.dataloader))
+     history = MLHistory(
+         model_name=model_name,
+         model_type="Single-Task",
+@@ -1878,6 +1879,10 @@ def _resolve_folds(
+             task_a_input_type=getattr(args, "task_a_input_type", "checkin"),
+             task_b_input_type=getattr(args, "task_b_input_type", "checkin"),
+             aligned_pairing=getattr(config, "aligned_pairing", False),
++            # Build only the selected fold(s) on single-task --only-fold / --only-folds;
++            # the full k-fold run keeps the eager path.
++            lazy_single_task=(getattr(args, "only_fold", None) is not None
++                              or getattr(args, "_only_folds_list", None) is not None),
+         )
+         return creator.create_folds(config.state, engine)
+ 
+diff --git i/src/data/folds.py w/src/data/folds.py
+index 513ce5e1..9311ad03 100644
+--- i/src/data/folds.py
++++ w/src/data/folds.py
+@@ -1064,12 +1064,21 @@ class FoldCreator:
+             task_a_input_type: str = "checkin",
+             task_b_input_type: str = "checkin",
+             aligned_pairing: bool = False,
++            lazy_single_task: bool = False,
+     ):
+         self.task_type = task_type
+         self.n_splits = n_splits
+         self.batch_size = batch_size
+         self.seed = seed
+         self.use_weighted_sampling = use_weighted_sampling
++        # Single-task (CATEGORY / NEXT) only. False (default) = the eager loop, unchanged:
++        # every fold's tensor slices + loaders are built up front. True = build each fold
++        # on demand via ``_LazyFoldMapping`` (the pattern the check2hgi-MTL path already
++        # uses). Set by ``scripts/train.py`` only for ``--only-fold`` / ``--only-folds``, so
++        # the unselected folds are never materialised (on MPS every fold's train+val
++        # tensors are pre-moved to unified memory, 5x the dataset at FL). Same split
++        # indices, same loaders, same seeds; fold construction draws no RNG.
++        self.lazy_single_task = bool(lazy_single_task)
+         # G0.1 aligned-pairing — only consumed by ``_create_check2hgi_mtl_folds``.
+         # When True the cat + reg train loaders share one per-epoch permutation
+         # (a single joint loader on FoldResult.joint_train_loader). Default
+@@ -1162,6 +1171,39 @@ class FoldCreator:
+         else:
+             skf = StratifiedKFold(n_splits=self.n_splits, shuffle=True, random_state=self.seed)
+             split_iter = skf.split(X, y)
++
++        if self.lazy_single_task:
++            # Same split indices, fold records and log lines as the eager loop below; only
++            # the per-fold tensor slices + loaders are deferred to first access.
++            splits = list(split_iter)
++            for fold_idx, (train_idx, val_idx) in enumerate(splits):
++                self._fold_indices[task].append(FoldIndices(fold_idx, train_idx, val_idx))
++                logger.info(f"Fold {fold_idx + 1}/{self.n_splits}: train={len(train_idx)}, val={len(val_idx)}")
++
++            def _build_fold(fold_idx: int) -> FoldResult:
++                train_idx, val_idx = splits[fold_idx]
++                train_x, train_y = x_tensor[train_idx], y_tensor[train_idx]
++                val_x, val_y = x_tensor[val_idx], y_tensor[val_idx]
++                task_data = TaskFoldData(
++                    train=FoldData(
++                        _create_dataloader(train_x, train_y, self.batch_size, True, self.use_weighted_sampling, self.seed),
++                        train_x, train_y
++                    ),
++                    val=FoldData(
++                        _create_dataloader(val_x, val_y, self.batch_size, False, False, self.seed),
++                        val_x, val_y
++                    ),
++                )
++                fold_result = FoldResult()
++                if task == TaskType.NEXT:
++                    fold_result.next = task_data
++                else:
++                    fold_result.category = task_data
++                gc.collect()
++                return fold_result
++
++            return _LazyFoldMapping(self.n_splits, _build_fold)
++
+         fold_results: Dict[int, FoldResult] = {}
+ 
+         for fold_idx, (train_idx, val_idx) in enumerate(split_iter):

@@ -1,0 +1,8 @@
+name: aligned_mtl
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: aligned_mtl
+runtime_class: losses.aligned_mtl.loss.AlignedMTLLoss
+runtime_file: src/losses/aligned_mtl/loss.py
+source_doc: ""

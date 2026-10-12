@@ -1,0 +1,102 @@
+% !TeX root = ../../main.tex
+% cbic/errata_wording.tex -- one table. Extraction provenance and verification: tables/README.md
+{\small
+\begin{longtable}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
+\caption{Wording substitutions in the reproduced CBIC 2025 prose (writing-rule
+conformance; claim strength unchanged or reduced, never raised).}
+\label{tab:apx:cbic-wording} \\
+\toprule
+\textbf{Published wording} & \textbf{Chapter wording} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{@{}l}{\footnotesize\itshape Table \thetable\ continued from the previous page.}\\
+\toprule
+\textbf{Published wording} & \textbf{Chapter wording} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r@{}}{\footnotesize\itshape Continued on the next page.}\\
+\endfoot
+\bottomrule
+\endlastfoot
+``By leveraging shared information, MTL can potentially mitigate...'' &
+``By using shared information, ...'' \\
+``solutions that leverage shared representations across related POI tasks'' &
+``solutions that use shared representations...'' \\
+``by leveraging shared information across correlated tasks'' &
+``by sharing information across correlated tasks'' \\
+``Moreover, we utilize a Deep Graph Infomax...'' /
+``Moreover, $\mathcal{D}$ is a discriminator...'' &
+``In addition, ...'' (both instances) \\
+``These findings underscore that...'' &
+``These findings indicate that...'' \\
+% AUT-03 (PENDENCIAS §4, author ruling A): hyphen restored. This column's function is to show
+% what the article published, and the published sentence reads "advanced multi-task optimizers"
+% (CBIC___MTL/sections/conclusion.tex:17). The de-hyphenation sweep made the "Published wording"
+% column stop showing the published wording, which is self-defeating.
+% Probe: R13-errata-hyphen
+%
+% This block ends on a blank comment line rather than against the row below it. check_trapped_prose
+% globs chapters/*.tex, chapters/*/*.tex, preamble.tex and content.tex, so tables/ is OUTSIDE its
+% scope and a torn comment tail here would be untested rather than caught. The blank line removes
+% the dependence on that scope gap.
+
+``Furthermore, investigating advanced multi-task optimizers...'' &
+``In addition, investigating...'' \\
+``Furthermore, the computational cost ... was roughly double'' &
+Subsumed by the MFLOPs correction in Table~\ref{tab:apx:cbic-errata}. \\
+``where different sequential patterns might be leveraged'' &
+``might be exploited'' \\
+``MTL allows the learning of complementary objectives simultaneously, allowing for
+more accuracy'' &
+``MTL allows complementary objectives to be learned simultaneously, which can improve
+accuracy.'' \\
+``Some Models such as TME ... but treat prediction and classification separately'' &
+``Some models, such as TME, ... but treat prediction and classification separately.'' \\
+``jointly performs POI category prediction and next-POI classification'' &
+``jointly performs POI category classification and next-category prediction'' (the
+published sentence had the task operations reversed). \\
+``enabling more robust predictions even in data-sparse environments'' &
+Removed because the study did not evaluate robustness as a function of data sparsity. \\
+``We hypothesize three primary factors contributed to this outcome'' &
+``We hypothesize that three primary factors contributed to this outcome.'' \\
+\addlinespace
+``the MTL framework does not deliver the consistent, significant gains often
+expected'' &
+``does not deliver the consistent gains often expected'' (the chapter reports no
+inferential test, so the word carries no verdict here). \\
+``both our MTL and Single models significantly outperform HMRM across all POI
+categories'' &
+% [2026-09-02, B-13] Right column re-quoted to the chapter's current wording. The row's reason
+% (scope instead of significance) is unchanged; the scope itself was then reconciled to the category
+% table, whose Recall / Nightlife cell has HMRM above both models (42.13 vs 36.77 / 25.80). The
+% left column quotes the published article and is untouched. No \ref here: this table prints in the
+% supplementary volume, where a main-volume label would dangle.
+``outperform HMRM in every POI category in terms of F1-score and precision, and in
+every category except Nightlife in terms of recall'' (the comparison is stated by scope
+instead of by significance, and the scope follows the category table, where HMRM has
+the higher Nightlife recall). \\
+``significantly surpassing MHA+PE in these categories'' &
+``surpassing MHA+PE in these two categories''. \\
+``suggesting that, statistically, the performance of the MTL and Single models is
+largely comparable, without a clear, consistent, and significant advantage'' &
+``suggesting that the performance of the MTL and Single models is largely comparable,
+without a clear or consistent advantage''. \\
+\addlinespace
+``Also, it is important to notice that since we have an unbalanced result for the MTL
+and single, this could lead to the worse of other results.'' &
+Rewritten for readability, with the claim unchanged: the chapter states that the two
+models do not lead consistently across the categories, each obtaining the better
+F1-score in some of them, and that this uneven distribution could make either model
+appear worse in the categories where the other one leads. The published phrase
+``unbalanced result for the MTL and single'' names the pattern the two preceding
+sentences describe, and ``the worse of other results'' had no grammatical referent. The
+hedge ``could'' is preserved, no number is touched, and no inferential claim is added. \\
+\addlinespace
+``Next-POI Prediction, in contrast, aims to predict which specific location a user is
+likely to visit next'' (the related-work definition of the research area) &
+Reproduced verbatim, with a footnote added stating that this is the general formulation
+of the literature and that the variant studied in the chapter predicts the category of
+the next visited place. \\
+\end{longtable}
+}

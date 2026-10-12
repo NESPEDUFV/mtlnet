@@ -1,0 +1,4 @@
+start 2026-10-01 22:02:29 commit 82dbe843 swap_used_MB=2481 state=arizona folds=5 epoch_select=per_task
+b3 rc=0 wall=347s peakRSS_bytes=979058688
+end 2026-10-01 22:08:16
+DONE

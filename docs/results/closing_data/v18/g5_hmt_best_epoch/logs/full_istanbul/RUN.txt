@@ -1,0 +1,4 @@
+start 2026-10-01 22:08:16 commit 82dbe843 swap_used_MB=2465 state=istanbul folds=5 epoch_select=per_task
+b3 rc=0 wall=407s peakRSS_bytes=1008975872
+end 2026-10-01 22:15:03
+DONE

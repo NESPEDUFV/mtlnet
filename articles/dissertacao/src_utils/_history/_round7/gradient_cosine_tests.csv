@@ -1,0 +1,10 @@
+dataset,unit,n,mean,sd,t_p_vs_zero,sign_p,sign_p_floor_at_this_n,TOST_0.05
+florida,"observation (epoch-fold, SERIALLY DEPENDENT)",3150,0.00015,0.03373,0.8032,0.2059,0.0,equivalent
+florida,fold-series mean,60,0.00026,0.00484,0.676,0.8974,0.0,equivalent
+florida,configuration mean,12,0.00026,0.00227,0.6965,0.7744,0.0005,equivalent
+alabama,"observation (epoch-fold, SERIALLY DEPENDENT)",250,0.01119,0.07272,0.0157,0.1137,0.0,equivalent
+alabama,fold-series mean,5,0.01119,0.0058,0.0125,0.0625,0.0625,equivalent
+arizona,"observation (epoch-fold, SERIALLY DEPENDENT)",250,0.0015,0.0373,0.5241,0.3428,0.0,equivalent
+arizona,fold-series mean,5,0.0015,0.00533,0.5621,1.0,0.0625,equivalent
+georgia,"observation (epoch-fold, SERIALLY DEPENDENT)",250,0.00385,0.02715,0.0258,0.0267,0.0,equivalent
+georgia,fold-series mean,5,0.00385,0.00183,0.0093,0.0625,0.0625,equivalent

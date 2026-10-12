@@ -1,0 +1,8 @@
+name: mtlnet
+domain: mtl
+status: implemented
+evidence_status: implemented
+registry_key: mtlnet
+runtime_class: models.mtl.mtlnet.model.MTLnet
+runtime_file: src/models/mtl/mtlnet/model.py
+source_doc: ""

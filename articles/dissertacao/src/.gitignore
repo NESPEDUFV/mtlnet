@@ -1,0 +1,20 @@
+# Compile output all lands in build/ (see Makefile -output-directory)
+build/
+# macOS + tool cruft
+.DS_Store
+.cache/
+missfont.log
+# The one tracked PDF at the src root is dissertacao.pdf (the current defense build);
+# everything else PDF-shaped is build output.
+# LaTeX residue at the source root: pdflatex -output-directory writes into build/, but
+# BibTeX resolves chapters/*.aux RELATIVE TO THE SOURCE DIR. A stale copy here therefore
+# shadows build/ and can feed BibTeX an outdated citation key (this happened 2026-07-26:
+# four undefined citations shipped in both PDFs from July-25 aux files). Never commit these.
+*.aux
+chapters/*.aux
+main.bbl
+main.blg
+main.log
+main.toc
+main.lof
+main.lot

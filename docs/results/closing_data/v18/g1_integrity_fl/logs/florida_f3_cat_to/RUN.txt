@@ -1,0 +1,8 @@
+start 2026-10-04 14:59:18 commit 17571c16 tier=CRITICAL swap_used_MB_at_start=4411 swap_total_MB_at_start=5120 disk_int_GB_at_start=14 disk_ssd_GB_at_start=10 pressure_at_start=1
+cmd: env MTL_DATASET_CPU=1 RESULTS_ROOT=/Volumes/Vitor's SSD/ingred_g1fl/results/g1_cat_f3/to .venv/bin/python scripts/train.py --task next --state florida --model next_gru --embedding-dim 64 --folds 5 --only-fold 3 --epochs 50 --seed 0 --batch-size 8192 --max-lr 0.005 --logit-adjust-tau 0.5 --no-checkpoints --engine check2hgi_v18_to_f3
+rc=0 wall=2901s peakRSS_bytes=12702810112
+trace peaks: max_pressure=2 min_free=36% max_swap_total=5120MB max_wired=9.3GB max_child_rss=11.1GB
+repo-write-guard OK
+end 2026-10-04 15:47:40
+DONE
+note: dataset CPU-resident (MTL_DATASET_CPU=1, D2b 17571c16); the device choice does not change the numbers (docs/studies/closing_data/v18/gpu_queue/dataset_cpu_proof: base == cpu+D2b byte-identical)

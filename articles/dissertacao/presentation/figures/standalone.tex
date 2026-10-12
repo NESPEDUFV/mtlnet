@@ -1,0 +1,24 @@
+% Driver de EXPORT. Compila a figura sozinha, em tamanho FINAL, sem moldura de
+% slide -- e' este PDF que entra no deck via \includegraphics, sem escalar.
+% As cores sao as do nesped.sty, copiadas verbatim (nesped.sty:27-37), para que
+% o PDF exportado bata com o deck sem depender do .sty em tempo de export.
+\documentclass{standalone}
+\usepackage{fontspec}
+% mesma familia do deck (nesped.sty:10) -- sem isto a figura sai
+% serifada e destoa de tudo em volta.
+\usepackage{cabin}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,fit,shapes.geometric,decorations.pathreplacing}
+\definecolor{primary}{rgb}{0.22,0.69,0.61}
+\definecolor{primaryshade}{rgb}{0.18,0.61,0.58}
+\definecolor{primarytint}{rgb}{0.90,0.95,0.94}
+\definecolor{secondary}{rgb}{0.04,0.27,0.47}
+\definecolor{secondaryshade}{rgb}{0.04,0.27,0.47}
+\definecolor{secondarytint}{rgb}{0.88,0.92,0.96}
+\definecolor{alert}{rgb}{0.74,0.07,0.43}
+\definecolor{alertshade}{rgb}{0.48,0.19,0.40}
+\definecolor{alerttint}{rgb}{0.98,0.93,0.99}
+\definecolor{primarysuper}{rgb}{0.13,1.00,0.73}
+\definecolor{offwhite}{rgb}{0.9,0.9,0.9}
+\begin{document}\input{src/\FIGFILE}\end{document}

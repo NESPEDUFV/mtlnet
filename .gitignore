@@ -1,0 +1,159 @@
+__pycache__/
+*.pyc
+/results/*
+!/results/baselines/
+/data/*
+/temp/
+/output/*
+.venv*
+/logs/
+/.uv-cache/
+/.tmp/
+/runs/
+
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+
+# Coverage & testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Model checkpoints
+*.pt
+*.pth
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+
+# Worktrees and local tooling
+.claude/worktrees/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.codex/
+
+# Obsidian personal vault (not project-shared)
+.obsidian/
+
+# Local-only Claude config (machine-specific, not shared)
+CLAUDE.local.md
+
+# Windows Explorer metadata — ignore everywhere except the top-level baselines index
+desktop.ini
+!results/baselines/desktop.ini
+
+# Large regeneratable artefacts inside the leakage-ablation results tree.
+# Reproduce via `python experiments/hgi_leakage_ablation.py --state <State> --arms <arm>`.
+docs/studies/fusion/results/P0/leakage_ablation/*/*/embeddings.parquet
+
+# check2hgi-up: per-variant embedding parquets (~900 MB).
+# Reproduce via `python experiments/check2hgi_up/run_all.py`.
+# Commit JSONs, aggregate, anchors, and STL logs only.
+docs/studies/check2hgi/results/UP1/*_emb.parquet
+
+# Handover bundles (large data zips for off-repo download)
+handover_results.tar.gz
+handover_results.zip
+# Per-study/sweep handover bundles (e.g. f51_handover.tar.gz, f50_handover.tar.gz)
+*_handover.tar.gz
+*_handover.zip
+
+# Tier-6 stashed embeddings — large (~440MB checkin + 30MB poi per state),
+# regen-able from scripts/canonical_improvement/regen_emb_t3.py with the
+# documented variant flags. Covers T6.1 (lambda*), T6.1 robustness, T6.2 (a*),
+# T6.3 (r*), T6.4 (* variants). Keeps florida_mtl* subdirs (MTL summaries +
+# fold metric CSVs, ~few MB each) since florida/ matches *.parquet only.
+docs/results/canonical_improvement/T6_1_lambda*/alabama/
+docs/results/canonical_improvement/T6_1_lambda*/arizona/
+docs/results/canonical_improvement/T6_1_lambda*/florida/*.parquet
+docs/results/canonical_improvement/T6_1_robustness_lambda*/florida/*.parquet
+docs/results/canonical_improvement/T6_2_a*/alabama/
+docs/results/canonical_improvement/T6_2_a*/arizona/
+docs/results/canonical_improvement/T6_2_a*/florida/*.parquet
+docs/results/canonical_improvement/T6_3_r*/alabama/
+docs/results/canonical_improvement/T6_3_r*/arizona/
+docs/results/canonical_improvement/T6_3_r*/florida/*.parquet
+docs/results/canonical_improvement/T6_4_*/alabama/
+docs/results/canonical_improvement/T6_4_*/arizona/
+docs/results/canonical_improvement/T6_4_*/florida/*.parquet
+
+# embedding_eval study hygiene
+output_scratch/
+*.checkpoint.json
+
+# foreign study artifacts (own branch: substrate-protocol-cleanup-v12-settle) — never sweep into embedding_eval PR
+docs/results/substrate_protocol_cleanup/
+scripts/substrate_protocol_cleanup/
+
+# v14 MTL/STL eval session — keep drivers/aggregators/manifests, drop bulky logs
+scripts/_v14_run/logs/
+scripts/_v14_run/*.out
+results_resume_*/
+articles/[mobiwac]/src_v1/.DS_Store
+
+# v17-era run logs (leaked-check2hgi executions; verdicts already committed in the
+# tracked RESULTS/CEILINGS markdown). Kept on disk, out of the repo. — 2026-08-06
+docs/studies/closing_data/catx_v17_audit/
+docs/studies/closing_data/catx_v17_runs/
+docs/studies/closing_data/catx_v17_seed0_5f/**/*.log
+docs/studies/closing_data/catx_v17_seed0_5f/*.log
+docs/studies/closing_data/v17_completion/**/*.log
+docs/studies/closing_data/v17_completion/a1_catx/california_s*/
+docs/studies/closing_data/v17_completion/a1_catx/texas_s*/
+docs/studies/closing_data/v17_completion/a1_catx/smoke2wide/
+docs/studies/closing_data/v17_completion/a40_5_cascade/
+docs/studies/closing_data/v17_completion/cat_ceiling_sweep/logs/
+docs/studies/closing_data/v17_completion/h2_runs/
+docs/studies/closing_data/v17_completion/reg_topup/logs/
+docs/studies/pipeline_audit/aligned_retune/
+docs/studies/pipeline_audit/arch_pairing_screen/
+docs/studies/pipeline_audit/pairing_battery/
+docs/studies/pipeline_audit/runs/
+
+# macOS AppleDouble junk
+._*
+**/._*
+
+# v18 run logs (transient); the committed record is status.json / PROGRESS.md / the sidecars
+docs/studies/closing_data/v18/logs/
+/docs/studies/closing_data/v18_2/.env
+# Modal credentials for the permanent lane machinery (moved out of the v18_2 study folder
+# 2026-08-11 when that folder was retired). Three accounts; never commit.
+/pipelines/modal/.env
+
+# v18: per-cell training logs are transient (charter §2: do not commit logs).
+# The compact *_DRIVER.log event trail IS kept -- it carries every START/DONE/FAIL,
+# the tie certificates and the wall times that the docs cite.
+docs/studies/closing_data/v18/logs/*
+!docs/studies/closing_data/v18/logs/*_DRIVER.log
+docs/studies/closing_data/v18/__pycache__/
+
+# v18_2 rented lane: per-cell run logs are transient (same policy as v18).
+docs/results/closing_data/v18_2/**/*.log
+docs/results/closing_data/v18_2/**/*.out
+
+# balance study (2026-08/09): per-slot embedding parquets, 37 MB + 78 MB.
+# docs/results/ is otherwise TRACKED (4 172 files), so a `git add -A` on the run
+# machine would put 111 MB of binary into history permanently. The JSON summaries
+# beside them are small and stay trackable.
+docs/results/balance/*.parquet
+
+# Q13 wave drivers and their logs (61 files). `logs/` is ignored elsewhere in this
+# project by convention; wave_logs/ was not, and nothing suggests it was meant to be
+# committed.
+wave_logs/

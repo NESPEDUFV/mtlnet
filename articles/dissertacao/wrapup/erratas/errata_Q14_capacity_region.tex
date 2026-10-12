@@ -1,0 +1,75 @@
+% !TeX root = ../../src/main.tex
+% ============================================================================
+% ERRATA Q14 -- o limite de capacidade no eixo de regiao.
+% Escrita depois do envio. Nao entra em nenhum build.
+% Destino: a lista de limites em chapters/5_mobiwac/07_discussion.tex, como quinto membro.
+%
+% O DEFEITO, em uma frase: o artigo submetido lista o confundimento de capacidade entre os seus
+% cinco limites, e a lista da dissertacao, que tem quatro, nao o carrega.
+%
+% Medido 2026-08-13 nas tres extracoes de PDF e no fonte com comentarios removidos: as expressoes
+% "capacity-matched", "confounded with capacity" e "several times the size" tem zero ocorrencias no
+% volume principal.
+%
+% ESTA ERRATA VAI ALEM DO ARTIGO. O artigo declara que o controle "has not been run". Ele foi
+% rodado em 2026-08-13, e o resultado esta em ../post_submission_studies/P1_capacity_region.md.
+% Cada numero abaixo e verificado em VERIFICACAO.md.
+%
+% [2026-09-02, REESCRITA POR DECISAO DO AUTOR -- registo da resposta oral; nao entra em build]
+% As larguras "pareadas" de P1 (AL 624, CA 528, TX 544) foram derivadas contra alvos RECONSTRUIDOS
+% do modelo conjunto (P1 §5; EXECUTION_WAVE.md:31-33: 6.909.789 / 8.809.533 / 8.308.897), nao contra
+% as contagens dos logs de execucao. Contra os logs (research/reproducibility/mobiwac_v18/
+% param_counts.py: AL 4.197.621; CA 5.151.189; TX 1.731.079 + 1.584.690 + 1.584.128 = 4.899.897)
+% os tres bracos ficam a 166,3% / 174,8% / 170,5% do conjunto, e o unico braco proximo da paridade
+% e o de d_model=352 em California: 5.014.942 = 97,4% de 5.151.189 (2,6% ABAIXO da paridade,
+% conservador). A versao anterior desta errata usava o braco de 528 como "orcamento inteiro" e
+% dispensava o de 352 como "57 por cento" -- estava trocado. Numeros do texto: P1 §1-§2 (352: 64,910
+% vs conjunto 64,503 = +0,406 -> "0,41"; 528: +0,428, p 0,0082, 5/5; 352->528: +0,021, p 0,40;
+% TX 544: +0,214, p 0,1162, 4/5). Os quatro percentuais sao razoes das contagens acima, calculadas
+% pelo agente de registo; param_counts.py ainda nao os imprime (pedido). O Texas nao tem controlo
+% pareado e o texto declara-o. A razao de categoria passa de 6,5x para 6,7x (Apendice G corrigido em
+% 2026-09-02: 9.634.471 / 1.433.863).
+% [2026-09-02, mais tarde] TESTE DO BRACO DE 352 acrescentado. Corrido pelo agente de registo sobre os
+% artefactos region_head_california_*capmatched*_s0.json. Onde estao: em docs/results/P1/ A PARTIR DA
+% RAIZ DO REPOSITORIO (tres ficheiros, copiados da nespedgpu, onde continuam no caminho do P1 §5), e o
+% git ESCONDE esse directorio (.git/info/exclude:9, padrao `results`), portanto a copia local nao viaja
+% com o repositorio; traze-los para dentro exige `git add -f` e e decisao do autor. Armadilha: ha dois
+% `docs/` nesta arvore (raiz e articles/dissertacao/docs/); um `find docs/results` corrido de dentro
+% da pasta da dissertacao procura no segundo e conclui, errado, que os artefactos nao existem.
+% Reproduzido pelo redator sobre as dobras citadas, a tres
+% casas: conjunto CA seed 0 [64.407, 64.019, 64.491, 64.505, 65.095] (joint_best_perfold.json, media
+% 64,5034); braco 352 [64.693, 64.766, 64.831, 64.762, 65.498] (media 64,9097); delta +0,4063 (das
+% dobras arredondadas: +0,4066), 5/5 dobras, t pareado BILATERAL p = 0,0102 (das arredondadas: 0,0101)
+% -> "0.010". Convencao
+% bilateral confirmada por reconciliacao com os dois numeros que P1 ja publica (528: +0,4277,
+% p = 0,0082; 352->528: +0,0214, p = 0,4002). O "0.008" do 528 e o mesmo teste.
+% ============================================================================
+
+\paragraph*{Errata: o limite de capacidade no eixo de regiao (Cap.~5, lista de limites).}
+A lista passa a ter cinco membros. O quinto le:
+
+\begin{quote}
+Capacity on the region axis. The joint model has more parameters than the two dedicated models
+together, so its region result at Texas and California may come from size rather than from sharing.
+A control separates the two at California. It widens the dedicated region model until its parameter
+count reaches the joint model's, taken from the training logs, and changes nothing else. At width
+$352$ the dedicated model has $5{,}014{,}942$ parameters, $97.4$ percent of the joint model's
+$5{,}151{,}189$, and scores $0.41$ Acc@10 above it, with all five folds in the same direction and a
+paired test over the five folds that separates the difference from zero ($p = 0.010$). A wider arm,
+at $174.8$ percent of the joint model's budget, scores $0.43$ above it, on the same test
+($p = 0.008$, five of five folds); the two arms are $0.02$ apart ($p = 0.40$), so widening past
+parity adds nothing. The widths of these arms were derived
+against a reconstructed count of the joint model, not the measured one, which is why the arm at
+parity is the narrower of the two. Texas has no capacity-matched control: the only arm run there has
+$170.5$ percent of the joint model's budget and scores $0.21$ above the joint model, which the same
+test does not separate from zero ($p = 0.12$). At California, the one dataset where the control
+exists, the region advantage reported here therefore measures capacity, not transfer between the
+tasks. What remains is the operational result: one model produces both predictions in one forward
+pass, at no measured cost on either task. The category axis is not affected, because there a
+dedicated model with $6.7$ times the parameters scores lower, not higher.
+\end{quote}
+
+\noindent
+Esta errata enfraquece uma afirmacao do texto depositado. O custo de parametros ja aparece na
+p.~73, e a p.~84 ja nao credita o resultado de regiao ao tronco compartilhado. O que faltava era o
+limite nomeado e, agora, a medicao que o fecha.

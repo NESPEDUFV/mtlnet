@@ -1,0 +1,71 @@
+% !TeX root = ../main.tex
+%%==============================================================
+%% Chapter 4 -- Article 2 (CoUrb 2026 / SBRC). Re-typeset from the verified EN
+%% translation articles/CoUrb_2026/src_en/ (DOI 10.5753/courb.2026.22960).
+%% Every departure from the published text is logged in
+%% ../../src_utils/adaptation_ledgers/4_courb_ADAPTATION_LEDGER.md (feeds Appendix B).
+%% Audited numbers (ERRATA #1/#2) sourced from articles/CoUrb_2026/slides/judge_feedback.md.
+%% [2026-07-27] Spelling normalized: 26 sites "MTLNet" -> "MTLnet" (24 printed, 2 in comments),
+%% the form GLOSSARY.md:41 registers. "ST-MTLNet" (GLOSSARY.md:44) is a separate registered
+%% name and is unchanged, as is its expansion "Spatial-Temporal MTLNet". This count was taken
+%% BEFORE the chapter was split and counts comment occurrences; the printed-site count of record
+%% is in apx_b_errata.tex's Article 2 section, which also carries the Appendix B row.
+%% [round9c, PENDENCIAS_RESOLVIDOS 2.20 (arquivado 2026-08-02), author decision: option 2 ("2."), 2026-07-30] ORDINARY-ENGLISH ITALICS
+%% REMOVED from this chapter. His option 2, verbatim: "Remover o italico de vocabulario corrente
+%% (embedding, baseline, encoder e plurais), mantendo italico so em termo tecnico em primeiro uso."
+%% WHY the markup existed and why it had to go: the published article is in Portuguese, where
+%% italicizing an English loan word is correct practice. In an English chapter the same markup no
+%% longer marks a loan word; it reads as emphasis on a word that carries none, and the chapter
+%% contradicted itself (encoder italic 14 / roman 8, encoders 15 / 7, baseline 16 / 4, embedding 18 / 1).
+%% SCOPE, measured over live prose with comments stripped, all five section files plus the three table
+%% files: 101 macros removed across 21 ordinary words (embedding, embeddings, baseline, baselines,
+%% encoder, encoders, check-in(s), head(s), timestamp, timesteps, pipeline, framework, benchmark, bias,
+%% folds, dataset, grid). The chapter's italic total falls from 155 macros to 49, re-counted in
+%% live prose AFTER the edit rather than predicted from the arithmetic (155 - 101 = 54 would have been
+%% wrong by five: the skip-gram/negative-sampling pair and the self-glossing "random walks" gloss were
+%% handled separately, and the table files contribute).
+%% WHAT WAS DELIBERATELY KEPT ITALIC, because his option 2 keeps technical terms at first use: the
+%% named models and methods (Deep Graph Infomax, Hierarchical Graph Infomax, Spatial-Temporal MTLNet,
+%% Feature-wise Linear Modulation, Sinusoidal Representation Networks, Category-Aware Location
+%% Embedding, Long- and Short-Term Preference Modeling, Transformers, sphereM), the method-internal
+%% terms at first use (one-hot, skip-gram, negative sampling), the module names of the architecture
+%% figure (Shared Layers Module, Category Output, Next POI Output, Transformer encoder), the seven
+%% taxonomy category names, and the two frame task names in the preface. Those match the convention of
+%% the rest of the document, which sets ordinary vocabulary roman.
+%% ERRATA: recorded as a wording departure in Appendix B, since this is published prose.
+%%==============================================================
+% Short one-line display + TOC heading (see Ch.3 note). Full published title is in the preface.
+\chapter[ST-MTLNet: Spatio-Temporal POI Representations]{ST-MTLNet: Spatio-Temporal POI Representations for Multitask Learning}
+\label{ch:courb}
+
+\begin{chapterpreface}
+% [2026-10-02, PROPOSAL from the Fable reviews of the stable text, pending the author's ruling; frame, no errata] (8) "maps one-to-one onto" -> "each venue type maps to
+% exactly one of": 324 spot types map onto 7 categories in data/checkins/Florida.parquet (many-to-one),
+% and the leak needs only that the category is determined by the type; verified.
+This chapter is a translated reproduction of the paper ``ST-MTLNet: Representações Espaço-Temporais de Pontos de Interesse para Aprendizado Multitarefa,'' published in Portuguese in the Anais do X Workshop de Computação Urbana (CoUrb 2026, an SBRC workshop), pages 323 to 336, DOI 10.5753/courb.2026.22960 \cite{paiva2026stmtlnet}. This study and Chapter~\ref{ch:cbic} share one evaluation protocol, which stratifies the cross-validation split by sample rather than by user; the user-disjoint cross-validation of Chapter~\ref{ch:mobiwac} arrives only with the final study. The conclusions reported here are those of the time, for that configuration. This chapter isolates the representation effect with MTLnet as its only baseline; it does not revisit the MTL-versus-single-task question, which Chapter~\ref{ch:mobiwac} reopens. As in Chapter~\ref{ch:cbic}, the term ``Next-POI Prediction'' used here denotes the frame's \emph{next category} task (the category of the next visited place), not the exact-place task the dissertation calls \emph{next place}. After publication, we established that the input to this chapter's static task contains the label it predicts: each venue type maps to exactly one of the seven top-level categories across the Gowalla state subsets used, so the reported static-task accuracy measures that lookup rather than learned semantic inference. This does not affect the sequential task, whose input is a check-in history and whose target category is never present in that history; every claim this chapter makes about the sequential task, including the improvement the decomposed representation produces, is unaffected by this finding.
+% [2026-10-07, PROPOSAL from the final Fable audit, verified by the registry and re-verified by the writer; pending the author's ruling] F5: "stands as published" ->
+% "is unaffected by this finding": two sequential-task claims were corrected by errata (16 -> 15 of 21;
+% "consistently" -> "most"), so "as published" was false and clashed with the D10 sentence after it.
+% The preface is author-signed prose; his ruling is needed for this word change; verified.
+% [2026-10-06, AUTHOR-RULED D10; frame, no errata] The uniform closing sentence of the three prefaces is
+% added below; verified
+Corrections and clarifications to the published article were applied in this chapter.
+% [round3, author 3.5/MJ-8] same terminology bridge as the Ch.3 preface.
+% [NEEDS SIGN-OFF 18 | CLOSED] Author: "Ja revisei e esta tudo certo!"
+% NOTE FOR ANYONE EDITING THIS PREFACE: the sentence that used to point at "Appendix B of the
+% supplementary volume" is GONE -- the round-14 standalone rule removed supplementary-volume pointers
+% from all chapters, and the scope finding it pointed at is now folded in as prose here. Verified
+% 2026-08-04: no \extravolume and no "Appendix B" in this file's live text. Do not re-add a pointer;
+% state the fact instead. The preface is FRAME prose written for the dissertation, not translated
+% article text, so it carries no errata cost -- but it does speak about a co-authored result, which is
+% why it needed the author's signature and now has it.
+\end{chapterpreface}
+
+% SECTIONS, split into chapters/4_courb/ on 2026-07-28 at the author's request to match the
+% one-file-per-section layout of articles/CoUrb_2026/src_en/sections/. Purely mechanical: cut at
+% \section boundaries, no prose edited, and the order below IS the reading order.
+\input{chapters/4_courb/intro}
+\input{chapters/4_courb/related}
+\input{chapters/4_courb/methodology}
+\input{chapters/4_courb/results}
+\input{chapters/4_courb/conclusion}

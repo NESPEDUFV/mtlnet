@@ -1,0 +1,8 @@
+name: next_mamba
+domain: next
+status: ablated
+evidence_status: ablated
+registry_key: next_mamba
+runtime_class: models.next.next_mamba.head.NextHeadMamba
+runtime_file: src/models/next/next_mamba/head.py
+source_doc: docs/results/mtl_improvement/TIER01_RESULTS.md

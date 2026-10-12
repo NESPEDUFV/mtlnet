@@ -1,0 +1,13 @@
+name: mtlnet_crossattn_dualtower_catpriv
+domain: mtl
+status: implemented
+evidence_status: experimental
+registry_key: mtlnet_crossattn_dualtower_catpriv
+runtime_class: models.mtl.mtlnet_crossattn_dualtower_catpriv.model.MTLnetCrossAttnDualTowerCatPriv
+runtime_file: src/models/mtl/mtlnet_crossattn_dualtower_catpriv/model.py
+source_doc: docs/studies/mtl_improvement/CRITIQUE_TIER2_C25_2026-06-06.md
+notes: >
+  B-A3 (CRITIQUE §6.3) cat-private-tower ablation. Subclass of dualtower that also feeds
+  the CAT head its raw checkin sequence so cat can run a private tower (symmetric to reg).
+  Predicted NULL (cat is positive-transfer) — confirms the reg-needs-private / cat-wants-
+  shared asymmetry. Run with --cat-head next_stan_flow_dualtower.

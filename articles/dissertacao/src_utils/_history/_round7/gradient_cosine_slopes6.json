@@ -1,0 +1,58 @@
+{
+ "alabama": {
+  "mean_slope": -0.00090704,
+  "t_test_p": 0.0058,
+  "sign_test_p": 0.0625,
+  "sign_p_floor": 0.0625,
+  "n_folds": 5,
+  "n_negative": 5
+ },
+ "arizona": {
+  "mean_slope": -0.000122697,
+  "t_test_p": 0.5685,
+  "sign_test_p": 1.0,
+  "sign_p_floor": 0.0625,
+  "n_folds": 5,
+  "n_negative": 3
+ },
+ "california": {
+  "mean_slope": -5.29922e-05,
+  "t_test_p": 0.2403,
+  "sign_test_p": 0.375,
+  "sign_p_floor": 0.0625,
+  "n_folds": 5,
+  "n_negative": 4
+ },
+ "florida": {
+  "mean_slope": -1.65803e-05,
+  "t_test_p": 0.7108,
+  "sign_test_p": 0.8974,
+  "sign_p_floor": 0.0,
+  "n_folds": 60,
+  "n_negative": 29
+ },
+ "georgia": {
+  "mean_slope": -0.000272888,
+  "t_test_p": 0.047,
+  "sign_test_p": 0.0625,
+  "sign_p_floor": 0.0625,
+  "n_folds": 5,
+  "n_negative": 5
+ },
+ "istanbul": {
+  "mean_slope": -1.88463e-06,
+  "t_test_p": 0.9327,
+  "sign_test_p": 1.0,
+  "sign_p_floor": 0.0625,
+  "n_folds": 5,
+  "n_negative": 2
+ },
+ "texas": {
+  "mean_slope": 6.60486e-05,
+  "t_test_p": 0.5346,
+  "sign_test_p": 1.0,
+  "sign_p_floor": 0.0625,
+  "n_folds": 5,
+  "n_negative": 3
+ }
+}

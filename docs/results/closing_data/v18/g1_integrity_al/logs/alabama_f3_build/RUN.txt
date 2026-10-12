@@ -1,0 +1,6 @@
+start 2026-10-01 23:51:47 commit d01cd2a8 swap_used_MB=2393
+cmd: .venv/bin/python scripts/integrity_v2/build_study_repr.py --state alabama --cell TO_F3 --repr-seed 42 --epochs 500 --device cpu --encoder resln --forward-only --add-continuous-time --exclude-users-file results/g1/splits/alabama_split_seed0_fold3.json --study-root results/integ18_repr
+rc=0 wall=132s peakRSS_bytes=1442463744
+repo-write-guard OK
+end 2026-10-01 23:53:59
+DONE

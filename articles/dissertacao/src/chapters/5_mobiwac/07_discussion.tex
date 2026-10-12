@@ -1,0 +1,282 @@
+% !TeX root = ../../main.tex
+% ============================================================================
+% [2026-08-12] EVIDENCE BASE REPLACED. Read this before any comment below it.
+%
+% Every live value in this file comes from the v18 board:
+%   docs/results/closing_data/v18/joint_best_perfold.json   (24 joint cells, per fold)
+%   docs/studies/closing_data/v18/data/v18_results.json     (dedicated arms, per fold)
+%   docs/results/closing_data/v18_cosine/                   (Appendix F evidence)
+%
+% COMMENTS BELOW THIS BLOCK MAY DESCRIBE THE SUPERSEDED BOARD. They are kept because they
+% record real editorial decisions, and a decision does not stop being a decision when its
+% numbers change. Do NOT read their CELLS, COUNTS, or VERDICTS as current, and do not
+% restore a sentence from them without re-deriving it from the sources named above.
+% In particular, any "honesty rule" phrased as an invariant of the old ladder (category
+% beating at every dataset, region at four) is a record of what was once true, not a rule.
+% ============================================================================
+% chapters/5_mobiwac/07_discussion.tex -- one section of Chapter 5 (MobiWac 2026, accepted 2026-08-26; status comment updated 2026-09-01, AUT-35).
+% Split out of chapters/5_mobiwac.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/[mobiwac]/src/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Discussion and Limitations}
+\label{sec:mobiwac:discussion}
+
+A single model serves both tasks in one forward pass, on next region it outperforms the dedicated
+model at Texas and California, the two datasets with the largest region vocabularies, and at the
+other four it stays within the two-point margin registered before any result was read. On next
+category it outperforms the dedicated model at Florida, and the five remaining differences are not
+resolved, each of them bounded within half a point of zero. Throughout, the region output keeps its
+own private spatial path (Table~\ref{tab:mobiwac:results}; Figure~\ref{fig:mobiwac:deltas}). The
+practical reading is that one model replaces two while staying inside the margin the analysis plan
+set as the price worth paying, and does better than two where the region label space is largest.
+The four region cells inside that margin are all small deficits rather than ties, the largest of
+them $0.87$ Acc@10 points at Alabama, so the trade is a measured one and not a free substitution.
+
+% [2026-08-12, AUTHOR RULING] REWRITTEN, softer on the shared trunk and shorter. The author's
+% objection: the paragraph argued about the regional result from a trunk ablation that was not run
+% where that result lives. Checked, and it is right for a sharper reason than stated. The ablation
+% DID measure both tasks, but only at Alabama and Florida (docs/studies/closing_data/v18/
+% SWEEP_PLAN.md rows T1-T3: Alabama dcat -0.015 / dreg -0.138 and dcat -0.154 / dreg -0.004;
+% Florida dcat +0.002 / dreg +0.026). Texas and California, the two datasets that carry the region
+% advantage, have only a single-fold screen, and that study's own POSTPONED.md P4 records the gap
+% as "an inconclusive screen", warns in bold against citing the trunk conclusion as a general
+% claim, and states plainly that whether the trunk contributes anything at those two datasets
+% "remains unmeasured". Reasoning about the regional result from arms run elsewhere was the defect.
+% The paragraph now says what the evidence supports at the level it supports it: the shared
+% representation appears able to help, and settling it needs work this study did not do. No
+% per-dataset ablation numbers are quoted, because none of them were measured where the claim is.
+% [2026-10-02, PROPOSAL from the Fable reviews, pending the author's ruling; Ch.5 reproduced, Table B.5 row (the registry's)] (11) "the arms" -> "the compared models",
+% "those arms" -> "those models"; same word in 06_results ("both columns", "the place-level column") and
+% 05_setup (the "...rather than one fixed recipe" sentence removed, it restated the previous clause).
+The design gives the two tasks a shared representation while keeping a private spatial path for the
+region output. The evidence here does not separate their contributions. Where the trunk was isolated
+directly, the compared models moved both tasks by small amounts that a screen of that size cannot distinguish
+from noise, and those models were not run at the two datasets that carry the region advantage. The
+reading this supports is a cautious one: the shared representation appears able to help, and how much
+it helps is a question for further work rather than one this study settles. What can be stated
+without that work is narrower, and it is a claim about the model rather than about transfer between
+its tasks: this design, shared representation and private path together, produces a joint region
+output above two dedicated models at the two datasets with the largest region vocabularies.
+
+The category picture at Texas and California invites a specific hypothesis. Batch size was searched
+for the dedicated category model at every dataset and the learning rate at four of them, with both
+searched for the joint model at the smaller datasets; at Texas and California the joint model runs a configuration transferred from
+those searches rather than one validated on them. Texas carries the second-largest category deficit
+of the six ($-0.13$; Alabama's $-0.19$ is the largest, and it is a dataset where the joint model was
+searched), and California's is under a hundredth of a point. A search conducted for the joint model
+at those two datasets would test whether the transferred configuration is what holds their category
+output slightly below the dedicated model. Until it is run this remains a hypothesis rather than an
+explanation, and Alabama is a reminder that a searched dataset can show a deficit of the same size.
+
+A service could treat the model's top-ranked next regions as an anticipatory
+set: at California, ten regions out of $8{,}501$ contain the true next region $64.54$
+percent of the time, and at Texas, ten out of $6{,}553$ contain it $66.15$ percent of the time.
+Both figures are the joint model's next-region Acc@10 from
+Table~\ref{tab:mobiwac:results}, read here as a shortlist hit rate: a system that surfaced ten
+census tracts would be right about two times in three, over a candidate set three orders of
+magnitude larger. Where the shortlist misses, the geographic size of the error is the quantity that
+would matter to such a service, and measuring it requires the per-visit predictions that the
+evaluation path does not retain, so it is left to future work. This remains motivation, not a
+measured service result.
+% RATIO CLAUSE DELETED 2026-08-05, on the author's instruction to remove what is wrong in this section
+% ("exclusa e refaça os que estiver errado nessa sessão"). The deleted words were "over 500 times better
+% than picking ten at random". Four independent defects, any one of which is disqualifying:
+%   1. It is a DERIVED quantity stated in prose, which AGENT_GUARDRAILS §2 N2 forbids outright: "No mental
+%      arithmetic, rounding, aggregation, percentage conversion, or delta-taking in prose."
+%   2. Its only source in the repository is a PLANNING document, not a results record:
+%      articles/[mobiwac]/MOBILITY_SCIENCE_BRIDGE_PLAN.md:77-84 tabulates "California | 8,501 | 65.66% |
+%      0.12% | ~547x", and :88-93 is a "Ready-to-paste replacement" sentence carrying this very phrase. The
+%      chapter's declared source of truth (docs/studies/closing_data/RESULTS_BOARD.md) states no such ratio.
+%   3. It was computed from a SUPERSEDED value: the 547x uses 65.66 (seed 0), while the chapter reports
+%      65.69 (n=20). The prose paired a new numerator with a ratio derived from the old one, and the two
+%      round the same way, which is exactly why it survived review.
+%   4. Its denominator is the floor this project's own record tells the reader NOT to use.
+%      articles/[mobiwac]/BRIDGING_METRICS.md:21-22: "The headline reg Acc@10 (~60-77) should be read
+%      against the Markov-1 floor, not the ~1 % random floor." Counted in the JSON rather than trusted from
+%      a table: docs/results/P0/simple_baselines/california/next_region.json gives random acc10_mean
+%      0.0011768859597505001 and markov_1step_region acc10_mean 0.5208956360464413. Against the Markov-1
+%      floor the chapter itself adopts, this cell is not a multiple of 500.
+% AN HONESTY FLAG HAD ALREADY ANTICIPATED THIS EXACT SENTENCE and was never discharged:
+% science/storyline/archive/PROCESS_REVIEW.md sec. 06_honesty_under_pressure (flag F7) names the
+% "65.69%, 500x better than random" line as a temptation, usable only with its convention, and marks it
+% [VERIFY at adaptation].
+% WHAT IS NOT DELETED, and why: the 65.69 percent and the 8,501 are traced and correct, and the
+% enrichment OBSERVATION is real. Only the unsourced multiplier goes. Replacing it with a floor value
+% would be a new claim needing the author's sign-off, so it was not done here.
+% Swept for propagation before deleting: the ratio appears nowhere else in either text. The "547" hits in
+% tables/mobiwac/{results,datasets}.tex are Arizona's region count, 1,547 (checked, not assumed).
+% Probes: R13-noratio, R13-ratio-abs.
+
+% AUDIT NOTE 2026-08-04, no edit needed here, recorded so a later sweep does not "fix" a correct
+% sentence. The fold-partition correction of that date changed "over the same folds" in
+% 05_setup.tex, because a SEED changes the partition. This occurrence is different and is TRUE as
+% written: it compares the joint model against the dedicated models WITHIN one run, where both read
+% the same partition by construction. That is exactly the property the paired comparison relies on.
+% See articles/dissertacao/science/fold_partition_and_seeds.md §7 for the distinction.
+
+% [2026-08-12] FIRST LIMIT REFRAMED, author's decision (option b of two he was given). The clause it
+% replaces read: "our representation is trained once over all places; visits to places never seen
+% during training are the single effect that we cannot fully isolate. A planned follow-up trains it on
+% each fold's training places only and embeds unseen visits." Two reasons. (1) The forward-looking
+% promise was withdrawn: it commits to work this document does not carry. (2) The open-ended clause
+% was replaced by the measurement that exists, so the limit is bounded rather than merely disclosed.
+% The count does NOT move: five members stay five, and probe R13-limitcount needs no repointing.
+% NUMBERS: quoted from docs/studies/pre_freeze_gates/A4_RESULTS.md (AL/AZ/FL, seed 0, five folds
+% each) via Section~\ref{sec:mobiwac:setup-windows}'s paragraph, which stays the primary site of this
+% disclosure and carries the region residual. Region -0.33 to +0.01 Acc@10; category +0.27 to +0.29
+% macro-F1. The scope travels with the numbers, per the stats reviewer's finding on exactly this;
+% see docs/studies/pre_freeze_gates/A4_RESULTS.md for the per-dataset values. Delivered prose below
+% is left as it stands.
+% [2026-10-04, D2 PROPOSAL, Table B.5 row] First limit restated with the re-run's magnitudes (largest
+% absolute differences: 0.174 macro-F1 and 0.132 Acc@10, both at Arizona; g1_integrity_*), no dataset
+% count (author's rule), and without the pointer to a category-half qualification that the setup no
+% longer carries. "over all places" -> "over all users": the check, and the concern, are about users.
+% It stays a limit: the measurement is at one seed, on the dedicated models, at the datasets checked
+% (scope added 2026-10-05 after the cold read, which found "at most" readable as a bound on any fold);
+% verified.
+Four limits qualify these results. First, the representation is trained once over all users; a
+per-fold rebuild from training users only changed the dedicated models' five-fold means by at most
+$0.17$ macro-F1 and $0.13$ Acc@10 points, at one seed and at the datasets checked
+(Section~\ref{sec:mobiwac:setup-windows}).
+% [2026-09-08, AUTHOR-AUTHORIZED errata batch, Table B.5 item] "region half" -> "category half". The
+% Whole-dataset-training paragraph of 05_setup.tex qualifies the CATEGORY side (a graph built only
+% from training users covers 67-87% of the places); the region comparison reads region vectors
+% directly and carries no qualification. The article already says "category half"; the rest of the
+% sentence and the paragraph are unchanged.
+Second, epoch selection consults the fold that the score is
+then read on (Section~\ref{sec:mobiwac:setup-windows}), so every absolute score reported here is optimistic. The
+comparison between the joint model and the dedicated models is affected far less, for two reasons that we can state
+rather than assume: the selection rule is the same for both models on the same folds, an epoch chosen on validation and read
+% PARITY, 2026-08-05, after a reviewer found me calling the residual divergence between the two copies
+% "all expected and correct" when three of ten differences were prose, not label namespaces:
+%   1. this sentence joined two independent clauses with a comma, where the paper has two sentences. The
+%      splice arrived when the paper's two sentences were merged into one here on 2026-08-04 (commit
+%      9be36e8e); 80_discussion_audit.md item 1 flags it. Now split, matching the paper.
+%   2. "for two reasons we can state outright" against the paper's "that we can state rather than assume".
+%      Adopted the paper's wording, which is also the weaker and more honest of the two: "outright" asserts
+%      confidence the paragraph then qualifies two sentences later with "It does not follow that the bias
+%      cancels exactly".
+%   3. "Figure~\ref" against the paper's "Fig.~\ref" is a house-style difference between a dissertation and
+%      an ACM paper, and is LEFT divergent on purpose.
+% The remaining differences are the label namespace (sec:mobiwac:* against sec:*), the figure abbreviation
+% just noted, and "this chapter's claims" against "the paper's claims" (ERRATA.md:79-80). Verified by an
+% exhaustive sentence-then-word diff of the two live texts rather than asserted.
+on that fold, with each model selected on its own validation objective (Section~\ref{sec:mobiwac:results-part2}),
+and, for the category comparison, the dedicated model receives the wider search: batch size at all
+six datasets and the learning rate at four, against a joint-model search that covers four of the six
+and leaves Texas and California with a transferred configuration, while both sides of the region
+comparison run a fixed configuration (Section~\ref{sec:mobiwac:setup-windows} states the coverage
+per knob and dataset). Where the dedicated search is the wider of the two, the residual favors the
+dedicated model, which makes the reported category difference conservative there. At Florida and
+California, where the dedicated learning rate was not varied, the two searches are closer in extent
+and the reading does not apply; Florida is also the one dataset where the joint model outperforms on
+this task. It does not follow that the bias cancels exactly. Third, we do not
+% SCOPE NARROWED 2026-08-05. The sentence said "the dedicated model receives the wider search, a
+% per-dataset sweep over batch size and learning rate", unqualified, inside the paragraph that bounds the
+% optimistic-score bias for BOTH tasks. The sweep covers the dedicated CATEGORY model only, and this
+% chapter's own results section says so in the same words in both copies: 06_results.tex:95 (paper
+% 06_results.tex:50) -- "The dedicated category model is tuned per dataset over batch size and learning
+% rate (the dedicated region models use the strongest fixed configuration)". The primary record agrees:
+% docs/studies/closing_data/v17_completion/CEILINGS_N20_FINAL.md:41 is headed "Category ceiling -- recipe"
+% and no region-side sweep is recorded anywhere under v17_completion/.
+% WHY THIS MATTERED ENOUGH TO CHANGE: for the REGION comparison both sides run a fixed configuration, so
+% the "wider search" mitigation does not hold there, and the "therefore ... conservative" conclusion that
+% follows inherited the over-general scope. This is the same defect class as the "identically" correction
+% logged at ERRATA.md:139-148 -- a mitigation made to sound stronger than its evidence, which understates a
+% limitation. The conclusion is now attached to the comparison it is licensed for.
+% THE FIRST REASON IS UNCHANGED AND IS TRUE AS WRITTEN. "the selection rule is the same for both models on
+% the same folds" compares the two models within one run, where they share a partition by construction;
+% verified against science/fold_partition_and_seeds.md §7 during today's fold/seed sweep. Its narrowing to
+% "each model selected on its own validation objective" is the recorded decision at ERRATA.md:139-148 and
+% must survive any later edit.
+% "the comparator" was also replaced: it is unregistered, and GLOSSARY §2 registers "dedicated single-task
+% model" and forbids synonym cycling, which naming it a third way in one paragraph would be.
+% Probes: R13-sweepscope, R13-sweepscope2.
+build or evaluate a mobility-aware service; it is background motivation, and this chapter's claims are the
+prediction results themselves.
+% [2026-08-12, AUTHOR RULING] THE CAPACITY LIMIT IS WITHDRAWN, together with the appendix it pointed
+% at (the parameter-count control, now in the supplementary volume; the reasoning is at its former
+% include site in content.tex). The clause read, verbatim and preserved here rather than deleted:
+%   "Fourth, the joint model is the larger artifact (Section~\ref{sec:mobiwac:method-model}), so
+%    capacity is one variable the region comparison does not hold fixed.
+%    Appendix~\ref{apx:parameter-count-control} isolates it on the category task, where added width
+%    brings no gain."
+% The pointer could not survive the move, and the author's ruling is to drop the limit rather than
+% leave capacity named with no experiment bounding it.
+% THE COUNT MOVES WITH IT: five members become four, so "Five limits qualify these results" is now
+% "Four", and the former Fifth is renumbered Fourth. Probe R13-limitcount pins the count word and is
+% repointed in this same commit, with its reason recorded there.
+Fourth, each
+visit node in the representation graph draws on the visits that precede it, so a vector encodes the visit
+together with its own history; the graph does not pass information from a later visit back to an earlier
+one, in training or at readout, which is what keeps a node from carrying a feature of the target it is
+used to predict.
+% PUNCTUATION AND PARITY 2026-08-05. The dissertation copy joined two independent clauses with a comma
+% ("service, this is a background motivation"), a splice the paper copy does not have; both copies were
+% reflowed in 71d119ce and this one acquired the splice plus the words "this is a". Now a semicolon,
+% matching the paper.
+% "this chapter's claims" against the paper's "the paper's claims" is a DELIBERATE, RECORDED adaptation
+% (ERRATA.md:79-80), left divergent on purpose. It is one of exactly two documented differences between the
+% copies, the other being the label namespace (sec:mobiwac:* against sec:*).
+% [round6, COD-006 "identically"] RE-ANCHORED, READ, AND NARROWED. An earlier audit round recorded this
+% word as REFUTED, on the ground that the per-model selection objectives are disclosed elsewhere in the
+% chapter and the non-cancellation caveat is the next sentence. Both of those facts hold. The word still
+% overstates, for a reason that reading the sentence alone does not show: WHAT IT MODIFIES. It modifies
+% a mitigation, inside a limitations paragraph, whose job is to bound how far the optimistic-score bias
+% reaches into the joint-versus-dedicated comparison. A word that makes a mitigation sound stronger than
+% it is understates a limitation, and WRITING_LAW section 3 forbids that direction as firmly as it
+% forbids upgrading a result.
+% MEASURED, in this chapter: the two models are NOT selected identically. The selection rule stated in
+% the results section reads "each dedicated model at its task's best epoch, and the joint model at the
+% epoch selected by its joint validation score (the geometric mean of the two task metrics)". So the
+% PROCEDURE is shared (one saved model per fold, the epoch chosen on validation, the score read on that
+% same fold) and the OBJECTIVE differs by model. "Identically" asserted both. The replacement asserts
+% only the first, names the second, and points at the section that states it, so a reader meeting the
+% mitigation gets the asymmetry at the same time rather than eighteen pages earlier.
+% What is NOT changed: "on the same folds" is kept, since it is what makes the comparison paired; the
+% following sentence, "It does not follow that the bias cancels exactly", already carried the caveat and
+% is untouched; and the wider-search half of the mitigation is untouched. No number, no verb, no result.
+% Same edit in articles/[mobiwac]/src/sections/07_discussion.tex, with the paper's own sec:results-part2
+% label, per the under-review regime; logged in that article's ERRATA.md.
+% [NEEDS SIGN-OFF 29 | CLOSED 2026-08-04] The fixed-partition caveat is REMOVED, from this chapter and
+% from articles/[mobiwac]/src/sections/07_discussion.tex, on the author's explicit instruction.
+% ON THE RECORD, because the removal was made against the evidence rather than because of it: I checked
+% the claim and it was TRUE. STATISTICAL_PROTOCOL.md:183-190 states that the board freezes folds once,
+% and that the MTL-vs-STL comparison "is paired because [both] are evaluated on the same frozen overlap
+% folds -- this is what licenses the per-fold paired Wilcoxon (cat) and paired TOST (reg) at n=20". The
+% fixed partition is the CONDITION for the headline tests, not a defect. I recommended keeping the
+% sentence and explaining that; the author chose removal after being shown this. Recorded so a later
+% reader does not mistake the deletion for a correction of an error.
+% If a reviewer asks what the reported intervals cover, the answer is: variation across random
+% initializations, not across resampled user splits. The document no longer states this anywhere --
+% verified 2026-08-04 that 1_introduction.tex no longer carries the caveat either, so the two chapters
+% are at least consistent. An ERRATA.md row is owed in articles/[mobiwac]/ for the removal.
+% [v2 review, 2026-07-26] Fixed-partition caveat added here. Personas 09 (statistical consequence)
+% and 04 (concordance seam) independently reported that 1_introduction.tex:246-247 carries this
+% caveat while Chapter 5, which reports the intervals, did not. Source: STATISTICAL_PROTOCOL.md
+% :187-190 (one frozen fold partition shared across all arms and seeds). No number introduced;
+% the sentence states the scope of the existing intervals, it does not requalify any of them.
+% [REV-003, 2026-07-26] Adapted from the drafted sentence at
+% src_utils/_history/_review_v1/09_stats_leakage_skeptic_report.md:294-307 (finding B4). Two deliberate
+% departures from that draft, both weakening it:
+%  (a) the draft says the comparison "is unaffected ... and the bias cancels in the difference".
+%      Exact cancellation is not demonstrated anywhere in the record, so the text says the
+%      comparison carries far less of the bias and adds an explicit non-cancellation sentence.
+%  (b) the two supporting facts are the ones that ARE verifiable. Identical rule across arms:
+%      src/training/runners/category_cv.py:97 and next_cv.py:195 both evaluate on val_loader at
+%      that task's own best_state, matching the joint runner's val-selected checkpoint
+%      (mtl_cv.py:_compute_joint_selectors, geom_simple). Wider dedicated search: the per-dataset
+%      batch-size x learning-rate sweep of docs/studies/closing_data/v17_completion/
+%      CEILINGS_N20_FINAL.md:41-53, already disclosed in this chapter at the Table 3 lead-in.
+% No number is introduced. "Two limits" -> "Three limits" is the only other change.
+% [round5, MobiWac GLOSSARY §3] "arm" is on the never-use list there ("clinical-trial word,
+% foreign to this audience"), and I had introduced it in this round's own limitation sentence.
+% Replaced with "both models" / "the dedicated model", the glossary's substitution.
+
+Our representation is a fixed per-visit vector that any downstream model
+can consume. Moura et al.~\cite{moura2025mobilityaware}, whose structural
+analysis of tourist check-ins reads past visits only, name machine learning
+as a next step; this study moves in that direction.

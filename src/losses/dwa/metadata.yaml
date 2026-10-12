@@ -1,0 +1,8 @@
+name: dwa
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: dwa
+runtime_class: losses.dwa.loss.DWALoss
+runtime_file: src/losses/dwa/loss.py
+source_doc: ""

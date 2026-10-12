@@ -1,0 +1,35 @@
+[materialize] arizona: wrote /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_fullcpu/arizona/input/next.parquet (200895 of 200895 source windows, dim=64)
+FULL_CPU arizona OK: unrestricted build, n_windows=200895, rows/labels equal to delivered v18, best_epoch=498
+[split] arizona seed=0 fold=0: train 160716 rows / 1706 users, val 40179 rows / 430 users -> results/g1/splits/arizona_split_seed0_fold0.json
+A5 OK arizona f0: n_val_rows=40179 n_val_users=430
+A1/A2 OK arizona f0: excluded=430 kept_checkins=192401 best_epoch=500
+[materialize] arizona: wrote /Volumes/Vitor's SSD/ingred_g1/output/check2hgi_v18_to_f0/arizona/input/next.parquet (200895 of 200895 source windows, dim=64)
+A4 OK arizona f0: n_windows=200895
+A5 OK arizona f0: n_val_rows=40179 n_val_users=430
+A1/A2 OK arizona f0: excluded=430 kept_checkins=192401 best_epoch=500
+A4 OK arizona f0: n_windows=200895
+region record OK arizona f0: remap={'full_regions': 1547, 'trainonly_regions': 1527, 'absent_from_train': 20}
+[split] arizona seed=0 fold=1: train 160716 rows / 1715 users, val 40179 rows / 421 users -> results/g1/splits/arizona_split_seed0_fold1.json
+A5 OK arizona f1: n_val_rows=40179 n_val_users=421
+A5 OK arizona f1: n_val_rows=40179 n_val_users=421
+A1/A2 OK arizona f1: excluded=421 kept_checkins=192482 best_epoch=500
+A4 OK arizona f1: n_windows=200895
+region record OK arizona f1: remap={'full_regions': 1547, 'trainonly_regions': 1532, 'absent_from_train': 15}
+[split] arizona seed=0 fold=2: train 160716 rows / 1706 users, val 40179 rows / 430 users -> results/g1/splits/arizona_split_seed0_fold2.json
+A5 OK arizona f2: n_val_rows=40179 n_val_users=430
+A1/A2 OK arizona f2: excluded=430 kept_checkins=192401 best_epoch=484
+A4 OK arizona f2: n_windows=200895
+region record OK arizona f2: remap={'full_regions': 1547, 'trainonly_regions': 1525, 'absent_from_train': 22}
+[split] arizona seed=0 fold=3: train 160716 rows / 1707 users, val 40179 rows / 429 users -> results/g1/splits/arizona_split_seed0_fold3.json
+A5 OK arizona f3: n_val_rows=40179 n_val_users=429
+A1/A2 OK arizona f3: excluded=429 kept_checkins=192410 best_epoch=496
+A4 OK arizona f3: n_windows=200895
+region record OK arizona f3: remap={'full_regions': 1547, 'trainonly_regions': 1523, 'absent_from_train': 24}
+[split] arizona seed=0 fold=4: train 160716 rows / 1710 users, val 40179 rows / 426 users -> results/g1/splits/arizona_split_seed0_fold4.json
+A5 OK arizona f4: n_val_rows=40179 n_val_users=426
+A1/A2 OK arizona f4: excluded=426 kept_checkins=192437 best_epoch=494
+A4 OK arizona f4: n_windows=200895
+A5 OK arizona f4: n_val_rows=40179 n_val_users=426
+A1/A2 OK arizona f4: excluded=426 kept_checkins=192437 best_epoch=494
+A4 OK arizona f4: n_windows=200895
+region record OK arizona f4: remap={'full_regions': 1547, 'trainonly_regions': 1524, 'absent_from_train': 23}

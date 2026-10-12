@@ -1,0 +1,26 @@
+{
+  "n_users": 10460,
+  "n_poi": 64454,
+  "n_checkins": 960520,
+  "basis": "filtered",
+  "status": "approx",
+  "_status_meaning": "recomputed from a real repo artifact (filtrado.csv, the CBIC-era DGI input) AND cross-checked against CoUrb; NOT the lat/lon bounding-box fallback. Marked 'approx' (not 'verified') because current ETL code cannot reproduce these exact counts (category-mapping drift) and the raw-vs-filtered basis needs author sign-off.",
+  "recommended_source": "articles/../data/output/florida_dgi.zip :: florida_test/filtrado.csv (CBIC-era DGI Florida input)",
+  "n_checkins_distinct": 959693,
+  "alt_fresh_etl_raw": {
+    "n_users": 21052,
+    "n_poi": 76544,
+    "n_checkins": 1407034
+  },
+  "alt_fresh_etl_filtered_lt5": {
+    "n_users": 13935,
+    "n_poi": 76266,
+    "n_checkins": 1392262
+  },
+  "courb_crosscheck_not_a_source": {
+    "n_users": 20301,
+    "n_poi": 65009,
+    "n_checkins": 990518
+  },
+  "verdict": "VERIFY-still-needed"
+}

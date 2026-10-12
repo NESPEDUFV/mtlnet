@@ -1,0 +1,26 @@
+{
+  "study": "integrity_v18_region_half",
+  "generated_utc": "2026-10-04T15:57:42.206509+00:00",
+  "command": "scripts/pre_freeze_gates/a4_build.py --state florida --seed 0 --fold 2 --split-json results/g1/splits/florida_split_seed0_fold2.json --device cpu --cleanup-pseudo",
+  "state": "florida",
+  "seed": 0,
+  "fold": 2,
+  "split_json": "results/g1/splits/florida_split_seed0_fold2.json",
+  "split_engine": "check2hgi_dk_ovl",
+  "split_val_idx_sha256": "7daf5f7d0eb1f54a8e677a81242044dab17673c29b3918348d9eb9a2def7048f",
+  "n_excluded_users": 2132,
+  "val_users_sha256": "a7d4117e7eab7d8e9a52d06cbf8a3cbfb932652951284c79fb461fb53c583ce4",
+  "val_users_in_training_checkins": 0,
+  "n_train_checkins": 1132962,
+  "n_checkins_full": 1407034,
+  "builder": "build_design_k_delaunay.py",
+  "epochs": 500,
+  "device": "cpu",
+  "base_engine": "check2hgi_design_k_resln_mae_l0_1",
+  "pseudo_state": "florida_a4dk_s0_f2",
+  "remap": {
+    "full_regions": 4703,
+    "trainonly_regions": 4655,
+    "absent_from_train": 48
+  }
+}

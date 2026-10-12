@@ -1,0 +1,8 @@
+name: gradnorm
+domain: losses
+status: implemented
+evidence_status: implemented
+registry_key: gradnorm
+runtime_class: losses.gradnorm.GradNormLoss
+runtime_file: src/losses/gradnorm/loss.py
+source_doc: ""

@@ -1,0 +1,5 @@
+# Copias do checker vivo que selftest_all.py escreve em <arvore>/src_utils/ a cada corrida
+# (run_in: "The script is therefore COPIED into <tree>/src_utils/"). Sao artefactos de execucao:
+# rastreadas, envelheciam em silencio e cada corrida sujava o git. Os ficheiros de fixture a
+# serio (src/, VERIFY_LIST.md, PENDENCIAS.md) continuam rastreados.
+*/*/src_utils/check_*.py

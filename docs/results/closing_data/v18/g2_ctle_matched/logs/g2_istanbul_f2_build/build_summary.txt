@@ -1,0 +1,14 @@
+[fold 2 seed 0] train_users=11646 val_users=2884 disjoint=True
+  CTLE pretrain: vocab=29947 train_trajs=12706 (of 25021 total) device=mps epochs=10
+    epoch 1/10  loss=11.5695 mlm=8.7236 mh=2.8459
+    epoch 2/10  loss=9.9439 mlm=7.9688 mh=1.9752
+    epoch 3/10  loss=9.3229 mlm=7.8088 mh=1.5141
+    epoch 4/10  loss=9.0907 mlm=7.7507 mh=1.3400
+    epoch 5/10  loss=8.9169 mlm=7.6737 mh=1.2432
+    epoch 6/10  loss=8.8395 mlm=7.6544 mh=1.1850
+    epoch 7/10  loss=8.7466 mlm=7.6173 mh=1.1293
+    epoch 8/10  loss=8.6486 mlm=7.5785 mh=1.0701
+    epoch 9/10  loss=8.5606 mlm=7.5160 mh=1.0446
+    epoch 10/10  loss=8.4934 mlm=7.4908 mh=1.0026
+  embeddings.parquet -> /Users/vitor/g2_scratch/output/check2hgi_ctle/istanbul/embeddings.parquet (rows=464362, vocab=29947)
+  fold 2: next rows=271666 next_region rows=271666 aligned=True

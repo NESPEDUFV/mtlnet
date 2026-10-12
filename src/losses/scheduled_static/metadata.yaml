@@ -1,0 +1,8 @@
+name: scheduled_static
+domain: losses
+status: ablated
+evidence_status: ablated
+registry_key: scheduled_static
+runtime_class: losses.scheduled_static.loss.ScheduledStaticWeightLoss
+runtime_file: src/losses/scheduled_static/loss.py
+source_doc: docs/findings/F50_T4_FINAL_SYNTHESIS.md

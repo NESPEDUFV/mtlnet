@@ -1,0 +1,8 @@
+start 2026-10-02 06:53:28 commit d01cd2a8 swap_used_MB=3072
+cmd: env RESULTS_ROOT=/Volumes/Vitor's SSD/ingred_g1/results/g2_ctle/alabama_f2/run OMP_NUM_THREADS=4 .venv/bin/python scripts/train.py --task next --engine check2hgi_ctle --state alabama --seed 0 --only-fold 2 --cat-head next_gru --epochs 50 --batch-size 2048
+waiting for heavy lock 06:53:28
+heavy lock acquired 06:53:28
+rc=0 wall=169s peakRSS_bytes=3089580032
+repo-write-guard OK
+end 2026-10-02 06:56:18
+DONE

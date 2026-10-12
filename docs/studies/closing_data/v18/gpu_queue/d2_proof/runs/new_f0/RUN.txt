@@ -1,0 +1,2 @@
+start 2026-10-03 19:43:09 clone=new commit=f0fca061 patched=yes fold=0
+rc=0 peakRSS_bytes=2150449152 max_wired_GB=7.9

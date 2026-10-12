@@ -1,0 +1,8 @@
+name: category_linear
+domain: category
+status: implemented
+evidence_status: implemented
+registry_key: category_linear
+runtime_class: models.category.category_linear.head.CategoryHeadLinear
+runtime_file: src/models/category/category_linear/head.py
+source_doc: ""

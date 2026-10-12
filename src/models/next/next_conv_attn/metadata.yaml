@@ -1,0 +1,8 @@
+name: next_conv_attn
+domain: next
+status: implemented
+evidence_status: implemented
+registry_key: next_conv_attn
+runtime_class: models.next.next_conv_attn.head.NextHeadConvAttn
+runtime_file: src/models/next/next_conv_attn/head.py
+source_doc: ""

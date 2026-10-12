@@ -1,0 +1,283 @@
+{
+  "_meta": {
+    "generated_by": "repo survey, read-only except the two named output files",
+    "repo_root": "/Users/vitor/Desktop/mestrado/ingred",
+    "principle": "every number below came from a command run this session; see 'command' fields",
+    "git_commits_HEAD": 1692,
+    "git_commits_command": "git rev-list --count HEAD",
+    "package": {
+      "name": "mtlnet",
+      "version": "0.1.0",
+      "requires_python": ">=3.12,<3.13",
+      "declared_deps_count": 28,
+      "source": "pyproject.toml / requirements.txt (grep -vc '^#|^$')"
+    }
+  },
+  "etl_gowalla": {
+    "entrypoint": "pipelines/etl/gowalla.pipe.py -> src/etl/gowalla/main.py::run()",
+    "n_stages": 3,
+    "stage_files": [
+      "src/etl/gowalla/stage_1.py",
+      "src/etl/gowalla/stage_2.py",
+      "src/etl/gowalla/stage_3.py"
+    ],
+    "stage_loc": {
+      "stage_1": 179,
+      "stage_2": 103,
+      "stage_3": 103,
+      "main": 146
+    },
+    "gowalla_family_files": 7,
+    "gowalla_family_loc": 543,
+    "command_family": "find src/etl/gowalla -name '*.py' -not -path '*/__pycache__/*' | wc -l ; cat | wc -l",
+    "us_state_partition_files_on_disk": 56,
+    "us_state_partition_breakdown": {
+      "states_50": 50,
+      "district_of_columbia": 1,
+      "territories": 5
+    },
+    "us_state_partition_command": "cd /Users/vitor/Desktop/mestrado/data/checkins_by_state ; find . -maxdepth 1 -type f -name '*.parquet' | wc -l  == 58 total, minus Nyc + Istanbul (non-US) = 56",
+    "territories_present": [
+      "American Samoa",
+      "Commonwealth of the Northern Mariana Islands",
+      "Guam",
+      "Puerto Rico",
+      "United States Virgin Islands"
+    ],
+    "non_us_files_in_same_dir": [
+      "Nyc.parquet",
+      "Istanbul.parquet"
+    ],
+    "symlink_variant_files": 9,
+    "last_run_log_evidence": {
+      "source": "label_categories.log (root, timestamped 2026-07-23)",
+      "raw_checkins_loaded": 36001959,
+      "duplicates_removed": 43599,
+      "super_category_map_entries": 398,
+      "after_poi_merge": 35958080,
+      "final_categorised_checkins": 35620879,
+      "us_state_match_pct": 51.22
+    },
+    "category_mapping": "hierarchical Gowalla spot_categories (super/sub/sub-sub) + callback_categories.json + extra_categories.json, mapped down to 7 top-level classes (docs/context/TASKS.md)",
+    "csv_vs_parquet_note": "src/etl/gowalla/stage_3.py as currently written emits per-state CSV (the per-state .to_parquet line is commented out, line 98); IoPaths defines both a 'checkins' (CSV) and a 'checkins_parquet' dir. The 56 US-level .parquet files on disk evidence the state partition cardinality but were not produced by the current stage_3 code path as written."
+  },
+  "etl_families": {
+    "count": 3,
+    "families": {
+      "gowalla": {
+        "files": 7,
+        "loc": 543,
+        "stages": 3,
+        "scope": "US states (56-way spatial partition)"
+      },
+      "massive_steps": {
+        "files": 6,
+        "loc": 573,
+        "stages": 2,
+        "scope": "15 cities incl Istanbul (src/etl/massive_steps/main.py docstring)"
+      },
+      "foursquare": {
+        "files": 6,
+        "loc": 349,
+        "stages": 2,
+        "scope": "2 cities: nyc, tokyo (TIST2015)"
+      }
+    },
+    "src_etl_total_files": 23,
+    "src_etl_total_loc": 2315
+  },
+  "embeddings": {
+    "engines_with_code": 8,
+    "engine_dir": "research/embeddings/",
+    "engines": {
+      "check2hgi": {
+        "files": 10,
+        "loc": 5240,
+        "level": "check-in",
+        "pipeline_wrapper": true
+      },
+      "hgi": {
+        "files": 10,
+        "loc": 2201,
+        "level": "POI",
+        "pipeline_wrapper": true
+      },
+      "space2vec": {
+        "files": 6,
+        "loc": 1939,
+        "level": "POI",
+        "pipeline_wrapper": true
+      },
+      "sphere2vec": {
+        "files": 5,
+        "loc": 1205,
+        "level": "POI",
+        "pipeline_wrapper": true
+      },
+      "hmrm": {
+        "files": 3,
+        "loc": 981,
+        "level": "POI",
+        "pipeline_wrapper": false
+      },
+      "time2vec": {
+        "files": 6,
+        "loc": 706,
+        "level": "check-in",
+        "pipeline_wrapper": true
+      },
+      "poi2hgi": {
+        "files": 3,
+        "loc": 513,
+        "level": "POI",
+        "pipeline_wrapper": true
+      },
+      "dgi": {
+        "files": 6,
+        "loc": 486,
+        "level": "POI",
+        "pipeline_wrapper": true
+      }
+    },
+    "total_loc": 13271,
+    "total_loc_command": "find research/embeddings -name '*.py' -not -path '*/__pycache__/*' | xargs cat | wc -l",
+    "pipeline_wrappers_count": 7,
+    "pipeline_wrappers_dir": "pipelines/embedding/",
+    "doc": "docs/context/EMBEDDINGS.md documents all 8 engines (matches code); HMRM alone has no pipeline wrapper."
+  },
+  "mtl_optimizers": {
+    "registered_canonical": 21,
+    "aliases": 3,
+    "registry_file": "src/losses/registry.py",
+    "loss_subdirs_with_loss_py": 21,
+    "loss_subdirs_command": "find src/losses -maxdepth 1 -mindepth 1 -type d -not -name __pycache__ | wc -l",
+    "src_losses_total_loc": 2435,
+    "canonical_keys": [
+      "nash_mtl",
+      "equal_weight",
+      "static_weight",
+      "scheduled_static",
+      "uncertainty_weighting",
+      "uw_so",
+      "random_weight",
+      "famo",
+      "fairgrad",
+      "bayesagg_mtl",
+      "go4align",
+      "excess_mtl",
+      "stch",
+      "db_mtl",
+      "cagrad",
+      "aligned_mtl",
+      "dwa",
+      "focal",
+      "pcgrad",
+      "gradnorm",
+      "naive"
+    ],
+    "alias_keys": {
+      "rlw": "random_weight",
+      "bayesagg": "bayesagg_mtl",
+      "excessmtl": "excess_mtl"
+    },
+    "doc_vs_code": "docs/context/MTL_OPTIMIZERS.md states '20 canonical + 3 aliases'; the registry has 21 canonical + 3 aliases. The undocumented extra is 'scheduled_static' (src/losses/scheduled_static/loss.py, 119 LOC)."
+  },
+  "mtl_architectures": {
+    "backbone_dirs_with_model_py": 13,
+    "dir": "src/models/mtl/",
+    "keys": [
+      "mtlnet",
+      "mtlnet_cgc",
+      "mtlnet_mmoe",
+      "mtlnet_dselectk",
+      "mtlnet_ple",
+      "mtlnet_crossattn",
+      "mtlnet_crossattn_dualtower",
+      "mtlnet_crossattn_dualtower_catpriv",
+      "mtlnet_crossattn_dualtower_swiglu",
+      "mtlnet_crossattn_mult",
+      "mtlnet_crossattn_swiglu",
+      "mtlnet_crossattn_xstitch",
+      "mtlnet_crossstitch"
+    ],
+    "doc_vs_code": "docs/context/MTL_ARCHITECTURES.md documents 5 (mtlnet, cgc, mmoe, dselectk, ple); the code has 13 backbones. The 8 extra are the cross-attention family + cross-stitch (undocumented in that .md)."
+  },
+  "model_registry": {
+    "registered_models_total": 43,
+    "command": "grep -rn '^@register_model(' src/models --include='*.py' | wc -l",
+    "breakdown": {
+      "category_heads": 9,
+      "next_heads": 21,
+      "mtl_backbones": 13
+    },
+    "registry_file": "src/models/registry.py",
+    "note": "'my_model' in registry.py is a docstring example, NOT counted; the 2 next_getnext_hard* dirs are legacy aliases that still register."
+  },
+  "cross_validation_and_metrics": {
+    "folds_file": "src/data/folds.py",
+    "folds_loc": 1633,
+    "stratified_group_kfold_refs": 11,
+    "protocol": "StratifiedGroupKFold user-disjoint; MTL fold pairing on shared user partition; per-fold region-transition prior (leak-free)",
+    "default_seed": 42,
+    "default_seed_source": "src/configs/experiment.py",
+    "multiseed_pool": [
+      0,
+      1,
+      7,
+      100
+    ],
+    "multiseed_pool_source": "referenced in scripts/mtl_improvement/*.py",
+    "metrics_file": "src/tracking/metrics.py",
+    "metrics_implemented": [
+      "macro-F1 (compute_classification_metrics)",
+      "top-k accuracy (_top_k_accuracy, incl Acc@10)",
+      "MRR (_mean_reciprocal_rank)",
+      "nDCG (_ndcg_at_k)"
+    ],
+    "significance_tests": {
+      "paired_wilcoxon": "scripts/analysis/*.py",
+      "tost": "scripts/finalize_phase3.py, scripts/analysis/substrate_paired_test.py"
+    },
+    "docs": "DATA_SPLITS.md + METRICS.md match the code."
+  },
+  "scale_totals": {
+    "src_python_modules": 192,
+    "src_python_modules_command": "find src -name '*.py' -not -path '*/__pycache__/*' | wc -l",
+    "src_total_loc": 28644,
+    "src_total_loc_command": "find src -name '*.py' -not -path '*/__pycache__/*' | xargs wc -l | tail -1",
+    "src_loc_by_subdir": {
+      "models": 6931,
+      "training": 4735,
+      "data": 4325,
+      "tracking": 3062,
+      "losses": 2435,
+      "etl": 2315,
+      "ablation": 1850,
+      "configs": 1706,
+      "utils": 995,
+      "tasks": 289
+    },
+    "research_embeddings_loc": 13271,
+    "scripts_py": 264,
+    "scripts_py_command": "find scripts -name '*.py' | wc -l",
+    "scripts_loc": 48981,
+    "scripts_subdirs": 17,
+    "tests_py": 114,
+    "tests_loc": 22998,
+    "tests_command": "find tests -name '*.py' -not -path '*/__pycache__/*' | wc -l"
+  },
+  "reproducibility_surface": {
+    "configs": [
+      "params.yaml (DVC params)",
+      "src/configs/experiment.py (seed=42, TaskSet presets)",
+      "pyproject.toml (mtlnet 0.1.0)",
+      "requirements.txt (28 deps)"
+    ],
+    "dvc_pipeline": "dvc.yaml (generate_inputs -> train stages)",
+    "pipeline_wrappers": "pipelines/ (etl/, embedding/, train/, fusion.pipe.py, create_inputs*.pipe.py)",
+    "run_entrypoint": "scripts/train.py (+ 264 scripts across 17 subdirs)",
+    "results_board": "docs/results/RESULTS_TABLE.md + docs/results/ subdirs",
+    "tests": "114 test modules / 22,998 LOC, pytest.ini",
+    "tasks_presets": "src/tasks/presets.py (legacy category+next; check2hgi next+region)"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "summary": {
+    "cat@20ep/alabama": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        30.942569971084595,
+        30.99488139152527,
+        30.993703603744507,
+        30.963957905769348
+      ],
+      "mean": 30.97377821803093,
+      "std_over_seeds": 0.025250466251440354,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 185.13
+    },
+    "cat@50ep/alabama": {
+      "metric": "f1",
+      "lane": "diag_best",
+      "seeds": [
+        0,
+        1,
+        7,
+        100
+      ],
+      "seed_means": [
+        30.726868510246277,
+        30.574377179145813,
+        30.58144211769104,
+        30.596688985824585
+      ],
+      "mean": 30.61984419822693,
+      "std_over_seeds": 0.0719544690254883,
+      "n_seeds": 4,
+      "n_folds_total": 20,
+      "wall_seconds": 459.03
+    }
+  },
+  "performance": {
+    "cells": [
+      {
+        "cell": "cat/alabama/seed0",
+        "wall_seconds": 46.28,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed0",
+        "wall_seconds": 114.62,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed1",
+        "wall_seconds": 46.269999999999996,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed1",
+        "wall_seconds": 114.11,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed100",
+        "wall_seconds": 46.28,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed100",
+        "wall_seconds": 115.48,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed7",
+        "wall_seconds": 46.3,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      },
+      {
+        "cell": "cat/alabama/seed7",
+        "wall_seconds": 114.82,
+        "train_seconds": 0.0,
+        "val_seconds": 0.0,
+        "unaccounted_share": 1.0,
+        "has_diagnostics": true,
+        "peak_memory_gb": 0.0,
+        "mean_best_epoch": null
+      }
+    ],
+    "total_wall_seconds": 644.16,
+    "total_train_seconds": 0.0,
+    "total_val_seconds": 0.0
+  }
+}

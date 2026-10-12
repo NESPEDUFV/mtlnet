@@ -1,0 +1,99 @@
+% !TeX root = ../../main.tex
+% chapters/5_mobiwac/04_method.tex -- one section of Chapter 5 (MobiWac 2026, accepted 2026-08-26; status comment updated 2026-09-01, AUT-35).
+% Split out of chapters/5_mobiwac.tex on 2026-07-28 (author request: the paper
+% chapters were single long files, while the originals under articles/[mobiwac]/src/sections/
+% are one file per section). The split is PURELY MECHANICAL: content was cut at
+% \section boundaries and not edited. The chapter file now \inputs these in order.
+% Editing rules are unchanged and still governed by the chapter's status above:
+% see NORTH_STAR section 4 before changing any sentence here.
+\section{Method}
+\label{sec:mobiwac:method}
+
+\subsection{The check-in-level representation}
+\label{sec:mobiwac:method-rep}
+
+We want each visit, not each place, to have its own vector; we call the resulting representation Check2HGI (Section~\ref{sec:mobiwac:related-embeddings}).
+Figure~\ref{fig:mobiwac:dataflow} shows the full data flow, from check-ins to the two outputs.
+
+We build a graph with four levels: the check-in, its place, the place's region (a census tract), and the city. Edges connect each level to the one above it and link a user's consecutive check-ins with a weight that decays as the time gap between the visits grows; same-place visits connect through their shared place node one level up, and nearby places are linked at the place level. Each visit's category, time of day, and day of week enter as input features of its node, not as edges. Four elapsed-time features join them: the time since the user's previous visit and since the user's first visit, both on a logarithmic scale, the gap to the previous visit within the same day, and an indicator for a user's first visit. Each is measured up to the visit itself, so a node describes the visit and the history preceding it, never anything that follows. These give the representation a sense of tempo, distinguishing a visit that follows minutes after the last one from a visit that opens a new outing, which a categorical hour-and-weekday encoding alone cannot express. The consecutive-visit edges run in one direction only, from an earlier visit to a later one, for the same reason: a target is predicted from a user's past, so the representation is built from the past alone. This keeps a hierarchical graph's place-to-region-to-city geography and adds the check-in as a bottom level. We train the graph mainly with an infomax objective, under which each vector learns to match its real neighborhood and reject a shuffled one~\cite{velickovic2019deep,huang2023hgi}. Two small label-free auxiliary terms are added (weights 0.3 and 0.1): a masked reconstruction of each place's aggregated category
+features, and an anchor to a place embedding pre-trained, label-free,
+on the same data. The training
+uses no task label: it
+% [2026-09-30, AUTHOR RULING, Table B.5 row (with the spatial-stream sentence below)] Parenthetical
+% "(its region nodes have trained vectors as well)" dropped: it set up a region table of this graph,
+% and the region table the model reads is the fixed shared one named in the spatial-stream sentence.
+never sees the next category or the next region. From the trained graph, we extract one 64-dimensional vector per check-in, so a model sees a sequence of per-visit vectors rather than repeated per-place ones.
+
+\subsection{The single multitask model}
+\label{sec:mobiwac:method-model}
+
+% [2026-09-30, AUTHOR-APPROVED wording, Table B.5 row] Spatial-stream sentence: "the trained vector
+% of its region node, read from an earlier build of the same graph design" -> "a pretrained region
+% vector, taken from a region table held fixed and shared by the joint and dedicated models". States
+% the delivered method (the region table is one fixed artifact read by both arms) with no build
+% history. Same change in 06_results.tex's parenthetical.
+We then train one model that reads a window of recent per-visit vectors and predicts the next visit's category and region at once. Figure~\ref{fig:mobiwac:model} shows the design. Each task has its own input. The category task reads the window of per-visit vectors (the semantic stream); the region task reads the same window of visits, each visit now represented by a pre-trained region vector, taken from a region table held fixed and shared by the joint and dedicated models (the spatial stream). Both pass through private
+per-task encoders (a small input network per task, with no shared weights) into the shared trunk, a cross-attention stack of two blocks, so each prediction still uses both inputs. In each block, attention lets each
+stream read the other's features, while each keeps its own feed-forward
+weights. The tasks therefore share by exchanging information between per-task
+streams, not by owning hidden layers in common. The trunk then feeds a category output and a region output; the region output also keeps a private spatial path: a small branch inside the one model (not a second model) that reads the spatial input window, bypassing the shared trunk. The category task does not touch this branch. Together, the region task's encoder, its output, and this private path form the region pathway.
+
+The training loss is a fixed-weight sum of the two outputs,
+\begin{equation}\label{eq:mobiwac:loss}
+L = 0.5\,L_{\mathrm{cat}} + 0.5\,L_{\mathrm{reg}},
+\end{equation}
+where $L_{\mathrm{reg}}$ is a plain unweighted cross-entropy loss and $L_{\mathrm{cat}}$ is a
+% [2026-09-04, AUTHOR-APPROVED ("vamos adicionar a citacao do Menon no bib e no texto"), errata
+% Table B.5 of the supplement] Citation only: the published article uses logit adjustment in its
+% delivered results and never cites its source. Key menon2021logitadjustment verified at the arXiv
+% record of 2007.07314 (ICLR 2021) by the registry; no DOI exists at Crossref, do not add one from an
+% aggregator. Method description unchanged by instruction.
+cross-entropy loss with logit adjustment~\cite{menon2021logitadjustment}: $\tau\log P_{\mathrm{train}}(y)$, with $\tau=0.5$, is added
+to the category logits during training only, which shifts the decision boundary toward the balanced
+posterior that macro-F1 rewards. Inference uses the unadjusted logits. The weights and $\tau$ were
+selected once on validation during development and held fixed across all six datasets. Class
+weighting, tested on both outputs, lowered both region accuracy and category macro-F1, and logit
+adjustment replaces it on the category output. The two choices differ by task because the two
+metrics do: macro-F1 weights every category equally, which the adjustment targets directly, whereas
+Acc@10 rewards ranking the frequent regions well, so the region output is left unadjusted. This is
+standard fixed-weight joint training~\cite{caruana1997multitask}, kept simple by design so that any
+improvement over the dedicated single-task models comes from the shared representation, not from an
+adaptive weighting scheme. The dedicated category model receives the same adjustment, so the
+comparison between them is not affected by it.
+
+% [2026-09-02, AUTHOR RULING "medir", errata Table B.5 of the supplement] The two dedicated-model
+% sums were wrong: 1.1 million (AL) and 2.0 million (CA) closed against a dedicated category count of
+% 644,359, which is the layers=2 closed form; the cells ran layers=4, and that model alone is
+% 1,433,863, more than either printed sum. Recomputed by research/reproducibility/mobiwac_v18/
+% param_counts.py (no GPU, no data; instantiates the heads as cell_reg()/cell_cat() build them; exits
+% 0 only while the identity below holds). Dedicated region head: AL 417,117 / CA 1,370,685. Identity
+% check: joint region pathway minus dedicated region head = 465,297 at every dataset with a log
+% (IST/AL/AZ/TX/CA), which validates the log counts and the instantiated head together. Sums:
+% AL 1,433,863 + 417,117 = 1,850,980 -> "1.9"; CA 1,433,863 + 1,370,685 = 2,804,548 -> "2.8".
+% Joint counts unchanged: CA 1,731,079 + 1,835,982 + 1,584,128 = 5,151,189 -> "5.2"; AL 4,197,621
+% -> "4.2". Ratios fall from ~4x/2.6x to 2.27x/1.84x; the sentence that follows ("operational rather
+% than arithmetic") holds, and the surrounding claims (joint larger than either dedicated model;
+% costs more than the two combined) stay true at the corrected numbers. Run by the writer 2026-09-02,
+% exit 0, table matched to the digit.
+The joint model includes the shared trunk and both task outputs, so it is
+larger than either dedicated model, and a forward pass costs more compute than running the
+two small dedicated models: the joint model has about 4.2 million parameters at
+Alabama against 1.9 million for the two dedicated models combined (5.2 against
+2.8 at California). What the single model provides is operational rather
+than arithmetic: one artifact to train, version, and deploy, and one forward
+pass whose one set of inputs produces both answers at once.
+
+\begin{figure}[htbp]
+\centering
+% [round6, 2026-07-28] COD-017 in-figure text size, same defect and same remedy as the data-flow
+% figure above. Measured labels 6.97 pt against an 11.96 pt body, 312 glyphs below 9 pt, on
+% rendered page 65. Natural size 283.636 by 196.499 pt inside a 455.0 pt text block: this figure
+% was printed at 62 percent of the available width. Scaled to the text block, the labels reach
+% body size. The figure content is unchanged.
+\includegraphics[width=\textwidth]{figures/mobiwac/fig2_model.pdf}
+\caption{The single multitask model. A check-in (semantic) window and a region (spatial) window
+pass through private encoders into the shared trunk, the only place where the two tasks
+interact. The category output uses the trunk's output alone; the region output
+combines it with a private spatial path. One model, one forward pass, two predictions.}
+\label{fig:mobiwac:model}
+\end{figure}

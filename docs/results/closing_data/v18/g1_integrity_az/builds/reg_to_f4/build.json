@@ -1,0 +1,26 @@
+{
+  "study": "integrity_v18_region_half",
+  "generated_utc": "2026-10-02T08:36:50.017058+00:00",
+  "command": "scripts/pre_freeze_gates/a4_build.py --state arizona --seed 0 --fold 4 --split-json results/g1/splits/arizona_split_seed0_fold4.json --device cpu",
+  "state": "arizona",
+  "seed": 0,
+  "fold": 4,
+  "split_json": "results/g1/splits/arizona_split_seed0_fold4.json",
+  "split_engine": "check2hgi_dk_ovl",
+  "split_val_idx_sha256": "b6fde6f9de2077a1f7f0ab8cd6ef90f75951f1a783990a6ce595b632c6c502ff",
+  "n_excluded_users": 426,
+  "val_users_sha256": "3f6a6cd5ec77ce74aa10735e1ccdcc5f2b8bbab183c1d28b975bda88afa4a3e1",
+  "val_users_in_training_checkins": 0,
+  "n_train_checkins": 192437,
+  "n_checkins_full": 236450,
+  "builder": "build_design_k_delaunay.py",
+  "epochs": 500,
+  "device": "cpu",
+  "base_engine": "check2hgi_design_k_resln_mae_l0_1",
+  "pseudo_state": "arizona_a4dk_s0_f4",
+  "remap": {
+    "full_regions": 1547,
+    "trainonly_regions": 1524,
+    "absent_from_train": 23
+  }
+}

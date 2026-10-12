@@ -1,0 +1,33 @@
+{
+  "state": "arizona",
+  "seed": 100,
+  "family": "cat",
+  "wall_seconds": 128,
+  "rundir": "results/check2hgi_v18/arizona/next_lr1.0e-04_bs8192_ep50_20260810_162414_92",
+  "cat": 34.5943,
+  "reg": null,
+  "commit_sha": "unknown",
+  "v18_config": {
+    "engine": "check2hgi_v18",
+    "forward_only": true,
+    "in_channels": 15,
+    "node_layout": [
+      "canonical_11",
+      "continuous_time_4"
+    ],
+    "repr_seed": 42
+  },
+  "protocol": {
+    "precision": "fp32 (MTL_DISABLE_AMP=1, pinned per-command)",
+    "compile": true,
+    "tf32": true,
+    "folds": 5,
+    "epochs": 50,
+    "cat_metric": "macro-F1 at f1-best epoch (diag-best)",
+    "reg_metric": "top10_acc_indist * (1 - ood_fraction) * 100 at indist-best epoch"
+  },
+  "recipe": "bs8192 lr0.0005 logit_adjust_tau=0.5 (replaces class weighting)",
+  "recipe_version": "v18-approved-2026-08-09 (FINAL_SETTINGS.md)",
+  "lane_host": "modal:NVIDIA H100 80GB HBM3",
+  "train_pid": "92"
+}

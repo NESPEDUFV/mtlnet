@@ -1,0 +1,8 @@
+name: next_getnext_hard
+domain: next
+status: promoted
+evidence_status: promoted
+registry_key: next_getnext_hard
+runtime_class: models.next.next_stan_flow.head.NextHeadStanFlow
+runtime_file: src/models/next/next_stan_flow/head.py
+source_doc: docs/NORTH_STAR.md

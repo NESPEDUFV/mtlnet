@@ -1,0 +1,6 @@
+start 2026-10-01 23:19:42 commit d01cd2a8 swap_used_MB=2417
+cmd: env MTL_CHUNK_VAL_METRIC=1 MTL_STRICT=1 P1_HITS_FROM_RANK=0 P1_STREAM_GPU=0 .venv/bin/python -u scripts/p1_region_head_ablation.py --state alabama --heads next_stan_flow --input-type region --override-hparams freeze_alpha=True alpha_init=0.0 --engine-override check2hgi_v18 --folds 5 --only-fold 1 --epochs 50 --seed 0 --target region --max-lr 0.003 --region-emb-source check2hgi_design_k_resln_mae_l0_1_to_f1 --tag g1_reg_to_alabama_f1
+rc=0 wall=141s peakRSS_bytes=2455273472
+repo-write-guard OK
+end 2026-10-01 23:22:03
+DONE

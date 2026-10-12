@@ -1,0 +1,87 @@
+{
+ "_": "Estado atual do mtlcheck contra a tabela da dissertação. Protocolo PLANO (o dela), substrato CORRIGIDO (POI2Vec + Delaunay), uma semente. Waves: parity_cat_flat{,_az} e state_vs_dissertation{,_az}.",
+ "_data": "2026-08-20",
+ "_comparador": "articles/dissertacao/src_fix/tables/mobiwac/results.tex — 4 sementes × 5 folds",
+ "_ressalvas": [
+  "UMA semente do nosso lado; a dissertação publica quatro. O ± dela (0,04–0,22) é da ordem de vários dos nossos Δ, que portanto não são distinguíveis de variação de semente.",
+  "O ± das duas colunas mede coisas diferentes: o dela é ENTRE SEMENTES, o nosso seria entre folds (20–30× maior). Por isso a coluna não aparece.",
+  "Há mudanças declaradas entre as colunas: substrato reconstruído em casa, unificação v19 na torre de região, correções do POI2Vec. Ver docs/DIVERGENCE_REGISTER.md."
+ ],
+ "_pergunta_aberta": "O viés não é simétrico: em REGIÃO o dedicado fica abaixo (−0,262 AL, −0,130 AZ) e o joint acima (+0,421 AL, +0,122 AZ), nos DOIS estados. Isso ENCOLHE o gap joint-contra-dedicado, ou seja, aqui a MTL custa menos em região do que na dissertação. Com uma semente não é afirmável. Re-checar depois do congelamento da v20, e com a decomposição do §8a — que separa interferência de tarefas do custo de um checkpoint único, exatamente o que este padrão toca.",
+ "delta_medio": -0.001,
+ "delta_absoluto_maximo": 0.421,
+ "celulas": [
+  {
+   "estado": "alabama",
+   "tarefa": "cat",
+   "braco": "ded",
+   "mtlcheck": 30.7373,
+   "dissertacao": 30.77,
+   "dissertacao_sd_entre_sementes": 0.07,
+   "delta": -0.0327
+  },
+  {
+   "estado": "alabama",
+   "tarefa": "cat",
+   "braco": "joint",
+   "mtlcheck": 30.5677,
+   "dissertacao": 30.59,
+   "dissertacao_sd_entre_sementes": 0.07,
+   "delta": -0.0223
+  },
+  {
+   "estado": "alabama",
+   "tarefa": "reg",
+   "braco": "ded",
+   "mtlcheck": 69.8575,
+   "dissertacao": 70.12,
+   "dissertacao_sd_entre_sementes": 0.1,
+   "delta": -0.2625
+  },
+  {
+   "estado": "alabama",
+   "tarefa": "reg",
+   "braco": "joint",
+   "mtlcheck": 69.6613,
+   "dissertacao": 69.24,
+   "dissertacao_sd_entre_sementes": 0.16,
+   "delta": 0.4213
+  },
+  {
+   "estado": "arizona",
+   "tarefa": "cat",
+   "braco": "ded",
+   "mtlcheck": 34.5562,
+   "dissertacao": 34.57,
+   "dissertacao_sd_entre_sementes": 0.04,
+   "delta": -0.0138
+  },
+  {
+   "estado": "arizona",
+   "tarefa": "cat",
+   "braco": "joint",
+   "mtlcheck": 34.4813,
+   "dissertacao": 34.57,
+   "dissertacao_sd_entre_sementes": 0.06,
+   "delta": -0.0887
+  },
+  {
+   "estado": "arizona",
+   "tarefa": "reg",
+   "braco": "ded",
+   "mtlcheck": 59.3499,
+   "dissertacao": 59.48,
+   "dissertacao_sd_entre_sementes": 0.07,
+   "delta": -0.1301
+  },
+  {
+   "estado": "arizona",
+   "tarefa": "reg",
+   "braco": "joint",
+   "mtlcheck": 59.1618,
+   "dissertacao": 59.04,
+   "dissertacao_sd_entre_sementes": 0.22,
+   "delta": 0.1218
+  }
+ ]
+}

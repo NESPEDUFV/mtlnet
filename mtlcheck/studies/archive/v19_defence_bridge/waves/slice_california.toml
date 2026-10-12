@@ -1,0 +1,40 @@
+# Fatia INCREMENTAL da campanha — só california — estado grande, 2 réplicas ({0,7}).
+#
+# Mesmo `study` que o `campaign.toml`, de propósito: as células caem no mesmo `runs/v19_defence/` e
+# o `wave status` do manifesto completo as reconhece como feitas. Isto não é um estudo paralelo, é
+# um lançamento parcial do mesmo — o registro do experimento continua sendo o `campaign.toml`.
+#
+# Substrato construído 2026-08-22 reaproveitando pois.csv/edges.csv/poi2vec.csv do build que morreu
+# de OOM em 21-08 (fase CPU intacta) — `source: "read"`, identidade calculada sobre os digests dos
+# artefatos, comparável às outras cinco.
+
+[wave]
+study = "v19_defence"
+confirmatory = true
+
+[substrate.identity.california]
+checkin = "85ad0a5bc82dd23a"
+
+[[cell]]
+recipe = "recipes/v19/cat.toml"
+states = ["california"]
+seeds = [0, 7]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/reg.toml"
+states = ["california"]
+seeds = [0, 7]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }
+
+[[cell]]
+recipe = "recipes/v19/joint.toml"
+states = ["california"]
+seeds = [0, 7]
+split_seed = 0
+save_predictions = true
+set = { inner_validation = true, retain_checkpoints = "selected" }

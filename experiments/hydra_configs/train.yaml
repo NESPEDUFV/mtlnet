@@ -1,0 +1,23 @@
+# Hydra config for MTLnet training.
+#
+# Usage (requires hydra-core installed):
+#   python scripts/train_hydra.py
+#   python scripts/train_hydra.py state=alabama engine=hgi
+#   python scripts/train_hydra.py epochs=10 folds=2
+#
+# Override any field from the command line. Hydra handles logging,
+# multirun sweeps, and output directory management.
+#
+# If hydra is not installed, use scripts/train.py directly.
+
+defaults:
+  - _self_
+
+# Experiment identification
+state: florida
+engine: dgi
+task: mtl
+
+# Training
+epochs: 50
+folds: 5
