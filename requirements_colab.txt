@@ -32,7 +32,7 @@ pyarrow                    # parquet backend for pandas
 h5py==3.13.0
 
 # ── Geospatial (HGI / DGI / POI2HGI embedding pipelines) ────────────────────
-geopandas==1.0.1
+geopandas==1.1.2
 shapely==2.1.2
 networkx==3.2.1
 
