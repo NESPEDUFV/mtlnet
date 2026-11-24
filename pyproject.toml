@@ -103,7 +103,7 @@ dev = [
     "ipython==8.18.1",
     "ipykernel==6.29.5",
     "jupyterlab==4.3.5",
-    "notebook==7.3.2",
+    "notebook==7.6.3",
 ]
 
 [tool.setuptools.packages.find]
