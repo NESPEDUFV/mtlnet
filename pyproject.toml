@@ -86,7 +86,7 @@ dependencies = [
 
     # Misc runtime
     "pydantic==2.12.5",
-    "requests==2.32.3",
+    "requests==2.33.0",
     "PyYAML==6.0.2",
     "Jinja2==3.1.6",
     "protobuf==6.30.2",
